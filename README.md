@@ -1,4 +1,4 @@
 Incidence
 =========
 
-Incidence is a god game based on a multi-agent structure.
+Incidence est un god game basé sur une structure multi-agent.
