@@ -36,21 +36,21 @@ La carte sera découpée en cases. Chaque case aura un type de base en début de
 
 \subsection*{Cases franchissables}
 \begin{itemize}
-\item \textbf{Terre :} \small Elément neutre. Type par défaut. \normalsize
-\item \textbf{Terre Aride:} \small Elément neutre. Terre ne pouvant pas être cultivée. \normalsize
-\item \textbf{Terre Innondée :} \small Elément neutre. Terre ne pouvant pas être cultivée. \normalsize
-\item \textbf{Terre Fertile :} \small Elément neutre. Terre pouvant etre cultivée pour devenir un \textbf{Champs}. \normalsize
-\item \textbf{Champs :} \small Terre cultivée possédant plusieurs stades de maturité. Le maximum atteint, la récolte peut être effectuée et offrir de la nourriture. \normalsize
+\item \textbf{Terre :} \small{ Elément neutre. Type par défaut.}
+\item \textbf{Terre Aride:} \small{ Elément neutre. Terre ne pouvant pas être cultivée.}
+\item \textbf{Terre Innondée :} \small{ Elément neutre. Terre ne pouvant pas être cultivée.}
+\item \textbf{Terre Fertile :} \small{ Elément neutre. Terre pouvant etre cultivée pour devenir un \textbf{Champs}.}
+\item \textbf{Champs :} \small{ Terre cultivée possédant plusieurs stades de maturité. Le maximum atteint, la récolte peut être effectuée et offrir de la nourriture.}
 \end{itemize}
 
 \subsection*{Cases infranchissables}
 \begin{itemize}
-\item \textbf{Arbre :} \small Peut être coupé pour récolter du bois. \normalsize
-\item \textbf{Arbre Fruitier :} \small Peut être coupé pour récolter du bois et de la nourriture. \normalsize
-\item \textbf{Eau :} \small Elément neutre. Des poissons peuvent s'y trouver permettant de récolter de la nourriture. \normalsize
-\item \textbf{Pierre :} \small Peut être cassée pour récolter de la pierre. \normalsize
-\item \textbf{Falaise :} \small Elément neutre. Peut faire apparaître de la pierre à ses pieds. \normalsize
-\item \textbf{Buisson :} \small La récolte de ses baies permet d'obtenir de la nourriture. \normalsize
+\item \textbf{Arbre :} \small{ Peut être coupé pour récolter du bois.}
+\item \textbf{Arbre Fruitier :} \small{ Peut être coupé pour récolter du bois et de la nourriture.}
+\item \textbf{Eau :} \small{ Elément neutre. Des poissons peuvent s'y trouver permettant de récolter de la nourriture.}
+\item \textbf{Pierre :} \small{ Peut être cassée pour récolter de la pierre.}
+\item \textbf{Falaise :} \small{ Elément neutre. Peut faire apparaître de la pierre à ses pieds.}
+\item \textbf{Buisson :} \small{ La récolte de ses baies permet d'obtenir de la nourriture.}
 \end{itemize}
 
 \subsection*{Diagrammes de transitions}
@@ -61,14 +61,14 @@ La carte sera découpée en cases. Chaque case aura un type de base en début de
 
 \subsection*{Ressources utilisées par les citoyens}
 \begin{itemize}
-\item \textbf{Bois :} \small Utilisé pour la construction des bâtiments. \normalsize
-\item \textbf{Pierre :} \small Utilisé pour la construction de certains bâtiments. \normalsize
-\item \textbf{Nourriture :} \small Consommé par les citoyens chaque nuit pour se nourrir. \normalsize
+\item \textbf{Bois :} \small{ Utilisé pour la construction des bâtiments.}
+\item \textbf{Pierre :} \small{ Utilisé pour la construction de certains bâtiments.}
+\item \textbf{Nourriture :} \small{ Consommé par les citoyens chaque nuit pour se nourrir.}
 \end{itemize}
 
 \subsection*{Ressources utilisées par le joueur}
 \begin{itemize}
-\item \textbf{Point d'Incidence (PI) :} \small Utilisé à chaque action ou pouvoir divin. Les points augmentent continuellement, dans le temps et en fonction du nombre de citoyens. Chaque nuit, chaque citoyen rapporte des points bonus. \normalsize
+\item \textbf{Point d'Incidence (PI) :} \small{ Utilisé à chaque action ou pouvoir divin. Les points augmentent continuellement, dans le temps et en fonction du nombre de citoyens. Chaque nuit, chaque citoyen rapporte des points bonus.}
 \end{itemize}
 
 
@@ -77,50 +77,50 @@ La carte sera découpée en cases. Chaque case aura un type de base en début de
 \subsection*{Les métiers des citoyens}
 Le métier d'un citoyen définit la tâche à accomplir durant la journée. Chaque métier est attribué selon les choix du joueur (cf "Le cycle jour/nuit") et dure un jour entier.
 \begin{itemize}
-\item \textbf{Bûcheron :} \small Coupe les arbres et récolte les ressources associées. \normalsize
-\item \textbf{Mineur :} \small Casse les rochers et récolte de la pierre. \normalsize
-\item \textbf{Chasseur-Cueilleur :} \small Chasse les animaux ou cueille les baies et récolte de la nourriture. \normalsize
+\item \textbf{Bûcheron :} \small{ Coupe les arbres et récolte les ressources associées.}
+\item \textbf{Mineur :} \small{ Casse les rochers et récolte de la pierre.}
+\item \textbf{Chasseur-Cueilleur :} \small{ Chasse les animaux ou cueille les baies et récolte de la nourriture.}
 \end{itemize}
 
 \subsection*{La santé des citoyens}
 Chacune des entités possède une gestion de la santé avec plusieurs états (cf Diagramme de transitions).
 \begin{itemize}
-\item \textbf{Bonne santé :} \small L'entité agit avec un léger bonus de vitesse. \normalsize
-\item \textbf{Normal :} \small L'entité est dans son état par défaut. \normalsize
-\item \textbf{Blessé/Malade :} \small L'entité agit avec un léger malus de vitesse. \normalsize
-\item \textbf{Gravement blessé/malade :} \small L'entité agit avec un malus de vitesse plus important. \normalsize
-\item \textbf{Mort :} \small L'entité disparaît. \normalsize
+\item \textbf{Bonne santé :} \small{ L'entité agit avec un léger bonus de vitesse.}
+\item \textbf{Normal :} \small{ L'entité est dans son état par défaut.}
+\item \textbf{Blessé/Malade :} \small{ L'entité agit avec un léger malus de vitesse.}
+\item \textbf{Gravement blessé/malade :} \small{ L'entité agit avec un malus de vitesse plus important.}
+\item \textbf{Mort :} \small{ L'entité disparaît.}
 \end{itemize}
 ...
 
 \subsection*{La météorologie}
 La météo sera présente et sera contrôlée par le joueur. Elle aura une incidence sur l'environnement et les citoyens. Elle sera basique : ensoleillée ou pluvieuse, chacune des deux aura une incidence différente sur l'environnement et les citoyens. 
 \begin{itemize}
-\item \textbf{Temps ensoleillé :} \small Améliore la pousse des champs. Un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau et une sécheresse trop longue peut faire brûler certaines ressources. \normalsize
-\item \textbf{Temps pluvieux :} \small Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau. \normalsize
+\item \textbf{Temps ensoleillé :} \small{ Améliore la pousse des champs. Un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau et une sécheresse trop longue peut faire brûler certaines ressources.}
+\item \textbf{Temps pluvieux :} \small{ Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.}
 \end{itemize}
 
 \subsection*{Le cycle jour/nuit}
 Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est faisable. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
-\begin{itemize}
-\item \small Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement. \normalsize
-\item \small Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen. S'ils manquent de nourriture, certains citoyen peuvent tomber malade. \normalsize
-\item \small Certains citoyen tombe malade en fonction des anciennes météos. \normalsize
-\item \small S'il y a assez de nourriture, de nouveaux citoyens peuvent naître. \normalsize
-\item \small Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé. \normalsize
-\item \small Mise à jour des métiers de chaque citoyen, choisi en fonction des choix du joueur. \normalsize
+\begin{itemize} \small
+\item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
+\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen. S'ils manquent de nourriture, certains citoyen peuvent tomber malade.
+\item Certains citoyen tombe malade en fonction des anciennes météos.
+\item S'il y a assez de nourriture, de nouveaux citoyens peuvent naître.
+\item Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé.
+\item Mise à jour des métiers de chaque citoyen, choisi en fonction des choix du joueur.
 \bigskip
-\item \small Les incidences sur l'environnement :
+\item Les incidences sur l'environnement :
   \begin{itemize}
-    \item \small Une étendue d'eau peut faire apparaître des poissons. \normalsize
-    \item \small Une étendue d'eau peut faire apparaître de la végétation dans les environs. \normalsize
-    \item \small Une zone de végétation très dense augmente les chances de faire apparaître des animaux herbivores. \normalsize
-    \item \small Une grande concentration d'animaux herbivores peut faire apparaître des animaux carnivores. \normalsize
-    \item \small Une forêt très dense augmente les chances de faire apparaître des arbres fruitiers. \normalsize
-    \item \small Les falaises peuvent faire apparaître des pierres par éboulement. \normalsize
-    \item \small La météo peut modifier la taille des étendues d'eau, assécher ou humidifier la terre. \normalsize
+    \item Une étendue d'eau peut faire apparaître des poissons.
+    \item Une étendue d'eau peut faire apparaître de la végétation dans les environs.
+    \item Une zone de végétation très dense augmente les chances de faire apparaître des animaux herbivores.
+    \item Une grande concentration d'animaux herbivores peut faire apparaître des animaux carnivores.
+    \item Une forêt très dense augmente les chances de faire apparaître des arbres fruitiers.
+    \item Les falaises peuvent faire apparaître des pierres par éboulement.
+    \item La météo peut modifier la taille des étendues d'eau, assécher ou humidifier la terre.
   \end{itemize}
-\end{itemize}
+\end{itemize} \normalsize
 
 
 \section*{Les comportements des entités}
@@ -133,16 +133,16 @@ Les animaux s'approchent peu du village et s'éloignent du feu.
 
 \subsection*{Actions du joueur}
 \begin{itemize}
-\item \textbf{Créer un élément :} \small Fait apparaître n'importe quel type de case. Le coût en PI varie suivant le type. \normalsize
-\item \textbf{Détruire un élément :} \small Fait disparaître n'importe quel type de case, et le transforme en \textbf{Terre}. Le coût en PI varie suivant le type. \normalsize
-\item \textbf{Définir la météo :} \small Choix entre temps ensoleillé ou pluvieux pour le prochain jour. Possible qu'en fin de journée. \normalsize
-\item \textbf{Définir les métiers :} \small Choix de proportions d'attribution des métiers pour le prochain jour. Possible qu'en fin de journée. \normalsize
+\item \textbf{Créer un élément :} \small{ Fait apparaître n'importe quel type de case. Le coût en PI varie suivant le type.}
+\item \textbf{Détruire un élément :} \small{ Fait disparaître n'importe quel type de case, et le transforme en \textbf{Terre}. Le coût en PI varie suivant le type.}
+\item \textbf{Définir la météo :} \small{ Choix entre temps ensoleillé ou pluvieux pour le prochain jour. Possible qu'en fin de journée.}
+\item \textbf{Définir les métiers :} \small{ Choix de proportions d'attribution des métiers pour le prochain jour. Possible qu'en fin de journée.}
 \end{itemize}
 
 \subsection*{Pouvoirs divins}
 \begin{itemize}
-\item \textbf{Soigner :} \small Améliore l'état de santé d'un citoyen. Coût variable selon la gravité de la blessure ou maladie. \normalsize
-\item \textbf{Naissance :} \small Crée un citoyen supplémentaire, hors naissances quotidiennes. \normalsize
+\item \textbf{Soigner :} \small{ Améliore l'état de santé d'un citoyen. Coût variable selon la gravité de la blessure ou maladie.}
+\item \textbf{Naissance :} \small{ Crée un citoyen supplémentaire, hors naissances quotidiennes.}
 \end{itemize}
 
 
