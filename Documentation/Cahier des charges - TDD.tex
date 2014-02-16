@@ -18,14 +18,57 @@
 \begin{document}
 \maketitle
 
-\section*{...}
+%Légende :
+% ??texte1/texte2?? : choisir l'une des deux possibilités
+% (==> texte ?) : choisir si on le met ou pas
+\section*{Le Moteur}
+Pour des besoins de performances, nous avons comparé différents langages. Il s'est avéré que le plus rapide était C++.\\
+Afin d'optimiser encore la rapidité du moteur, nous avons cherché à associer le coeur du moteur écrit en C++ avec un langage de scripting qui permettra de mettre en place les différentes actions du jeu. Après comparaison, nous avons opté pour le langage LUA, performant et facile d'utilisation (syntaxe proche du C++).\\
+Ces deux langages étant souvent utilisés ensemble dans les jeux vidéos, notre choix nous a paru judicieux.
 
-...    \textbf{ ... }\\...
-\bigskip
+\subsection*{Moteur multi-agent}
+La gestion multi-agent se fera à l'aide d'un appel (==> dans un ordre changeant pour plus de réalisme ?) ??au script/à la méthode "action"?? de chaque entité pour chaque tick. Chaque entité aura donc ??un script propre/une méthode principale??, qui décrira son comportement et pourra faire appel aux scripts primitifs.
 
-...    \textbf{ ... }\\...
+\subsection*{Moteur graphique}
+L'affichage se fera à base d'un tileset créé entièrement par notre équipe (cf Elements Graphiques).\\
+Pour la gestion des 150x150 tuiles composant la carte, nous avons choisi la bibliothèque graphique SFML (==> version ?), à base d'OpenGL, qui paraît plus simple d'utilisation que la SDL pour des performances qui se valent.
+(==> Afin d'améliorer la vitesse de l'affichage, il est possible de créer une seule image constituée de toutes les tuiles... ?)
+(==> Créer une image pour le sol et une avec toutes les ressources et entités ?)
 
-\subsection*{...}
-...
+\subsection*{Scripts primitifs}
+\begin{itemize} \small
+  \item Connaître les entités et cases alentours
+  \item Connaître l'emplacement du village
+  \item Avancer
+  \item Changer de direction
+  \item Ne rien faire
+  \item Couper un Arbre
+  \item Rammasser des Baies
+  \item Casser de la Pierre
+  \item Cultiver un Champs
+  \item Attaquer un animal
+  \item (==> Construire un Bâtiment ?)
+  \item Soigner un Citoyen
+  \item Naissance d'un Citoyen
+  \item Changer le type d'une case
+\end{itemize} \normalsize
+
+
+\section*{Elements Graphiques}
+
+\subsection*{Les tuiles}
+Les tuiles seront des images de ??32x32/16x16?? pixels au format PNG.\\
+Nous éviterons le plus possible les tuiles composées de plusieurs images avec transparence afin de minimiser les temps d'affichage.
+\begin{itemize}
+  \item \textbf{Le sol :}\small{ Il y aura 16 tuiles pour chaque type de sol, correspondant à toutes les possibilités de jonction avec le type voisin. En effet, chaque type de sol ne pourra être en contact qu'avec deux types différents suivant l'ordre hiérarchique suivant :\\
+Eau -> Terre innondée -> Terre fertile -> Terre -> Terre aride}
+  \item \textbf{Les ressources :}\small{ Il y aura 4 tuiles pour chaque ressource, correspondant au type de sol sur lequel elle se trouve.}
+  \item \textbf{Les bâtiments :}\small{ Chaque bâtiment sera constitué d'un ensemble de tuiles.}
+\end{itemize}
+
+\subsection*{Les entités}
+Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés.\\
+\textbf{Les positions basiques :}\small{ Face, dos, profil droit, profil gauche.}\\
+\textbf{Les positions spécifiques :}\small{ Coupant du bois, ramassant des baies, chassant, cultivant, construisant, se déplaçant sans ressource, se déplaçant avec des ressources.}
 
 \end{document}
