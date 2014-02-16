@@ -36,11 +36,11 @@
 
 \section*{Jouabilité}
 
-Ici sera decrit le but du jeu, comment on gagne/perd ?
+Ici sera décrit le but du jeu, comment on gagne/perd ?
 On peut sauvegarder ? Charger des parties ?
 Multijoueur ? Mods ?
-Different modes de jeu ?
-On peut créer ces propres cartes ? un editeur accessible ?
+Différent modes de jeu ?
+On peut créer ses propres cartes ? un éditeur accessible ?
 Ajout script, perso, autre ?
 
 \section*{La zone de jeu}
@@ -60,7 +60,7 @@ La carte sera découpée en cases. Chaque case aura un type de base en début de
 
 \subsection*{Cases infranchissables}
 \begin{itemize}
-\item \textbf{Arbre :} \small{ Peut être coupé pour récolter du bois. \textit(3 unités)}}
+\item \textbf{Arbre :} \small{ Peut être coupé pour récolter du bois \textit{(3 unités)}.}
 \item \textbf{Arbre Fruitier :} \small{ Peut être coupé pour récolter du bois et de la nourriture. \textit{(2 unités de chaque)}}
 \item \textbf{Eau :} \small{ Elément neutre. Des poissons peuvent s'y trouver permettant de récolter de la nourriture \textit{(2 unités)}.}
 \item \textbf{Pierre :} \small{ Peut être cassée pour récolter de la pierre \textit{(2 unités)}.}
@@ -70,36 +70,36 @@ La carte sera découpée en cases. Chaque case aura un type de base en début de
 
 \subsection*{Diagrammes de transitions des différentes cases}
 
-...
+...%DIAGRAMME
 
 \subsection*{La carte}
 
-La carte sera composé de 150 cases sur 150 cases, mais sera affiché à l'écran qu'une vingtaine de cases en largeur sur une quinzaine en hauteur. Le déplacement sur la carte pourra se faire grace aux touches fléchées mais aussi en plaçant la souris sur un des bords de l'écran.\\
+La carte sera composée de 150x150 cases, mais ne sera affiché à l'écran qu'une vingtaine de cases en largeur sur une quinzaine en hauteur. Le déplacement sur la carte pourra se faire grâce aux touches fléchées mais aussi en plaçant la souris sur un des bords de l'écran.\\
 Le joueur ne pourra pas voir au delà des limites des 150x150 cases composant la carte.
 
 \section*{Ressources}
 
 \subsection*{Ressources utilisées par les citoyens}
-Ces ressources pourront être stocké dans une quantité illimité, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
+Ces ressources pourront être stockées dans une quantité illimitée, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
 \begin{itemize}
 \item \textbf{Bois :} \small{ Utilisé pour la construction des bâtiments.}
 \item \textbf{Pierre :} \small{ Utilisé pour la construction de certains bâtiments.}
 \item \textbf{Nourriture :} \small{ Consommé par les citoyens chaque nuit pour se nourrir.}
 \end{itemize}
-\textbf{Comment ces ressources sont récolté ? } Elles sont récolté par les citoyens donc le metier correspond à la recolte de la ressources (cf. Metier des Citoyens}
+\textbf{Comment ces ressources sont-elles récoltées ? }\\Elles sont récoltées par les citoyens, ainsi chaque métier correspond à la récolte d'une de ces ressources (cf. Métiers des Citoyens).
 
 \subsection*{Ressources utilisées par le joueur}
-Cette ressources est la seul que le joueur pourra utiliser, elle sera stocké dans une quantité illimité.
+Cette ressource est la seule que le joueur pourra utiliser, elle sera stockée dans une quantité illimitée.
 \begin{itemize}
 \item \textbf{Point d'Incidence (PI) :} \small{ Utilisé à chaque action ou pouvoir divin.}
 \end{itemize}
-\textbf{Comment cette ressource est récolté ? } Elle sera obtenu grace au citoyen qui nous en feront gagner une petite quantité tout le long de leur journée, ainsi que la nuit chaque citoyen rapporte des points bonus.
+\textbf{Comment cette ressource est-elle récoltée ? }\\Elle sera obtenue grâce aux citoyens qui nous en feront gagner une petite quantité tout au long de leur journée. La nuit, chaque citoyen rapporte des points bonus.
 
 
 \section*{La vie des entités}
 
 \subsection*{Les métiers des citoyens}
-Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen en suivant le choix du joueur et les besoins des citoyens (cf "Le cycle jour/nuit").
+Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf "Le cycle jour/nuit").
 \begin{itemize}
 \item \textbf{Bûcheron :} \small{ Coupe les arbres et récolte les ressources associées (Le Bois en général mais aussi de la nourriture sur les Arbres Fruitier).}
 \item \textbf{Mineur :} \small{ Casse les rochers et récolte la Pierre.}
@@ -109,10 +109,10 @@ Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas 
 \subsection*{La santé des entités vivantes}
 Chacune des entités possède une gestion de la santé avec plusieurs états.
 \begin{itemize}
-\item \textbf{Bonne santé :} \small{ Si l'entité est un citoyen, il offre de plus grand bonus de PI.}
+\item \textbf{Bonne santé :} \small{ Si l'entité est un citoyen, elle offre de plus grands bonus de PI.}
 \item \textbf{Normal :} \small{ L'entité est dans son état par défaut.}
-\item \textbf{Blessé/Malade :} \small{ L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, il offre de plus petit bonus de PI.}
-\item \textbf{Gravement blessé/malade :} \small{ L'entité agit avec un malus de vitesse plus important. Si l'entité est un citoyen, il n'offre plus de PI.}
+\item \textbf{Blessé/Malade :} \small{ L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, elle offre de plus petits bonus de PI.}
+\item \textbf{Gravement blessé/malade :} \small{ L'entité agit avec un malus de vitesse plus important. Si l'entité est un citoyen, elle n'offre plus de PI.}
 \item \textbf{Mort :} \small{ L'entité disparaît.}
 \end{itemize}
 
@@ -132,15 +132,15 @@ La météo sera présente et sera contrôlée par le joueur. Elle aura une incid
 Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
 \begin{itemize} \small
 \item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
-\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyen peuvent tomber malade.
-\item Certains citoyen tombe malade en fonction des anciennes météos.
+\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
+\item Certains citoyens tombent malade en fonction des anciennes météos.
 \item S'il y a assez de nourriture, de nouveaux citoyens peuvent naître.
 \item Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé.
-\item Mise à jour des métiers de chaque citoyen, choisi en fonction des choix du joueur et des besoins.
+\item Mise à jour du métier de chaque citoyen, choisi en fonction des choix du joueur et des besoins.
 \end{itemize} \normalsize
 
-\subsection Les incidences sur l'environnement :
-  \begin{itemize}
+\subsection*{Les incidences sur l'environnement :}
+  \begin{itemize} \small
     \item Une étendue d'eau peut faire apparaître des poissons.
     \item Une étendue d'eau peut faire apparaître de la végétation dans les environs.
     \item Une zone de végétation très dense augmente les chances de faire apparaître des animaux herbivores.
@@ -148,50 +148,49 @@ Un cycle jour/nuit sera présent, avec des journées longues et des nuits courte
     \item Une forêt très dense augmente les chances de faire apparaître des arbres fruitiers.
     \item Les falaises peuvent faire apparaître des pierres par éboulement.
     \item La météo peut modifier la taille des étendues d'eau, assécher ou humidifier la terre.
-  \end{itemize}
+  \end{itemize} \normalsize
 
 \section*{Actions du joueur}
 
 \subsection*{Pouvoirs de base}
 \begin{itemize}
-\item \textbf{Placer un Arbre} \small{ Fait apparaître un Arbre sur une case choisi. Cout : 3 PI.}
-\item \textbf{Placer un Arbre Fruitier} \small{ Fait apparaître un Arbre Fruitier sur une case choisi. Cout : 6 PI.}
-\item \textbf{Placer de la Pierre} \small{ Fait apparaître de la Pierre sur une case choisi. Cout : 5 PI.}
-\item \textbf{Placer de l'Eau} \small{ Fait apparaître de l'Eau sur une case choisi. Cout : 2 PI.}
-\item \textbf{Placer une Falaise} \small{ Fait apparaître une Falaise sur une case choisi. Cout : 7 PI.}
-\item \textbf{Placer un Buisson} \small{ Fait apparaître un buisson sur une case choisi. Cout : 4 PI.}
-\item \textbf{Placer de la Terre} \small{ Fait apparaître de la Terre sur une case choisi, la Terre placé s'adapte en fonction des autres Terres autour. Cout : 2 PI.}
-
+  \item \textbf{Placer un Arbre :} \small{ Fait apparaître un Arbre sur une case choisie. Coût : 3 PI.}
+  \item \textbf{Placer un Arbre Fruitier :} \small{ Fait apparaître un Arbre Fruitier sur une case choisie. Coût : 6 PI.}
+  \item \textbf{Placer de la Pierre :} \small{ Fait apparaître de la Pierre sur une case choisie. Coût : 5 PI.}
+  \item \textbf{Placer de l'Eau :} \small{ Fait apparaître de l'Eau sur une case choisie. Coût : 2 PI.}
+  \item \textbf{Placer une Falaise :} \small{ Fait apparaître une Falaise sur une case choisie. Coût : 7 PI.}
+  \item \textbf{Placer un Buisson :} \small{ Fait apparaître un Buisson sur une case choisie. Coût : 4 PI.}
+  \item \textbf{Placer de la Terre :} \small{ Fait apparaître de la Terre sur une case choisie, la Terre placée s'adapte en fonction des autres Terres autour. Coût : 2 PI.}
 \end{itemize}
 
 \subsection*{Pouvoirs divins}
 \begin{itemize}
-\item \textbf{Soigner :} \small{ Améliore l'état de santé d'un citoyen. Cout : 50 PI.}
-\item \textbf{Naissance :} \small{ Crée un citoyen supplémentaire, hors naissances quotidiennes. Cout : 200 PI.}
+\item \textbf{Soigner :} \small{ Améliore l'état de santé d'un citoyen. Coût : 50 PI.}
+\item \textbf{Naissance :} \small{ Crée un citoyen supplémentaire, hors naissances quotidiennes. Coût : 200 PI.}
 \end{itemize}
 
-\subsection*{Choix la nuit}
+\subsection*{Choix de la nuit}
 \begin{itemize}
-\item \textbf{Meteo :} \small{ Le joueur peut choisir la meteo du jour suivant.}
-\item \textbf{Metier :} \small{ Le joueur peut orienter la distribution des metiers, sans definir exactement la proposition des metiers.}
+\item \textbf{Météo :} \small{ Le joueur peut choisir la météo du jour suivant (ensoleillée ou pluvieuse).}
+\item \textbf{Métier :} \small{ Le joueur peut orienter la distribution des métiers, sans définir exactement la proportion de chaque métier.}
 \end{itemize}
 
 
-\section*{Effet Visuels}
+\section*{Effets Visuels}
 
-Ici c'est tout ce qui touche a l'aspet visuel du jeu (2D, 3D, iso ou pas) Taille des sprites, des croquis, réaliste/retro/abstrait. Tout ce qui est visuel en gros.
+Ici c'est tout ce qui touche a l'aspect visuel du jeu (2D, 3D, iso ou pas) Taille des sprites, des croquis, réaliste/rétro/abstrait. Tout ce qui est visuel en gros.
 
 \section*{Effets Sonores}
 
-Comme au dessus mais cette fois ci pour le son. Bruit des animaux (global(ambiant), local(chaque animal son bruit) ?), musique, effet sonore bruitage.
+Comme au dessus mais cette fois-ci pour le son. Bruit des animaux (global(ambiant), local(chaque animal son bruit) ?), musique, effet sonore bruitage.
 
 \section*{Interface utilisateur}
 
-Ici c'est tout ce qui est lié au boutton et interface que le joueur utilisera 
+Ici c'est tout ce qui est lié aux boutons et interfaces que le joueur utilisera 
 
 \section*{Contrôles du jeu}
 
 Souris/Clavier, Manette, autre ?
-Si souris/clavier, des bouttons cliquable pour toutes les actions ? Des raccourcit clavier ? Si oui, lequel ?
+Si souris/clavier, des boutons cliquables pour toutes les actions ? Des raccourcis clavier ? Si oui, lesquels ?
 
 \end{document}
