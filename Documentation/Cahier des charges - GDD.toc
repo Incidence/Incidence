@@ -1,0 +1,37 @@
+\contentsline {part}{I\hspace {1em}Pr\IeC {\'e}sentation g\IeC {\'e}n\IeC {\'e}rale}{3}
+\contentsline {chapter}{\numberline {1}Philosophie}{4}
+\contentsline {chapter}{\numberline {2}Questions fr\IeC {\'e}quentes}{5}
+\contentsline {part}{II\hspace {1em}M\IeC {\'e}caniques de jeu}{6}
+\contentsline {chapter}{\numberline {3}Gameplay}{7}
+\contentsline {section}{\numberline {3.1}Jouabilit\IeC {\'e}}{7}
+\contentsline {chapter}{\numberline {4}Moteur du Jeu}{8}
+\contentsline {section}{\numberline {4.1}Moteur multi-agent}{8}
+\contentsline {subsection}{\numberline {4.1.1}Primitives}{8}
+\contentsline {section}{\numberline {4.2}Moteur de rendu}{9}
+\contentsline {part}{III\hspace {1em}Univers du Jeu}{10}
+\contentsline {section}{\numberline {4.3}La carte}{11}
+\contentsline {section}{\numberline {4.4}Les Cases}{11}
+\contentsline {subsection}{\numberline {4.4.1}Cases franchissables}{11}
+\contentsline {subsection}{\numberline {4.4.2}Cases infranchissables}{11}
+\contentsline {subsection}{\numberline {4.4.3}Diagrammes de transitions des diff\IeC {\'e}rentes cases}{11}
+\contentsline {section}{\numberline {4.5}Ressources}{11}
+\contentsline {subsection}{\numberline {4.5.1}Ressources utilis\IeC {\'e}es par les citoyens}{11}
+\contentsline {subsection}{\numberline {4.5.2}Ressources utilis\IeC {\'e}es par le joueur}{12}
+\contentsline {part}{IV\hspace {1em}Les Entit\IeC {\'e}s de l'Univers}{13}
+\contentsline {section}{\numberline {4.6}La vie des entit\IeC {\'e}s}{14}
+\contentsline {subsection}{\numberline {4.6.1}Les m\IeC {\'e}tiers des citoyens}{14}
+\contentsline {subsection}{\numberline {4.6.2}La sant\IeC {\'e} des entit\IeC {\'e}s vivantes}{14}
+\contentsline {subsection}{\numberline {4.6.3}Comportement des animaux}{14}
+\contentsline {section}{\numberline {4.7}La m\IeC {\'e}t\IeC {\'e}orologie}{14}
+\contentsline {section}{\numberline {4.8}Le cycle jour/nuit}{14}
+\contentsline {subsection}{\numberline {4.8.1}Les incidences sur l'environnement\IeC {\nobreakspace }:}{15}
+\contentsline {section}{\numberline {4.9}Actions du joueur}{15}
+\contentsline {subsection}{\numberline {4.9.1}Pouvoirs de base}{15}
+\contentsline {subsection}{\numberline {4.9.2}Pouvoirs divins}{16}
+\contentsline {subsection}{\numberline {4.9.3}Choix de la nuit}{16}
+\contentsline {part}{V\hspace {1em}Effets Visuels}{17}
+\contentsline {section}{\numberline {4.10}Les tuiles}{18}
+\contentsline {section}{\numberline {4.11}Les entit\IeC {\'e}s}{18}
+\contentsline {part}{VI\hspace {1em}Effets Sonores}{19}
+\contentsline {section}{\numberline {4.12}Interface utilisateur}{20}
+\contentsline {section}{\numberline {4.13}Contr\IeC {\^o}les du jeu}{20}
