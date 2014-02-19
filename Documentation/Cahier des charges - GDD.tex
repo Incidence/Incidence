@@ -25,11 +25,11 @@
     \section{Questions fréquentes}
 		\subsection{Qu'est-ce que ce jeu ?}
 			
-			C'est un jeu de type God-Like. Dans lequel, on doit aider une civilisation à survivre le plus longtemps possible grace a different pouvoir et action divine.
+			C'est un jeu de type God-Like dans lequel on doit aider une civilisation à survivre le plus longtemps possible grâce à différents pouvoirs et actions divines.
 			
-		\subsection{Qu'est-ce que je controle ?}
+		\subsection{Qu'est-ce que je contrôle ?}
 			
-			Vous ne controlez rien direct, tout ce fait de façon indirect grace aux pouvoirs. Modifier l'environnement, aider les citoyens, sont des actions qu'il faudra effectuer pour faire survivre la civilisation.
+			Vous ne contrôlez rien directement, tout se fait de façon indirecte grâce aux pouvoirs. Modifier l'environnement et aider les citoyens sont des actions qu'il faudra effectuer pour faire survivre la civilisation.
 
 %------------------------------------------------------------------------------------
 
@@ -37,12 +37,12 @@
   \part{Mécaniques de jeu}
     \section{Gameplay}
       \subsection{Jouabilité}
-		\subsubsection{Condition de victoire et defaite}
-			Il n'y aura pas de condition de victiore particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
+		\subsubsection{Conditions de victoire et de défaite}
+			Il n'y aura pas de condition de victoire particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
 			La partie se terminera quand le joueur n'aura plus de citoyen.
 		\subsubsection{Sauver et Charger une partie}
 			Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.
-			Donc le chargement d'une partie placera le joueur soit au debut de la partie soit à la derniere nuit qui est passé, avec la possibilité de modifier de nouveau les differentes option du jour (meteo, metier)
+			Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
 
 %Multijoueur ? Mods ?
 %Différent modes de jeu ?
@@ -74,18 +74,13 @@
         \end{itemize}
 
 
-%Légende :
-% ??texte1/texte2?? : choisir l'une des deux possibilités
-% (==> texte ?) : choisir si on le met ou pas
     \section{Moteur du Jeu}
       Pour des besoins de performances, nous avons comparé différents langages. Il s'est avéré que le plus rapide était C++.\\
       Afin d'optimiser encore la rapidité du moteur, nous avons cherché à associer le coeur du moteur écrit en C++ avec un langage de scripting qui permettra de mettre en place les différentes actions du jeu. Après comparaison, nous avons opté pour le langage LUA, performant et facile d'utilisation (syntaxe proche du C++).\\
       Ces deux langages étant souvent utilisés ensemble dans les jeux vidéos, notre choix nous a paru judicieux.
 
       \subsection{Moteur multi-agent}
-        La gestion multi-agent se fera à l'aide d'un appel 
-		%(==> dans un ordre changeant pour plus de réalisme ?) Rep. : Normalement non car ça devra simulé du temps réel donc normalement toutes les entites agiront "en même temps"
-		au script de chaque entité pour chaque tick. Chaque entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur.
+        La gestion multi-agent se fera à l'aide d'un appel au script de chaque entité pour chaque tick. Chaque entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur.
 
         \subsubsection{Primitives}
           \begin{itemize} \small
@@ -98,18 +93,13 @@
             \item Casser de la Pierre
             \item Cultiver un Champs
             \item Attaquer un animal
-            %\item (==> Construire un Bâtiment ?) Rep. : Non car pas de batiment
             %\item Soigner un Citoyen || Rep. : Pas de healer pour l'instant 
-            %\item Naissance d'un Citoyen || Rep. : C'est pas un truc propre au entité
-            %\item Changer le type d'une case ||Rep. : ça aussi c'est pas le citoyen
           \end{itemize} \normalsize
 
 
         \subsection{Moteur de rendu}
           L'affichage se fera à base d'un tileset créé entièrement par notre équipe (cf Elements Graphiques).\\
           Pour la gestion des 150x150 tuiles composant la carte, nous avons choisi la bibliothèque graphique SFML 2.1, à base d'OpenGL, qui paraît plus simple d'utilisation que la SDL pour des performances qui se valent.
-          % (==> Afin d'améliorer la vitesse de l'affichage, il est possible de créer une seule image constituée de toutes les tuiles... ?) Rep. : Oui et non, on utilisera les vertex array mais pas besoin de rentrer dans ce genre de detail dans le GDD
-          % (==> Créer une image pour le sol et une avec toutes les ressources et entités ?) 
 
 %------------------------------------------------------------------------------------
 
@@ -126,7 +116,7 @@
 
 	  % A transformer en tableau, plus lisible :
 	  % Nom case || Ressources offertes || Franchissable ? || Details (Description, info supplementaires)
-	  % Si flemme de le faire, mettez un modele, je le ferais
+	  % Si flemme de le faire, mettez un modele, je le ferais || Rep. Tkt je m'en occuperai (slvr)
 	  
       \subsection{Cases franchissables}
         \begin{itemize}
@@ -238,7 +228,6 @@
 
     \section{Les tuiles}
       Les tuiles seront des images de 32x32 ou 16x16 pixels au format PNG.\\
-      %Nous éviterons le plus possible les tuiles composées de plusieurs images avec transparence afin de minimiser les temps d'affichage.
       \begin{itemize}
         \item \textbf{Le sol :}\small{ Il y aura 16 tuiles pour chaque type de sol, correspondant à toutes les possibilités de jonction avec le type voisin. En effet, chaque type de sol ne pourra être en contact qu'avec deux types différents suivant l'ordre hiérarchique suivant :\\
           Eau -> Terre innondée -> Terre fertile -> Terre -> Terre aride}

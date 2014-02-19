@@ -1,12 +1,20 @@
 \contentsline {part}{I\hspace {1em}Pr\IeC {\'e}sentation g\IeC {\'e}n\IeC {\'e}rale}{4}
 \contentsline {section}{\numberline {1}Philosophie}{4}
 \contentsline {section}{\numberline {2}Questions fr\IeC {\'e}quentes}{4}
+\contentsline {subsection}{\numberline {2.1}Qu'est-ce que ce jeu ?}{4}
+\contentsline {subsection}{\numberline {2.2}Qu'est-ce que je contr\IeC {\^o}le ?}{4}
 \contentsline {part}{II\hspace {1em}M\IeC {\'e}caniques de jeu}{5}
 \contentsline {section}{\numberline {3}Gameplay}{5}
 \contentsline {subsection}{\numberline {3.1}Jouabilit\IeC {\'e}}{5}
-\contentsline {section}{\numberline {4}Moteur du Jeu}{5}
-\contentsline {subsection}{\numberline {4.1}Moteur multi-agent}{5}
-\contentsline {subsubsection}{\numberline {4.1.1}Primitives}{5}
+\contentsline {subsubsection}{\numberline {3.1.1}Conditions de victoire et de d\IeC {\'e}faite}{5}
+\contentsline {subsubsection}{\numberline {3.1.2}Sauver et Charger une partie}{5}
+\contentsline {subsection}{\numberline {3.2}Actions du joueur}{5}
+\contentsline {subsubsection}{\numberline {3.2.1}Pouvoirs de base}{5}
+\contentsline {subsubsection}{\numberline {3.2.2}Pouvoirs divins}{5}
+\contentsline {subsubsection}{\numberline {3.2.3}Choix de la nuit}{6}
+\contentsline {section}{\numberline {4}Moteur du Jeu}{6}
+\contentsline {subsection}{\numberline {4.1}Moteur multi-agent}{6}
+\contentsline {subsubsection}{\numberline {4.1.1}Primitives}{6}
 \contentsline {subsection}{\numberline {4.2}Moteur de rendu}{6}
 \contentsline {part}{III\hspace {1em}Univers du Jeu}{7}
 \contentsline {section}{\numberline {5}La carte}{7}
@@ -25,14 +33,9 @@
 \contentsline {section}{\numberline {10}La m\IeC {\'e}t\IeC {\'e}orologie}{9}
 \contentsline {section}{\numberline {11}Le cycle jour/nuit}{10}
 \contentsline {subsection}{\numberline {11.1}Les incidences sur l'environnement\IeC {\nobreakspace }:}{10}
-\contentsline {part}{V\hspace {1em}A METTRE AU BON ENDROIT}{11}
-\contentsline {section}{\numberline {12}Actions du joueur}{11}
-\contentsline {subsection}{\numberline {12.1}Pouvoirs de base}{11}
-\contentsline {subsection}{\numberline {12.2}Pouvoirs divins}{11}
-\contentsline {subsection}{\numberline {12.3}Choix de la nuit}{11}
-\contentsline {part}{VI\hspace {1em}Effets Visuels}{12}
-\contentsline {section}{\numberline {13}Les tuiles}{12}
-\contentsline {section}{\numberline {14}Les entit\IeC {\'e}s}{12}
-\contentsline {part}{VII\hspace {1em}Effets Sonores}{13}
-\contentsline {part}{VIII\hspace {1em}Interface utilisateur}{14}
-\contentsline {part}{IX\hspace {1em}Contr\IeC {\^o}les du jeu}{15}
+\contentsline {part}{V\hspace {1em}Effets Visuels}{11}
+\contentsline {section}{\numberline {12}Les tuiles}{11}
+\contentsline {section}{\numberline {13}Les entit\IeC {\'e}s}{11}
+\contentsline {section}{\numberline {14}Interface utilisateur}{11}
+\contentsline {part}{VI\hspace {1em}Effets Sonores}{12}
+\contentsline {part}{VII\hspace {1em}Contr\IeC {\^o}les du jeu}{13}
