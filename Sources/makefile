@@ -1,20 +1,24 @@
 CC=g++
-FLAG=-lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAG=-w
+LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
 BUILDFOLDER=_build
-TMPFOLDER=tmp
+TMPFOLDER=$(BUILDFOLDER)/tmp
+EXEC=$(BUILDFOLDER)/Incidence
 
 
-all: Incidence
+all: $(EXEC)
 
-Incidence: main.o
-	if [ ! -d $(BUILDFOLDER) ]; then mkdir $(BUILDFOLDER); fi
-	$(CC) $(FLAG) $(BUILDFOLDER)/$(TMPFOLDER)/main.o -o Incidence
+$(EXEC): main.o
+	@ $(CC) $(TMPFOLDER)/$< -o $@ $(LDFLAG)
 
 main.o: main.cpp
-	if [ ! -d $(BUILDFOLDER) ]; then mkdir $(BUILDFOLDER); fi
-	if [ ! -d $(BUILDFOLDER)/$(TMPFOLDER) ]; then mkdir $(BUILDFOLDER)/$(TMPFOLDER); fi
-	$(CC) -o $(BUILDFOLDER)/$(TMPFOLDER)/main.o -c main.cpp
+	@ if [ ! -d $(BUILDFOLDER) ]; then mkdir $(BUILDFOLDER); fi
+	@ if [ ! -d $(TMPFOLDER) ]; then mkdir $(TMPFOLDER); fi
+	$(CC) $(CXXFLAG) -o $(TMPFOLDER)/$@ -c $<
 
 clean: 
+	rm -rf $(TMPFOLDER)
+
+mrproper: clean
 	rm -rf $(BUILDFOLDER)
 

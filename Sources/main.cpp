@@ -13,11 +13,11 @@ int main()
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
-    StateManager::get()->addState(new MainState());
+//    StateManager::get()->addState(new MainState());
 
-    while (window.isOpen() && !StateManager::get()->isEmpty())
+    while (window.isOpen())// && !StateManager::get()->isEmpty())
     {
-        StateManager::get()->setCurrent();
+//        StateManager::get()->setCurrent();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -27,16 +27,16 @@ int main()
                 window.close();
             }
 
-            StateManager::get()->handleEvent( event );
+//            StateManager::get()->handleEvent( event );
         }
 
-        StateManager::get()->update();
+//        StateManager::get()->update();
 
         window.clear();
-            StateManager::get()->draw( window );
+//            StateManager::get()->draw( window );
         window.display();
 
-        Time::get()->update();
+//        Time::get()->update();
     }
 
     return 0;
