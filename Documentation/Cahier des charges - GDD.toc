@@ -19,9 +19,7 @@
 \contentsline {part}{III\hspace {1em}Univers du Jeu}{7}
 \contentsline {section}{\numberline {5}La carte}{7}
 \contentsline {section}{\numberline {6}Les Cases}{7}
-\contentsline {subsection}{\numberline {6.1}Cases franchissables}{7}
-\contentsline {subsection}{\numberline {6.2}Cases infranchissables}{7}
-\contentsline {subsection}{\numberline {6.3}Diagrammes de transitions des diff\IeC {\'e}rentes cases}{8}
+\contentsline {subsection}{\numberline {6.1}Diagramme de transitions des diff\IeC {\'e}rentes cases}{8}
 \contentsline {section}{\numberline {7}Ressources}{8}
 \contentsline {subsection}{\numberline {7.1}Ressources utilis\IeC {\'e}es par les citoyens}{8}
 \contentsline {subsection}{\numberline {7.2}Ressources utilis\IeC {\'e}es par le joueur}{8}
@@ -29,13 +27,13 @@
 \contentsline {section}{\numberline {8}La vie des entit\IeC {\'e}s}{9}
 \contentsline {subsection}{\numberline {8.1}Les m\IeC {\'e}tiers des citoyens}{9}
 \contentsline {subsection}{\numberline {8.2}La sant\IeC {\'e} des entit\IeC {\'e}s vivantes}{9}
-\contentsline {section}{\numberline {9}Comportement des animaux}{9}
-\contentsline {section}{\numberline {10}La m\IeC {\'e}t\IeC {\'e}orologie}{9}
+\contentsline {section}{\numberline {9}Comportement des animaux}{10}
+\contentsline {section}{\numberline {10}La m\IeC {\'e}t\IeC {\'e}orologie}{10}
 \contentsline {section}{\numberline {11}Le cycle jour/nuit}{10}
-\contentsline {subsection}{\numberline {11.1}Les incidences sur l'environnement\IeC {\nobreakspace }:}{10}
-\contentsline {part}{V\hspace {1em}Effets Visuels}{11}
-\contentsline {section}{\numberline {12}Les tuiles}{11}
-\contentsline {section}{\numberline {13}Les entit\IeC {\'e}s}{11}
-\contentsline {section}{\numberline {14}Interface utilisateur}{11}
-\contentsline {part}{VI\hspace {1em}Effets Sonores}{12}
-\contentsline {part}{VII\hspace {1em}Contr\IeC {\^o}les du jeu}{13}
+\contentsline {subsection}{\numberline {11.1}Les incidences sur l'environnement\IeC {\nobreakspace }:}{11}
+\contentsline {part}{V\hspace {1em}Effets Visuels}{12}
+\contentsline {section}{\numberline {12}Les tuiles}{12}
+\contentsline {section}{\numberline {13}Les entit\IeC {\'e}s}{12}
+\contentsline {section}{\numberline {14}Interface utilisateur}{12}
+\contentsline {part}{VI\hspace {1em}Effets Sonores}{13}
+\contentsline {part}{VII\hspace {1em}Contr\IeC {\^o}les du jeu}{14}
