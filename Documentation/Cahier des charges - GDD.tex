@@ -8,29 +8,28 @@
 \author{\emph{CHAMBONNET Kevin}\\\emph{GAUTHIER Silvère}\\\emph{MARTINEZ Thierry}\\\emph{MOKHRETAR Amin}}
 \date{\today}
 
+\newcommand{\alinea}{\hspace*{0.5cm}}
+
 \begin{document}
   \maketitle
   \newpage
   \tableofcontents
 
-% Liens bien utile : 
+% Liens utiles : 
 % http://fr.scribd.com/doc/36304807/Game-Design-Document-Futurn
 % http://fr.openclassrooms.com/informatique/cours/redigez-des-documents-de-qualite-avec-latex/memento-2
 
   \newpage
   \part{Présentation générale}
     \section{Philosophie}
-
-      Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
+      \alinea Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
 
     \section{Questions fréquentes}
-		\subsection{Qu'est-ce que ce jeu ?}
+      \subsection{Qu'est-ce que ce jeu ?}
+        \alinea C'est un jeu de type God-Like dans lequel on doit aider une civilisation à survivre le plus longtemps possible grâce à différents pouvoirs et actions divines.
 			
-			C'est un jeu de type God-Like dans lequel on doit aider une civilisation à survivre le plus longtemps possible grâce à différents pouvoirs et actions divines.
-			
-		\subsection{Qu'est-ce que je contrôle ?}
-			
-			Vous ne contrôlez rien directement, tout se fait de façon indirecte grâce aux pouvoirs. Modifier l'environnement et aider les citoyens sont des actions qu'il faudra effectuer pour faire survivre la civilisation.
+      \subsection{Qu'est-ce que je contrôle ?}
+        \alinea Vous ne contrôlez rien directement, tout se fait de façon indirecte grâce aux pouvoirs. Modifier l'environnement et aider les citoyens sont des actions qu'il faudra effectuer pour faire survivre la civilisation.
 
 %------------------------------------------------------------------------------------
 
@@ -38,12 +37,12 @@
   \part{Mécaniques de jeu}
     \section{Gameplay}
       \subsection{Jouabilité}
-		\subsubsection{Conditions de victoire et de défaite}
-			Il n'y aura pas de condition de victoire particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
-			La partie se terminera quand le joueur n'aura plus de citoyen.
-		\subsubsection{Sauver et Charger une partie}
-			Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.
-			Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
+        \subsubsection{Conditions de victoire et de défaite}
+          \alinea Il n'y aura pas de condition de victoire particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
+          La partie se terminera quand le joueur n'aura plus de citoyen.
+        \subsubsection{Sauver et Charger une partie}
+          \alinea Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.\\
+          Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
 
 %Multijoueur ? Mods ?
 %Différent modes de jeu ?
@@ -76,12 +75,11 @@
 
 
     \section{Moteur du Jeu}
-      Pour des besoins de performances, nous avons comparé différents langages. Il s'est avéré que le plus rapide était C++.\\
-      Afin d'optimiser encore la rapidité du moteur, nous avons cherché à associer le coeur du moteur écrit en C++ avec un langage de scripting qui permettra de mettre en place les différentes actions du jeu. Après comparaison, nous avons opté pour le langage LUA, performant et facile d'utilisation (syntaxe proche du C++).\\
-      Ces deux langages étant souvent utilisés ensemble dans les jeux vidéos, notre choix nous a paru judicieux.
+      \alinea Le moteur du jeu sera divisé en deux parties, le métier et la vue.\\
+      L'association de ces deux parties constituera le noyau de l'application, qui communiquera avec les autres modules tels que les Intelligences Artificielles (IA), les fichiers images, les sons... etc.
 
       \subsection{Moteur multi-agent}
-        La gestion multi-agent se fera à l'aide d'un appel au script de chaque entité pour chaque tick. Chaque entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur.
+        \alinea La gestion multi-agent se fera à l'aide d'un appel au script de chaque entité pour chaque tick. Chaque entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur.
 
         \subsubsection{Primitives}
           \begin{itemize} \small
@@ -99,8 +97,8 @@
 
 
         \subsection{Moteur de rendu}
-          L'affichage se fera à base d'un tileset créé entièrement par notre équipe (cf \ref{Tuile}, page \pageref{Tuile}).\\
-          Pour la gestion des 150x150 tuiles composant la carte, nous avons choisi la bibliothèque graphique SFML 2.1, à base d'OpenGL, qui paraît plus simple d'utilisation que la SDL pour des performances qui se valent.
+          \alinea L'affichage se fera à base d'un tileset créé entièrement par notre équipe (cf. section \ref{Tuile}, page \pageref{Tuile}).\\
+          Le moteur de rendu sera chargé de gérer l'affichage en temps réel de la carte, de ses tuiles ainsi que des entités, afin d'obtenir un résultat fluide.
 
 %------------------------------------------------------------------------------------
 
@@ -108,12 +106,12 @@
   \part{Univers du Jeu}
     \section{La carte}
 
-      La carte sera composée de 150x150 cases, mais ne sera affiché à l'écran qu'une vingtaine de cases en largeur sur une quinzaine en hauteur. Le déplacement sur la carte pourra se faire grâce aux touches fléchées mais aussi en plaçant la souris sur un des bords de l'écran.\\
+      \alinea La carte sera composée de 150x150 cases, mais ne sera affiché à l'écran qu'une vingtaine de cases en largeur sur une quinzaine en hauteur. Le déplacement sur la carte pourra se faire grâce aux touches fléchées mais aussi en plaçant la souris sur un des bords de l'écran.\\
       Le joueur ne pourra pas voir au delà des limites des 150x150 cases composant la carte.
 
     \section{Les Cases}
 
-      La carte sera découpée en cases. Chaque case aura un type de base en début de partie, qui pourra ensuite être modifié selon le déroulement du jeu (cf \ref{DiagCase}, page \pageref{DiagCase}). Un élément neutre est un type de case ne donnant pas lieu à une ressource quelconque.\\
+      \alinea La carte sera découpée en cases. Chaque case aura un type de base en début de partie, qui pourra ensuite être modifié selon le déroulement du jeu (cf. section \ref{DiagCase}, page \pageref{DiagCase}). Un élément neutre est un type de case ne donnant pas lieu à une ressource quelconque.\\
       \newline
       \label{TabCase}
       \begin{small}
@@ -160,22 +158,23 @@
         \end{center}
         
     \section{Ressources}
-
       \subsection{Ressources utilisées par les citoyens}
-        Ces ressources pourront être stockées dans une quantité illimitée, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
+        \alinea Ces ressources pourront être stockées dans une quantité illimitée, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
         \begin{itemize} \small
           \item \textbf{Bois :} Utilisé pour la construction des bâtiments.
           \item \textbf{Pierre :} Utilisé pour la construction de certains bâtiments.
           \item \textbf{Nourriture :} Consommé par les citoyens chaque nuit pour se nourrir.
         \end{itemize} \normalsize
-        \textbf{Comment ces ressources sont-elles récoltées ? }\\Elles sont récoltées par les citoyens, ainsi chaque métier correspond à la récolte d'une de ces ressources (cf. \ref{Metier}, page \pageref{Metier}).
+        \textbf{Comment ces ressources sont-elles récoltées ? }\\
+        \alinea Elles sont récoltées par les citoyens, ainsi chaque métier correspond à la récolte d'une de ces ressources (cf. section \ref{Metier}, page \pageref{Metier}).
 
       \subsection{Ressources utilisées par le joueur}
-        Cette ressource est la seule que le joueur pourra utiliser, elle sera stockée dans une quantité illimitée.
+        \alinea Cette ressource est la seule que le joueur pourra utiliser, elle sera stockée dans une quantité illimitée.
         \begin{itemize} \small
           \item \textbf{Point d'Incidence (PI) :} Utilisé à chaque action ou pouvoir divin.
         \end{itemize} \normalsize
-        \textbf{Comment cette ressource est-elle récoltée ? }\\Elle sera obtenue grâce aux citoyens qui nous en feront gagner une petite quantité tout au long de leur journée. La nuit, chaque citoyen rapporte des points bonus.
+        \textbf{Comment cette ressource est-elle récoltée ? }\\
+        \alinea Elle sera obtenue grâce aux citoyens qui nous en feront gagner une petite quantité tout au long de leur journée. La nuit, chaque citoyen rapporte des points bonus.
 
 %------------------------------------------------------------------------------------
 
@@ -185,7 +184,7 @@
 
       \subsection{Les métiers des citoyens}
         \label{Metier}
-        Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf \ref{Cycle}, page \pageref{Cycle}).
+        \alinea Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf. section \ref{Cycle}, page \pageref{Cycle}).
         \begin{itemize} \small
           \item \textbf{Bûcheron :} Coupe les arbres et récolte les ressources associées (Le Bois en général mais aussi de la nourriture sur les Arbres Fruitier).
           \item \textbf{Mineur :} Casse les rochers et récolte la Pierre.
@@ -193,7 +192,7 @@
         \end{itemize} \normalsize
 
       \subsection{La santé des entités vivantes}
-        Chacune des entités possède une gestion de la santé avec plusieurs états.
+        \alinea Chacune des entités possède une gestion de la santé avec plusieurs états.
         \begin{itemize} \small
           \item \textbf{Bonne santé :} Si l'entité est un citoyen, elle offre de plus grands bonus de PI.
           \item \textbf{Normal :} L'entité est dans son état par défaut.
@@ -211,7 +210,7 @@
 
 
     \section{La météorologie}
-      La météo sera présente et sera contrôlée par le joueur. Elle aura une incidence sur l'environnement et les citoyens. Elle sera basique : ensoleillée ou pluvieuse, chacune des deux aura une incidence différente. 
+      \alinea La météo sera présente et sera contrôlée par le joueur. Elle aura une incidence sur l'environnement et les citoyens. Elle sera basique : ensoleillée ou pluvieuse, chacune des deux aura une incidence différente. 
       \begin{itemize} \small
         \item \textbf{Temps ensoleillé :} Améliore la pousse des champs mais un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau et une sécheresse trop longue peut faire brûler certaines ressources.
         \item \textbf{Temps pluvieux :} Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.
@@ -220,7 +219,7 @@
 
     \section{Le cycle jour/nuit}
       \label{Cycle}
-      Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
+      \alinea Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
       \begin{itemize} \small
         \item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
         \item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
@@ -250,7 +249,7 @@
 
     \section{Les tuiles}
       \label{Tuile}
-      Les tuiles seront des images de 32x32 ou 16x16 pixels au format PNG.\\
+      \alinea Les tuiles seront des images de 32x32 ou 16x16 pixels au format PNG.\\
       \begin{itemize} \small
         \item \textbf{Le sol :} Il y aura 16 tuiles pour chaque type de sol, correspondant à toutes les possibilités de jonction avec le type voisin. En effet, chaque type de sol ne pourra être en contact qu'avec deux types différents suivant l'ordre hiérarchique suivant :\\
           Eau -> Terre innondée -> Terre fertile -> Terre -> Terre aride
@@ -259,7 +258,7 @@
       \end{itemize} \normalsize
   
     \section{Les entités}
-      Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés.\\
+      \alinea Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés.\\
       \textbf{Les positions basiques :} Face, dos, profil droit, profil gauche.\\
       \textbf{Les positions spécifiques :} Coupant du bois, ramassant des baies, chassant, cultivant, construisant, se déplaçant sans ressource, se déplaçant avec des ressources.
 	
