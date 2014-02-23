@@ -105,19 +105,19 @@
 \newpage
   \part{Développement} %Il y a meilleurs comme nom 
     \section{Le Moteur}
-      Le moteur du jeu est très basique et sert surtout à la gestion plus simplifiée des différents états du jeu ainsi que de toutes les ressources.
+      \alinea Le moteur du jeu est très basique et sert surtout à la gestion plus simplifiée des différents états du jeu ainsi que de toutes les ressources.
       
       \subsection{Etat}
-        Le Moteur contient un gestionnaire d'état qui permet de contrôler et d'appeler le dernier état du jeu. Une classe abstraite Etat est la classe mère de tous les états, chaque état ainsi créé aura une méthode de mise à jour, d'affichage et de gestion des différentes actions clavier/souris du joueur.
+        \alinea Le Moteur contient un gestionnaire d'état qui permet de contrôler et d'appeler le dernier état du jeu. Une classe abstraite Etat est la classe mère de tous les états, chaque état ainsi créé aura une méthode de mise à jour, d'affichage et de gestion des différentes actions clavier/souris du joueur.
         
       \subsection{Animation}
-        Une classe Animation a été créée pour faciliter la création et le contrôle de toutes les animations du jeu. Toutes les animations peuvent être modifiées grâce aux fichiers d'initialisation de chacunes d'elles.
+        \alinea Une classe Animation a été créée pour faciliter la création et le contrôle de toutes les animations du jeu. Toutes les animations peuvent être modifiées grâce aux fichiers d'initialisation de chacunes d'elles.
         
       \subsection{Gestion des Ressources}
-        Une classe de gestionnaire de ressources permet de gérer toutes les ressources du jeu pour éviter de charger en double ou plus certaines ressources. Ce gestionnaire gère toutes les textures, images et sons.
+        \alinea Une classe de gestionnaire de ressources permet de gérer toutes les ressources du jeu pour éviter de charger en double ou plus certaines ressources. Ce gestionnaire gère toutes les textures, images et sons.
 
     \section{Les Entités}
-      Les entités constitueront tout ce qu'il y a de mobile dans le monde : les Citoyens et les différents Animaux.\\
+      \alinea Les entités constitueront tout ce qu'il y a de mobile dans le monde : les Citoyens et les différents Animaux.\\
       Chaque entité possèdera des méthodes communes utilisées dans les différents scripts de leur IA :
       \begin{itemize}
         \item \textbf{Connaître sa position sur la carte : } La position sera donnée en valeur entière correspondant à la case sur laquelle l'entité est présente.
@@ -125,8 +125,8 @@
         \item \textbf{Connaître les entités alentours : } Recupère une liste d'entités présentes dans le champs de vision de l'entité appelant la méthode.
         \item \textbf{Connaître les cases alentours : } Recupère une listes de booléen correspondants aux différentes cases présentes dans le champs de vision, avec pour valeur TRUE si la case est franchissable, FALSE sinon.
       \end{itemize}
-      De plus, toutes les entités auront une méthode de mise à jour, qui appellera le script en cours, et une d'affichage, pour l'afficher sur la carte.
-      Chaque entité possèdera aussi une liste d'attributs modifiables par les différentes méthodes : 
+      \alinea De plus, toutes les entités auront une méthode de mise à jour, qui appellera le script en cours, et une d'affichage, pour l'afficher sur la carte.
+      \alinea Chaque entité possèdera aussi une liste d'attributs modifiables par les différentes méthodes : 
       \begin{itemize}
         \item \textbf{Sa position sur la carte : } En pixel et non en case.
         \item \textbf{Son activité : } C'est à dire, le script en cours.
@@ -134,13 +134,13 @@
       \end{itemize}
       
       \subsection{Les citoyens}
-        Les Citoyens sont les entités que le joueur devra garder en vie et c'est eux qui auront un impact direct sur l'environnement.
+        \alinea Les Citoyens sont les entités que le joueur devra garder en vie et c'est eux qui auront un impact direct sur l'environnement.
         Pour cela, ils possèdent des méthodes supplémentaires :
         \begin{itemize}
           \item \textbf{Connaître les positions d'un type de case alentours : } Retourne une liste de positions correspondantes aux positions d'un type de case, passé en paramètre, dans le champs de vision du citoyen.
           \item \textbf{Interagir avec une case : } Le citoyen interagit avec la case passée en paramètre. Ex.: Pour un arbre, il le coupera.
         \end{itemize}
-        Chacun des citoyens aura un métier assigné durant la nuit, et c'est ce métier qui définira le groupe de scripts que le citoyen suivra pour effectuer ses actions. Ce métier ajoute donc aussi de nouveaux attributs :
+        \alinea Chacun des citoyens aura un métier assigné durant la nuit, et c'est ce métier qui définira le groupe de scripts que le citoyen suivra pour effectuer ses actions. Ce métier ajoute donc aussi de nouveaux attributs :
         \begin{itemize}
           \item \textbf{Le nom du métier : } Pour facilement connaître le métier mais aussi la ressource associée à celui-ci et surtout le groupe de scripts à appeler.
           \item \textbf{La quantité de ressources portée : } Chaque entité pouvant porter qu'un seul type de ressource, cette quantité est associée à la ressource, elle-même liée au métier. Ex.: Bois pour un Bûcheron.
