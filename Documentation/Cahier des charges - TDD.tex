@@ -1,6 +1,7 @@
 \documentclass[a4paper]{article}
 \usepackage[utf8x]{inputenc}  % si utf8
 \usepackage{graphicx}
+\usepackage{verbatim}
 
 \pagestyle{plain}
 
@@ -78,83 +79,85 @@
 \newpage
   \part{Code Overview}
     \section{Format des Fichiers}
-		% un petit blabla sur les fichier en generale CPP/HPP/LUA
-		% Images en PNG et sons en WAV
-		\subsection{Animation} % On peu chager la police ? FAire un truc genre on voit que c'est un fichier source ?
-			Chemin/vers/image.png size_x_sprite size_y_sprite play?(1/0) loop?(1/0)\\
-			+Frame position_x position_y temps_affichage\\
-			+Frame position_x position_y temps_affichage\\
-			+Frame position_x position_y temps_affichage\\
-		\subsection{Tileset}
-		\subsection{Carte}
-		\subsection{Sauvegarde}
+      % un petit blabla sur les fichier en generale CPP/HPP/LUA
+      % Images en PNG et sons en WAV
+      \subsection{Animation}
+        \begin{verbatim}
+          Chemin/vers/image.png size_x_sprite size_y_sprite play?(1/0) loop?(1/0)
+          +Frame position_x position_y temps_affichage
+          +Frame position_x position_y temps_affichage
+          +Frame position_x position_y temps_affichage
+        \end{verbatim}
+      
+      \subsection{Tileset}
+      
+      \subsection{Carte}
+      
+      \subsection{Sauvegarde}
+      
     \section{Commentaires}
-		%Pareil qu'en dessous.
+      %Pareil qu'en dessous.
     \section{Convention de Nommage}
-		%Faudra se mettre d'accord sur une, et la suivre
-    \section{Source Controle} % Traduire ?
-		%Blabla on utilise GIT
+      %Faudra se mettre d'accord sur une, et la suivre
+    \section{Gestion du code source}
+      %Blabla on utilise GIT
 		
 \newpage
-  \part{Developpement} %Il y a meilleurs comme nom 
-	\section{Le Moteur}
-		Le moteur du jeu est très basique et sert surtout à la gestion plus simplifié des différents états du jeu ainsi que de toutes les ressources.
-		\subsection{Etat}
-			Le Moteur contient un gestionnaire d'état qui permet de controler et d'appeler le dernier état du jeu. Une classe abstraite Etat est la classe mère de tout les états, chaque etat ainsi crée aura une méthode de mise à jour, d'affichage et de gestion des différentes actions clavier/souris du joueur.
-		\subsection{Animation}
-			Une classe Animation a été crée pour facilité la création et le controle de toutes les animations du jeu. Toutes les animations peuvent etre modifié grace aux fichiers d'initialisation de chacunes d'elles.
-		\subsection{Gestion des Ressources}
-			Une classe de gestionnaire de ressources permet de gérer toutes les ressources du jeu pour éviter de charger en double ou plus certaines ressources. Ce gestionnaire gère toutes les textures, images et sons.
-			
-			
+  \part{Développement} %Il y a meilleurs comme nom 
+    \section{Le Moteur}
+      Le moteur du jeu est très basique et sert surtout à la gestion plus simplifiée des différents états du jeu ainsi que de toutes les ressources.
+      
+      \subsection{Etat}
+        Le Moteur contient un gestionnaire d'état qui permet de contrôler et d'appeler le dernier état du jeu. Une classe abstraite Etat est la classe mère de tous les états, chaque état ainsi créé aura une méthode de mise à jour, d'affichage et de gestion des différentes actions clavier/souris du joueur.
+        
+      \subsection{Animation}
+        Une classe Animation a été créée pour faciliter la création et le contrôle de toutes les animations du jeu. Toutes les animations peuvent être modifiées grâce aux fichiers d'initialisation de chacunes d'elles.
+        
+      \subsection{Gestion des Ressources}
+        Une classe de gestionnaire de ressources permet de gérer toutes les ressources du jeu pour éviter de charger en double ou plus certaines ressources. Ce gestionnaire gère toutes les textures, images et sons.
+
     \section{Les Entités}
-		Les entités constitueront tout ce qu'il y a de mobile dans le monde : les Citoyens et les différents Animaux.\\
-		Chaque entité possedera des methodes communes utilisé dans les différents scripts de leur IA :
-		\begin{itemize}
-            \item \textbf{Connaitre sa position sur la carte : } La position sera donné en valeur entière correspondant à la case sur laquelle l'entité est presente.
-            \item \textbf{Se déplacer vers une direction donné : } L'entité se déplacera en ligne droite dans cette direction. Si des obstacles se trouvent sur le chemin, elle essayera, si possible, de les contourner.
-            \item \textbf{Connaitre les entités alentours : } Recupère une liste d'entités présentes dans le champs de vision de l'entité appelant la méthode.
-            \item \textbf{Connaitre les cases alentours : } Recupère une listes de booléen correspondant aux differentes cases présentes dans le champs de vision, avec pour valeur TRUE si la case est franchissable, FALSE sinon.
-            \item \textbf{}
-            \item \textbf{}
+      Les entités constitueront tout ce qu'il y a de mobile dans le monde : les Citoyens et les différents Animaux.\\
+      Chaque entité possèdera des méthodes communes utilisées dans les différents scripts de leur IA :
+      \begin{itemize}
+        \item \textbf{Connaître sa position sur la carte : } La position sera donnée en valeur entière correspondant à la case sur laquelle l'entité est présente.
+        \item \textbf{Se déplacer vers une direction donnée : } L'entité se déplacera en ligne droite dans cette direction. Si des obstacles se trouvent sur le chemin, elle essayera, si possible, de les contourner.
+        \item \textbf{Connaître les entités alentours : } Recupère une liste d'entités présentes dans le champs de vision de l'entité appelant la méthode.
+        \item \textbf{Connaître les cases alentours : } Recupère une listes de booléen correspondants aux différentes cases présentes dans le champs de vision, avec pour valeur TRUE si la case est franchissable, FALSE sinon.
+      \end{itemize}
+      De plus, toutes les entités auront une méthode de mise à jour, qui appellera le script en cours, et une d'affichage, pour l'afficher sur la carte.
+      Chaque entité possèdera aussi une liste d'attributs modifiables par les différentes méthodes : 
+      \begin{itemize}
+        \item \textbf{Sa position sur la carte : } En pixel et non en case.
+        \item \textbf{Son activité : } C'est à dire, le script en cours.
+        \item \textbf{Son Animation en cours : } Le visuel de l'entité.
+      \end{itemize}
+      
+      \subsection{Les citoyens}
+        Les Citoyens sont les entités que le joueur devra garder en vie et c'est eux qui auront un impact direct sur l'environnement.
+        Pour cela, ils possèdent des méthodes supplémentaires :
+        \begin{itemize}
+          \item \textbf{Connaître les positions d'un type de case alentours : } Retourne une liste de positions correspondantes aux positions d'un type de case, passé en paramètre, dans le champs de vision du citoyen.
+          \item \textbf{Interagir avec une case : } Le citoyen interagit avec la case passée en paramètre. Ex.: Pour un arbre, il le coupera.
         \end{itemize}
-		De plus, toutes les entités auront une methode de mise à jour, qui appellera le script en cours, et une d'affichage, pour l'afficher sur la carte.
-		
-		Chaque entité possedera aussi une liste d'attribut modifiable par les différentes méthodes : 
-		\begin{itemize}
-            \item \textbf{Sa position sur la carte : } En pixel et non en case.
-            \item \textbf{Son activité : } C'est à dire, le script en cours.
-            \item \textbf{Son Animation en cours : } Le visuel de l'entité.
-            \item \textbf{}
-		\end{itemize}
-		
-		\subsection{Les citoyens}
-			Les Citoyens sont les entités que le joueur devra garder en vie et c'est elles qui auront un impact direct sur l'environnement.
-			
-			Pour cela, ils possedent des methodes supplementaires :
-			\begin{itemize}
-				\item \textbf{Connaitre les positions d'un type de case alentours : } Retourne une liste de position correspondant aux positions d'un type de case, passé en parametre, dans le champs de vision du citoyen.
-				\item \textbf{Interagir avec une case : } Le citoyen interagit avec la case passé en parametre. Ex.: Pour un arbre, il le coupera.
-				\item \textbf{}
-			\end{itemize}
-			
-			Chacun des citoyens aura un metier assigné durant la nuit, et c'est ce metier qui definira le groupe de script que le citoyen suivra pour effectuer ses actions. Ce metier ajoute donc aussi de nouveaux attributs :
-			\begin{itemize}
-				\item \textbf{Le nom du metier : } Pour facilement connaitre le metier mais aussi la ressource associé au metier et surtout le groupe de script à appeler.
-				\item \textbf{La quantité de ressource porté : } Chaque entité pouvant porter qu'un seul type de ressources, cette quantité est associé à la ressource lié au metier. Ex.: Bois pour Bucheron.
-				\item \textbf{}
-			\end{itemize}
-		
-		\subsection{Liste des scripts}
-			
+        Chacun des citoyens aura un métier assigné durant la nuit, et c'est ce métier qui définira le groupe de scripts que le citoyen suivra pour effectuer ses actions. Ce métier ajoute donc aussi de nouveaux attributs :
+        \begin{itemize}
+          \item \textbf{Le nom du métier : } Pour facilement connaître le métier mais aussi la ressource associée à celui-ci et surtout le groupe de scripts à appeler.
+          \item \textbf{La quantité de ressources portée : } Chaque entité pouvant porter qu'un seul type de ressource, cette quantité est associée à la ressource, elle-même liée au métier. Ex.: Bois pour un Bûcheron.
+        \end{itemize}
+        
+      \subsection{Liste des scripts}
+      
     \section{La Carte}
-		\subsection{Les Tuiles}
-		\subsection{Le Tileset}
-			
+      \subsection{Les Tuiles}
+      
+      \subsection{Le Tileset}
+      
+      
 \newpage
   \part{Milestones}
-	12 Mars 2013 : Gestion de la carte et des entités terminé + ajout des entités sur la carte + ajout des scripts aux entités
-	19 Mars 2013 : Finalisation des scripts et des entités
-	10 Avril 2013 : Fin de la premiere version :D
+    12 Mars 2013 : Gestion de la carte et des entités terminée + ajout des entités sur la carte + ajout des scripts aux entités\\
+    19 Mars 2013 : Finalisation des scripts et des entités\\
+    10 Avril 2013 : Fin de la première version :D\\
 
 \end{document}
