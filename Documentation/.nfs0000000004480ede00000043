@@ -81,9 +81,9 @@
 \newpage
   \part{Code Overview}
     \section{Format des Fichiers}
-      \alinea Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
-      \alinea Toutes les images nécessaires au jeu seront au format PNG afin de pouvoir utiliser la transparence et garder la pleine qualité d'image (contrairement à JPEG qui perd de l'information à la compression).\\
-      \alinea Les sons quant à eux seront au format WAV afin d'éviter toute gestion de la compression de fichier pour de petits fichiers qui n'en ont aucunement besoin.
+      Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
+      Toutes les images nécessaires au jeu seront au format PNG afin de pouvoir utiliser la transparence et garder la pleine qualité d'image (contrairement à JPEG qui perd de l'information à la compression).\\
+      Les sons quant à eux seront au format WAV afin d'éviter toute gestion de la compression de fichier pour de petits fichiers qui n'en ont aucunement besoin.
 
       \subsection{Animation}
         \begin{verbatim}
@@ -100,37 +100,32 @@
       \subsection{Sauvegarde}
       
     \section{Commentaires}
-      \alinea Chaque fichier aura un en-tête devant contenir une brève explication quant au rôle de celui-ci, ainsi que les date de création et de dernière modification afin de faciliter les éventuelles recherches de versions sur le dépôt distant.\\
-      \begin{verbatim}
-        /*******************
-        ** Description    **
-        **                **
-        ** Creation :     **
-        ** Modif :        **
-        *******************/
-      \end{verbatim}
-      \alinea Si une méthode ou fonction, voir même un bloc, dépasse une certaine taille (environ 10 lignes) ou devient trop compliquée, un commentaire sera ajouté avant celle-ci expliquant brièvement son processus :
-      \begin{verbatim}
-        /** Description :
-        *** Entrée : ...
-        *** Sortie : ...
-        **/
-      \end{verbatim}
+      Chaque fichier aura un en-tête devant contenir une brève explication quant au rôle de celui-ci, ainsi que les date de création et de dernière modification afin de faciliter les éventuelles recherches de versions sur le dépôt distant.
+      /*******************
+      ** Description    **
+      **                **
+      ** Creation :     **
+      ** Modif :        **
+      *******************/
+      Si une méthode ou fonction, voir même un bloc, dépasse une certaine taille (environ 10 lignes) ou devient trop compliquée, un commentaire sera ajouté avant celle-ci expliquant brièvement son processus :
+      /** Description :
+      *** Entrée : ...
+      *** Sortie : ...
+      **/
       %En tableau/liste : |Marqueur spécifique|Signification|
-      TODO : à mettre à la place du code d'une fonctionnalité à implémenter\\
-      RECODE : à mettre au dessus du bloc d'une fonctionnalité à refaire\\
+      TODO : à mettre à la place du code d'une fonctionnalité à implémenter
+      RECODE : à mettre au dessus du bloc d'une fonctionnalité à refaire
       FIXME : à mettre au dessus du bloc d'une fonctionnalité contenant un bug
 
     \section{Convention de Nommage}
       %En tableau : |Type de variable|Format du nom|
-      classe : majuscule\\
-      méthode et fonction : minuscule puis majuscules à chaque début de mot pour les mots composés.\\
-      attribut de classe : m\_\\
-      variable globale : g\_
+      classe : majuscule
+      méthode et fonction : minuscule puis majuscules à chaque début de mot pour les mots composés.
+      attribut de classe : m_.
+      variable globale : g_.
 
     \section{Gestion du code source}
       %Blabla on utilise GIT, branches...etc
-      \alinea Afin de faciliter le travail collaboratif, nous utilisons un dépôt utilisant le gestionnaire de version GIT, hébergé sur le site https://github.com/. Sur ce dépôt seront présents tous les fichiers sources nécessaires au développement du jeu ainsi que les documentations au format Latex et PDF (même si aucun fichier binaire ne devrait être présent, il est plus pratique de récupérer directement un tel fichier que de le compiler soit-même). De plus, y seront stockées toutes les données utilisées par le jeu telles que les images et les sons. Seuls les fichiers temporaires, exécutables et fichiers de sauvegarde ne seront pas stockés.
 		
 \newpage
   \part{Développement}
