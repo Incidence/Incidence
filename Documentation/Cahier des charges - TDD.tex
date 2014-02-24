@@ -116,20 +116,41 @@
         *** Sortie : ...
         **/
       \end{verbatim}
+      \begin{small}
+        \begin{tabular}{| c | c |}
+          \hline
+          \textbf{Marqueur spécifique} & \textbf{Signification}\\
+          \hline
       %En tableau/liste : |Marqueur spécifique|Signification|
-      TODO : à mettre à la place du code d'une fonctionnalité à implémenter\\
-      RECODE : à mettre au dessus du bloc d'une fonctionnalité à refaire\\
-      FIXME : à mettre au dessus du bloc d'une fonctionnalité contenant un bug
+          TODO & A mettre à la place du code d'une fonctionnalité à implémenter\\
+          \hline
+          RECODE & A mettre au dessus du bloc d'une fonctionnalité à refaire\\
+          \hline
+          FIXME & A mettre au dessus du bloc d'une fonctionnalité contenant un bug\\
+          \hline
+        \end{tabular}
+      \end{small}
 
     \section{Convention de Nommage}
-      %En tableau : |Type de variable|Format du nom|
-      classe : majuscule\\
-      méthode et fonction : minuscule puis majuscules à chaque début de mot pour les mots composés.\\
-      attribut de classe : m\_\\
-      variable globale : g\_
+      \begin{small}
+        \begin{tabular}{| c | c |}
+          \hline
+          \textbf{Type de variable} & \textbf{Format du nom}\\
+          \hline
+          Classe & Majuscule suivit de minuscules\\
+          \hline
+          Méthode& Minuscules (pour les mots composés,\\
+          et & chaque mots suivant est\\
+          Fonction & une majuscule suivit de minuscules)\\
+          \hline
+          Attribut de classe & m\_\\
+          \hline
+          Variable globale & g\_\\
+          \hline
+        \end{tabular}
+      \end{small}
 
     \section{Gestion du code source}
-      %Blabla on utilise GIT, branches...etc
       \alinea Afin de faciliter le travail collaboratif, nous utilisons un dépôt utilisant le gestionnaire de version GIT, hébergé sur le site https://github.com/. Sur ce dépôt seront présents tous les fichiers sources nécessaires au développement du jeu ainsi que les documentations au format Latex et PDF (même si aucun fichier binaire ne devrait être présent, il est plus pratique de récupérer directement un tel fichier que de le compiler soit-même). De plus, y seront stockées toutes les données utilisées par le jeu telles que les images et les sons. Seuls les fichiers temporaires, exécutables et fichiers de sauvegarde ne seront pas stockés.
 		
 \newpage
