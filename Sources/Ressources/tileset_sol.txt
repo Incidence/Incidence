@@ -1,0 +1,8 @@
+terre-aride
+terre-defaut
+terre-fertile
+terre-innondee
+eau
+falaise
+champ
+
