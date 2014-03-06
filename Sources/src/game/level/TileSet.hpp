@@ -4,39 +4,39 @@
 ** des cases de la carte (sol, objets et entités).                **
 **                                                                **
 ** Création : 04/03/14                                            **
-** Modification : 05/03/14                                        **
+** Modification : 06/03/14                                        **
 *******************************************************************/
 
 #ifndef TILESET_HPP
 #define TILESET_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Types.hpp"
+#include "Sol.hpp"
+#include "Element.hpp"
 
 class TileSet {
 
 	private:
 
-		sf::Texture m_tileset_sol;
-		sf::Texture m_tileset_obj;
-		sf::Texture m_tileset_ent;
+		sf::Texture m_tileset;
 		sf::Vector2u m_tilesize;
+		std::vector<Sol> m_sols;
+		std::vector<Element> m_elements;
 
 
 	public:
 
 		TileSet();
-		TileSet(sf::Vector2u tilesize);
+		TileSet(const std::string path);
 		~TileSet();
 
-		virtual sf::Vector2u getTileSize();
-		virtual void setTileSize(sf::Vector2u tilesize);
+		const sf::Texture* getTileset() const;
+		sf::Vector2u getTileSize();
 
-		virtual sf::Texture getTile(int type, int colonne);
+		Sol* getSol(int type, bool* bordures);
+		Element* getElement(int type, int typeSol);
 
-		virtual bool loadTilesetSol(const std::string& path);
-		virtual bool loadTilesetObj(const std::string& path);
-		virtual bool loadTilesetEnt(const std::string& path);
+		bool load(const std::string& path);
 
 };
 

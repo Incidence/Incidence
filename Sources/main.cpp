@@ -4,7 +4,7 @@
 #include "src/engine/state_manager.hpp"
 #include "src/state/main_state.hpp"
 #include "src/engine/time.hpp"
-#include "src/Carte.hpp"
+#include "src/game/level/Carte.hpp"
 
 using namespace std;
 
@@ -14,10 +14,7 @@ int main()
 	window.setFramerateLimit(60);
 	window.setKeyRepeatEnabled(false);
 	
-	TileSet tileset(sf::Vector2u(32,32));
-	tileset.loadTilesetSol("Ressources/tileset_sol.png");
-	tileset.loadTilesetObj("Ressources/tileset_obj.png");
-	tileset.loadTilesetEnt("Ressources/tileset_ent.png");
+	TileSet tileset("Ressources/tileset.png");
 	Carte carte(tileset, sf::Vector2u(10,10));
 	carte.generate();
 	
@@ -42,7 +39,7 @@ int main()
 
 		window.clear();
 //            StateManager::get()->draw( window );
-		carte.draw(window, sf::RenderStates());
+		carte.drawSols(window, sf::RenderStates());
 		window.display();
 
 //        Time::get()->update();
