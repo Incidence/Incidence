@@ -36,28 +36,46 @@ void Carte::setDimensions(sf::Vector2u dimensions) {
 	
 }
 
+int Carte::getX(sf::Vector2f position) const {
+	
+	return (int)(position.x/m_tileset.getTileSize().x);
+	
+}
+
+int Carte::getY(sf::Vector2f position) const {
+	
+	return (int)(position.y/m_tileset.getTileSize().y);
+	
+}
+
+sf::Vector2u Carte::getXY(sf::Vector2f position) const {
+	
+	return sf::Vector2u(getX(position), getY(position));
+	
+}
+
+int Carte::getId(sf::Vector2f position) const {
+	
+	return getX(position) + getY(position) * m_dimensions.x;
+	
+}
+
 Sol* Carte::getSol(sf::Vector2f position) const {
 	
-	int i = (int)(position.x/m_tileset.getTileSize().x);
-	int j = (int)(position.y/m_tileset.getTileSize().y);
-	
-	return m_sols[i + j * m_dimensions.x];
+	return m_sols[getId(position)];
 	
 }
 
 Element* Carte::getElement(sf::Vector2f position) const {
 	
-	int i = (int)(position.x/m_tileset.getTileSize().x);
-	int j = (int)(position.y/m_tileset.getTileSize().y);
-	
-	return m_elements[i + j * m_dimensions.x];
+	return m_elements[getId(position)];
 	
 }
 
 void Carte::changerSol(int type, sf::Vector2f position) {
 	
-	int i = (int)(position.x/m_tileset.getTileSize().x);
-	int j = (int)(position.y/m_tileset.getTileSize().y);
+	int i = getX(position);
+	int j = getY(position);
 	sf::Vector2u tileSize = m_tileset.getTileSize();
 	int width = m_dimensions.x;
 	
@@ -94,8 +112,8 @@ void Carte::changerSol(int type, sf::Vector2f position) {
 
 void Carte::ajouterElement(int type, sf::Vector2f position) {
 	
-	int i = (int)(position.x/m_tileset.getTileSize().x);
-	int j = (int)(position.y/m_tileset.getTileSize().y);
+	int i = getX(position);
+	int j = getY(position);
 	sf::Vector2u tileSize = m_tileset.getTileSize();
 	int width = m_dimensions.x;
 	
@@ -137,8 +155,8 @@ void Carte::ajouterElement(int type, sf::Vector2f position) {
 
 void Carte::supprimerElement(sf::Vector2f position) {
 	
-	int i = (int)(position.x/m_tileset.getTileSize().x);
-	int j = (int)(position.y/m_tileset.getTileSize().y);
+	int i = getX(position);
+	int j = getY(position);
 	int width = m_dimensions.x;
 	
 	m_elements[i + j * width] = NULL;

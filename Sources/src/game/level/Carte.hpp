@@ -36,6 +36,11 @@ class Carte {
 		sf::Vector2u getDimensions() const;
 		void setDimensions(sf::Vector2u dimensions);
 
+		int getX(sf::Vector2f position) const;
+		int getY(sf::Vector2f position) const;
+		sf::Vector2u getXY(sf::Vector2f position) const;
+		int getId(sf::Vector2f position) const;
+
 		Sol* getSol(sf::Vector2f position) const;
 		Element* getElement(sf::Vector2f position) const;
 
