@@ -15,6 +15,7 @@ int main()
 	window.setKeyRepeatEnabled(false);
 	
 	TileSet tileset("Ressources/tileset.png");
+	//tileset.TEST();
 	Carte carte(tileset, sf::Vector2u(10,10));
 	carte.generate();
 	

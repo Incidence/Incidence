@@ -38,6 +38,8 @@ class Element {
 		bool isFranchissable() const;
 		sf::Time getTempsRecolte() const;
 		std::vector<Ressource> getRessources() const;
+		sf::Vertex* getQuadBas() const;
+		sf::Vertex* getQuadHaut() const;
 
 };
 

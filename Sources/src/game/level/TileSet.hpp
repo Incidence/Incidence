@@ -37,6 +37,8 @@ class TileSet {
 		Element* getElement(int type, int typeSol);
 
 		bool load(const std::string& path);
+		
+		void TEST();
 
 };
 

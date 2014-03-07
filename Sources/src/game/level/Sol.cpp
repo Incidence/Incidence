@@ -47,7 +47,7 @@ sf::Vertex* Sol::getQuad() const {
 
 bool Sol::isBord(int type) const {
 	
-	for(int i(0) ; i < 4 ; ++i) {
+	for(int i(0) ; i < m_bords.size() ; ++i) {
 		if(m_bords[i] == type) {
 			return true;
 		}

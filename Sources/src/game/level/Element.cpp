@@ -52,3 +52,15 @@ std::vector<Ressource> Element::getRessources() const {
 	return m_ressources;
 	
 }
+
+sf::Vertex* Element::getQuadBas() const {
+	
+	return m_quad_bas;
+	
+}
+
+sf::Vertex* Element::getQuadHaut() const {
+	
+	return m_quad_haut;
+	
+}
