@@ -36,8 +36,8 @@ class Carte {
 		sf::Vector2u getDimensions() const;
 		void setDimensions(sf::Vector2u dimensions);
 
-		const Sol getSol(sf::Vector2f position) const;
-		const Element getElement(sf::Vector2f position) const;
+		Sol* getSol(sf::Vector2f position) const;
+		Element* getElement(sf::Vector2f position) const;
 
 		void changerSol(int type, sf::Vector2f position);
 		void ajouterElement(int type, sf::Vector2f position);
@@ -48,9 +48,9 @@ class Carte {
 		bool charger(std::string path);
 		bool sauver(std::string path) const;
 
-		void drawSols(sf::RenderTarget& target, sf::RenderStates states) const;
-		void drawElementsBas(sf::RenderTarget& target, sf::RenderStates states) const;
-		void drawElementsHaut(sf::RenderTarget& target, sf::RenderStates states) const;
+		void drawSols(sf::RenderTarget& target) const;
+		void drawElementsBas(sf::RenderTarget& target) const;
+		void drawElementsHaut(sf::RenderTarget& target) const;
 
 };
 

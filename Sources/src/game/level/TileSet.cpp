@@ -1,12 +1,15 @@
 #include "TileSet.hpp"
 #include <iostream>
 #include <fstream>
-#include <limits>
+
+#define MAX_INT 65536  // 2^16
 
 TileSet::TileSet() {
 	
 	m_tileset = sf::Texture();
 	m_tilesize = sf::Vector2u(0,0);
+	m_nombreSol = 0;
+	m_nombreElement = 0;
 	m_sols = std::vector<Sol>();
 	m_elements = std::vector<Element>();
 	
@@ -34,19 +37,61 @@ sf::Vector2u TileSet::getTileSize() {
 	
 }
 
-Sol* TileSet::getSol(int type, bool* bordures) {
+int TileSet::getNombreSol() const {
 	
-	for(int i(0) ; i < m_sols.size() ; ++i) {
-		
-	}
+	return m_nombreSol;
 	
 }
 
+int TileSet::getNombreElement() const {
+	
+	return m_nombreElement;
+	
+}
+
+/*
+ *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses bordures
+ *** Sortie : un pointeur sur une instance constante du sol, NULL s'il n'existe pas
+*/
+Sol* TileSet::getSol(int type, bool* bordures) {
+	
+	bool result;
+	
+	for(int i(0) ; i < m_sols.size() ; ++i) {
+		result = true;
+		
+		if(m_sols[i].getType() != type) {
+			result = false;
+		}
+		else {
+			for(int j(0) ; j < 4 ; ++j) {
+				if((m_sols[i].getBordures())[j] != bordures[j]) {
+					result = false;
+				}
+			}
+			if(result) {
+				return &m_sols[i];
+			}
+		}
+	}
+	
+	return NULL;
+	
+}
+
+/*
+ *** Entree : deux entiers correspondant au type d'élément et au type de sol de la case
+ *** Sortie : un pointeur sur une instance constante de l'élément, NULL s'il n'existe pas
+*/
 Element* TileSet::getElement(int type, int typeSol) {
 	
 	for(int i(0) ; i < m_elements.size() ; ++i) {
-		
+		if(m_elements[i].getType() == type && m_elements[i].getTypeSol() == typeSol) {
+			return &m_elements[i];
+		}
 	}
+	
+	return NULL;
 	
 }
 
@@ -58,6 +103,8 @@ Element* TileSet::getElement(int type, int typeSol) {
  *** Sortie : un booléen indiquant si le chargement est complet.
 */
 bool TileSet::load(const std::string& path) { 
+	
+	// === OUVERTURE DES FICHIERS ===
 	
 	std::string l_path = path;
 	
@@ -77,8 +124,12 @@ bool TileSet::load(const std::string& path) {
 	std::string motClef;
 	config >> motClef;
 	
+	
+	// === LECTURE DU FICHIER INI ===
+	
 	int currentX = 0, currentY = 0;
 	int nbColonneSol = 0, nbColonneElement = 0;
+	m_nombreSol = m_nombreElement = 0;
 	
 	while(!config.eof()) {
 		
@@ -143,6 +194,7 @@ bool TileSet::load(const std::string& path) {
 			
 			currentX = 0;
 			++ currentY;
+			++m_nombreSol;
 			
 		}
 		else if(motClef.compare("element") == 0) {
@@ -196,6 +248,12 @@ bool TileSet::load(const std::string& path) {
 					ELEMENT_quad_bas[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 					ELEMENT_quad_bas[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y); 
 					
+//FIXME : codé en dur (texture transparente)
+					ELEMENT_quad_haut[0].texCoords = sf::Vector2f(480,384);
+					ELEMENT_quad_haut[1].texCoords = sf::Vector2f(512,384);
+					ELEMENT_quad_haut[2].texCoords = sf::Vector2f(512,416);
+					ELEMENT_quad_haut[3].texCoords = sf::Vector2f(480,416); 
+					
 				}
 					
 				else if(ELEMENT_hauteur == 2) {
@@ -224,12 +282,14 @@ bool TileSet::load(const std::string& path) {
 			
 			currentX = 0;
 			currentY += ELEMENT_hauteur;
+			++m_nombreElement;
 			
 			config >> tmp;
 			
 		}
 		else {
-			config.ignore(1024, '\n');
+			// Ignorer la ligne complète
+			config.ignore(MAX_INT, '\n');
 		}
 		
 		config >> motClef;
@@ -241,9 +301,15 @@ bool TileSet::load(const std::string& path) {
 	
 }
 
+/*
+ *** Description : cette fonction affiche tout le contenu du tileset. Utile pour vérifier le chargement.
+ * 
+ *** Entree : void
+ *** Sortie : void
+*/
 void TileSet::TEST() {
 	std::cout << "===== TILESET =====" << std::endl << "tilesize : " << m_tilesize.x << " x " << m_tilesize.y << std::endl;
-	std::cout << std::endl << " Sols :" << std::endl;
+	std::cout << std::endl << m_nombreSol << " Sols :" << std::endl;
 	for(int i(0) ; i < m_sols.size() ; ++i) {
 		std::cout << "  " << m_sols[i].getType() << " " << m_sols[i].getNom() << " " << m_sols[i].isFranchissable() << " ";
 		for(int j(0) ; j < 4 ; ++j) {
@@ -263,7 +329,7 @@ void TileSet::TEST() {
 		}
 		std::cout << std::endl;
 	}
-	std::cout << std::endl << " Elements :" << std::endl;
+	std::cout << std::endl << m_nombreElement << " Elements :" << std::endl;
 	for(int i(0) ; i < m_elements.size() ; ++i) {
 		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getTypeSol() << " " << m_elements[i].getNom() << " " << m_elements[i].isFranchissable() << " " << m_elements[i].getTempsRecolte().asSeconds() << " ";
 		for(int j(0) ; j < (m_elements[i].getRessources()).size() ; ++j) {

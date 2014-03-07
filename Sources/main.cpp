@@ -16,7 +16,7 @@ int main()
 	
 	TileSet tileset("Ressources/tileset.png");
 	//tileset.TEST();
-	Carte carte(tileset, sf::Vector2u(10,10));
+	Carte carte(tileset, sf::Vector2u(25,18));
 	carte.generate();
 	
 //    StateManager::get()->addState(new MainState());
@@ -40,7 +40,9 @@ int main()
 
 		window.clear();
 //            StateManager::get()->draw( window );
-		carte.drawSols(window, sf::RenderStates());
+		carte.drawSols(window);
+		carte.drawElementsBas(window);
+		carte.drawElementsHaut(window);
 		window.display();
 
 //        Time::get()->update();

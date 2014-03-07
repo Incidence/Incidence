@@ -20,6 +20,8 @@ class TileSet {
 
 		sf::Texture m_tileset;
 		sf::Vector2u m_tilesize;
+		int m_nombreSol;
+		int m_nombreElement;
 		std::vector<Sol> m_sols;
 		std::vector<Element> m_elements;
 
@@ -32,6 +34,8 @@ class TileSet {
 
 		const sf::Texture* getTileset() const;
 		sf::Vector2u getTileSize();
+		int getNombreSol() const;
+		int getNombreElement() const;
 
 		Sol* getSol(int type, bool* bordures);
 		Element* getElement(int type, int typeSol);
