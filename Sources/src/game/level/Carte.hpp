@@ -4,7 +4,7 @@
 ** complète de la carte (sol et objets) et des affichages.        **
 **                                                                **
 ** Création : 04/03/14                                            **
-** Modification : 06/03/14                                        **
+** Modification : 07/03/14                                        **
 *******************************************************************/
 
 #ifndef CARTE_HPP
@@ -20,7 +20,7 @@ class Carte {
 	private:
 
 		TileSet m_tileset;
-		sf::Vector2u m_dimensions;
+		sf::Vector2u m_dimensions; // { x = longueur , y = hauteur }
 		std::vector<Sol*> m_sols;
 		std::vector<Element*> m_elements;
 		sf::VertexArray m_VertexSols;

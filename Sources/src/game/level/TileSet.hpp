@@ -4,7 +4,7 @@
 ** des cases de la carte (sol, objets et entités).                **
 **                                                                **
 ** Création : 04/03/14                                            **
-** Modification : 06/03/14                                        **
+** Modification : 07/03/14                                        **
 *******************************************************************/
 
 #ifndef TILESET_HPP
@@ -33,7 +33,7 @@ class TileSet {
 		~TileSet();
 
 		const sf::Texture* getTileset() const;
-		sf::Vector2u getTileSize();
+		sf::Vector2u getTileSize() const;
 		int getNombreSol() const;
 		int getNombreElement() const;
 

@@ -31,7 +31,7 @@ const sf::Texture* TileSet::getTileset() const {
 	
 }
 
-sf::Vector2u TileSet::getTileSize() { 
+sf::Vector2u TileSet::getTileSize() const { 
 	
 	return m_tilesize; 
 	
