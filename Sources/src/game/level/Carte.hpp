@@ -11,6 +11,8 @@
 #define CARTE_HPP
 
 #include <SFML/Graphics.hpp>
+#include <list>
+
 #include "Sol.hpp"
 #include "Element.hpp"
 #include "TileSet.hpp"
@@ -20,7 +22,7 @@ class Carte {
 	private:
 
 		TileSet m_tileset;
-		sf::Vector2u m_dimensions; // { x = longueur , y = hauteur }
+		sf::Vector2u m_dimensions; // { x = largeur , y = hauteur }
 		std::vector<Sol*> m_sols;
 		std::vector<Element*> m_elements;
 		sf::VertexArray m_VertexSols;
@@ -38,15 +40,15 @@ class Carte {
 
 		int getX(sf::Vector2f position) const;
 		int getY(sf::Vector2f position) const;
-		sf::Vector2u getXY(sf::Vector2f position) const;
-		int getId(sf::Vector2f position) const;
+		sf::Vector2i getXY(sf::Vector2f position) const;
+		int getId(sf::Vector2i position) const;
 
-		Sol* getSol(sf::Vector2f position) const;
-		Element* getElement(sf::Vector2f position) const;
+		Sol * getSol(sf::Vector2i position) const;
+		Element * getElement(sf::Vector2i position) const;
 
-		void changerSol(int type, sf::Vector2f position);
-		void ajouterElement(int type, sf::Vector2f position);
-		void supprimerElement(sf::Vector2f position);
+		void changerSol(int type, sf::Vector2i position);
+		void ajouterElement(int type, sf::Vector2i position);
+		void supprimerElement(sf::Vector2i position);
 
 		void generate();
 
@@ -57,6 +59,8 @@ class Carte {
 		void drawElementsBas(sf::RenderTarget& target) const;
 		void drawElementsHaut(sf::RenderTarget& target) const;
 
+        bool isPassable( sf::Vector2i pos ) const;
+        std::list< sf::Vector2f > findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth );
 };
 
 #endif

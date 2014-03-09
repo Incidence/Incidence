@@ -40,7 +40,8 @@ class Element {
 		std::vector<Ressource> getRessources() const;
 		sf::Vertex* getQuadBas() const;
 		sf::Vertex* getQuadHaut() const;
-
+        bool containResource( TypeRessource t ) const;
+        int getQuantityOf( TypeRessource t ) const;
 };
 
 #endif
