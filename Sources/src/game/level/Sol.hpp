@@ -32,11 +32,11 @@ class Sol {
 		int getType() const ;
 		std::string getNom() const;
 		bool isFranchissable() const;
+		std::vector<int> getBords() const;
 		bool* getBordures() const;
 		sf::Vertex* getQuad() const;
 		
 		bool isBord(int type) const;
-		
 
 };
 

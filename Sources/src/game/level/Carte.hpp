@@ -4,7 +4,7 @@
 ** complète de la carte (sol et objets) et des affichages.        **
 **                                                                **
 ** Création : 04/03/14                                            **
-** Modification : 07/03/14                                        **
+** Modification : 09/03/14                                        **
 *******************************************************************/
 
 #ifndef CARTE_HPP
