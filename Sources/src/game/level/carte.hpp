@@ -13,9 +13,9 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 
-#include "Sol.hpp"
-#include "Element.hpp"
-#include "TileSet.hpp"
+#include "sol.hpp"
+#include "element.hpp"
+#include "tileset.hpp"
 
 class Carte {
 
@@ -59,8 +59,8 @@ class Carte {
 		void drawElementsBas(sf::RenderTarget& target) const;
 		void drawElementsHaut(sf::RenderTarget& target) const;
 
-        bool isPassable( sf::Vector2i pos ) const;
-        std::list< sf::Vector2f > findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth );
+		bool isPassable( sf::Vector2i pos ) const;
+		std::list< sf::Vector2f > findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth );
 };
 
 #endif

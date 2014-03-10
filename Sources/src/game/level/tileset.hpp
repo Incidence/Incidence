@@ -11,8 +11,8 @@
 #define TILESET_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Sol.hpp"
-#include "Element.hpp"
+#include "sol.hpp"
+#include "element.hpp"
 
 class TileSet {
 

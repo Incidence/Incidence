@@ -22,19 +22,19 @@ ENGINE=src/engine
 
 engine: $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o
 
-$(TMP)/animation.o: $(ENGINE)/animation.cpp $(engine)/animation.hpp
+$(TMP)/animation.o: $(ENGINE)/animation.cpp $(ENGINE)/animation.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/data_manager.o: $(ENGINE)/data_manager.cpp $(engine)/data_manager.hpp
+$(TMP)/data_manager.o: $(ENGINE)/data_manager.cpp $(ENGINE)/data_manager.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/foo.o: $(ENGINE)/foo.cpp $(engine)/foo.hpp
+$(TMP)/foo.o: $(ENGINE)/foo.cpp $(ENGINE)/foo.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/state_manager.o: $(ENGINE)/state_manager.cpp $(engine)/state_manager.hpp
+$(TMP)/state_manager.o: $(ENGINE)/state_manager.cpp $(ENGINE)/state_manager.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/time.o: $(ENGINE)/time.cpp $(engine)/time.hpp
+$(TMP)/time.o: $(ENGINE)/time.cpp $(ENGINE)/time.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
@@ -44,10 +44,10 @@ STATE=src/state
 
 state: $(TMP)/main_state.o $(TMP)/test_state.o
 
-$(TMP)/main_state.o: $(ENGINE)/main_state.cpp $(engine)/main_state.hpp
+$(TMP)/main_state.o: $(STATE)/main_state.cpp $(STATE)/main_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/test_state.o: $(ENGINE)/test_state.cpp $(engine)/test_state.hpp
+$(TMP)/test_state.o: $(STATE)/test_state.cpp $(STATE)/test_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
@@ -65,18 +65,18 @@ $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
 
 LVL=$(GAME)/level
 
-level: $(TMP)/Sol.o $(TMP)/Element.o $(TMP)/TileSet.o $(TMP)/Carte.o
+level: $(TMP)/sol.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/carte.o
 
-$(TMP)/Sol.o: $(LVL)/Sol.cpp $(LVL)/Sol.hpp
+$(TMP)/sol.o: $(LVL)/sol.cpp $(LVL)/sol.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/Element.o: $(LVL)/Element.cpp $(LVL)/Element.hpp
+$(TMP)/element.o: $(LVL)/element.cpp $(LVL)/element.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/TileSet.o: $(LVL)/TileSet.cpp $(LVL)/TileSet.hpp
+$(TMP)/tileset.o: $(LVL)/tileset.cpp $(LVL)/tileset.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/Carte.o: $(LVL)/Carte.cpp $(LVL)/Carte.hpp
+$(TMP)/carte.o: $(LVL)/carte.cpp $(LVL)/carte.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 

@@ -1,4 +1,4 @@
-#include "Sol.hpp"
+#include "sol.hpp"
 
 Sol::Sol(const int type, const std::string nom, const bool franchissable, std::vector<int> bords, bool* bordures, sf::Vertex* quad) {
 

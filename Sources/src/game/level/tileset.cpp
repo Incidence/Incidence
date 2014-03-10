@@ -1,4 +1,4 @@
-#include "TileSet.hpp"
+#include "tileset.hpp"
 #include <iostream>
 #include <fstream>
 
@@ -178,8 +178,8 @@ bool TileSet::load(const std::string& path) {
 
 				SOL_bordures[0] = ((i & 8) > 0);
 				SOL_bordures[1] = ((i & 4) > 0);
-				SOL_bordures[2] = ((i & 2) > 0);
-				SOL_bordures[3] = ((i & 1) > 0);
+				SOL_bordures[3] = ((i & 2) > 0);
+				SOL_bordures[2] = ((i & 1) > 0);
 
 				SOL_quad[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
 				SOL_quad[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);

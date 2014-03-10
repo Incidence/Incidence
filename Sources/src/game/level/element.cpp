@@ -1,4 +1,4 @@
-#include "Element.hpp"
+#include "element.hpp"
 
 Element::Element(int type, int typeSol, std::string nom, bool franchissable, sf::Time tempsRecolte, std::vector<Ressource> ressources, sf::Vertex* quad_bas, sf::Vertex* quad_haut) {
 

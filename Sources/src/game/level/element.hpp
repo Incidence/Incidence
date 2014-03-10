@@ -11,7 +11,7 @@
 #define ELEMENT_HPP
 
 #include <SFML/Graphics.hpp>
-#include "Ressource.hpp"
+#include "ressource.hpp"
 
 class Element {
 

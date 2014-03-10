@@ -2,10 +2,11 @@
 #define LEVEL_HPP
 
 #include <SFML/Graphics.hpp>
-#include "level/Ressource.hpp"
-#include "level/Sol.hpp"
-#include "level/Element.hpp"
-#include "level/TileSet.hpp"
-#include "level/Carte.hpp"
+#include "level/ressource.hpp"
+#include "level/sol.hpp"
+#include "level/element.hpp"
+#include "level/tileset.hpp"
+#include "level/carte.hpp"
+#include "level/pathfinding.hpp"
 
 #endif
