@@ -7,10 +7,10 @@ EXEC=$(BUILD)/Incidence
 
 all: $(EXEC)
 
-$(EXEC): $(TMP)/main.o engine state game
+$(EXEC): $(TMP)/main.o $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/game.o $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/lumberjack.o
 	$(CC) $^ -o $@ $(LDFLAG)
 
-$(TMP)/main.o: main.cpp 
+$(TMP)/main.o: main.cpp
 	@ if [ ! -d $(BUILD) ]; then mkdir $(BUILD); fi
 	@ if [ ! -d $(TMP) ]; then mkdir $(TMP); fi
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -65,9 +65,9 @@ $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
 
 LVL=$(GAME)/level
 
-level: $(TMP)/sol.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/carte.o
+level: $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o
 
-$(TMP)/sol.o: $(LVL)/sol.cpp $(LVL)/sol.hpp
+$(TMP)/ground.o: $(LVL)/ground.cpp $(LVL)/ground.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/element.o: $(LVL)/element.cpp $(LVL)/element.hpp
@@ -76,7 +76,7 @@ $(TMP)/element.o: $(LVL)/element.cpp $(LVL)/element.hpp
 $(TMP)/tileset.o: $(LVL)/tileset.cpp $(LVL)/tileset.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
-$(TMP)/carte.o: $(LVL)/carte.cpp $(LVL)/carte.hpp
+$(TMP)/tilemap.o: $(LVL)/tilemap.cpp $(LVL)/tilemap.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 

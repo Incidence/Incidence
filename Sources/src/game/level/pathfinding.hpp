@@ -6,7 +6,7 @@
 #include <string>
 #include <SFML/Graphics.hpp>
 
-#include "carte.hpp"
+#include "tilemap.hpp"
 
 typedef struct Node
 {
@@ -21,8 +21,8 @@ typedef struct Node
 void removeNode( std::list< Node * > & open, std::list< Node * > & close, Node * n );
 void addNode( std::list< Node * > & nodeList, Node * n );
 bool containNode( std::list< Node * > & nodeList, Node * n );
-void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, Carte * carte, sf::Vector2i from );
+void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, TileMap * tilemap, sf::Vector2i from );
 
-std::list< sf::Vector2i > pathfinding( Carte * carte, sf::Vector2i from, sf::Vector2i to, int entityWidth);
+std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf::Vector2i to, int entityWidth);
 
 #endif

@@ -1,15 +1,15 @@
 #include "element.hpp"
 
-Element::Element(int type, int typeSol, std::string nom, bool franchissable, sf::Time tempsRecolte, std::vector<Ressource> ressources, sf::Vertex* quad_bas, sf::Vertex* quad_haut) {
+Element::Element(int type, int groundType, std::string name, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) {
 
 	m_type = type;
-	m_typeSol = typeSol;
-	m_nom = nom;
-	m_franchissable = franchissable;
-	m_tempsRecolte = tempsRecolte;
+	m_groundType = groundType;
+	m_name = name;
+	m_passable = passable;
+	m_pickingTime = pickingTime;
 	m_ressources = ressources;
-	m_quad_bas = quad_bas;
-	m_quad_haut = quad_haut;
+	m_quad_down = quad_down;
+	m_quad_up = quad_up;
 
 }
 
@@ -23,27 +23,27 @@ int Element::getType() const {
 
 }
 
-int Element::getTypeSol() const {
+int Element::getGroundType() const {
 
-	return m_typeSol;
-
-}
-
-std::string Element::getNom() const {
-
-	return m_nom;
+	return m_groundType;
 
 }
 
-bool Element::isFranchissable() const {
+std::string Element::getName() const {
 
-	return m_franchissable;
+	return m_name;
 
 }
 
-sf::Time Element::getTempsRecolte() const {
+bool Element::isPassable() const {
 
-	return m_tempsRecolte;
+	return m_passable;
+
+}
+
+sf::Time Element::getPickingTime() const {
+
+	return m_pickingTime;
 
 }
 
@@ -53,19 +53,19 @@ std::vector<Ressource> Element::getRessources() const {
 
 }
 
-sf::Vertex* Element::getQuadBas() const {
+sf::Vertex* Element::getQuadDown() const {
 
-	return m_quad_bas;
-
-}
-
-sf::Vertex* Element::getQuadHaut() const {
-
-	return m_quad_haut;
+	return m_quad_down;
 
 }
 
-bool Element::containResource( TypeRessource t ) const
+sf::Vertex* Element::getQuadUp() const {
+
+	return m_quad_up;
+
+}
+
+bool Element::containResource( RessourceType t ) const
 {
     for(int i = 0; i < m_ressources.size(); ++i) {
         if(m_ressources[i].type == t) {
@@ -76,15 +76,13 @@ bool Element::containResource( TypeRessource t ) const
     return false;
 }
 
-int Element::getQuantityOf( TypeRessource t ) const
+int Element::getQuantityOf( RessourceType t ) const
 {
     for(int i = 0; i < m_ressources.size(); ++i) {
         if(m_ressources[i].type == t) {
-            return m_ressources[i].quantite;
+            return m_ressources[i].quantity;
         }
     }
 
     return 0;
 }
-
-

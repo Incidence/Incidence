@@ -10,17 +10,17 @@
 #ifndef RESSOURCE_HPP
 #define RESSOURCE_HPP
 
-typedef enum TypeRessource {
-	BOIS,
-	PIERRE,
-	NOURRITURE,
-	AUCUNE
-} TypeRessource;
+typedef enum RessourceType {
+	WOOD,
+	STONE,
+	FOOD,
+	NOTHING
+} RessourceType;
 
 typedef struct Ressource {
 
-	TypeRessource type;
-	int quantite;
+	RessourceType type;
+	int quantity;
 
 } Ressource;
 

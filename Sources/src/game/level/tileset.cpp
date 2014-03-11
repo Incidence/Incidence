@@ -8,9 +8,9 @@ TileSet::TileSet() {
 
 	m_tileset = sf::Texture();
 	m_tilesize = sf::Vector2u(0,0);
-	m_nombreSol = 0;
-	m_nombreElement = 0;
-	m_sols = std::vector<Sol>();
+	m_groundCount = 0;
+	m_elementCount = 0;
+	m_grounds = std::vector<Ground>();
 	m_elements = std::vector<Element>();
 
 }
@@ -37,40 +37,40 @@ sf::Vector2u TileSet::getTileSize() const {
 
 }
 
-int TileSet::getNombreSol() const {
+int TileSet::getGroundCount() const {
 
-	return m_nombreSol;
+	return m_groundCount;
 
 }
 
-int TileSet::getNombreElement() const {
+int TileSet::getElementCount() const {
 
-	return m_nombreElement;
+	return m_elementCount;
 
 }
 
 /*
- *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses bordures
+ *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses tileBorders
  *** Sortie : un pointeur sur une instance constante du sol, NULL s'il n'existe pas
 */
-Sol* TileSet::getSol(int type, bool* bordures) {
+Ground* TileSet::getGround(int type, bool* borders) {
 
 	bool result;
 
-	for(unsigned int i(0) ; i < m_sols.size() ; ++i) {
+	for(unsigned int i(0) ; i < m_grounds.size() ; ++i) {
 		result = true;
 
-		if(m_sols[i].getType() != type) {
+		if(m_grounds[i].getType() != type) {
 			result = false;
 		}
 		else {
 			for(int j(0) ; j < 4 ; ++j) {
-				if((m_sols[i].getBordures())[j] != bordures[j]) {
+				if((m_grounds[i].getTileBorders())[j] != borders[j]) {
 					result = false;
 				}
 			}
 			if(result) {
-				return &m_sols[i];
+				return &m_grounds[i];
 			}
 		}
 	}
@@ -83,10 +83,10 @@ Sol* TileSet::getSol(int type, bool* bordures) {
  *** Entree : deux entiers correspondant au type d'élément et au type de sol de la case
  *** Sortie : un pointeur sur une instance constante de l'élément, NULL s'il n'existe pas
 */
-Element* TileSet::getElement(int type, int typeSol) {
+Element* TileSet::getElement(int type, int groundType) {
 
 	for(unsigned int i(0) ; i < m_elements.size() ; ++i) {
-		if(m_elements[i].getType() == type && m_elements[i].getTypeSol() == typeSol) {
+		if(m_elements[i].getType() == type && m_elements[i].getGroundType() == groundType) {
 			return &m_elements[i];
 		}
 	}
@@ -121,44 +121,44 @@ bool TileSet::load(const std::string& path) {
 		return false;
 	}
 
-	std::string motClef;
-	config >> motClef;
+	std::string keyWord;
+	config >> keyWord;
 
 
 	// === LECTURE DU FICHIER INI ===
 
 	int currentX = 0, currentY = 0;
-	int nbColonneSol = 0, nbColonneElement = 0;
-	m_nombreSol = m_nombreElement = 0;
+	int groundColumnCount = 0, elementColumnCount = 0;
+	m_groundCount = m_elementCount = 0;
 
 	while(!config.eof()) {
 
-		if(motClef.compare("tilesize") == 0) {
+		if(keyWord.compare("tilesize") == 0) {
 
 			config >> m_tilesize.x;
 			config >> m_tilesize.y;
 
 		}
-		else if(motClef.compare("nbColonneSol") == 0) {
+		else if(keyWord.compare("groundColumnCount") == 0) {
 
-			config >> nbColonneSol;
-
-		}
-		if(motClef.compare("nbColonneElement") == 0) {
-
-			config >> nbColonneElement;
+			config >> groundColumnCount;
 
 		}
-		else if(motClef.compare("sol") == 0) {
+		if(keyWord.compare("elementColumnCount") == 0) {
 
-			int SOL_type;
-			std::string SOL_nom;
-			bool SOL_franchissable;
-			std::vector<int> SOL_bords;
+			config >> elementColumnCount;
+
+		}
+		else if(keyWord.compare("ground") == 0) {
+
+			int GROUND_type;
+			std::string GROUND_name;
+			bool GROUND_passable;
+			std::vector<int> GROUND_borders;
 
 			std::string tmp;
-			config >> SOL_type >> SOL_nom >> tmp;
-			SOL_franchissable = (tmp.compare("true") == 0);
+			config >> GROUND_type >> GROUND_name >> tmp;
+			GROUND_passable = (tmp.compare("true") == 0);
 			config >> tmp;
 			if(tmp.compare("<") != 0) {
 				std::cout << "Mauvais format de ressource dans le fichier ini du tileset." << std::endl;
@@ -167,26 +167,26 @@ bool TileSet::load(const std::string& path) {
 			config >> tmp;
 
 			while(tmp.compare(">") != 0) {
-				SOL_bords.push_back(atoi(tmp.c_str()));
+				GROUND_borders.push_back(atoi(tmp.c_str()));
 				config >> tmp;
 			}
 
-			for(int i(0) ; i < nbColonneSol ; ++i) {
+			for(int i(0) ; i < groundColumnCount ; ++i) {
 
-				bool* SOL_bordures = new bool[4];
-				sf::Vertex* SOL_quad = new sf::Vertex[4];
+				bool* GROUND_tileBorders = new bool[4];
+				sf::Vertex* GROUND_quad = new sf::Vertex[4];
 
-				SOL_bordures[0] = ((i & 8) > 0);
-				SOL_bordures[1] = ((i & 4) > 0);
-				SOL_bordures[3] = ((i & 2) > 0);
-				SOL_bordures[2] = ((i & 1) > 0);
+				GROUND_tileBorders[0] = ((i & 8) > 0);
+				GROUND_tileBorders[1] = ((i & 4) > 0);
+				GROUND_tileBorders[3] = ((i & 2) > 0);
+				GROUND_tileBorders[2] = ((i & 1) > 0);
 
-				SOL_quad[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
-				SOL_quad[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
-				SOL_quad[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
-				SOL_quad[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+				GROUND_quad[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
+				GROUND_quad[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
+				GROUND_quad[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+				GROUND_quad[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 
-				m_sols.push_back(Sol(SOL_type, SOL_nom, SOL_franchissable, SOL_bords, SOL_bordures, SOL_quad));
+				m_grounds.push_back(Ground(GROUND_type, GROUND_name, GROUND_passable, GROUND_borders, GROUND_tileBorders, GROUND_quad));
 
 				++ currentX;
 
@@ -194,96 +194,94 @@ bool TileSet::load(const std::string& path) {
 
 			currentX = 0;
 			++ currentY;
-			++m_nombreSol;
+			++m_groundCount;
 
 		}
-		else if(motClef.compare("element") == 0) {
+		else if(keyWord.compare("element") == 0) {
 
 			int ELEMENT_type;
-			int ELEMENT_hauteur;
-			int ELEMENT_typeSol;
-			std::string ELEMENT_nom;
-			bool ELEMENT_franchissable;
-			int ELEMENT_tempsRecolte;
+			int ELEMENT_height;
+			int ELEMENT_groundType;
+			std::string ELEMENT_name;
+			bool ELEMENT_passable;
+			int ELEMENT_pickingTime;
 			std::vector<Ressource> ELEMENT_ressources;
 
 			std::string tmp;
-			config >> ELEMENT_type >> ELEMENT_hauteur >> ELEMENT_nom >> tmp;
-			ELEMENT_franchissable = (tmp.compare("true") == 0)? true : false;
-			config >> ELEMENT_tempsRecolte >> tmp >> tmp;
+			config >> ELEMENT_type >> ELEMENT_height >> ELEMENT_name >> tmp;
+			ELEMENT_passable = (tmp.compare("true") == 0)? true : false;
+			config >> ELEMENT_pickingTime >> tmp >> tmp;
 
 			while(tmp.compare(">") != 0) {
 				Ressource r;
-				if(tmp.compare("nourriture") == 0) {
-					r.type = NOURRITURE;
+				if(tmp.compare("food") == 0) {
+					r.type = FOOD;
 				}
-				else if(tmp.compare("bois") == 0) {
-					r.type = BOIS;
+				else if(tmp.compare("wood") == 0) {
+					r.type = WOOD;
 				}
-				else if(tmp.compare("pierre") == 0) {
-					r.type = PIERRE;
+				else if(tmp.compare("stone") == 0) {
+					r.type = STONE;
 				}
 				else {
 					std::cout << "Mauvais format de ressource dans le fichier ini du tileset." << std::endl;
 					return false;
 				}
 
-				config >> r.quantite >> tmp;
+				config >> r.quantity >> tmp;
 				ELEMENT_ressources.push_back(r);
 			}
 
 			config >> tmp;
 
-			for(int i(0) ; i < nbColonneElement ; ++i) {
+			for(int i(0) ; i < elementColumnCount ; ++i) {
 
-				sf::Vertex* ELEMENT_quad_bas = new sf::Vertex[4];
-				sf::Vertex* ELEMENT_quad_haut = new sf::Vertex[4];
+				sf::Vertex* ELEMENT_quad_down = new sf::Vertex[4];
+				sf::Vertex* ELEMENT_quad_up = new sf::Vertex[4];
 
-				config >> ELEMENT_typeSol;
+				config >> ELEMENT_groundType;
 
-				if(ELEMENT_hauteur == 1) {
+				if(ELEMENT_height == 1) {
 
-					ELEMENT_quad_bas[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
-					ELEMENT_quad_bas[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
-					ELEMENT_quad_bas[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
-					ELEMENT_quad_bas[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+					ELEMENT_quad_down[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
+					ELEMENT_quad_down[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
+					ELEMENT_quad_down[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+					ELEMENT_quad_down[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 
-//FIXME : codé en dur (texture transparente)
-// C'est ce qu'il faut par contre, place le en 0, 0 c'est plus simple
-					ELEMENT_quad_haut[0].texCoords = sf::Vector2f(480,384);
-					ELEMENT_quad_haut[1].texCoords = sf::Vector2f(512,384);
-					ELEMENT_quad_haut[2].texCoords = sf::Vector2f(512,416);
-					ELEMENT_quad_haut[3].texCoords = sf::Vector2f(480,416);
+					ELEMENT_quad_up[0].texCoords = sf::Vector2f(m_tileset.getSize().x - m_tilesize.x, m_tileset.getSize().y - m_tilesize.y);
+					ELEMENT_quad_up[1].texCoords = sf::Vector2f(m_tileset.getSize().x, m_tileset.getSize().y - m_tilesize.y);
+					ELEMENT_quad_up[2].texCoords = sf::Vector2f(m_tileset.getSize().x, m_tileset.getSize().y);
+					ELEMENT_quad_up[3].texCoords = sf::Vector2f(m_tileset.getSize().x - m_tilesize.x, m_tileset.getSize().y);
 
 				}
 
-				else if(ELEMENT_hauteur == 2) {
+				else if(ELEMENT_height == 2) {
 
-						ELEMENT_quad_bas[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
-						ELEMENT_quad_bas[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
-						ELEMENT_quad_bas[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 2) * m_tilesize.y);
-						ELEMENT_quad_bas[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 2) * m_tilesize.y);
+						ELEMENT_quad_down[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+						ELEMENT_quad_down[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+						ELEMENT_quad_down[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 2) * m_tilesize.y);
+						ELEMENT_quad_down[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 2) * m_tilesize.y);
 
-						ELEMENT_quad_haut[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
-						ELEMENT_quad_haut[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
-						ELEMENT_quad_haut[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
-						ELEMENT_quad_haut[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+						ELEMENT_quad_up[0].texCoords = sf::Vector2f(currentX * m_tilesize.x, currentY * m_tilesize.y);
+						ELEMENT_quad_up[1].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, currentY * m_tilesize.y);
+						ELEMENT_quad_up[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
+						ELEMENT_quad_up[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 
 				}
 
 				else {
-					std::cout << "Mauvais format de hauteur dans le fichier ini du tileset." << std::endl;
+					std::cout << "Mauvais format de height dans le fichier ini du tileset." << std::endl;
 					return false;
 				}
 
-					m_elements.push_back(Element(ELEMENT_type, ELEMENT_typeSol, ELEMENT_nom, ELEMENT_franchissable, sf::seconds(ELEMENT_tempsRecolte), ELEMENT_ressources, ELEMENT_quad_bas, ELEMENT_quad_haut));
+					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_passable, sf::seconds(ELEMENT_pickingTime), ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
 
 					++ currentX;
 			}
 
 			currentX = 0;
-			currentY += ELEMENT_hauteur;
-			++m_nombreElement;
+			currentY += ELEMENT_height;
+			++m_elementCount;
 
 			config >> tmp;
 
@@ -293,7 +291,7 @@ bool TileSet::load(const std::string& path) {
 			config.ignore(MAX_INT, '\n');
 		}
 
-		config >> motClef;
+		config >> keyWord;
 	}
 
 	config.close();
@@ -310,43 +308,43 @@ bool TileSet::load(const std::string& path) {
 */
 void TileSet::TEST() {
 	std::cout << "===== TILESET =====" << std::endl << "tilesize : " << m_tilesize.x << " x " << m_tilesize.y << std::endl;
-	std::cout << std::endl << m_nombreSol << " Sols :" << std::endl;
-	for(int i(0) ; i < (int)m_sols.size() ; ++i) {
-		std::cout << "  " << m_sols[i].getType() << " " << m_sols[i].getNom() << " " << m_sols[i].isFranchissable() << " ";
+	std::cout << std::endl << m_groundCount << " Grounds :" << std::endl;
+	for(int i(0) ; i < (int)m_grounds.size() ; ++i) {
+		std::cout << "  " << m_grounds[i].getType() << " " << m_grounds[i].getName() << " " << m_grounds[i].isPassable() << " ";
 		for(int j(0) ; j < 4 ; ++j) {
-			std::cout << (m_sols[i].getBordures())[j];
+			std::cout << (m_grounds[i].getTileBorders())[j];
 		}
 		std::cout << " < ";
-		for(int j(0) ; j < (int)m_sols.size() ; ++j) {
-			if(m_sols[i].isBord(j)) {
+		for(int j(0) ; j < (int)m_grounds.size() ; ++j) {
+			if(m_grounds[i].hasTileBorderWith(j)) {
 				std::cout << j << " ";
 			}
 		}
 		std::cout << ">" << std::endl;
-
+/*
 		std::cout << "    Quad : ";
 		for(int j(0) ; j < 4 ; ++j) {
-			std::cout << "[" << (m_sols[i].getQuad())[j].texCoords.x << "," << (m_sols[i].getQuad())[j].texCoords.y << "] ";
+			std::cout << "[" << (m_grounds[i].getQuad())[j].texCoords.x << "," << (m_grounds[i].getQuad())[j].texCoords.y << "] ";
 		}
-		std::cout << std::endl;
+		std::cout << std::endl;*/
 	}
-	std::cout << std::endl << m_nombreElement << " Elements :" << std::endl;
+	std::cout << std::endl << m_elementCount << " Elements :" << std::endl;
 	for(int i(0) ; i < (int)m_elements.size() ; ++i) {
-		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getTypeSol() << " " << m_elements[i].getNom() << " " << m_elements[i].isFranchissable() << " " << m_elements[i].getTempsRecolte().asSeconds() << " ";
+		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime().asSeconds() << " ";
 		for(int j(0) ; j < (int)(m_elements[i].getRessources()).size() ; ++j) {
-			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantite;
+			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantity;
 		}
 		std::cout << std::endl;
 
 		std::cout << "    Quad_Haut : ";
 		for(int j(0) ; j < 4 ; ++j) {
-			std::cout << "[" << (m_elements[i].getQuadHaut())[j].texCoords.x << "," << (m_elements[i].getQuadHaut())[j].texCoords.y << "] ";
+			std::cout << "[" << (m_elements[i].getQuadUp())[j].texCoords.x << "," << (m_elements[i].getQuadUp())[j].texCoords.y << "] ";
 		}
 		std::cout << std::endl;
 
 		std::cout << "    Quad_Bas : ";
 		for(int j(0) ; j < 4 ; ++j) {
-			std::cout << "[" << (m_elements[i].getQuadBas())[j].texCoords.x << "," << (m_elements[i].getQuadBas())[j].texCoords.y << "] ";
+			std::cout << "[" << (m_elements[i].getQuadDown())[j].texCoords.x << "," << (m_elements[i].getQuadDown())[j].texCoords.y << "] ";
 		}
 		std::cout << std::endl;
 	}

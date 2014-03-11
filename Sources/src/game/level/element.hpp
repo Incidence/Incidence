@@ -18,30 +18,32 @@ class Element {
 	private:
 
 		int m_type;
-		int m_typeSol;
-		std::string m_nom;
-		bool m_franchissable;
-		sf::Time m_tempsRecolte;
+		int m_groundType;
+		std::string m_name;
+		bool m_passable;
+		sf::Time m_pickingTime;
 		std::vector<Ressource> m_ressources;
-		sf::Vertex* m_quad_bas;
-		sf::Vertex* m_quad_haut;
+		sf::Vertex* m_quad_down;
+		sf::Vertex* m_quad_up;
 
 
 	public:
 
-		Element(int type, int typeSol, std::string nom, bool franchissable, sf::Time tempsRecolte, std::vector<Ressource> ressources, sf::Vertex* quad_bas, sf::Vertex* quad_haut);
+		Element(int type, int groundType, std::string name, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
 		~Element();
 
 		int getType() const;
-		int getTypeSol() const;
-		std::string getNom() const;
-		bool isFranchissable() const;
-		sf::Time getTempsRecolte() const;
+		int getGroundType() const;
+		std::string getName() const;
+		bool isPassable() const;
+		sf::Time getPickingTime() const;
 		std::vector<Ressource> getRessources() const;
-		sf::Vertex* getQuadBas() const;
-		sf::Vertex* getQuadHaut() const;
-        bool containResource( TypeRessource t ) const;
-        int getQuantityOf( TypeRessource t ) const;
+		sf::Vertex* getQuadDown() const;
+		sf::Vertex* getQuadUp() const;
+
+		bool containResource( RessourceType t ) const;
+		int getQuantityOf( RessourceType t ) const;
+
 };
 
 #endif

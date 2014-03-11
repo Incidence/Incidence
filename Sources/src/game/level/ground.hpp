@@ -1,42 +1,42 @@
 /***************************************************************
 ** Description :                                              **
-** Fichier d'en-tête de la classe Sol, définissant une unique **
+** Fichier d'en-tête de la classe Ground, définissant une unique **
 ** case du sol de la carte. Ne contient aucune texture.       **
 **                                                            **
 ** Création : 06/03/14                                        **
 ** Modification : 07/03/14                                    **
 ***************************************************************/
 
-#ifndef SOL_HPP
-#define SOL_HPP
+#ifndef GROUND_HPP
+#define GROUND_HPP
 
 #include <SFML/Graphics.hpp>
 
-class Sol {
+class Ground {
 
 	private:
 
 		int m_type;
-		std::string m_nom;
-		bool m_franchissable;
-		std::vector<int> m_bords;
-		bool* m_bordures;
+		std::string m_name;
+		bool m_passable;
+		std::vector<int> m_borders;
+		bool* m_tileBorders;
 		sf::Vertex* m_quad;
 
 
 	public:
 
-		Sol(const int type, const std::string nom, const bool franchissable, std::vector<int> bords, bool* bordures, sf::Vertex* quad);
-		~Sol();
+		Ground(const int type, const std::string name, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad);
+		~Ground();
 
 		int getType() const ;
-		std::string getNom() const;
-		bool isFranchissable() const;
-		std::vector<int> getBords() const;
-		bool* getBordures() const;
+		std::string getName() const;
+		bool isPassable() const;
+		std::vector<int> getBorders() const;
+		bool* getTileBorders() const;
 		sf::Vertex* getQuad() const;
 		
-		bool isBord(int type) const;
+		bool hasTileBorderWith(int type) const;
 
 };
 

@@ -35,7 +35,7 @@ bool containNode( std::list< Node * > & nodeList, Node * n )
     return false;
 }
 
-void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, Carte * carte, sf::Vector2i from )
+void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, TileMap * tilemap, sf::Vector2i from )
 {
     Node * tmp = NULL;
     bool l = false, r = false, u = false, d = false;
@@ -48,7 +48,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    r = carte->isPassable(neighborPos);
+    r = tilemap->isPassable(neighborPos);
     if( (r || neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
@@ -67,7 +67,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    l = carte->isPassable(neighborPos);
+    l = tilemap->isPassable(neighborPos);
     if( (l || neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
@@ -86,7 +86,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    u = carte->isPassable(neighborPos);
+    u = tilemap->isPassable(neighborPos);
     if( (u || neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
@@ -106,7 +106,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    d = carte->isPassable(neighborPos);
+    d = tilemap->isPassable(neighborPos);
     if( (d || neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
@@ -127,7 +127,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(u && r && (carte->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(u && r && (tilemap->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = n->distTotal + tmp->height;
@@ -146,7 +146,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(u && l && (carte->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(u && l && (tilemap->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = n->distTotal + tmp->height;
@@ -165,7 +165,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(d && r && (carte->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(d && r && (tilemap->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = n->distTotal + tmp->height;
@@ -184,7 +184,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(d && l && (carte->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(d && l && (tilemap->isPassable(neighborPos) ||  neighborPos == from) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
         tmp->dist = distance(from, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = n->distTotal + tmp->height;
@@ -197,7 +197,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
 
 }
 
-std::list< sf::Vector2i > pathfinding( Carte * carte, sf::Vector2i from, sf::Vector2i to, int entityWidth)
+std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf::Vector2i to, int entityWidth)
 {
     std::list< Node * > openList, closeList;
 
@@ -215,7 +215,7 @@ std::list< sf::Vector2i > pathfinding( Carte * carte, sf::Vector2i from, sf::Vec
         /// TODO : Ajouter : Si chemin direct, créér le node correspondant et break;
 
         removeNode( openList, closeList, current );
-        addNeighbor( openList, closeList, current, carte, from );
+        addNeighbor( openList, closeList, current, tilemap, from );
 
         current = *(openList.begin()); // Liste ordonné donc begin() tjs le plus petit
     }
