@@ -24,4 +24,11 @@ typedef struct Ressource {
 
 } Ressource;
 
+typedef enum TileBehavior {
+	DEFAULT,
+	FLUID,
+	CLIFF,
+	FOREST
+} TileBehavior;
+
 #endif

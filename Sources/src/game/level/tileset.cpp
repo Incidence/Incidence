@@ -153,11 +153,26 @@ bool TileSet::load(const std::string& path) {
 
 			int GROUND_type;
 			std::string GROUND_name;
+			TileBehavior GROUND_behavior;
 			bool GROUND_passable;
 			std::vector<int> GROUND_borders;
 
 			std::string tmp;
 			config >> GROUND_type >> GROUND_name >> tmp;
+			if(tmp.compare("default") == 0) {
+				GROUND_behavior = DEFAULT;
+			}
+			else if(tmp.compare("fluid") == 0) {
+				GROUND_behavior = FLUID;
+			}
+			else if(tmp.compare("cliff") == 0) {
+				GROUND_behavior = CLIFF;
+			}
+			else {
+				std::cout << "Mauvais format de comportement sol dans le fichier ini du tileset." << std::endl;
+				return false;
+			}
+			config >> tmp;
 			GROUND_passable = (tmp.compare("true") == 0);
 			config >> tmp;
 			if(tmp.compare("<") != 0) {
@@ -186,7 +201,7 @@ bool TileSet::load(const std::string& path) {
 				GROUND_quad[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 				GROUND_quad[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 
-				m_grounds.push_back(Ground(GROUND_type, GROUND_name, GROUND_passable, GROUND_borders, GROUND_tileBorders, GROUND_quad));
+				m_grounds.push_back(Ground(GROUND_type, GROUND_name, GROUND_behavior, GROUND_passable, GROUND_borders, GROUND_tileBorders, GROUND_quad));
 
 				++ currentX;
 
@@ -203,12 +218,24 @@ bool TileSet::load(const std::string& path) {
 			int ELEMENT_height;
 			int ELEMENT_groundType;
 			std::string ELEMENT_name;
+			TileBehavior ELEMENT_behavior;
 			bool ELEMENT_passable;
 			int ELEMENT_pickingTime;
 			std::vector<Ressource> ELEMENT_ressources;
 
 			std::string tmp;
 			config >> ELEMENT_type >> ELEMENT_height >> ELEMENT_name >> tmp;
+			if(tmp.compare("default") == 0) {
+				ELEMENT_behavior = DEFAULT;
+			}
+			else if(tmp.compare("forest") == 0) {
+				ELEMENT_behavior = FOREST;
+			}
+			else {
+				std::cout << "Mauvais format de comportement element dans le fichier ini du tileset." << std::endl;
+				return false;
+			}
+			config >> tmp;
 			ELEMENT_passable = (tmp.compare("true") == 0)? true : false;
 			config >> ELEMENT_pickingTime >> tmp >> tmp;
 
@@ -274,7 +301,7 @@ bool TileSet::load(const std::string& path) {
 					return false;
 				}
 
-					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_passable, sf::seconds(ELEMENT_pickingTime), ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
+					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, sf::seconds(ELEMENT_pickingTime), ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
 
 					++ currentX;
 			}
@@ -310,7 +337,7 @@ void TileSet::TEST() {
 	std::cout << "===== TILESET =====" << std::endl << "tilesize : " << m_tilesize.x << " x " << m_tilesize.y << std::endl;
 	std::cout << std::endl << m_groundCount << " Grounds :" << std::endl;
 	for(int i(0) ; i < (int)m_grounds.size() ; ++i) {
-		std::cout << "  " << m_grounds[i].getType() << " " << m_grounds[i].getName() << " " << m_grounds[i].isPassable() << " ";
+		std::cout << "  " << m_grounds[i].getType() << " " << m_grounds[i].getName() << " " << m_grounds[i].getBehavior() << " " << m_grounds[i].isPassable() << " ";
 		for(int j(0) ; j < 4 ; ++j) {
 			std::cout << (m_grounds[i].getTileBorders())[j];
 		}
@@ -321,16 +348,16 @@ void TileSet::TEST() {
 			}
 		}
 		std::cout << ">" << std::endl;
-/*
+
 		std::cout << "    Quad : ";
 		for(int j(0) ; j < 4 ; ++j) {
 			std::cout << "[" << (m_grounds[i].getQuad())[j].texCoords.x << "," << (m_grounds[i].getQuad())[j].texCoords.y << "] ";
 		}
-		std::cout << std::endl;*/
+		std::cout << std::endl;
 	}
 	std::cout << std::endl << m_elementCount << " Elements :" << std::endl;
 	for(int i(0) ; i < (int)m_elements.size() ; ++i) {
-		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime().asSeconds() << " ";
+		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].getBehavior() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime().asSeconds() << " ";
 		for(int j(0) ; j < (int)(m_elements[i].getRessources()).size() ; ++j) {
 			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantity;
 		}

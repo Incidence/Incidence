@@ -1,9 +1,10 @@
 #include "ground.hpp"
 
-Ground::Ground(const int type, const std::string name, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad) {
+Ground::Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad) {
 
 	m_type = type;
 	m_name = name;
+	m_behavior = behavior;
 	m_passable = passable;
 	m_borders = borders;
 	m_tileBorders = tileBorders;
@@ -25,6 +26,12 @@ std::string Ground::getName() const {
 
 	return m_name;
 
+}
+
+TileBehavior Ground::getBehavior() const {
+	
+	return m_behavior;
+	
 }
 
 bool Ground::isPassable() const {

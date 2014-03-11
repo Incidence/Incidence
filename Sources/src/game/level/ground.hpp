@@ -11,6 +11,7 @@
 #define GROUND_HPP
 
 #include <SFML/Graphics.hpp>
+#include "ressource.hpp"
 
 class Ground {
 
@@ -18,6 +19,7 @@ class Ground {
 
 		int m_type;
 		std::string m_name;
+		TileBehavior m_behavior;
 		bool m_passable;
 		std::vector<int> m_borders;
 		bool* m_tileBorders;
@@ -26,11 +28,12 @@ class Ground {
 
 	public:
 
-		Ground(const int type, const std::string name, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad);
+		Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad);
 		~Ground();
 
 		int getType() const ;
 		std::string getName() const;
+		TileBehavior getBehavior() const;
 		bool isPassable() const;
 		std::vector<int> getBorders() const;
 		bool* getTileBorders() const;

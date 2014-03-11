@@ -20,6 +20,7 @@ class Element {
 		int m_type;
 		int m_groundType;
 		std::string m_name;
+		TileBehavior m_behavior;
 		bool m_passable;
 		sf::Time m_pickingTime;
 		std::vector<Ressource> m_ressources;
@@ -29,12 +30,13 @@ class Element {
 
 	public:
 
-		Element(int type, int groundType, std::string name, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
+		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
 		~Element();
 
 		int getType() const;
 		int getGroundType() const;
 		std::string getName() const;
+		TileBehavior getBehavior() const;
 		bool isPassable() const;
 		sf::Time getPickingTime() const;
 		std::vector<Ressource> getRessources() const;

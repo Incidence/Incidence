@@ -238,10 +238,10 @@ void TileMap::generate() {
 							}
 						}
 						if(add) {
-							if(i > 0 && m_grounds[i - 1 + j * width]->getType() == k && (m_grounds[i - 1 + j * width]->getName()).compare("eau") != 0) {
+							if(i > 0 && m_grounds[i - 1 + j * width]->getType() == k && m_grounds[i - 1 + j * width]->getBehavior() != FLUID) {
 								l_borders.push_back(k);
 							}
-							if(j > 0 && m_grounds[i + (j - 1) * width]->getType() == k && (m_grounds[i + (j - 1) * width]->getName()).compare("eau") != 0) {
+							if(j > 0 && m_grounds[i + (j - 1) * width]->getType() == k && m_grounds[i + (j - 1) * width]->getBehavior() != FLUID) {
 								l_borders.push_back(k);
 							}
 							l_borders.push_back(k);
@@ -288,46 +288,81 @@ void TileMap::generate() {
 			Ground* current = m_grounds[i + j * width];
 			Ground* round[4] = { m_grounds[i - 1 + j * width], m_grounds[i + (j + 1) * width], m_grounds[i + (j - 1) * width], m_grounds[i + 1 + j * width] };
 			
-			if( ( current->hasTileBorderWith(round[0]->getType()) 
-				  && current->hasTileBorderWith(round[1]->getType()) 
-				  && current->hasTileBorderWith(round[2]->getType()) 
-				  && current->hasTileBorderWith(round[3]->getType()) 
-				) || (
-				  round[0]->hasTileBorderWith(current->getType()) 
-				  && round[1]->hasTileBorderWith(current->getType()) 
-				  && round[2]->hasTileBorderWith(current->getType()) 
-				  && round[3]->hasTileBorderWith(current->getType()) 
-				) ) {
+			if(current->getBehavior() == DEFAULT) {
 				
-				int k(0), random(rand());
-				while(k < 4) {
+				if( ( current->hasTileBorderWith(round[0]->getType()) 
+					&& current->hasTileBorderWith(round[1]->getType()) 
+					&& current->hasTileBorderWith(round[2]->getType()) 
+					&& current->hasTileBorderWith(round[3]->getType()) 
+					) || (
+					round[0]->hasTileBorderWith(current->getType()) 
+					&& round[1]->hasTileBorderWith(current->getType()) 
+					&& round[2]->hasTileBorderWith(current->getType()) 
+					&& round[3]->hasTileBorderWith(current->getType()) 
+					) ) {
 					
-					int GROUND_type = round[(k+random)%4]->getType();
-					bool GROUND_tileBorders[4] = {false,false,false,false};
-					
-					Ground* l_ground = m_tileset.getGround(GROUND_type, GROUND_tileBorders);
-					
-					if(l_ground != NULL) {
+					int k(0), random(rand());
+					while(k < 4) {
 						
-						bool change = true;
-						for(int l(0) ; l < 4 ; ++l) {
-							if(!(round[l]->getType() == GROUND_type || l_ground->hasTileBorderWith(round[l]->getType()) || round[l]->hasTileBorderWith(GROUND_type))) {
-								change = false;
+						int GROUND_type = round[(k+random)%4]->getType();
+						bool GROUND_tileBorders[4] = {false,false,false,false};
+						
+						Ground* l_ground = m_tileset.getGround(GROUND_type, GROUND_tileBorders);
+						
+						if(l_ground != NULL) {
+							
+							bool change = true;
+							for(int l(0) ; l < 4 ; ++l) {
+								if(!(round[l]->getType() == GROUND_type || l_ground->hasTileBorderWith(round[l]->getType()) || round[l]->hasTileBorderWith(GROUND_type))) {
+									change = false;
+								}
+							}
+							if(change) {
+								m_grounds[i + j * width] = l_ground;
+								k = 4;
+							}
+							
+						}
+						else {
+							std::cout << "Une erreur est survenue lors de la génération d'un sol. (3)" << std::endl;
+						}
+						
+						++k;
+					}
+				}
+				
+			}
+			else if(current->getBehavior() == FLUID || current->getBehavior() == CLIFF) {
+				
+				int cpt(0);
+				for(int k(0) ; k < 4 ; ++k) {
+					if(current->getType() != round[k]->getType()) {
+						++cpt;
+					}
+				}
+				if(cpt > 2) {
+					int k(0), random(rand());
+					while(k < 4) {
+						int GROUND_type = round[(k+random)%4]->getType();
+						bool GROUND_tileBorders[4] = {false,false,false,false};
+						
+						Ground* l_ground = m_tileset.getGround(GROUND_type, GROUND_tileBorders);
+						
+						if(l_ground != NULL) {
+							if(l_ground->getBehavior() != FLUID) {
+								m_grounds[i + j * width] = l_ground;
+								k = 4;
 							}
 						}
-						if(change) {
-							m_grounds[i + j * width] = l_ground;
-							k = 4;
+						else {
+							std::cout << "Une erreur est survenue lors de la génération d'un sol. (4)" << std::endl;
 						}
-						
+						++k;
 					}
-					else {
-						std::cout << "Une erreur est survenue lors de la génération d'un sol. (3)" << std::endl;
-					}
-					
-					++k;
-					++random;
 				}
+			}
+			else {
+				std::cout << "Une erreur est survenue lors de la génération d'un sol. (6)" << std::endl;
 			}
 		}
 	}
@@ -358,7 +393,7 @@ void TileMap::generate() {
 				}
 			}
 			else {
-				std::cout << "Une erreur est survenue lors de la génération d'un sol. (4)" << std::endl;
+				std::cout << "Une erreur est survenue lors de la génération d'un sol. (5)" << std::endl;
 			}
 			
 			
@@ -366,52 +401,60 @@ void TileMap::generate() {
 			
 			
 			int ELEMENT_type = rand()%m_tileset.getElementCount();
-			int proportion = 0;
-			if(i > 0) {
-				if(ELEMENT_type + 2 > m_tileset.getElementCount()) {
-					ELEMENT_type = m_grounds[i - 1 + j * width]->getType();
-					proportion == ELEMENT_PROPORTION + 50;
-				}
-			}
-			else if(j > 0) {
-				if(ELEMENT_type + 2 > m_tileset.getElementCount()) {
-					ELEMENT_type = m_grounds[i + (j - 1) * width]->getType();
-					proportion == ELEMENT_PROPORTION + 50;
-				}
-			}
+				
+			Element* l_element = m_tileset.getElement(ELEMENT_type, GROUND_type);
 			
-			if(rand()%100 < ELEMENT_PROPORTION + proportion) {
+			if(l_element != NULL) {
 				
-				Element* l_element = m_tileset.getElement(ELEMENT_type, GROUND_type);
-				
-				if(l_element != NULL) {
-					
-					m_elements[i + j * width] = l_element;
-					sf::Vertex*quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
-					sf::Vertex*quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
-					
-					quadElementDown[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-					quadElementDown[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-					quadElementDown[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-					quadElementDown[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
-					
-					if(j > 0) {
-						quadElementUp[0].position = sf::Vector2f(i * tileSize.x, (j-1) * tileSize.y);
-						quadElementUp[1].position = sf::Vector2f((i + 1) * tileSize.x, (j-1) * tileSize.y);
-						quadElementUp[2].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-						quadElementUp[3].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+				if(l_element->getBehavior() == DEFAULT) {
+					int proportion = 0;
+					if(i > 0) {
+						if(ELEMENT_type + 2 > m_tileset.getElementCount()) {
+							ELEMENT_type = m_grounds[i - 1 + j * width]->getType();
+							proportion == ELEMENT_PROPORTION + 50;
+						}
+					}
+					else if(j > 0) {
+						if(ELEMENT_type + 2 > m_tileset.getElementCount()) {
+							ELEMENT_type = m_grounds[i + (j - 1) * width]->getType();
+							proportion == ELEMENT_PROPORTION + 50;
+						}
 					}
 					
-					for(int k(0) ; k < 4 ; ++k) {
-						quadElementDown[k].texCoords = (l_element->getQuadDown())[k].texCoords;
-						quadElementUp[k].texCoords = (l_element->getQuadUp())[k].texCoords;
+					if(rand()%100 < ELEMENT_PROPORTION + proportion) {
+							
+						m_elements[i + j * width] = l_element;
+						sf::Vertex*quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
+						sf::Vertex*quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
+						
+						quadElementDown[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+						quadElementDown[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+						quadElementDown[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+						quadElementDown[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+						
+						if(j > 0) {
+							quadElementUp[0].position = sf::Vector2f(i * tileSize.x, (j-1) * tileSize.y);
+							quadElementUp[1].position = sf::Vector2f((i + 1) * tileSize.x, (j-1) * tileSize.y);
+							quadElementUp[2].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+							quadElementUp[3].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+						}
+						
+						for(int k(0) ; k < 4 ; ++k) {
+							quadElementDown[k].texCoords = (l_element->getQuadDown())[k].texCoords;
+							quadElementUp[k].texCoords = (l_element->getQuadUp())[k].texCoords;
+						}
 					}
+				}
+				else if(l_element->getBehavior() == FOREST) {
+					//TODO
 				}
 				else {
+					std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
+				}
+			}
+			else {
 //FIXME différencier ground incompatible et erreur
 //					std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
-				}
-				
 			}
 			
 		}
@@ -460,7 +503,7 @@ bool TileMap::isPassable( sf::Vector2i pos ) const
 
 std::list< sf::Vector2f > TileMap::findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth )
 {
-	std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
+	//std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
 	std::list< sf::Vector2f > cut;
 // TODO : Raccourcit + passage case->pixel
 // Add 1er, add 2em :

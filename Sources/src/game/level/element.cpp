@@ -1,10 +1,11 @@
 #include "element.hpp"
 
-Element::Element(int type, int groundType, std::string name, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) {
+Element::Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) {
 
 	m_type = type;
 	m_groundType = groundType;
 	m_name = name;
+	m_behavior = behavior;
 	m_passable = passable;
 	m_pickingTime = pickingTime;
 	m_ressources = ressources;
@@ -33,6 +34,12 @@ std::string Element::getName() const {
 
 	return m_name;
 
+}
+
+TileBehavior Element::getBehavior() const {
+	
+	return m_behavior;
+	
 }
 
 bool Element::isPassable() const {
