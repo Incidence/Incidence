@@ -6,6 +6,7 @@
 #include "pathfinding.hpp"
 
 #define ELEMENT_PROPORTION 10
+#define ELEMENT_AREASIZE 3
 
 TileMap::TileMap(TileSet tileset, sf::Vector2u dimensions) {
 
@@ -185,8 +186,6 @@ void TileMap::removeElement(sf::Vector2i position) {
 	}
 
 }
-
-
 
 void TileMap::generate() {
 	
@@ -407,6 +406,7 @@ void TileMap::generate() {
 			if(l_element != NULL) {
 				
 				if(l_element->getBehavior() == DEFAULT) {
+					
 					int proportion = 0;
 					if(i > 0) {
 						if(ELEMENT_type + 2 > m_tileset.getElementCount()) {
@@ -446,7 +446,42 @@ void TileMap::generate() {
 					}
 				}
 				else if(l_element->getBehavior() == FOREST) {
-					//TODO
+					
+					if(rand()%100 < ELEMENT_PROPORTION / 3) {
+						
+						m_elements[i + j * width] = l_element;
+						
+						int areaX(rand()%ELEMENT_AREASIZE), areaY(rand()%ELEMENT_AREASIZE);
+						for(int k(-areaX) ; k <= areaX ; ++k) {
+							for(int l(-areaY) ; l <= areaY ; ++l) {
+								if(i + k >= 0 && i + k < width && j + l >= 0 && j + l < height) {
+									l_element = m_tileset.getElement(ELEMENT_type, m_grounds[i + k + (j + l) * width]->getType());
+									if(l_element != NULL && rand()%100 < ELEMENT_PROPORTION + 25) {
+										m_elements[i + k + (j + l) * width] = l_element;
+										sf::Vertex*quadElementDown = &m_VertexElementsDown[(i + k + (j + l) * width) * 4];
+										sf::Vertex*quadElementUp = &m_VertexElementsUp[(i + k + (j + l) * width) * 4];
+										
+										quadElementDown[0].position = sf::Vector2f((i + k) * tileSize.x, (j + l) * tileSize.y);
+										quadElementDown[1].position = sf::Vector2f((i + k + 1) * tileSize.x, (j + l) * tileSize.y);
+										quadElementDown[2].position = sf::Vector2f((i + k + 1) * tileSize.x, (j + l + 1) * tileSize.y);
+										quadElementDown[3].position = sf::Vector2f((i + k) * tileSize.x, (j + l + 1) * tileSize.y);
+										
+										if(j + l > 0) {
+											quadElementUp[0].position = sf::Vector2f((i + k) * tileSize.x, (j + l - 1) * tileSize.y);
+											quadElementUp[1].position = sf::Vector2f((i + k + 1) * tileSize.x, (j + l - 1) * tileSize.y);
+											quadElementUp[2].position = sf::Vector2f((i + k + 1) * tileSize.x, (j + l) * tileSize.y);
+											quadElementUp[3].position = sf::Vector2f((i + k) * tileSize.x, (j + l) * tileSize.y);
+										}
+										
+										for(int k(0) ; k < 4 ; ++k) {
+											quadElementDown[k].texCoords = (l_element->getQuadDown())[k].texCoords;
+											quadElementUp[k].texCoords = (l_element->getQuadUp())[k].texCoords;
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 				else {
 					std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
