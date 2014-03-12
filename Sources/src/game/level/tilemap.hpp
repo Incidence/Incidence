@@ -1,11 +1,8 @@
-/*******************************************************************
-** Description :                                                  **
+/*********************************************************************
+** Description :                                                    **
 ** Fichier d'en-tête de la classe TileMap, s'occupant de la gestion **
-** complète de la carte (sol et objets) et des affichages.        **
-**                                                                **
-** Création : 04/03/14                                            **
-** Modification : 09/03/14                                        **
-*******************************************************************/
+** complète de la carte (sol et objets) et des affichages.          **
+*********************************************************************/
 
 #ifndef TILEMAP_HPP
 #define TILEMAP_HPP
@@ -42,6 +39,7 @@ class TileMap {
 		int getY(sf::Vector2f position) const;
 		sf::Vector2i getXY(sf::Vector2f position) const;
 		int getId(sf::Vector2i position) const;
+		int getId(sf::Vector2f position) const;
 
 		Ground * getGround(sf::Vector2i position) const;
 		Element * getElement(sf::Vector2i position) const;

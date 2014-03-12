@@ -2,9 +2,6 @@
 ** Description :                                                **
 ** Fichier d'en-tête de la classe Element, définissant une      **
 ** unique case élément de la carte. Ne contient aucune texture. **
-**                                                              **
-** Création : 06/03/14                                          **
-** Modification : 07/03/14                                      **
 *****************************************************************/
 
 #ifndef ELEMENT_HPP

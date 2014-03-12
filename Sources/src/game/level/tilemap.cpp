@@ -55,10 +55,20 @@ sf::Vector2i TileMap::getXY(sf::Vector2f position) const {
 
 }
 
-//RECODE : renvoyer -1 si en dehors des limites
 int TileMap::getId(sf::Vector2i position) const {
 
-	return position.x + position.y * m_dimensions.x;
+	if(position.x < m_dimensions.x && position.y < m_dimensions.y) {
+		return position.x + position.y * m_dimensions.x;
+	}
+	else {
+		return -1;
+	}
+
+}
+
+int TileMap::getId(sf::Vector2f position) const {
+
+	return getId(getXY(position));
 
 }
 
@@ -86,36 +96,47 @@ Element* TileMap::getElement(sf::Vector2i position) const {
 
 }
 
-//FIXME : tester selon les types environnant -> hiérarchie
 void TileMap::changeGround(int type, sf::Vector2i position) {
 
 	int i = position.x;
 	int j = position.y;
 	sf::Vector2u tileSize = m_tileset.getTileSize();
-	int width = m_dimensions.x;
+	int width = m_dimensions.x, height = m_dimensions.y;
 
 	//===== GROUND =====
 
-//FIXME : regénérer les bordures
-	bool* tileBorders = m_grounds[i + j * width]->getTileBorders();
-	Ground* l_ground = m_tileset.getGround(type, tileBorders);
+	bool GROUND_tileBorders[4] = {false,false,false,false};
+	Ground* l_ground = m_tileset.getGround(type, GROUND_tileBorders);
 
 	if(l_ground != NULL) {
+		
+		GROUND_tileBorders[0] = (i > 0 && l_ground->hasTileBorderWith(m_grounds[i - 1 + j * width]->getType()));
+		GROUND_tileBorders[1] = (j < height-1 && l_ground->hasTileBorderWith(m_grounds[i + (j + 1) * width]->getType()));
+		GROUND_tileBorders[2] = (j > 0 && l_ground->hasTileBorderWith(m_grounds[i + (j - 1) * width]->getType()));
+		GROUND_tileBorders[3] = (i < width-1 && l_ground->hasTileBorderWith(m_grounds[i + 1 + j * width]->getType()));
+		
+		l_ground = m_tileset.getGround(type, GROUND_tileBorders);
 
-		m_grounds[i + j * width] = l_ground;
-		sf::Vertex* quadGround = &m_VertexGrounds[(i + j * width) * 4];
+		if(l_ground != NULL) {
 
-		quadGround[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-		quadGround[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-		quadGround[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-		quadGround[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+			m_grounds[i + j * width] = l_ground;
+			sf::Vertex* quadGround = &m_VertexGrounds[(i + j * width) * 4];
 
-		for(int k(0) ; k < 4 ; ++k) {
-			quadGround[k].texCoords = (l_ground->getQuad())[k].texCoords;
+			quadGround[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+			quadGround[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+			quadGround[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+			quadGround[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+
+			for(int k(0) ; k < 4 ; ++k) {
+				quadGround[k].texCoords = (l_ground->getQuad())[k].texCoords;
+			}
+		}
+		else {
+			std::cout << "Une erreur est survenue lors du changement d'un sol. (1)" << std::endl;
 		}
 	}
 	else {
-		std::cout << "Une erreur est survenue lors du changement d'un ground." << std::endl;
+		std::cout << "Une erreur est survenue lors du changement d'un sol. (2)" << std::endl;
 	}
 
 	//===== ELEMENT =====
@@ -163,8 +184,7 @@ void TileMap::addElement(int type, sf::Vector2i position) {
 	}
 	else {
 		removeElement(position);
-//FIXME différencier ground incompatible et erreur
-//		std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
+//		std::cout << "Une erreur est survenue lors de l'ajout d'un element." << std::endl;
 	}
 
 }
@@ -484,12 +504,11 @@ void TileMap::generate() {
 					}
 				}
 				else {
-					std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
+					std::cout << "Une erreur est survenue lors de la génération d'un objet. (1)" << std::endl;
 				}
 			}
 			else {
-//FIXME différencier ground incompatible et erreur
-//					std::cout << "Une erreur est survenue lors de la génération d'un objet." << std::endl;
+//					std::cout << "Une erreur est survenue lors de la génération d'un objet. (2)" << std::endl;
 			}
 			
 		}
@@ -538,7 +557,7 @@ bool TileMap::isPassable( sf::Vector2i pos ) const
 
 std::list< sf::Vector2f > TileMap::findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth )
 {
-	//std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
+	std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
 	std::list< sf::Vector2f > cut;
 // TODO : Raccourcit + passage case->pixel
 // Add 1er, add 2em :

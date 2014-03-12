@@ -2,9 +2,6 @@
 ** Description :                                                  **
 ** Fichier d'en-tête de la classe TileSet, contenant les textures **
 ** des cases de la carte (sol et objets).                         **
-**                                                                **
-** Création : 04/03/14                                            **
-** Modification : 07/03/14                                        **
 *******************************************************************/
 
 #ifndef TILESET_HPP

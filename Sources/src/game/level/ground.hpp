@@ -1,11 +1,8 @@
-/***************************************************************
-** Description :                                              **
+/******************************************************************
+** Description :                                                 **
 ** Fichier d'en-tête de la classe Ground, définissant une unique **
-** case du sol de la carte. Ne contient aucune texture.       **
-**                                                            **
-** Création : 06/03/14                                        **
-** Modification : 07/03/14                                    **
-***************************************************************/
+** case du sol de la carte. Ne contient aucune texture.          **
+******************************************************************/
 
 #ifndef GROUND_HPP
 #define GROUND_HPP
