@@ -50,7 +50,7 @@ int TileSet::getElementCount() const {
 }
 
 /*
- *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses tileBorders
+ *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses bordures
  *** Sortie : un pointeur sur une instance constante du sol, NULL s'il n'existe pas
 */
 Ground* TileSet::getGround(int type, bool* borders) {

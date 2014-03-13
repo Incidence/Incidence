@@ -26,7 +26,7 @@ void TestState::draw( sf::RenderTarget & window )
 
 void TestState::update( void )
 {
-
+    m_game->update();
 }
 
 void TestState::handleEvent( sf::Event & e )
@@ -44,6 +44,7 @@ void TestState::handleEvent( sf::Event & e )
                 break;
 
         }
-
     }
+
+    m_game->handleEvent(e);
 }

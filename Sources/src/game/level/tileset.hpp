@@ -34,7 +34,7 @@ class TileSet {
 		int getGroundCount() const;
 		int getElementCount() const;
 
-		Ground* getGround(int type, bool* borders);
+		Ground* getGround(int type, bool* tileBorders);
 		Element* getElement(int type, int groundType);
 
 		bool load(const std::string& path);

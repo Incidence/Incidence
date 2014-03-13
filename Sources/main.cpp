@@ -10,7 +10,7 @@ using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Incidence");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Engine TEST !");
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 

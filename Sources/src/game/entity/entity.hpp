@@ -15,7 +15,7 @@ typedef enum {
     ALLY_CITIZEN,
     ENEMY_CITIZEN,
     WILD_ANIMAL,
-    PEACEFULL_ANIMAL,
+    PEACEFUL_ANIMAL,
     DEFAULT_ENTITY
 } EntityType;
 
@@ -53,6 +53,7 @@ public :
     int isNearResource( lua_State * L ); // : bool
     int fullBag( lua_State * L ); // : bool
     int emptyBag( lua_State * L ); // : bool
+    int getAngle( lua_State * L ); // : float
     int setAngle( lua_State * L ); // : void (L = float(angle))
     int isAttacked( lua_State * L ); // : bool
     // *****
@@ -68,14 +69,16 @@ public :
 
     sf::Vector2f getPosition( void ) const;
 
+    void setPosition( sf::Vector2f p );
+
 protected :
     Game * m_game;
 
     Animation m_animation;
     int m_perception;
-    TypeRessource m_ressource;
+    RessourceType m_ressource;
 
-    std::vector< sf::Vector2f > m_way;
+    std::list< sf::Vector2f > m_way;
     sf::Vector2f m_position;
     float m_angle;
     float m_speed;

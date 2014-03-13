@@ -1,15 +1,15 @@
-#ifndef _TEST_STATE_
-#define _TEST_STATE_
+#ifndef _SCRIPT_STATE_
+#define _SCRIPT_STATE_
 
 #include "../engine/state.hpp"
 #include "../game/entity/lumberjack.hpp"
 
-class TestState : public State
+class ScriptState : public State
 {
 
 public :
-    TestState( void );
-    ~TestState( void );
+    ScriptState( void );
+    ~ScriptState( void );
 
     void init( void );
     void draw( sf::RenderTarget & window );
@@ -18,9 +18,8 @@ public :
 
 private :
 
-    Game * m_game;
+    Lumberjack e;
 };
 
-#endif // _TEST_STATE_
-
+#endif // _SCRIPT_STATE_
 

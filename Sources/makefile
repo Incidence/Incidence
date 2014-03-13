@@ -1,6 +1,6 @@
 CC=g++
 CXXFLAG=-w
-LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system
+LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -L/usr/local/lib -llua -llualib
 BUILD=_build
 TMP=$(BUILD)/tmp
 EXEC=$(BUILD)/Incidence

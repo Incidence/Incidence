@@ -23,6 +23,7 @@ public :
 
     void update( void );
     void draw( sf::RenderTarget & window );
+    void handleEvent( sf::Event & e );
 
     std::list< Entity * > getEntities( void );
     std::list< Entity * > getEntities( sf::Vector2f position, int distancePerception );
@@ -30,7 +31,7 @@ public :
     void addEntity( Entity * e );
 
 private :
-    Carte * m_carte;
+    TileMap * m_tilemap;
     std::list< Entity * > m_entityList;
 
     friend class Entity;

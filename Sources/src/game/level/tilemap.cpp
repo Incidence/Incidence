@@ -1,9 +1,11 @@
 #include "tilemap.hpp"
 
 #include <stdlib.h>
+#include <cmath>
 #include <iostream>
 
 #include "pathfinding.hpp"
+#include "../../engine/foo.hpp"
 
 #define ELEMENT_PROPORTION 10
 #define ELEMENT_AREASIZE 3
@@ -55,9 +57,14 @@ sf::Vector2i TileMap::getXY(sf::Vector2f position) const {
 
 }
 
+sf::Vector2f TileMap::getAbs(sf::Vector2i position) const
+{
+    return sf::Vector2f(position.x * m_tileset.getTileSize().x + m_tileset.getTileSize().x/2 , position.y * m_tileset.getTileSize().y + m_tileset.getTileSize().y/2);
+}
+
 int TileMap::getId(sf::Vector2i position) const {
 
-	if(position.x < m_dimensions.x && position.y < m_dimensions.y) {
+	if(position.x < (int)m_dimensions.x && position.x >= 0 && position.y < (int)m_dimensions.y && position.y >= 0) {
 		return position.x + position.y * m_dimensions.x;
 	}
 	else {
@@ -75,7 +82,7 @@ int TileMap::getId(sf::Vector2f position) const {
 Ground* TileMap::getGround(sf::Vector2i position) const {
 
 	int id = getId(position);
-	if(id < m_grounds.size() || id > m_grounds.size()) {
+	if(id != -1) {
 		return m_grounds[id];
 	}
 	else {
@@ -87,7 +94,7 @@ Ground* TileMap::getGround(sf::Vector2i position) const {
 Element* TileMap::getElement(sf::Vector2i position) const {
 
 	int id = getId(position);
-	if(id < m_elements.size() || id > m_grounds.size()) {
+	if(id != -1) {
 		return m_elements[id];
 	}
 	else {
@@ -542,28 +549,108 @@ void TileMap::drawElementsDown(sf::RenderTarget& target) const {
 
 }
 
-void TileMap::drawElementsUp(sf::RenderTarget& target) const {
+void TileMap::drawElementsUp(sf::RenderTarget& target) {
 
 	sf::RenderStates states;
 	states.texture = m_tileset.getTileset();
 	target.draw(m_VertexElementsUp, states);
 
+    sf::CircleShape c(10);
+    c.setFillColor(sf::Color::Red);
+    sf::Vector2i u;
+    for(std::list< sf::Vector2i >::iterator it = m_way.begin(); it != m_way.end(); ++it) {
+        u.x=(*it).x;
+        u.y=(*it).y;
+        c.setPosition(getAbs(u));
+        target.draw(c);
+    }
+
+    c.setRadius(5);
+    c.setFillColor(sf::Color::Magenta);
+
+    sf::Vector2f v;
+    for(std::list< sf::Vector2f >::iterator it = m_cut.begin(); it != m_cut.end(); ++it) {
+        v.x= (*it).x;
+        v.y= (*it).y;
+        c.setPosition(v);
+        target.draw(c);
+    }
 }
 
 bool TileMap::isPassable( sf::Vector2i pos ) const
 {
-	return getGround(pos)->isPassable() && getElement(pos)->isPassable();
+	Ground * s = getGround(pos);
+	Element * e = getElement(pos);
+	if( s && e ) {
+		return s->isPassable() && e->isPassable();
+	} else if ( s ) {
+		return s->isPassable();
+	} else if ( e ) {
+		return e->isPassable();
+	}
+
+	return false;
 }
 
 std::list< sf::Vector2f > TileMap::findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth )
 {
-	std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
+    std::list< sf::Vector2i > way = pathfinding(this, getXY(from), getXY(to), entityWidth);
+	m_way = way;
 	std::list< sf::Vector2f > cut;
-// TODO : Raccourcit + passage case->pixel
-// Add 1er, add 2em :
-// Pour chaque autre point :
-//      S'il existe un chemin entre le current et celui avant le top_list, pop le top
-//      add current to cut
+
+	if(!way.empty()) {
+        cut.push_back(getAbs(way.front()));
+        std::list< sf::Vector2i >::iterator t = way.begin();
+        t++;
+        if(t != way.end())
+        {
+            sf::Vector2i current = *t;
+            t++;
+            for(std::list< sf::Vector2i >::iterator it = t; it != way.end(); ++it)
+            {
+                if(! ((isShortcut(getAbs(*it), cut.back())) &&
+                     (isShortcut(posLarg(true, getAbs(*it), cut.back(), 15), posLarg(false, cut.back(), getAbs(*it), 15))) &&
+                     (isShortcut(posLarg(false, getAbs(*it), cut.back(), 15), posLarg(true, cut.back(), getAbs(*it), 15)))))
+                {
+                    cut.push_back(getAbs(current));
+                } else {
+
+                }
+                t++;
+                current = (*it);
+            }
+
+            if(isPassable(current)) {
+                cut.push_back(getAbs(current));
+            } else {
+                t--;
+                t--;
+                cut.push_back(getAbs(*t));
+            }
+        }
+
+        m_cut = cut;
+
+	}
 
 	return cut;
+}
+
+bool TileMap::isShortcut(sf::Vector2f u, sf::Vector2f v)
+{
+    float x, y;
+
+    /// MARCHE ? ///
+	if ( std::fabs(v.x - u.x) >= m_tileset.getTileSize().x / 1.2 || std::fabs(v.y - u.y) >= m_tileset.getTileSize().y / 1.2 )
+	{
+	    x = u.x + ( (v.x - u.x) / 2 );
+	    y = u.y + ( (v.y - u.y) / 2 );
+
+		return ( isShortcut(u, sf::Vector2f(x, y)) && isShortcut(sf::Vector2f(x, y), v) );
+	}
+	else
+	{
+        sf::Vector2i t = getXY(v);
+	    return isPassable( t );
+	}
 }

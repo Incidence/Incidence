@@ -1,6 +1,7 @@
 function Lumberjack:action()
---[[
+
 	if self:isAttacked() then
+	--[[
 		local entities = self:getEntities()
 		local i = 1
 		local size = entities:getSize()
@@ -8,32 +9,34 @@ function Lumberjack:action()
 			i=i+1
 		end
 		if i > size then
-			return “move”
+			return "move"
 		end
-		
 		self:setAngle(entities:getAngle(i))
-		return “attack”
+	]]--
+		return "attack"
 
 	elseif self:fullBag() then
 		if self:isNearHome() then
-			return “give”
+			return "give"
 		else
-			return “gohome”
+			return "gohome"
 		end
 
 	elseif self:emptyBag() then	
 		if self:isNearResource() then
-			return “take”
+			return "take"
 		elseif self:getNearestResource() then
-			return “gonearest”
-
+			print("tata")
+			return "gonearest"
 		else
+			print("1")
 			if self:isNearHome() then
 				self:setAngle((self:getAngle()+180)%360)
+				print("2")
 			end
-			return “move”
+			return "move"
 		end
 	end
-]]
+	
 	return "move"
 end

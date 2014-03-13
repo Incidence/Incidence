@@ -74,7 +74,7 @@ sf::Vertex* Element::getQuadUp() const {
 
 bool Element::containResource( RessourceType t ) const
 {
-    for(int i = 0; i < m_ressources.size(); ++i) {
+    for(unsigned int i = 0; i < m_ressources.size(); ++i) {
         if(m_ressources[i].type == t) {
             return true;
         }
@@ -85,7 +85,7 @@ bool Element::containResource( RessourceType t ) const
 
 int Element::getQuantityOf( RessourceType t ) const
 {
-    for(int i = 0; i < m_ressources.size(); ++i) {
+    for(unsigned int i = 0; i < m_ressources.size(); ++i) {
         if(m_ressources[i].type == t) {
             return m_ressources[i].quantity;
         }

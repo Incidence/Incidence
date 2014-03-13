@@ -1,4 +1,4 @@
-#include "Lumberjack.hpp"
+#include "lumberjack.hpp"
 
 const char Lumberjack::className[] = "Lumberjack";
 
@@ -13,6 +13,7 @@ Lunar<Lumberjack>::RegType Lumberjack::methods[] = {
     method(Lumberjack, isNearResource),
     method(Lumberjack, fullBag),
     method(Lumberjack, emptyBag),
+    method(Lumberjack, getAngle),
     method(Lumberjack, setAngle),
     method(Lumberjack, isAttacked),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
@@ -50,15 +51,16 @@ void Lumberjack::init( void )
 {
     Entity::init();
 
-    m_ressource = BOIS;
+    m_ressource = WOOD;
 }
 
 void Lumberjack::callScript( void )
 {
     if( m_action == IDLE ) {
+        m_way.clear();
         lua_settop(Entity::state, 0);
         Lunar<Lumberjack>::push(Entity::state, this);
-        Lunar<Lumberjack>::call(Entity::state, "action", 0, 0);
+        Lunar<Lumberjack>::call(Entity::state, "action", 0, 1);
 
         // TODO : Recuperer le string retourne pour effectuer l'action demande
         float argc = lua_gettop(Entity::state);
@@ -67,6 +69,11 @@ void Lumberjack::callScript( void )
 
             // ***
             if(action == "move") { m_action = MOVE; }
+            if(action == "give") { m_action = INTERACT_HOME; }
+            if(action == "gohome") { m_action = IDLE; }
+            if(action == "attack") { m_action = IDLE; }
+            if(action == "take") { m_action = INTERACT_RESOURCE; }
+            if(action == "gonearest") { m_action = MOVE_RESOURCE; }
             /// TO COMPLETE ....
             // ***
         }

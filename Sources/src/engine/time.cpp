@@ -52,7 +52,7 @@ float Time::IPS( void )
 
 float Time::deltaTime( void )
 {
-    return m_lastFrame.asMilliseconds();
+    return m_lastFrame.asSeconds();
 }
 
 void Time::setIPS( int ips )

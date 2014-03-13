@@ -27,13 +27,14 @@ void Entity::init( void )
     /// TODO : Animation default
 
     m_perception = 5;
-    m_position = sf::Vector2f(0, 0);
+    m_position = sf::Vector2f(200, 200);
     m_angle = 0;
+    m_speed = 40;
     m_bag = 0;
     m_action = IDLE;
-    m_ressource = AUCUNE;
+    m_ressource = NOTHING;
 
-    m_animation.load( "data/goku_stay.ani" );
+    m_animation.load( "data/perso.ani" );
 
     /// TO COMPLETE
 }
@@ -49,6 +50,7 @@ int Entity::action(lua_State * L)
 sf::Sprite * Entity::draw( void )
 {
     sf::Sprite * s = m_animation.update();
+    s->setOrigin(16, 16);
     s->setPosition(m_position);
     return s;
 }
@@ -79,7 +81,7 @@ int Entity::getEntities( lua_State * L )
 
 int Entity::isNearHome( lua_State * L )
 {
-    bool bNearHome = false; // vrai = proche home
+    bool bNearHome = true; // vrai = proche home
 
     /// RECODE : Verifier la presence de la base
 
@@ -96,6 +98,12 @@ int Entity::fullBag( lua_State * L )
 int Entity::emptyBag( lua_State * L )
 {
     lua_pushboolean(L, m_bag == 0);
+    return 1;
+}
+
+int Entity::getAngle( lua_State * L )
+{
+    lua_pushnumber(L, m_angle);
     return 1;
 }
 
@@ -123,18 +131,15 @@ int Entity::getNearestResource( lua_State * L )
     // True s'i y a une ressource dans le champs de perception
     bool bNearest = false;
 
-    if(m_game && m_game->m_carte) {
-        sf::Vector2i posMap = (m_game->m_carte)->getXY(m_position);
+    if(m_game && m_game->m_tilemap) {
+        sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
 
         for(int x = posMap.x - m_perception; x < posMap.x + m_perception; ++x) {
             for(int y = posMap.y - m_perception; y < posMap.y + m_perception; ++y) {
-                Element * pElement = m_game->m_carte->getElement( sf::Vector2i(x, y) );
+                Element * pElement = m_game->m_tilemap->getElement( sf::Vector2i(x, y) );
                 if( pElement && distance(posMap, sf::Vector2i(x, y)) < m_perception && pElement->containResource(m_ressource) ) {
-                    bNearest = true;
-                    /// @Attention
-                    /// RECODE : La case doit etre accessible !
-                    /// @Attention
-
+                    std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30);
+                    bNearest = !w.empty();
                 }
             }
         }
@@ -148,20 +153,18 @@ int Entity::isNearResource( lua_State * L )
 {
     bool bNear = false;
 
-    if(m_game && m_game->m_carte) {
+    if(m_game && m_game->m_tilemap) {
         // Vrai si ELEMENT avec M_RESSOURCE à portee de recolte (case adjacente)
-        sf::Vector2i posMap = (m_game->m_carte)->getXY(m_position);
-        Element * pElementRight = m_game->m_carte->getElement( sf::Vector2i(posMap.x + 1, posMap.y) );
-        Element * pElementLeft = m_game->m_carte->getElement( sf::Vector2i(posMap.x - 1, posMap.y) );
-        Element * pElementUp = m_game->m_carte->getElement( sf::Vector2i(posMap.x, posMap.y + 1) );
-        Element * pElementDown = m_game->m_carte->getElement( sf::Vector2i(posMap.x, posMap.y - 1) );
+        sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
+        Element * pElementRight = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x + 1, posMap.y) );
+        Element * pElementLeft = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x - 1, posMap.y) );
+        Element * pElementUp = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x, posMap.y + 1) );
+        Element * pElementDown = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x, posMap.y - 1) );
 
-        if(pElementDown && pElementLeft && pElementRight && pElementUp) {
-            bNear = (   pElementDown->containResource(m_ressource) ||
-                        pElementLeft->containResource(m_ressource) ||
-                        pElementRight->containResource(m_ressource) ||
-                        pElementUp->containResource(m_ressource) );
-        }
+        bNear =((pElementDown && pElementDown->containResource(m_ressource)) ||
+                (pElementLeft && pElementLeft->containResource(m_ressource)) ||
+                (pElementRight && pElementRight->containResource(m_ressource)) ||
+                (pElementUp && pElementUp->containResource(m_ressource)) );
     }
 
     lua_pushboolean(L, bNear);
@@ -174,24 +177,48 @@ int Entity::isNearResource( lua_State * L )
 void Entity::goHome( void )
 {
     /// TODO
+    m_action = IDLE;
 }
 
 void Entity::move( void )
 {
-    /// RECODE : Use PathFinding
+    if(m_game && m_game->m_tilemap) {
 
-    // Deplacement basique sans collision
-    sf::Vector2f vDirect;
-    vDirect.x = cos(m_angle) * m_speed * Time::get()->deltaTime();
-    vDirect.y = sin(m_angle) * m_speed * Time::get()->deltaTime();
+        if(m_way.empty()) {
+            sf::Vector2f vDirect;
+            vDirect.x = cos(m_angle / 180 * M_PI) * 2 * 32 + m_position.x;
+            vDirect.y = sin(m_angle / 180 * M_PI) * 2 * 32 + m_position.y;
 
-    m_position.x += vDirect.x;
-    m_position.y += vDirect.y;
+            /// RECODE : 30
+            m_way = m_game->m_tilemap->findWay(m_position, vDirect, 30);
+        }
+
+        sf::Vector2f dest = m_way.front();
+
+        float div = distance(dest, m_position);
+
+        if(div < 2) {
+            m_position = dest;
+            m_way.pop_front();
+        } else {
+            dest.x = (dest.x - m_position.x) / div;
+            dest.y = (dest.y - m_position.y) / div;
+
+            m_position.x += dest.x * m_speed * Time::get()->deltaTime();
+            m_position.y += dest.y * m_speed * Time::get()->deltaTime();
+        }
+
+        if(m_way.empty()) {
+            m_action = IDLE;
+        }
+    }
+
 }
 
 void Entity::attack( void )
 {
     /// TODO
+    m_action = IDLE;
 }
 
 
@@ -205,13 +232,13 @@ void Entity::goNearestResource( void )
         Sinon RIEN
     */
 
-    if(m_game && m_game->m_carte) {
-        sf::Vector2i posMap = (m_game->m_carte)->getXY(m_position);
+    if(m_game && m_game->m_tilemap) {
+        sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
         sf::Vector2i posNearest( sf::Vector2i(posMap.x + 10000, posMap.y + 10000) ); // To infinte !
 
         for(int x = posMap.x - m_perception; x < posMap.x + m_perception; ++x) {
             for(int y = posMap.y - m_perception; y < posMap.y + m_perception; ++y) {
-                Element * pElement = m_game->m_carte->getElement( sf::Vector2i(x, y) );
+                Element * pElement = m_game->m_tilemap->getElement( sf::Vector2i(x, y) );
                 if(pElement && distance(posMap, sf::Vector2i(x, y)) < m_perception && pElement->containResource(m_ressource) ) {
                     if(distance(posMap, sf::Vector2i(x, y)) < distance(posMap, posNearest)) {
                         posNearest = sf::Vector2i(x, y);
@@ -221,7 +248,9 @@ void Entity::goNearestResource( void )
         }
 
         if(distance(posMap, posNearest) < m_perception) {
-            /// TODO : Aller la bas
+            /// RECODE : 30
+            m_way = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(posNearest), 30);
+            m_action = MOVE;
         }
     }
 }
@@ -235,24 +264,30 @@ void Entity::takeResource( void )
         Sinon RIEN
     */
 
-    if(m_game && m_game->m_carte) {
-        sf::Vector2i mapPos = m_game->m_carte->getXY(m_position);
+    if(m_game && m_game->m_tilemap) {
+        sf::Vector2i mapPos = m_game->m_tilemap->getXY(m_position);
         int iElementNeighbor = 0;
         Element * pElement = NULL;
         mapPos.x += 1; // RIGHT
-        pElement = m_game->m_carte->getElement(mapPos);
-        iElementNeighbor = pElement && pElement->containResource(m_ressource) ? 1 : iElementNeighbor;
-        mapPos.x -= 2; // LEFT
-        pElement = m_game->m_carte->getElement(mapPos);
-        iElementNeighbor = pElement && pElement->containResource(m_ressource) ? 2 : iElementNeighbor;
-        mapPos.x += 1;
-        mapPos.y += 1; //UP
-        pElement = m_game->m_carte->getElement(mapPos);
-        iElementNeighbor = pElement && pElement->containResource(m_ressource) ? 3 : iElementNeighbor;
-        mapPos.y -= 2; // DOWN
-        iElementNeighbor = pElement && pElement->containResource(m_ressource) ? 4 : iElementNeighbor;
+        pElement = m_game->m_tilemap->getElement(mapPos);
+        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 1 : iElementNeighbor;
 
-        mapPos = m_game->m_carte->getXY(m_position);
+        mapPos = m_game->m_tilemap->getXY(m_position);
+        mapPos.x -= 1; // LEFT
+        pElement = m_game->m_tilemap->getElement(mapPos);
+        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 2 : iElementNeighbor;
+
+        mapPos = m_game->m_tilemap->getXY(m_position);
+        mapPos.y += 1; //UP
+        pElement = m_game->m_tilemap->getElement(mapPos);
+        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 3 : iElementNeighbor;
+
+        mapPos = m_game->m_tilemap->getXY(m_position);
+        mapPos.y -= 1; // DOWN
+        pElement = m_game->m_tilemap->getElement(mapPos);
+        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 4 : iElementNeighbor;
+
+        mapPos = m_game->m_tilemap->getXY(m_position);
         switch(iElementNeighbor) {
             case 1 :
                 mapPos.x += 1;
@@ -275,12 +310,14 @@ void Entity::takeResource( void )
                 break;
         }
 
-        pElement = m_game->m_carte->getElement(mapPos);
+        pElement = m_game->m_tilemap->getElement(mapPos);
         if(pElement) {
             m_bag = pElement->getQuantityOf(m_ressource);
-            m_game->m_carte->supprimerElement(mapPos);
+            m_game->m_tilemap->removeElement(mapPos);
         }
     }
+
+    m_action = IDLE;
 }
 
 void Entity::giveResource( void )
@@ -292,6 +329,8 @@ void Entity::giveResource( void )
             donner ressource
         Sinon RIEN
     */
+    m_bag = 0;
+    m_action = IDLE;
 }
 
 // Initialisation de LUA (fait qu'une fois)
@@ -315,8 +354,8 @@ void Entity::luaInit( void )
         lua_setglobal(Entity::state, "ENEMY_CITIZEN");
         lua_pushnumber(Entity::state, WILD_ANIMAL);
         lua_setglobal(Entity::state, "WILD_ANIMAL");
-        lua_pushnumber(Entity::state, PEACEFULL_ANIMAL);
-        lua_setglobal(Entity::state, "PEACEFULL_ANIMAL");
+        lua_pushnumber(Entity::state, PEACEFUL_ANIMAL);
+        lua_setglobal(Entity::state, "PEACEFUL_ANIMAL");
         lua_pushnumber(Entity::state, DEFAULT_ENTITY);
         lua_setglobal(Entity::state, "DEFAULT_ENTITY");
 
@@ -329,6 +368,14 @@ void Entity::luaInit( void )
 sf::Vector2f Entity::getPosition( void ) const
 {
     return m_position;
+}
+
+
+void Entity::setPosition( sf::Vector2f p )
+{
+    m_position = p;
+    m_way.clear();
+    m_action = IDLE;
 }
 
 
