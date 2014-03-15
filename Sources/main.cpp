@@ -34,20 +34,20 @@ int main()
             StateManager::get()->handleEvent( event );
         }
         
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && mainView.getCenter().x) {
-			mainView.move(-16,0);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && mainView.getCenter().x > 400) {
+			mainView.move(-32,0);
 			window.setView(mainView);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && mainView.getCenter().x) {
-			mainView.move(16,0);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && mainView.getCenter().x < 150*32-400) {
+			mainView.move(32,0);
 			window.setView(mainView);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && mainView.getCenter().y) {
-			mainView.move(0,-16);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && mainView.getCenter().y > 300) {
+			mainView.move(0,-32);
 			window.setView(mainView);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && mainView.getCenter().y) {
-			mainView.move(0,16);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && mainView.getCenter().y < 150*32-300) {
+			mainView.move(0,32);
 			window.setView(mainView);
 		}
 

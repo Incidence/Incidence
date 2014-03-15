@@ -29,7 +29,7 @@ void Game::newGame( void )
         delete m_tilemap;
     }
 
-	m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(24,18));
+	m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150,150));
 	m_tilemap->generate();
 }
 
