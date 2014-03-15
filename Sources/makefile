@@ -1,14 +1,14 @@
 CC=g++
 CXXFLAG=-w
-LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -L/usr/local/lib -llua -llualib
+LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -llua -ldl
 BUILD=_build
 TMP=$(BUILD)/tmp
 EXEC=$(BUILD)/Incidence
 
 all: $(EXEC)
 
-$(EXEC): $(TMP)/main.o $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/game.o $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/lumberjack.o
-	$(CC) $^ -o $@ $(LDFLAG)
+$(EXEC): $(TMP)/main.o $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/game.o $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/pathfinding.o $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/lumberjack.o
+	@ $(CC) $^ -o $@ $(LDFLAG)
 
 $(TMP)/main.o: main.cpp
 	@ if [ ! -d $(BUILD) ]; then mkdir $(BUILD); fi
@@ -65,7 +65,7 @@ $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
 
 LVL=$(GAME)/level
 
-level: $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o
+level: $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/pathfinding.o
 
 $(TMP)/ground.o: $(LVL)/ground.cpp $(LVL)/ground.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -77,6 +77,9 @@ $(TMP)/tileset.o: $(LVL)/tileset.cpp $(LVL)/tileset.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/tilemap.o: $(LVL)/tilemap.cpp $(LVL)/tilemap.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/pathfinding.o: $(LVL)/pathfinding.cpp $(LVL)/pathfinding.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 

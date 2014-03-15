@@ -236,30 +236,3 @@ std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf:
 
     return way;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

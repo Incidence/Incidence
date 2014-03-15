@@ -13,6 +13,9 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Engine TEST !");
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
+	
+	sf::View mainView(sf::Vector2f(400,300), sf::Vector2f(800,600));
+	window.setView(mainView);
 
     StateManager::get()->addState(new TestState());
 
@@ -30,6 +33,23 @@ int main()
 
             StateManager::get()->handleEvent( event );
         }
+        
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && mainView.getCenter().x) {
+			mainView.move(-16,0);
+			window.setView(mainView);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && mainView.getCenter().x) {
+			mainView.move(16,0);
+			window.setView(mainView);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && mainView.getCenter().y) {
+			mainView.move(0,-16);
+			window.setView(mainView);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && mainView.getCenter().y) {
+			mainView.move(0,16);
+			window.setView(mainView);
+		}
 
         StateManager::get()->update();
 
