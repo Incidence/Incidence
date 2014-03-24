@@ -7,8 +7,9 @@ EXEC=$(BUILD)/Incidence
 
 all: $(EXEC)
 
-$(EXEC): $(TMP)/main.o $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/game.o $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/pathfinding.o $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/lumberjack.o
-	@ $(CC) $^ -o $@ $(LDFLAG)
+$(EXEC): $(TMP)/main.o engine state game
+	@ $(CC) $(TMP)/*.o -o $@ $(LDFLAG)
+	@echo Done.
 
 $(TMP)/main.o: main.cpp
 	@ if [ ! -d $(BUILD) ]; then mkdir $(BUILD); fi
@@ -55,9 +56,12 @@ $(TMP)/test_state.o: $(STATE)/test_state.cpp $(STATE)/test_state.hpp
 
 GAME=src/game
 
-game: $(TMP)/game.o level entity
+game: $(TMP)/game.o $(TMP)/incidences.o level entity
 
 $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/incidences.o: $(GAME)/incidences.cpp $(GAME)/incidences.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
