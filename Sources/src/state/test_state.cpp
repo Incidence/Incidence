@@ -1,6 +1,10 @@
 #include "test_state.hpp"
 
+#include "../engine/state_manager.hpp"
+
 #include "../game/game.hpp"
+#include "../game/entity/lumberjack.hpp"
+#include "../game/entity/enemy_citizen.hpp"
 
 TestState::TestState( void ) : m_game(NULL)
 {
@@ -35,9 +39,19 @@ void TestState::handleEvent( sf::Event & e )
     {
         switch(e.key.code)
         {
-            case sf::Keyboard::Space :
+            case sf::Keyboard::A :
             {
                 m_game->addEntity(new Lumberjack(ALLY_CITIZEN, m_game));
+            } break;
+
+            case sf::Keyboard::E :
+            {
+                m_game->addEntity(new EnemyCitizen(ENEMY_CITIZEN, m_game));
+            } break;
+
+            case sf::Keyboard::Escape :
+            {
+                StateManager::get()->popState();
             } break;
 
             default :

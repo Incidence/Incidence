@@ -1,42 +1,73 @@
+--SCRIPT BUCHERON
+
 function Lumberjack:action()
 
-	if self:isAttacked() then
-	--[[
+local driftAngle=35
+	
+	if self:getHealth()=="WEAK" then
 		local entities = self:getEntities()
-		local i = 1
 		local size = entities:getSize()
-		while (i <= size) and (not ((entities:*agressif*(i)) and (entities:getDistance(i) == 1))) do
-			i=i+1
+		local angle=0
+		local nb=0
+		for i=1, size, 1 do
+			if (entities:getType(i)=="WILD_ANIMAL") or (entities:getType(i)=="ENEMY_CITIZEN") then
+				angle= angle + entities:getAngle(i)
+				nb=nb + 1
+			end
 		end
-		if i > size then
+		if nb~=0 then
+			angle= angle / nb
+			self:setAngle(angle+math.pi)
 			return "move"
 		end
-		self:setAngle(entities:getAngle(i))
-	]]--
+		--[[
+	elseif self:isAttacked() then
+		local entities = self:getEntities()
+		local size = entities:getSize()
+		local target=0
+		for i=1, size, 1  do
+			if ((entities:getType(i)=="WILD_ANIMAL") or (entities:getType(i)=="ENEMY_CITIZEN")) and (self:nearEntity(i)) then
+				if target==0 then
+					target=i
+				elseif entities:getHealth(i)<entities:getHealth(target) then
+					target=i
+				elseif entities:getHealth(i)==entities:getHealth(target) and entities:getAngle(i)==self:getAngle() then
+					target=i
+				end
+			end
+		end
+		self:setTarget(target)
 		return "attack"
-
+		]]--
 	elseif self:fullBag() then
 		if self:isNearHome() then
 			return "give"
 		else
 			return "gohome"
-		end
+		end    
 
-	elseif self:emptyBag() then	
+	 elseif self:emptyBag() then
 		if self:isNearResource() then
 			return "take"
 		elseif self:getNearestResource() then
-			print("tata")
 			return "gonearest"
 		else
-			print("1")
-			if self:isNearHome() then
-				self:setAngle((self:getAngle()+180)%360)
-				print("2")
+			math.randomseed(os.time())
+			math.random()
+			math.random()
+			local rand = math.floor(math.random()*10000)%5
+			print(rand)
+			if rand == 0 then
+				self:setAngle(self:getAngle()-math.pi/2)
+				return "move"
+			elseif rand == 4 then
+				self:setAngle(self:getAngle()+math.pi/2)
+				return "move"
+			else
+				self:setAngle(self:getAngle())
+				return "move"
 			end
-			return "move"
+		return "move"
 		end
 	end
-	
-	return "move"
 end

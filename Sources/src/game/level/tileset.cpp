@@ -301,7 +301,7 @@ bool TileSet::load(const std::string& path) {
 					return false;
 				}
 
-					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, sf::seconds(ELEMENT_pickingTime), ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
+					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, ELEMENT_pickingTime, ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
 
 					++ currentX;
 			}
@@ -357,7 +357,7 @@ void TileSet::TEST() {
 	}
 	std::cout << std::endl << m_elementCount << " Elements :" << std::endl;
 	for(int i(0) ; i < (int)m_elements.size() ; ++i) {
-		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].getBehavior() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime().asSeconds() << " ";
+		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].getBehavior() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime() << " ";
 		for(int j(0) ; j < (int)(m_elements[i].getRessources()).size() ; ++j) {
 			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantity;
 		}

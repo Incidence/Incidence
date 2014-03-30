@@ -2,7 +2,7 @@
 #define _TEST_STATE_
 
 #include "../engine/state.hpp"
-#include "../game/entity/lumberjack.hpp"
+#include "../game/game.hpp"
 
 class TestState : public State
 {

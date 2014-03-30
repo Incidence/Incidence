@@ -1,17 +1,14 @@
 #include "element.hpp"
 
-Element::Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) {
-
+Element::Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) : Harvestable(pickingTime, ressources)
+{
 	m_type = type;
 	m_groundType = groundType;
-	m_name = name;
+    m_name = name;
 	m_behavior = behavior;
 	m_passable = passable;
-	m_pickingTime = pickingTime;
-	m_ressources = ressources;
 	m_quad_down = quad_down;
 	m_quad_up = quad_up;
-
 }
 
 Element::~Element() {
@@ -37,26 +34,14 @@ std::string Element::getName() const {
 }
 
 TileBehavior Element::getBehavior() const {
-	
+
 	return m_behavior;
-	
+
 }
 
 bool Element::isPassable() const {
 
 	return m_passable;
-
-}
-
-sf::Time Element::getPickingTime() const {
-
-	return m_pickingTime;
-
-}
-
-std::vector<Ressource> Element::getRessources() const {
-
-	return m_ressources;
 
 }
 
@@ -72,24 +57,12 @@ sf::Vertex* Element::getQuadUp() const {
 
 }
 
-bool Element::containResource( RessourceType t ) const
+bool Element::isHarvestable( void )
 {
-    for(unsigned int i = 0; i < m_ressources.size(); ++i) {
-        if(m_ressources[i].type == t) {
-            return true;
-        }
-    }
-
-    return false;
+    return true;
 }
 
-int Element::getQuantityOf( RessourceType t ) const
+void Element::havested( void )
 {
-    for(unsigned int i = 0; i < m_ressources.size(); ++i) {
-        if(m_ressources[i].type == t) {
-            return m_ressources[i].quantity;
-        }
-    }
-
-    return 0;
+    //m_removed = true;
 }

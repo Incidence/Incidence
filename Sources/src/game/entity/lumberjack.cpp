@@ -16,6 +16,9 @@ Lunar<Lumberjack>::RegType Lumberjack::methods[] = {
     method(Lumberjack, getAngle),
     method(Lumberjack, setAngle),
     method(Lumberjack, isAttacked),
+    method(Lumberjack, getHealth),
+    method(Lumberjack, setTarget),
+    method(Lumberjack, isAttackMe),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };
@@ -56,39 +59,43 @@ void Lumberjack::init( void )
 
 void Lumberjack::callScript( void )
 {
-    if( m_action == IDLE ) {
-        m_way.clear();
-        lua_settop(Entity::state, 0);
-        Lunar<Lumberjack>::push(Entity::state, this);
-        Lunar<Lumberjack>::call(Entity::state, "action", 0, 1);
+    if(!isDead()) {
+        if( m_action == IDLE ) {
+            m_way.clear();
+            lua_settop(Entity::state, 0);
+            Lunar<Lumberjack>::push(Entity::state, this);
+            Lunar<Lumberjack>::call(Entity::state, "action", 0, 1);
 
-        // TODO : Recuperer le string retourne pour effectuer l'action demande
-        float argc = lua_gettop(Entity::state);
-        if( argc > 0 && lua_isstring(Entity::state, 1)) {
-            std::string action = lua_tostring(Entity::state, 1);
+            // TODO : Recuperer le string retourne pour effectuer l'action demande
+            float argc = lua_gettop(Entity::state);
+            if( argc > 0 && lua_isstring(Entity::state, 1)) {
+                std::string action = lua_tostring(Entity::state, 1);
 
-            // ***
-            if(action == "move") { m_action = MOVE; }
-            if(action == "give") { m_action = INTERACT_HOME; }
-            if(action == "gohome") { m_action = IDLE; }
-            if(action == "attack") { m_action = IDLE; }
-            if(action == "take") { m_action = INTERACT_RESOURCE; }
-            if(action == "gonearest") { m_action = MOVE_RESOURCE; }
-            /// TO COMPLETE ....
-            // ***
+                // ***
+                if(action == "move") { m_action = MOVE; }
+                if(action == "give") { m_action = INTERACT_HOME; }
+                if(action == "gohome") { m_action = IDLE; }
+                if(action == "attack") { m_action = IDLE; }
+                if(action == "take") { m_action = INTERACT_RESOURCE; }
+                if(action == "gonearest") { m_action = MOVE_RESOURCE; }
+                /// TO COMPLETE ....
+                // ***
+            }
+        } else if ( m_action == MOVE ) {
+            move();
+        } else if ( m_action == MOVE_HOME ) {
+            goHome();
+        } else if ( m_action == MOVE_RESOURCE ) {
+            goNearestResource();
+        } else if ( m_action == INTERACT_HOME ) {
+            giveResource();
+        } else if ( m_action == INTERACT_RESOURCE ) {
+            takeResource();
+        } else if ( m_action == ATTACK ) {
+            attack();
+        } else if ( m_action == RECOLT ) {
+            recolting();
         }
-    } else if ( m_action == MOVE ) {
-        move();
-    } else if ( m_action == MOVE_HOME ) {
-        goHome();
-    } else if ( m_action == MOVE_RESOURCE ) {
-        goNearestResource();
-    } else if ( m_action == INTERACT_HOME ) {
-        giveResource();
-    } else if ( m_action == INTERACT_RESOURCE ) {
-        takeResource();
-    } else if ( m_action == ATTACK ) {
-        attack();
     }
 }
 

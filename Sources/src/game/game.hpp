@@ -2,7 +2,7 @@
 #define _GAME_
 
 #include <string>
-#include <list>
+#include <vector>
 #include <SFML/Graphics.hpp>
 
 #include "level.hpp"
@@ -25,14 +25,14 @@ public :
     void draw( sf::RenderTarget & window );
     void handleEvent( sf::Event & e );
 
-    std::list< Entity * > getEntities( void );
-    std::list< Entity * > getEntities( sf::Vector2f position, int distancePerception );
+    Entity * getEntity( int id );
+    std::vector< Entity * > getEntities( void );
 
     void addEntity( Entity * e );
 
 private :
     TileMap * m_tilemap;
-    std::list< Entity * > m_entityList;
+    std::vector< Entity * > m_entityList;
 
     friend class Entity;
 };

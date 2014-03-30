@@ -4,6 +4,9 @@
 #include <string>
 #include "SFML/Graphics.hpp"
 
+void debug( std::string s );
+void debug( int i );
+
 std::string itos( int n );
 
 float distance( sf::Vector2f p1, sf::Vector2f p2 );

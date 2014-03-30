@@ -27,7 +27,6 @@ class TileMap {
 		sf::VertexArray m_VertexElementsUp;
 
 		std::list<sf::Vector2i> m_way;
-		std::list<sf::Vector2f> m_cut;
 
 	public:
 
@@ -47,6 +46,7 @@ class TileMap {
 
 		Ground * getGround(sf::Vector2i position) const;
 		Element * getElement(sf::Vector2i position) const;
+		Harvestable * getHarvestable(sf::Vector2i position) const;
 
 		void changeGround(int type, sf::Vector2i position);
 		void addElement(int type, sf::Vector2i position);
@@ -62,8 +62,12 @@ class TileMap {
 		void drawElementsUp(sf::RenderTarget& target);
 
 		bool isPassable( sf::Vector2i pos ) const;
-		std::list< sf::Vector2f > findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth );
+		std::list< sf::Vector2f > findWay( sf::Vector2f from, sf::Vector2f to, int entityWidth, int perception );
         bool isShortcut(sf::Vector2f u, sf::Vector2f v);
+
+		std::list<sf::Vector2f> m_cut;
+
+    friend class Game;
 };
 
 #endif

@@ -1,7 +1,18 @@
 #include "foo.hpp"
 
+#include <iostream>
 #include <sstream>
 #include <cmath>
+
+void debug( std::string s )
+{
+    std::cout << s << std::endl;
+}
+
+void debug( int i )
+{
+    std::cout << i << std::endl;
+}
 
 std::string itos( int n )
 {

@@ -33,10 +33,11 @@ bool containNode( std::list< Node * > & nodeList, Node * n )
     return false;
 }
 
-void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, TileMap * tilemap, sf::Vector2i to )
+void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node * n, TileMap * tilemap, sf::Vector2i to, sf::Vector2i from, int perception )
 {
     Node * tmp = NULL;
     bool l = false, r = false, u = false, d = false;
+    bool bClose;
 
     // Right
     tmp = new Node;
@@ -47,14 +48,18 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->parent = n;
 
     r = tilemap->isPassable(neighborPos);
-    if( (r || neighborPos == to) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && (r || neighborPos == to) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Left
@@ -66,14 +71,18 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->parent = n;
 
     l = tilemap->isPassable(neighborPos);
-    if( (l || neighborPos == to) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && (l || neighborPos == to) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Up
@@ -85,7 +94,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->parent = n;
 
     u = tilemap->isPassable(neighborPos);
-    if( (u || neighborPos == to) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && (u || neighborPos == to) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
@@ -93,7 +102,11 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
         addNode(open, tmp);
         u = true;
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Down
@@ -105,7 +118,7 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->parent = n;
 
     d = tilemap->isPassable(neighborPos);
-    if( (d || neighborPos == to) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && (d || neighborPos == to) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
@@ -113,7 +126,11 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
         addNode(open, tmp);
         d = true;
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Up-Droite
@@ -125,14 +142,18 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(u && r && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && u && r && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Up-Gauche
@@ -144,14 +165,18 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(u && l && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && u && l && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Down-Droite
@@ -163,14 +188,18 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(d && r && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && d && r && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
     // Down-Gauche
@@ -182,20 +211,24 @@ void addNeighbor( std::list< Node * > & open, std::list< Node * > & close, Node 
     tmp->pos = neighborPos;
     tmp->parent = n;
 
-    if(d && l && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && ! containNode(close, tmp)) {
+    if(distance(from, tmp->pos) <= perception && d && l && (tilemap->isPassable(neighborPos)) && ! containNode(open, tmp) && (bClose = ! containNode(close, tmp))) {
         tmp->dist = distance(to, tmp->pos);
         tmp->height = n->height + 1.14; // Une case de plus
         tmp->distTotal = tmp->dist + tmp->height;
 
         addNode(open, tmp);
     } else {
-        delete tmp;
+        if(bClose) {
+            delete tmp;
+        } else {
+            close.push_back(tmp);
+        }
     }
 
 
 }
 
-std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf::Vector2i to, int entityWidth)
+std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf::Vector2i to, int entityWidth, int perception)
 {
     std::list< Node * > openList, closeList;
 
@@ -208,19 +241,20 @@ std::list< sf::Vector2i > pathfinding( TileMap * tilemap, sf::Vector2i from, sf:
 
     openList.push_front(current);
 
-    while( !openList.empty() && current->pos != to ) /// ADD : AND current->height < NB_MAX_CASE_A_PARCOURIR
-    {
+    while( !openList.empty() && current->pos != to ) {
         /// TODO : Ajouter : Si chemin direct, créér le node correspondant et break;
 
         removeNode( openList, closeList, current );
-        addNeighbor( openList, closeList, current, tilemap, to );
+        addNeighbor( openList, closeList, current, tilemap, to, from, perception );
 
         current = *(openList.begin()); // Liste ordonné donc begin() tjs le plus petit
+
+        //std::cout << "hello" << std::endl;
     }
 
     std::list< sf::Vector2i > way;
-
-    if( !openList.empty() ) { /// ADD : AND current->height < NB_MAX_CASE_A_PARCOURIR
+    if( !openList.empty() ) {
+        way.push_front(current->pos);
         while(current->parent) {
             current = current->parent;
             way.push_front(current->pos); /// TODO : Passer la position en pixel

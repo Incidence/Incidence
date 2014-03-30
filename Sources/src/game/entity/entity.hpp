@@ -8,31 +8,14 @@
 
 #include "../../engine/animation.hpp"
 #include "../game.hpp"
+#include "entity_set.hpp"
+#include "entity_type.hpp"
 
+class EntitySet;
 class Game;
-
-typedef enum {
-    ALLY_CITIZEN,
-    ENEMY_CITIZEN,
-    WILD_ANIMAL,
-    PEACEFUL_ANIMAL,
-    DEFAULT_ENTITY
-} EntityType;
 
 class Entity
 {
-
-public :
-    typedef enum {
-        MOVE,
-        MOVE_HOME,
-        MOVE_RESOURCE,
-        INTERACT_HOME,
-        INTERACT_RESOURCE,
-        ATTACK,
-        IDLE
-    } Action;
-
 
 public :
     Entity( EntityType t, Game * game );
@@ -56,6 +39,9 @@ public :
     int getAngle( lua_State * L ); // : float
     int setAngle( lua_State * L ); // : void (L = float(angle))
     int isAttacked( lua_State * L ); // : bool
+    int setTarget( lua_State * L ); // : void (int (id_target))
+    int isAttackMe( lua_State * L ); // : bool (int (id_target))
+    int getHealth( lua_State * L ); // : Health
     // *****
 
     void goHome( void );
@@ -64,6 +50,12 @@ public :
     void takeResource( void );
     void giveResource( void );
     void attack( void );
+
+    bool nearEntity( const Entity * e );
+    bool isDead() const;
+    void isAttackedBy( Entity * e );
+
+    void recolting( void );
 
     // Getters :
 
@@ -77,6 +69,7 @@ protected :
     Animation m_animation;
     int m_perception;
     RessourceType m_ressource;
+    sf::Vector2i m_recolt;
 
     std::list< sf::Vector2f > m_way;
     sf::Vector2f m_position;
@@ -86,13 +79,21 @@ protected :
     EntityType m_type;
     int m_bag;
 
+    Health m_health;
+
+    Entity * m_target;
+
     Action m_action;
+
+    float m_waitTime;
 
 public :
     /// Lua
     static void luaInit( void );
     static bool bLuaInit;
     static lua_State * state;
+
+    friend class Game;
 };
 
 #endif // _ENTITY_

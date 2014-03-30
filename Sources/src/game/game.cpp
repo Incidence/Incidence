@@ -18,7 +18,7 @@ Game::~Game( void )
         delete m_tilemap;
     }
 
-    for(std::list< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         delete *it;
     }
 }
@@ -29,7 +29,7 @@ void Game::newGame( void )
         delete m_tilemap;
     }
 
-	m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150,150));
+	m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
 }
 
@@ -38,10 +38,10 @@ void Game::saveGame( std::string path ) {}
 
 void Game::update( void )
 {
-    int c = 0;
-    for(std::list< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
-        (*it)->callScript();
-        c++;
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if( !(*it)->isDead() ) {
+            (*it)->callScript();
+        }
     }
 }
 
@@ -50,8 +50,10 @@ void Game::draw( sf::RenderTarget & window )
     m_tilemap->drawGrounds( window );
     m_tilemap->drawElementsDown( window );
 
-    for(std::list< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
-        window.draw( * (*it)->draw() );
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if( !(*it)->isDead() ) {
+            window.draw( * (*it)->draw() );
+        }
     }
 
     m_tilemap->drawElementsUp( window );
@@ -60,33 +62,44 @@ void Game::draw( sf::RenderTarget & window )
 void Game::handleEvent( sf::Event & e )
 {
     if (e.type == sf::Event::MouseButtonPressed) {
-        for(std::list< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
-            (*it)->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
+        if( m_entityList.size() > 0 ) {
+            m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
     }
 }
 
+Entity * Game::getEntity( int id )
+{
+    if(id >= 0 && id < (int)m_entityList.size()) {
+        return m_entityList[id];
+    } else {
+        return NULL;
+    }
+}
 
-std::list< Entity * > Game::getEntities( void )
+std::vector< Entity * > Game::getEntities( void )
 {
     return m_entityList;
-}
-
-std::list< Entity * > Game::getEntities( sf::Vector2f position, int distancePerception )
-{
-    std::list< Entity * > res;
-
-    for(std::list< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
-        if( distance(position, (*it)->getPosition()) < distancePerception ) {
-            res.push_back(*it);
-        }
-    }
-
-    return res;
 }
 
 void Game::addEntity( Entity * e )
 {
     m_entityList.push_back(e);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

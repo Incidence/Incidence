@@ -25,6 +25,7 @@ Entity::~Entity( void ) {}
 void Entity::init( void )
 {
     /// TODO : Animation default
+    m_target = NULL;
 
     m_perception = 5;
     m_position = sf::Vector2f(200, 200);
@@ -33,6 +34,8 @@ void Entity::init( void )
     m_bag = 0;
     m_action = IDLE;
     m_ressource = NOTHING;
+    m_health = GOOD;
+    m_waitTime = 0;
 
     m_animation.load( "data/perso.ani" );
 
@@ -59,23 +62,30 @@ sf::Sprite * Entity::draw( void )
 
 int Entity::getEntities( lua_State * L )
 {
-    EntitySet * eSet = NULL; // Liste des entités aux alentours
+    EntitySet * e = new EntitySet;
 
     if(m_game) {
         /// TODO : Completer la liste
-        std::list< Entity * > listEntities = m_game->getEntities(m_position, m_perception);
 
-        for(std::list< Entity * >::iterator it = listEntities.begin(); it != listEntities.end(); ++it) {
-            EntityStruct eStruct;
-            eStruct.s_distance = distance(m_position, (*it)->m_position);
-            eStruct.s_angle = 0; /// FIXME : Because je suis pas fort en trigo
-            eStruct.s_type = (*it)->m_type;
+        std::vector< Entity * > listEntities = m_game->getEntities();
 
-            eSet->add(eStruct);
+        for(unsigned int i = 0; i < listEntities.size(); ++i) {
+            if(listEntities[i] != this && !listEntities[i]->isDead() && distance(listEntities[i]->getPosition(), m_position) <= m_perception * 32) {
+                EntityStruct * eStruct = new EntityStruct;
+
+                eStruct->s_distance = distance(m_position, listEntities[i]->m_position);
+                eStruct->s_angle = eStruct->s_distance > 0 ? std::atan2(listEntities[i]->getPosition().y - getPosition().y, listEntities[i]->getPosition().x - getPosition().x) : 0;
+
+                eStruct->s_type = listEntities[i]->m_type;
+                eStruct->s_id = i;
+                eStruct->s_health = listEntities[i]->m_health;
+
+                e->add(eStruct);
+            }
         }
     }
 
-    Lunar<EntitySet>::push(L, eSet, true);
+    Lunar<EntitySet>::push(L, e, true);
     return 1;
 }
 
@@ -109,11 +119,17 @@ int Entity::getAngle( lua_State * L )
 
 int Entity::setAngle( lua_State * L )
 {
-    float argc = lua_gettop(L);
+    int argc = lua_gettop(L);
     if( argc > 0 && lua_isnumber(L, 1)) {
         m_angle = lua_tonumber(L, 1);
     }
     return 0;
+}
+
+int Entity::getHealth( lua_State * L )
+{
+    lua_pushnumber(L, m_health);
+    return 1;
 }
 
 int Entity::isAttacked( lua_State * L )
@@ -126,26 +142,61 @@ int Entity::isAttacked( lua_State * L )
     return 1;
 }
 
+
+int Entity::setTarget( lua_State * L )
+{
+    int argc = lua_gettop(L);
+    int id = -1;
+    if( argc > 0 && lua_isnumber(L, 1)) {
+        id = lua_tonumber(L, 1);
+    }
+
+    if(m_game) {
+        m_target = m_game->getEntity(id);
+    }
+
+    return 0;
+}
+
+
+int Entity::isAttackMe( lua_State * L )
+{
+    int argc = lua_gettop(L);
+    int id = -1;
+    if( argc > 0 && lua_isnumber(L, 1)) {
+        id = lua_tonumber(L, 1);
+    }
+
+    Entity * e;
+    if(m_game && (e = m_game->getEntity(id))) {
+        lua_pushboolean(L, e->m_target == this);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 int Entity::getNearestResource( lua_State * L )
 {
     // True s'i y a une ressource dans le champs de perception
-    bool bNearest = false;
-
     if(m_game && m_game->m_tilemap) {
         sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
 
-        for(int x = posMap.x - m_perception; x < posMap.x + m_perception; ++x) {
-            for(int y = posMap.y - m_perception; y < posMap.y + m_perception; ++y) {
-                Element * pElement = m_game->m_tilemap->getElement( sf::Vector2i(x, y) );
-                if( pElement && distance(posMap, sf::Vector2i(x, y)) < m_perception && pElement->containResource(m_ressource) ) {
-                    std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30);
-                    bNearest = !w.empty();
+        for(int x = posMap.x - m_perception; x <= posMap.x + m_perception; ++x) {
+            for(int y = posMap.y - m_perception; y <= posMap.y + m_perception; ++y) {
+                Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable( sf::Vector2i(x, y) );
+                if( pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containResource(m_ressource) ) {
+                    std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30, m_perception);
+                    if(!w.empty()) {
+                        lua_pushboolean(L, true);
+                        return 1;
+                    }
                 }
             }
         }
     }
 
-    lua_pushboolean(L, bNearest);
+    lua_pushboolean(L, false);
     return 1;
 }
 
@@ -156,15 +207,15 @@ int Entity::isNearResource( lua_State * L )
     if(m_game && m_game->m_tilemap) {
         // Vrai si ELEMENT avec M_RESSOURCE à portee de recolte (case adjacente)
         sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
-        Element * pElementRight = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x + 1, posMap.y) );
-        Element * pElementLeft = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x - 1, posMap.y) );
-        Element * pElementUp = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x, posMap.y + 1) );
-        Element * pElementDown = m_game->m_tilemap->getElement( sf::Vector2i(posMap.x, posMap.y - 1) );
+        Harvestable * pHarvestableRight = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x + 1, posMap.y) );
+        Harvestable * pHarvestableLeft = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x - 1, posMap.y) );
+        Harvestable * pHarvestableUp = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x, posMap.y + 1) );
+        Harvestable * pHarvestableDown = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x, posMap.y - 1) );
 
-        bNear =((pElementDown && pElementDown->containResource(m_ressource)) ||
-                (pElementLeft && pElementLeft->containResource(m_ressource)) ||
-                (pElementRight && pElementRight->containResource(m_ressource)) ||
-                (pElementUp && pElementUp->containResource(m_ressource)) );
+        bNear =((pHarvestableDown && pHarvestableDown->containResource(m_ressource)) ||
+                (pHarvestableLeft && pHarvestableLeft->containResource(m_ressource)) ||
+                (pHarvestableRight && pHarvestableRight->containResource(m_ressource)) ||
+                (pHarvestableUp && pHarvestableUp->containResource(m_ressource)) );
     }
 
     lua_pushboolean(L, bNear);
@@ -186,13 +237,14 @@ void Entity::move( void )
 
         if(m_way.empty()) {
             sf::Vector2f vDirect;
-            vDirect.x = cos(m_angle / 180 * M_PI) * 2 * 32 + m_position.x;
-            vDirect.y = sin(m_angle / 180 * M_PI) * 2 * 32 + m_position.y;
+            vDirect.x = cos(m_angle) * 3 * 32 + m_position.x;
+            vDirect.y = sin(m_angle) * 3 * 32 + m_position.y;
 
             /// RECODE : 30
-            m_way = m_game->m_tilemap->findWay(m_position, vDirect, 30);
+            m_way = m_game->m_tilemap->findWay(m_position, vDirect, 30, m_perception);
         }
 
+        m_game->m_tilemap->m_cut = m_way;
         sf::Vector2f dest = m_way.front();
 
         float div = distance(dest, m_position);
@@ -217,8 +269,25 @@ void Entity::move( void )
 
 void Entity::attack( void )
 {
-    /// TODO
-    m_action = IDLE;
+    if(m_target) {
+        if(m_target->isDead()) {
+            m_action = IDLE;
+            m_target = NULL;
+        }
+        else if(nearEntity(m_target)) {
+            m_target->isAttackedBy(this);
+            m_action = IDLE;
+        }
+        else {
+            float dist = distance(m_target->getPosition(), getPosition());
+            m_angle = dist > 0 ? std::atan2(m_target->getPosition().y - getPosition().y, m_target->getPosition().x - getPosition().x) : 0;
+            m_action = MOVE;
+            move();
+        }
+    } else {
+        m_action = IDLE;
+    }
+
 }
 
 
@@ -232,25 +301,40 @@ void Entity::goNearestResource( void )
         Sinon RIEN
     */
 
+    m_way.clear();
+
     if(m_game && m_game->m_tilemap) {
         sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
-        sf::Vector2i posNearest( sf::Vector2i(posMap.x + 10000, posMap.y + 10000) ); // To infinte !
+        float posNearest = 10000; // To infinte !
 
-        for(int x = posMap.x - m_perception; x < posMap.x + m_perception; ++x) {
-            for(int y = posMap.y - m_perception; y < posMap.y + m_perception; ++y) {
-                Element * pElement = m_game->m_tilemap->getElement( sf::Vector2i(x, y) );
-                if(pElement && distance(posMap, sf::Vector2i(x, y)) < m_perception && pElement->containResource(m_ressource) ) {
-                    if(distance(posMap, sf::Vector2i(x, y)) < distance(posMap, posNearest)) {
-                        posNearest = sf::Vector2i(x, y);
+        for(int x = posMap.x - m_perception; x <= posMap.x + m_perception; ++x) {
+            for(int y = posMap.y - m_perception; y <= posMap.y + m_perception; ++y) {
+                Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable( sf::Vector2i(x, y) );
+                if(pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containResource(m_ressource) ) {
+                    std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30, m_perception);
+
+                    // Calcul distance a faire, si < nearest : = m_way
+                    if(!w.empty()) {
+                        float dist = 0;
+                        sf::Vector2f current = *(w.begin());
+                        for(std::list< sf::Vector2f >::iterator it = w.begin(); it != w.end(); ++it) {
+                            dist += distance(current, *it);
+                            current = (*it);
+                        }
+
+                        if(dist < posNearest) {
+                            posNearest = dist;
+                            m_way = w;
+                        }
                     }
                 }
             }
         }
 
-        if(distance(posMap, posNearest) < m_perception) {
-            /// RECODE : 30
-            m_way = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(posNearest), 30);
+        if(!m_way.empty()) {
             m_action = MOVE;
+        } else {
+            m_action = IDLE;
         }
     }
 }
@@ -266,29 +350,29 @@ void Entity::takeResource( void )
 
     if(m_game && m_game->m_tilemap) {
         sf::Vector2i mapPos = m_game->m_tilemap->getXY(m_position);
-        int iElementNeighbor = 0;
-        Element * pElement = NULL;
+        int iHarvestableNeighbor = 0;
+        Harvestable * pHarvestable = NULL;
         mapPos.x += 1; // RIGHT
-        pElement = m_game->m_tilemap->getElement(mapPos);
-        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 1 : iElementNeighbor;
+        pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 1 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.x -= 1; // LEFT
-        pElement = m_game->m_tilemap->getElement(mapPos);
-        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 2 : iElementNeighbor;
+        pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 2 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.y += 1; //UP
-        pElement = m_game->m_tilemap->getElement(mapPos);
-        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 3 : iElementNeighbor;
+        pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 3 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.y -= 1; // DOWN
-        pElement = m_game->m_tilemap->getElement(mapPos);
-        iElementNeighbor = (pElement && pElement->containResource(m_ressource)) ? 4 : iElementNeighbor;
+        pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 4 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
-        switch(iElementNeighbor) {
+        switch(iHarvestableNeighbor) {
             case 1 :
                 mapPos.x += 1;
                 break;
@@ -310,14 +394,29 @@ void Entity::takeResource( void )
                 break;
         }
 
-        pElement = m_game->m_tilemap->getElement(mapPos);
-        if(pElement) {
-            m_bag = pElement->getQuantityOf(m_ressource);
-            m_game->m_tilemap->removeElement(mapPos);
-        }
-    }
+        pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
+        m_recolt = mapPos;
+        m_waitTime = Time::get()->elapsed().asMilliseconds() + pHarvestable->getPickingTime();
 
-    m_action = IDLE;
+        m_action = RECOLT;
+    } else {
+        m_action = IDLE;
+    }
+}
+
+void Entity::recolting( void )
+{
+    Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable(m_recolt);
+
+    if(Time::get()->elapsed().asMilliseconds() > m_waitTime) {
+        m_bag = pHarvestable->getQuantityOf(m_ressource);
+        m_action = IDLE;
+
+        if(m_game && m_game->m_tilemap) {
+            m_game->m_tilemap->removeElement(m_recolt);
+        }
+        // Add tronc ?
+    }
 }
 
 void Entity::giveResource( void )
@@ -359,8 +458,61 @@ void Entity::luaInit( void )
         lua_pushnumber(Entity::state, DEFAULT_ENTITY);
         lua_setglobal(Entity::state, "DEFAULT_ENTITY");
 
+        // Init Variable global pour LUA
+        lua_pushnumber(Entity::state, GOOD);
+        lua_setglobal(Entity::state, "GOOD");
+        lua_pushnumber(Entity::state, NORMAL);
+        lua_setglobal(Entity::state, "NORMAL");
+        lua_pushnumber(Entity::state, WEAK);
+        lua_setglobal(Entity::state, "WEAK");
+        lua_pushnumber(Entity::state, VERY_WEAK);
+        lua_setglobal(Entity::state, "VERY_WEAK");
+        lua_pushnumber(Entity::state, DEAD);
+        lua_setglobal(Entity::state, "DEAD");
+
         Entity::bLuaInit = true;
     }
+}
+
+
+bool Entity::nearEntity( const Entity * e )
+{
+    /// RECODE : 32 (taille entity)
+    return distance(this->getPosition(), e->getPosition()) < 32;
+}
+
+void Entity::isAttackedBy( Entity * e )
+{
+    int hit = rand() % 100;
+    if(hit > 50) {
+
+        switch(m_health) {
+        case GOOD :
+            m_health = NORMAL;
+            break;
+
+        case NORMAL :
+            m_health = WEAK;
+            break;
+
+        case WEAK :
+            m_health = VERY_WEAK;
+            break;
+
+        case VERY_WEAK :
+            m_health = DEAD;
+            break;
+
+        default :
+            m_health = DEAD;
+            break;
+        }
+    }
+}
+
+bool Entity::isDead() const
+{
+    return m_health == DEAD;
 }
 
 // GETTERS :

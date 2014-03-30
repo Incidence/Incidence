@@ -8,9 +8,11 @@
 #define ELEMENT_HPP
 
 #include <SFML/Graphics.hpp>
+
+#include "harvestable.hpp"
 #include "ressource.hpp"
 
-class Element {
+class Element : public Harvestable {
 
 	private:
 
@@ -19,15 +21,12 @@ class Element {
 		std::string m_name;
 		TileBehavior m_behavior;
 		bool m_passable;
-		sf::Time m_pickingTime;
-		std::vector<Ressource> m_ressources;
 		sf::Vertex* m_quad_down;
 		sf::Vertex* m_quad_up;
 
-
 	public:
 
-		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, sf::Time pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
+		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
 		~Element();
 
 		int getType() const;
@@ -35,13 +34,11 @@ class Element {
 		std::string getName() const;
 		TileBehavior getBehavior() const;
 		bool isPassable() const;
-		sf::Time getPickingTime() const;
-		std::vector<Ressource> getRessources() const;
 		sf::Vertex* getQuadDown() const;
 		sf::Vertex* getQuadUp() const;
 
-		bool containResource( RessourceType t ) const;
-		int getQuantityOf( RessourceType t ) const;
+        virtual bool isHarvestable( void );
+        virtual void havested( void );
 
 };
 
