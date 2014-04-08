@@ -3,6 +3,8 @@
 
 #include "level/tilemap.hpp"
 
+#include <vector>
+
 void doIncidences();
 
 void erodeFluids(TileMap* tilemap);

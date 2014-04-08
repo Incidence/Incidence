@@ -5,6 +5,7 @@
 #include "level/tileset.hpp"
 #include "../engine/foo.hpp"
 #include "../engine/time.hpp"
+#include "incidences.hpp"
 
 /// TODO
 Game::Game( void ) : m_tilemap(NULL)
@@ -66,6 +67,12 @@ void Game::handleEvent( sf::Event & e )
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
     }
+												if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+													erodeFluids(m_tilemap);
+												}
+												if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+													dilateFluids(m_tilemap);
+												}
 }
 
 Entity * Game::getEntity( int id )

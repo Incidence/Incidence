@@ -161,7 +161,7 @@ void TileMap::changeGround(int type, sf::Vector2i position) {
 	//===== ELEMENT =====
 
 	if(m_elements[i + j * width] != NULL) {
-		addElement(m_elements[i + j * m_dimensions.x]->getType(), position);
+		addElement(m_elements[i + j * width]->getType(), position);
 	}
 
 }

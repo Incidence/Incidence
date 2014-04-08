@@ -69,7 +69,7 @@ $(TMP)/incidences.o: $(GAME)/incidences.cpp $(GAME)/incidences.hpp
 
 LVL=$(GAME)/level
 
-level: $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/pathfinding.o
+level: $(TMP)/ground.o $(TMP)/element.o $(TMP)/tileset.o $(TMP)/tilemap.o $(TMP)/pathfinding.o $(TMP)/harvestable.o
 
 $(TMP)/ground.o: $(LVL)/ground.cpp $(LVL)/ground.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -86,17 +86,23 @@ $(TMP)/tilemap.o: $(LVL)/tilemap.cpp $(LVL)/tilemap.hpp
 $(TMP)/pathfinding.o: $(LVL)/pathfinding.cpp $(LVL)/pathfinding.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
+$(TMP)/harvestable.o: $(LVL)/harvestable.cpp $(LVL)/harvestable.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
 
 # Entity
 
 ENT=$(GAME)/entity
 
-entity: $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/lumberjack.o
+entity: $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/enemy_citizen.o $(TMP)/lumberjack.o
 
 $(TMP)/entity.o: $(ENT)/entity.cpp $(ENT)/entity.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/entity_set.o: $(ENT)/entity_set.cpp $(ENT)/entity_set.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/enemy_citizen.o: $(ENT)/enemy_citizen.cpp $(ENT)/enemy_citizen.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/lumberjack.o: $(ENT)/lumberjack.cpp $(ENT)/lumberjack.hpp
