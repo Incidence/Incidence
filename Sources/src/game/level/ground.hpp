@@ -36,7 +36,7 @@ class Ground {
 		bool* getTileBorders() const;
 		sf::Vertex* getQuad() const;
 		
-		bool hasTileBorderWith(int type) const;
+		bool hasBorderWith(int type) const;
 
 };
 

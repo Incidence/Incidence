@@ -343,7 +343,7 @@ void TileSet::TEST() {
 		}
 		std::cout << " < ";
 		for(int j(0) ; j < (int)m_grounds.size() ; ++j) {
-			if(m_grounds[i].hasTileBorderWith(j)) {
+			if(m_grounds[i].hasBorderWith(j)) {
 				std::cout << j << " ";
 			}
 		}

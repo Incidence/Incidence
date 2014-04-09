@@ -58,7 +58,7 @@ sf::Vertex* Ground::getQuad() const {
 
 }
 
-bool Ground::hasTileBorderWith(int type) const {
+bool Ground::hasBorderWith(int type) const {
 
 	for(unsigned int i(0) ; i < m_borders.size() ; ++i) {
 		if(m_borders[i] == type) {

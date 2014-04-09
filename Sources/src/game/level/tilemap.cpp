@@ -129,10 +129,10 @@ void TileMap::changeGround(int type, sf::Vector2i position) {
 
 	if(l_ground != NULL) {
 
-		GROUND_tileBorders[0] = (i > 0 && l_ground->hasTileBorderWith(m_grounds[i - 1 + j * width]->getType()));
-		GROUND_tileBorders[1] = (j < height-1 && l_ground->hasTileBorderWith(m_grounds[i + (j + 1) * width]->getType()));
-		GROUND_tileBorders[2] = (j > 0 && l_ground->hasTileBorderWith(m_grounds[i + (j - 1) * width]->getType()));
-		GROUND_tileBorders[3] = (i < width-1 && l_ground->hasTileBorderWith(m_grounds[i + 1 + j * width]->getType()));
+		GROUND_tileBorders[0] = (i > 0 && l_ground->hasBorderWith(m_grounds[i - 1 + j * width]->getType()));
+		GROUND_tileBorders[1] = (j < height-1 && l_ground->hasBorderWith(m_grounds[i + (j + 1) * width]->getType()));
+		GROUND_tileBorders[2] = (j > 0 && l_ground->hasBorderWith(m_grounds[i + (j - 1) * width]->getType()));
+		GROUND_tileBorders[3] = (i < width-1 && l_ground->hasBorderWith(m_grounds[i + 1 + j * width]->getType()));
 
 		l_ground = m_tileset.getGround(type, GROUND_tileBorders);
 
@@ -263,15 +263,15 @@ void TileMap::generate() {
 						bool add = true;
 						if(i > 0) {
 							if(!(m_grounds[i - 1 + j * width]->getType() == k
-								|| m_grounds[i - 1 + j * width]->hasTileBorderWith(k)
-								|| l_ground_tmp->hasTileBorderWith(m_grounds[i - 1 + j * width]->getType()))) {
+								|| m_grounds[i - 1 + j * width]->hasBorderWith(k)
+								|| l_ground_tmp->hasBorderWith(m_grounds[i - 1 + j * width]->getType()))) {
 								add = false;
 							}
 						}
 						if(j > 0) {
 							if(!(m_grounds[i + (j - 1) * width]->getType() == k
-								|| m_grounds[i + (j - 1) * width]->hasTileBorderWith(k)
-								|| l_ground_tmp->hasTileBorderWith(m_grounds[i + (j - 1) * width]->getType()))) {
+								|| m_grounds[i + (j - 1) * width]->hasBorderWith(k)
+								|| l_ground_tmp->hasBorderWith(m_grounds[i + (j - 1) * width]->getType()))) {
 								add = false;
 							}
 						}
@@ -328,15 +328,15 @@ void TileMap::generate() {
 
 			if(current->getBehavior() == DEFAULT) {
 
-				if( ( current->hasTileBorderWith(round[0]->getType())
-					&& current->hasTileBorderWith(round[1]->getType())
-					&& current->hasTileBorderWith(round[2]->getType())
-					&& current->hasTileBorderWith(round[3]->getType())
+				if( ( current->hasBorderWith(round[0]->getType())
+					&& current->hasBorderWith(round[1]->getType())
+					&& current->hasBorderWith(round[2]->getType())
+					&& current->hasBorderWith(round[3]->getType())
 					) || (
-					round[0]->hasTileBorderWith(current->getType())
-					&& round[1]->hasTileBorderWith(current->getType())
-					&& round[2]->hasTileBorderWith(current->getType())
-					&& round[3]->hasTileBorderWith(current->getType())
+					round[0]->hasBorderWith(current->getType())
+					&& round[1]->hasBorderWith(current->getType())
+					&& round[2]->hasBorderWith(current->getType())
+					&& round[3]->hasBorderWith(current->getType())
 					) ) {
 
 					int k(0), random(rand());
@@ -351,7 +351,7 @@ void TileMap::generate() {
 
 							bool change = true;
 							for(int l(0) ; l < 4 ; ++l) {
-								if(!(round[l]->getType() == GROUND_type || l_ground->hasTileBorderWith(round[l]->getType()) || round[l]->hasTileBorderWith(GROUND_type))) {
+								if(!(round[l]->getType() == GROUND_type || l_ground->hasBorderWith(round[l]->getType()) || round[l]->hasBorderWith(GROUND_type))) {
 									change = false;
 								}
 							}
@@ -413,10 +413,10 @@ void TileMap::generate() {
 			int GROUND_type = m_grounds[i + j * width]->getType();
 			bool GROUND_tileBorders[4] = {false,false,false,false};
 
-			GROUND_tileBorders[0] = (i > 0 && m_grounds[i + j * width]->hasTileBorderWith(m_grounds[i - 1 + j * width]->getType()));
-			GROUND_tileBorders[1] = (j < height-1 && m_grounds[i + j * width]->hasTileBorderWith(m_grounds[i + (j + 1) * width]->getType()));
-			GROUND_tileBorders[2] = (j > 0 && m_grounds[i + j * width]->hasTileBorderWith(m_grounds[i + (j - 1) * width]->getType()));
-			GROUND_tileBorders[3] = (i < width-1 && m_grounds[i + j * width]->hasTileBorderWith(m_grounds[i + 1 + j * width]->getType()));
+			GROUND_tileBorders[0] = (i > 0 && m_grounds[i + j * width]->hasBorderWith(m_grounds[i - 1 + j * width]->getType()));
+			GROUND_tileBorders[1] = (j < height-1 && m_grounds[i + j * width]->hasBorderWith(m_grounds[i + (j + 1) * width]->getType()));
+			GROUND_tileBorders[2] = (j > 0 && m_grounds[i + j * width]->hasBorderWith(m_grounds[i + (j - 1) * width]->getType()));
+			GROUND_tileBorders[3] = (i < width-1 && m_grounds[i + j * width]->hasBorderWith(m_grounds[i + 1 + j * width]->getType()));
 
 			Ground* l_ground = m_tileset.getGround(GROUND_type, GROUND_tileBorders);
 
