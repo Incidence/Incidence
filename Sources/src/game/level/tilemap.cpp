@@ -170,40 +170,44 @@ void TileMap::addElement(int type, sf::Vector2i position) {
 
 	int i = position.x;
 	int j = position.y;
-	sf::Vector2u tileSize = m_tileset.getTileSize();
-	int width = m_dimensions.x;
+	
+	if(i > 0 && i < m_dimensions.x && j > 0 && j < m_dimensions.y) {
+		
+		sf::Vector2u tileSize = m_tileset.getTileSize();
+		int width = m_dimensions.x;
 
-	//===== ELEMENT =====
+		//===== ELEMENT =====
 
-	int GROUND_type = m_grounds[i + j * width]->getType();
-	Element* l_element = m_tileset.getElement(type, GROUND_type);
+		int GROUND_type = m_grounds[i + j * width]->getType();
+		Element* l_element = m_tileset.getElement(type, GROUND_type);
 
-	if(l_element != NULL) {
+		if(l_element != NULL) {
 
-		m_elements[i + j * width] = l_element;
-		sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
-		sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
+			m_elements[i + j * width] = l_element;
+			sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
+			sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
 
-		quadElementDown[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-		quadElementDown[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-		quadElementDown[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-		quadElementDown[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+			quadElementDown[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+			quadElementDown[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+			quadElementDown[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+			quadElementDown[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
 
-		if(j > 0) {
-			quadElementUp[0].position = sf::Vector2f(i * tileSize.x, (j-1) * tileSize.y);
-			quadElementUp[1].position = sf::Vector2f((i + 1) * tileSize.x, (j-1) * tileSize.y);
-			quadElementUp[2].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-			quadElementUp[3].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+			if(j > 0) {
+				quadElementUp[0].position = sf::Vector2f(i * tileSize.x, (j-1) * tileSize.y);
+				quadElementUp[1].position = sf::Vector2f((i + 1) * tileSize.x, (j-1) * tileSize.y);
+				quadElementUp[2].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+				quadElementUp[3].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+			}
+
+			for(int k(0) ; k < 4 ; ++k) {
+				quadElementDown[k].texCoords = (l_element->getQuadDown())[k].texCoords;
+				quadElementUp[k].texCoords = (l_element->getQuadUp())[k].texCoords;
+			}
 		}
-
-		for(int k(0) ; k < 4 ; ++k) {
-			quadElementDown[k].texCoords = (l_element->getQuadDown())[k].texCoords;
-			quadElementUp[k].texCoords = (l_element->getQuadUp())[k].texCoords;
+		else {
+			removeElement(position);
+	//		std::cout << "Une erreur est survenue lors de l'ajout d'un element." << std::endl;
 		}
-	}
-	else {
-		removeElement(position);
-//		std::cout << "Une erreur est survenue lors de l'ajout d'un element." << std::endl;
 	}
 
 }
@@ -212,18 +216,21 @@ void TileMap::removeElement(sf::Vector2i position) {
 
 	int i = position.x;
 	int j = position.y;
-	int width = m_dimensions.x;
+	
+	if(i > 0 && i < m_dimensions.x && j > 0 && j < m_dimensions.y) {
+		
+		int width = m_dimensions.x;
 
-	m_elements[i + j * width] = NULL;
+		m_elements[i + j * width] = NULL;
 
-	sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
-	sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
+		sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
+		sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
 
-	for(int k(0) ; k < 4 ; ++k) {
-		quadElementDown[k].position = sf::Vector2f(0,0);
-		quadElementUp[k].position = sf::Vector2f(0,0);
+		for(int k(0) ; k < 4 ; ++k) {
+			quadElementDown[k].position = sf::Vector2f(0,0);
+			quadElementUp[k].position = sf::Vector2f(0,0);
+		}
 	}
-
 }
 
 void TileMap::generate() {

@@ -68,11 +68,17 @@ void Game::handleEvent( sf::Event & e )
         }
     }
     if (e.type == sf::Event::KeyPressed) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			dilateFluids(m_tilemap);
+		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
 			erodeFluids(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			dilateFluids(m_tilemap);
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+			expandForests(m_tilemap);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+			burnForests(m_tilemap);
 		}
     }
 }

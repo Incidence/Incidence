@@ -7,9 +7,10 @@
 
 void doIncidences();
 
+void spreadGround(TileMap* tilemap, int type, sf::Vector2i position);
+
 void erodeFluids(TileMap* tilemap);
 void dilateFluids(TileMap* tilemap);
-void spreadGround(TileMap* tilemap, int type, sf::Vector2i position);
 
 void expandForests(TileMap* tilemap);
 void burnForests(TileMap* tilemap);
