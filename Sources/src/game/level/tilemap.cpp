@@ -115,6 +115,28 @@ Harvestable * TileMap::getHarvestable(sf::Vector2i position) const {
 
 }
 
+/*
+ *** Description : cette fonction teste la compatibilité entre deux sols.
+ *
+ *** Entree : deux positions de sol
+ *** Sortie : -1 si un sol est NULL, 1 si compatibles, 0 sinon.
+*/
+int TileMap::areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position_2) {
+	
+	Ground* l_ground_1 = this->getGround(position_1);
+	Ground* l_ground_2 = this->getGround(position_2);
+	
+	if(l_ground_1 == NULL || l_ground_2 == NULL) {
+		return -1;
+	}
+	else {
+		return (l_ground_1->hasBorderWith(l_ground_2->getType()) || 
+				l_ground_2->hasBorderWith(l_ground_1->getType()) || 
+				l_ground_1->getType() == l_ground_2->getType())?1:0;
+	}
+	
+}
+
 void TileMap::changeGround(int type, sf::Vector2i position) {
 
 	int i = position.x;
@@ -171,7 +193,7 @@ void TileMap::addElement(int type, sf::Vector2i position) {
 	int i = position.x;
 	int j = position.y;
 	
-	if(i > 0 && i < m_dimensions.x && j > 0 && j < m_dimensions.y) {
+	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
 		
 		sf::Vector2u tileSize = m_tileset.getTileSize();
 		int width = m_dimensions.x;
@@ -217,7 +239,7 @@ void TileMap::removeElement(sf::Vector2i position) {
 	int i = position.x;
 	int j = position.y;
 	
-	if(i > 0 && i < m_dimensions.x && j > 0 && j < m_dimensions.y) {
+	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
 		
 		int width = m_dimensions.x;
 
@@ -233,6 +255,12 @@ void TileMap::removeElement(sf::Vector2i position) {
 	}
 }
 
+/*
+ *** Description : cette fonction génère aléatoirement le contenu de la carte.
+ *
+ *** Entree : void
+ *** Sortie : void
+*/
 void TileMap::generate() {
 
 	srand(time(NULL));

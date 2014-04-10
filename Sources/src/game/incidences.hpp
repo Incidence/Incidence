@@ -2,18 +2,27 @@
 #define INCIDENCES_HPP
 
 #include "level/tilemap.hpp"
-
 #include <vector>
+
+#define ALEATOIRE 3
 
 void doIncidences();
 
 void spreadGround(TileMap* tilemap, int type, sf::Vector2i position);
+void dilateGround(TileMap* tilemap, TileBehavior behavior);
+void erodeGround(TileMap* tilemap, TileBehavior behavior);
+void dilateElement(TileMap* tilemap, TileBehavior behavior);
+void erodeElement(TileMap* tilemap, TileBehavior behavior);
 
-void erodeFluids(TileMap* tilemap);
 void dilateFluids(TileMap* tilemap);
+void erodeFluids(TileMap* tilemap);
+void dilateCliffs(TileMap* tilemap);
+void erodeCliffs(TileMap* tilemap);
 
-void expandForests(TileMap* tilemap);
-void burnForests(TileMap* tilemap);
+void mixGround(TileMap* tilemap);
+
+void dilateForests(TileMap* tilemap);
+void erodeForests(TileMap* tilemap);
 
 void spawnRessources(TileMap* tilemap);
 void burnRessources(TileMap* tilemap);

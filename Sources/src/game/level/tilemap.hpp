@@ -47,6 +47,8 @@ class TileMap {
 		Ground * getGround(sf::Vector2i position) const;
 		Element * getElement(sf::Vector2i position) const;
 		Harvestable * getHarvestable(sf::Vector2i position) const;
+		
+		int areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position_2);
 
 		void changeGround(int type, sf::Vector2i position);
 		void addElement(int type, sf::Vector2i position);
