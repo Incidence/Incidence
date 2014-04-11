@@ -86,8 +86,14 @@ void Game::handleEvent( sf::Event & e )
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
 			erodeCliffs(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
 			mixGround(m_tilemap);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+			burnRessources(m_tilemap);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+			spawnRessources(m_tilemap);
 		}
     }
 }

@@ -21,6 +21,12 @@ TileMap::~TileMap() {
 	//TODO
 }
 
+const TileSet* TileMap::getTileSet() const {
+	
+	return &m_tileset;
+	
+}
+
 void TileMap::setTileSet(TileSet tileset) {
 
 	m_tileset = tileset;

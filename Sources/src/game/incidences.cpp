@@ -334,15 +334,18 @@ void erodeCliffs(TileMap* tilemap) {
 	
 }
 
+//FIXME : a tendance à faire disparaître FLUID et CLIFF (à cause du spreadGround)
 void mixGround(TileMap* tilemap) {
 	
 	srand(time(NULL));
 	
 	if(rand()%2 == 0) {
 		erodeGround(tilemap, DEFAULT);
+		dilateGround(tilemap, DEFAULT);
 	}
 	else {
 		dilateGround(tilemap, DEFAULT);
+		erodeGround(tilemap, DEFAULT);
 	}
 	
 }
@@ -361,13 +364,53 @@ void erodeForests(TileMap* tilemap) {
 
 void spawnRessources(TileMap* tilemap) {
 	
-	//TODO
+	int elementCount = (tilemap->getTileSet())->getElementCount();
+	
+	srand(time(NULL));
+	
+	int width = tilemap->getDimensions().x;
+	int height = tilemap->getDimensions().y;
+	
+	Element* l_element;
+	
+	for(int i(0) ; i < width ; ++i) {
+		for(int j(0) ; j < height ; ++j) {
+			
+			if(rand()%ALEATOIRE == 0) {
+				
+				l_element = tilemap->getElement(sf::Vector2i(i, j));
+				
+				if(l_element == NULL && rand()%ALEATOIRE == 0) {
+					tilemap->addElement(rand()%elementCount, sf::Vector2i(i, j));
+				}
+			}
+		}
+	}
 	
 }
 
 void burnRessources(TileMap* tilemap) {
 	
-	//TODO
+	srand(time(NULL));
+	
+	int width = tilemap->getDimensions().x;
+	int height = tilemap->getDimensions().y;
+	
+	Element* l_element;
+	
+	for(int i(0) ; i < width ; ++i) {
+		for(int j(0) ; j < height ; ++j) {
+			
+			if(rand()%ALEATOIRE == 0) {
+				
+				l_element = tilemap->getElement(sf::Vector2i(i, j));
+				
+				if(l_element != NULL && rand()%ALEATOIRE == 0) {
+					tilemap->removeElement(sf::Vector2i(i, j));
+				}
+			}
+		}
+	}
 	
 }
 
