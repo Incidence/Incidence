@@ -185,7 +185,7 @@ int Entity::getNearestResource( lua_State * L )
         for(int x = posMap.x - m_perception; x <= posMap.x + m_perception; ++x) {
             for(int y = posMap.y - m_perception; y <= posMap.y + m_perception; ++y) {
                 Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable( sf::Vector2i(x, y) );
-                if( pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containResource(m_ressource) ) {
+                if( pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containRessource(m_ressource) ) {
                     std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30, m_perception);
                     if(!w.empty()) {
                         lua_pushboolean(L, true);
@@ -212,10 +212,10 @@ int Entity::isNearResource( lua_State * L )
         Harvestable * pHarvestableUp = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x, posMap.y + 1) );
         Harvestable * pHarvestableDown = m_game->m_tilemap->getHarvestable( sf::Vector2i(posMap.x, posMap.y - 1) );
 
-        bNear =((pHarvestableDown && pHarvestableDown->containResource(m_ressource)) ||
-                (pHarvestableLeft && pHarvestableLeft->containResource(m_ressource)) ||
-                (pHarvestableRight && pHarvestableRight->containResource(m_ressource)) ||
-                (pHarvestableUp && pHarvestableUp->containResource(m_ressource)) );
+        bNear =((pHarvestableDown && pHarvestableDown->containRessource(m_ressource)) ||
+                (pHarvestableLeft && pHarvestableLeft->containRessource(m_ressource)) ||
+                (pHarvestableRight && pHarvestableRight->containRessource(m_ressource)) ||
+                (pHarvestableUp && pHarvestableUp->containRessource(m_ressource)) );
     }
 
     lua_pushboolean(L, bNear);
@@ -310,7 +310,7 @@ void Entity::goNearestResource( void )
         for(int x = posMap.x - m_perception; x <= posMap.x + m_perception; ++x) {
             for(int y = posMap.y - m_perception; y <= posMap.y + m_perception; ++y) {
                 Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable( sf::Vector2i(x, y) );
-                if(pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containResource(m_ressource) ) {
+                if(pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containRessource(m_ressource) ) {
                     std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30, m_perception);
 
                     // Calcul distance a faire, si < nearest : = m_way
@@ -354,22 +354,22 @@ void Entity::takeResource( void )
         Harvestable * pHarvestable = NULL;
         mapPos.x += 1; // RIGHT
         pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
-        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 1 : iHarvestableNeighbor;
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containRessource(m_ressource)) ? 1 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.x -= 1; // LEFT
         pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
-        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 2 : iHarvestableNeighbor;
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containRessource(m_ressource)) ? 2 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.y += 1; //UP
         pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
-        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 3 : iHarvestableNeighbor;
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containRessource(m_ressource)) ? 3 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         mapPos.y -= 1; // DOWN
         pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
-        iHarvestableNeighbor = (pHarvestable && pHarvestable->containResource(m_ressource)) ? 4 : iHarvestableNeighbor;
+        iHarvestableNeighbor = (pHarvestable && pHarvestable->containRessource(m_ressource)) ? 4 : iHarvestableNeighbor;
 
         mapPos = m_game->m_tilemap->getXY(m_position);
         switch(iHarvestableNeighbor) {

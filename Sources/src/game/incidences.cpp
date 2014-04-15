@@ -565,6 +565,8 @@ void erodeForests(TileMap* tilemap) {
 void spawnRessources(TileMap* tilemap) {
 	
 	int elementCount = (tilemap->getTileSet())->getElementCount();
+	std::vector<int> stoneElements;
+	std::vector<int> woodElements;
 	
 	srand(time(NULL));
 	
@@ -572,6 +574,27 @@ void spawnRessources(TileMap* tilemap) {
 	int height = tilemap->getDimensions().y;
 	
 	Element* l_element;
+	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0]; 
+	
+	for(int k(0) ; k < elementCount ; ++k) {
+		l_element = (tilemap->getTileSet())->getElement(k, GROUND_type);
+		if(l_element != NULL) {
+			std::vector<Ressource> r = l_element->getRessources();
+			for(int i(0) ; i < r.size();i++){
+				std::cout<<r[i].type<<" "<<r[i].quantity<<std::endl;
+			}
+			if(l_element->containRessource(STONE)) {
+				stoneElements.push_back(k);
+				std::cout<<"stone "<<k<<std::endl;
+			}
+			if(l_element->containRessource(WOOD)) {
+				woodElements.push_back(k);
+				std::cout<<"wood "<<k<<std::endl;
+			}
+		}
+	}
+	
+	Ground* l_ground;
 	
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
@@ -581,7 +604,45 @@ void spawnRessources(TileMap* tilemap) {
 				l_element = tilemap->getElement(sf::Vector2i(i, j));
 				
 				if(l_element == NULL && rand()%ALEATOIRE == 0) {
-					tilemap->addElement(rand()%elementCount, sf::Vector2i(i, j));
+					
+					bool addStone = false, addWood = false;
+					
+					for(int k(0) ; k < 4 ; ++k) {
+						
+						l_ground = NULL;
+						
+						if(k == 0 && i > 0) {
+							l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
+						}
+						else if(k == 1 && j > 0) {
+							l_ground = tilemap->getGround(sf::Vector2i(i, j - 1));
+						}
+						else if(k == 2 && i < width - 1) {
+							l_ground = tilemap->getGround(sf::Vector2i(i + 1, j));
+						}
+						else if(k == 3 && j < height - 1) {
+							l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
+						}
+					
+						if(l_ground != NULL) {
+							if(l_ground->getBehavior() == CLIFF) {
+								addStone = true;
+							}
+							if(l_ground->getBehavior() == FLUID) {
+								addWood = true;
+							}
+						}
+					}
+					
+					if(addStone && stoneElements.size() > 0) {
+						tilemap->addElement(stoneElements[rand()%stoneElements.size()], sf::Vector2i(i, j));
+					}
+					else if(addWood && woodElements.size() > 0) {
+						tilemap->addElement(woodElements[rand()%woodElements.size()], sf::Vector2i(i, j));
+					}
+					else {
+						tilemap->addElement(rand()%elementCount, sf::Vector2i(i, j));
+					}
 				}
 			}
 		}

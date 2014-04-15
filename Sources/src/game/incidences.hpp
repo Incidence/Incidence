@@ -3,6 +3,7 @@
 
 #include "level/tilemap.hpp"
 #include <vector>
+#include <iostream>
 
 #define ALEATOIRE 3
 

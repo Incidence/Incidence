@@ -13,7 +13,7 @@ public :
 
     float getPickingTime( void ) const;
     std::vector<Ressource> getRessources( void ) const;
-    bool containResource( RessourceType t ) const;
+    bool containRessource( RessourceType t ) const;
     int getQuantityOf( RessourceType t ) const;
 
     virtual bool isHarvestable( void ) = 0;

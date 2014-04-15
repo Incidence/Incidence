@@ -22,7 +22,7 @@ std::vector<Ressource> Harvestable::getRessources() const
 	return m_ressources;
 }
 
-bool Harvestable::containResource( RessourceType t ) const
+bool Harvestable::containRessource( RessourceType t ) const
 {
     for(unsigned int i = 0; i < m_ressources.size(); ++i) {
         if(m_ressources[i].type == t) {
