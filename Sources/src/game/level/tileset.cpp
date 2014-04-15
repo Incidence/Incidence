@@ -95,6 +95,34 @@ Element* TileSet::getElement(int type, int groundType) {
 
 }
 
+std::vector<int> TileSet::getGroundsByBehavior(TileBehavior behavior) const {
+	
+	std::vector<int> l_grounds;
+	
+	for(int i(0) ; i < m_grounds.size() ; ++i) {
+		if(m_grounds[i].getBehavior() == behavior) {
+			l_grounds.push_back(m_grounds[i].getType());
+		}
+	}
+	
+	return l_grounds;
+	
+}
+
+std::vector<int> TileSet::getElementsByBehavior(TileBehavior behavior) const {
+	
+	std::vector<int> l_elements;
+	
+	for(int i(0) ; i < m_elements.size() ; ++i) {
+		if(m_elements[i].getBehavior() == behavior) {
+			l_elements.push_back(m_elements[i].getType());
+		}
+	}
+	
+	return l_elements;
+	
+}
+
 /*
  *** Description : cette fonction charge le tileset en fonction de tous les paramètres définis dans le fichier ini
  *                 normalement situé dans le même dossier que le tileset, avec le même nom.

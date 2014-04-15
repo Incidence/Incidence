@@ -143,6 +143,29 @@ int TileMap::areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position
 	
 }
 
+/*
+ *** Description : cette fonction teste la compatibilité entre deux sols.
+ *
+ *** Entree : deux positions de sol
+ *** Sortie : -1 si un sol est NULL, 1 si compatibles, 0 sinon.
+*/
+int TileMap::areCompatibleGrounds(int type_1, int type_2) {
+	
+	bool tileBorders[4] = {false, false, false, false};
+	Ground* l_ground_1 = m_tileset.getGround(type_1, tileBorders);
+	Ground* l_ground_2 = m_tileset.getGround(type_2, tileBorders);
+	
+	if(l_ground_1 == NULL || l_ground_2 == NULL) {
+		return -1;
+	}
+	else {
+		return (l_ground_1->hasBorderWith(l_ground_2->getType()) || 
+				l_ground_2->hasBorderWith(l_ground_1->getType()) || 
+				l_ground_1->getType() == l_ground_2->getType())?1:0;
+	}
+	
+}
+
 void TileMap::changeGround(int type, sf::Vector2i position) {
 
 	int i = position.x;

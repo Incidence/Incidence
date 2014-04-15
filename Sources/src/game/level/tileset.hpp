@@ -8,6 +8,7 @@
 #define TILESET_HPP
 
 #include <SFML/Graphics.hpp>
+#include <vector>
 #include "ground.hpp"
 #include "element.hpp"
 
@@ -36,6 +37,9 @@ class TileSet {
 
 		Ground* getGround(int type, bool* tileBorders);
 		Element* getElement(int type, int groundType);
+		
+		std::vector<int> getGroundsByBehavior(TileBehavior behavior) const;
+		std::vector<int> getElementsByBehavior(TileBehavior behavior) const;
 
 		bool load(const std::string& path);
 		
