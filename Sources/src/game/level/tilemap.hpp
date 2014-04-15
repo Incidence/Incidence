@@ -33,7 +33,7 @@ class TileMap {
 		TileMap(TileSet tileset, sf::Vector2u dimensions);
 		~TileMap();
 
-		TileSet* getTileSet() const;
+		TileSet* getTileSet();
 		void setTileSet(TileSet tileset);
 		sf::Vector2u getDimensions() const;
 		void setDimensions(sf::Vector2u dimensions);

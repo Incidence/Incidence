@@ -577,19 +577,16 @@ void spawnRessources(TileMap* tilemap) {
 	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0]; 
 	
 	for(int k(0) ; k < elementCount ; ++k) {
+		
 		l_element = (tilemap->getTileSet())->getElement(k, GROUND_type);
+		
 		if(l_element != NULL) {
-			std::vector<Ressource> r = l_element->getRessources();
-			for(int i(0) ; i < r.size();i++){
-				std::cout<<r[i].type<<" "<<r[i].quantity<<std::endl;
-			}
+			
 			if(l_element->containRessource(STONE)) {
 				stoneElements.push_back(k);
-				std::cout<<"stone "<<k<<std::endl;
 			}
 			if(l_element->containRessource(WOOD)) {
 				woodElements.push_back(k);
-				std::cout<<"wood "<<k<<std::endl;
 			}
 		}
 	}
