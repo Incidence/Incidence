@@ -561,7 +561,13 @@ void erodeForests(TileMap* tilemap) {
 	
 }
 
-//RECODE : ajouter pieds de falaise et bords d'eau
+/*
+ *** Description : cette fonction ajoute aléatoirement des éléments sur la carte, des rochers près des falaises ou d'autres rochers
+ *                 et de la végétation autour des zones d'eau.
+ *
+ *** Entree : la carte (tilemap).
+ *** Sortie : void
+*/
 void spawnRessources(TileMap* tilemap) {
 	
 	int elementCount = (tilemap->getTileSet())->getElementCount();
@@ -610,15 +616,19 @@ void spawnRessources(TileMap* tilemap) {
 						
 						if(k == 0 && i > 0) {
 							l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
+							l_element = tilemap->getElement(sf::Vector2i(i - 1, j));
 						}
 						else if(k == 1 && j > 0) {
 							l_ground = tilemap->getGround(sf::Vector2i(i, j - 1));
+							l_element = tilemap->getElement(sf::Vector2i(i, j - 1));
 						}
 						else if(k == 2 && i < width - 1) {
 							l_ground = tilemap->getGround(sf::Vector2i(i + 1, j));
+							l_element = tilemap->getElement(sf::Vector2i(i + 1, j));
 						}
 						else if(k == 3 && j < height - 1) {
 							l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
+							l_element = tilemap->getElement(sf::Vector2i(i, j + 1));
 						}
 					
 						if(l_ground != NULL) {
@@ -629,16 +639,24 @@ void spawnRessources(TileMap* tilemap) {
 								addWood = true;
 							}
 						}
+						if(l_element != NULL) {
+							if(rand()%ALEATOIRE == 0 && contains(stoneElements, l_element->getType())) {
+								addStone = true;
+							}
+						}
 					}
 					
-					if(addStone && stoneElements.size() > 0) {
-						tilemap->addElement(stoneElements[rand()%stoneElements.size()], sf::Vector2i(i, j));
-					}
-					else if(addWood && woodElements.size() > 0) {
+					if(addWood && woodElements.size() > 0) {
 						tilemap->addElement(woodElements[rand()%woodElements.size()], sf::Vector2i(i, j));
 					}
+					else if(addStone && stoneElements.size() > 0) {
+						tilemap->addElement(stoneElements[rand()%stoneElements.size()], sf::Vector2i(i, j));
+					}
 					else {
-						tilemap->addElement(rand()%elementCount, sf::Vector2i(i, j));
+						GROUND_type = rand()%elementCount;
+						if(rand()%ALEATOIRE == 0 && !contains(stoneElements, GROUND_type)) {
+							tilemap->addElement(GROUND_type, sf::Vector2i(i, j));
+						}
 					}
 				}
 			}
