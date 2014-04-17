@@ -109,7 +109,21 @@ function Ennemy_citizen:action()
 				return "move"
 			end
 		else
-		return "move" --random move
+		math.randomseed(os.time())
+			math.random()
+			math.random()
+			local rand = math.floor(math.random()*10000)%5
+			print(rand)
+			if rand == 0 then
+				self:setAngle(self:getAngle()-math.pi/2)
+				return "move"
+			elseif rand == 4 then
+				self:setAngle(self:getAngle()+math.pi/2)
+				return "move"
+			else
+				self:setAngle(self:getAngle())
+				return "move"
+			end
 		end
 	end
 end
