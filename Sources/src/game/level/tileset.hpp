@@ -22,6 +22,7 @@ class TileSet {
 		int m_elementCount;
 		std::vector<Ground> m_grounds;
 		std::vector<Element> m_elements;
+		sf::Vector2u m_ashes;
 
 
 	public:
@@ -31,6 +32,7 @@ class TileSet {
 		~TileSet();
 
 		const sf::Texture* getTileset() const;
+		const sf::Vector2u getAshes() const;
 		sf::Vector2u getTileSize() const;
 		int getGroundCount() const;
 		int getElementCount() const;

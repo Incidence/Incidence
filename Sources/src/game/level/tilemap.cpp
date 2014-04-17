@@ -284,6 +284,49 @@ void TileMap::removeElement(sf::Vector2i position) {
 	}
 }
 
+void TileMap::burnElement(sf::Vector2i position) {
+
+	removeElement(position);
+
+	int i = position.x;
+	int j = position.y;
+	
+	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
+		
+		sf::Vector2u tileSize = m_tileset.getTileSize();
+		sf::Vector2u tilesetSize = (m_tileset.getTileset())->getSize();
+		sf::Vector2u ashes = m_tileset.getAshes();
+		int width = m_dimensions.x;
+
+		//===== ASHES =====
+
+		sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + j * width) * 4];
+		sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + j * width) * 4];
+
+		quadElementDown[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+		quadElementDown[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+		quadElementDown[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+		quadElementDown[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+
+		if(j > 0) {
+			quadElementUp[0].position = sf::Vector2f(i * tileSize.x, (j-1) * tileSize.y);
+			quadElementUp[1].position = sf::Vector2f((i + 1) * tileSize.x, (j-1) * tileSize.y);
+			quadElementUp[2].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+			quadElementUp[3].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+		}
+
+		quadElementDown[0].texCoords = sf::Vector2f(ashes.x, ashes.y);
+		quadElementDown[1].texCoords = sf::Vector2f(ashes.x + tileSize.x, ashes.y);
+		quadElementDown[2].texCoords = sf::Vector2f(ashes.x + tileSize.x, ashes.y + tileSize.y);
+		quadElementDown[3].texCoords = sf::Vector2f(ashes.x, ashes.y + tileSize.y);
+
+		quadElementUp[0].texCoords = sf::Vector2f(tilesetSize.x - tileSize.x, tilesetSize.y - tileSize.y);
+		quadElementUp[1].texCoords = sf::Vector2f(tilesetSize.x, tilesetSize.y - tileSize.y);
+		quadElementUp[2].texCoords = sf::Vector2f(tilesetSize.x, tilesetSize.y);
+		quadElementUp[3].texCoords = sf::Vector2f(tilesetSize.x - tileSize.x, tilesetSize.y);
+	}
+}
+
 /*
  *** Description : cette fonction génère aléatoirement le contenu de la carte.
  *

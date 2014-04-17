@@ -12,6 +12,7 @@ TileSet::TileSet() {
 	m_elementCount = 0;
 	m_grounds = std::vector<Ground>();
 	m_elements = std::vector<Element>();
+	m_ashes = sf::Vector2u(0,0);
 
 }
 
@@ -29,6 +30,12 @@ const sf::Texture* TileSet::getTileset() const {
 
 	return &m_tileset;
 
+}
+
+const sf::Vector2u TileSet::getAshes() const {
+	
+	return m_ashes;
+	
 }
 
 sf::Vector2u TileSet::getTileSize() const {
@@ -172,10 +179,17 @@ bool TileSet::load(const std::string& path) {
 			config >> groundColumnCount;
 
 		}
-		if(keyWord.compare("elementColumnCount") == 0) {
+		else if(keyWord.compare("elementColumnCount") == 0) {
 
 			config >> elementColumnCount;
 
+		}
+		else if(keyWord.compare("ashes") == 0) {
+			
+			m_ashes.x = 0;
+			m_ashes.y = currentY * m_tilesize.y;
+			++ currentY;
+			
 		}
 		else if(keyWord.compare("ground") == 0) {
 

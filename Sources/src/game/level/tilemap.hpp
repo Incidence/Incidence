@@ -55,6 +55,7 @@ class TileMap {
 		void changeGround(int type, sf::Vector2i position);
 		void addElement(int type, sf::Vector2i position);
 		void removeElement(sf::Vector2i position);
+		void burnElement(sf::Vector2i position);
 
 		void generate();
 

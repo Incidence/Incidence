@@ -682,7 +682,7 @@ void burnRessources(TileMap* tilemap) {
 				l_element = tilemap->getElement(sf::Vector2i(i, j));
 				
 				if(l_element != NULL && rand()%ALEATOIRE == 0) {
-					tilemap->removeElement(sf::Vector2i(i, j));
+					tilemap->burnElement(sf::Vector2i(i, j));
 				}
 			}
 		}
