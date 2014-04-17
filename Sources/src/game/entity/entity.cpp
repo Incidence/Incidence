@@ -408,14 +408,20 @@ void Entity::recolting( void )
 {
     Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable(m_recolt);
 
+    if(!pHarvestable) {
+        m_action = IDLE;
+        return;
+    }
+
     if(Time::get()->elapsed().asMilliseconds() > m_waitTime) {
         m_bag = pHarvestable->getQuantityOf(m_ressource);
-        m_action = IDLE;
 
         if(m_game && m_game->m_tilemap) {
             m_game->m_tilemap->removeElement(m_recolt);
         }
         // Add tronc ?
+
+        m_action = IDLE;
     }
 }
 
