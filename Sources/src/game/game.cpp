@@ -98,6 +98,12 @@ void Game::handleEvent( sf::Event & e )
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
 			spawnRessources(m_tilemap);
 		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+			m_tilemap->save("saves/test.ims");
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			m_tilemap->load("saves/test.ims");
+		}
     }
 }
 

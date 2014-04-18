@@ -838,17 +838,18 @@ void TileMap::generate() {
 
 					if(rand()%100 < ELEMENT_PROPORTION / 3) {
 
-						m_elements[i + j * width] = l_element;
+						addElement(l_element->getType(), sf::Vector2i(i,j));
 
 						int areaX(rand()%ELEMENT_AREASIZE), areaY(rand()%ELEMENT_AREASIZE);
 						for(int k(-areaX) ; k <= areaX ; ++k) {
 							for(int l(-areaY) ; l <= areaY ; ++l) {
 								if(i + k >= 0 && i + k < width && j + l >= 0 && j + l < height) {
+
 									l_element = m_tileset.getElement(ELEMENT_type, m_grounds[i + k + (j + l) * width]->getType());
 									if(l_element != NULL && rand()%100 < ELEMENT_PROPORTION + 25) {
 										m_elements[i + k + (j + l) * width] = l_element;
-										sf::Vertex*quadElementDown = &m_VertexElementsDown[(i + k + (j + l) * width) * 4];
-										sf::Vertex*quadElementUp = &m_VertexElementsUp[(i + k + (j + l) * width) * 4];
+										sf::Vertex* quadElementDown = &m_VertexElementsDown[(i + k + (j + l) * width) * 4];
+										sf::Vertex* quadElementUp = &m_VertexElementsUp[(i + k + (j + l) * width) * 4];
 
 										quadElementDown[0].position = sf::Vector2f((i + k) * tileSize.x, (j + l) * tileSize.y);
 										quadElementDown[1].position = sf::Vector2f((i + k + 1) * tileSize.x, (j + l) * tileSize.y);
@@ -882,17 +883,90 @@ void TileMap::generate() {
 
 		}
 	}
-
 }
 
 bool TileMap::load(std::string path) {
 	//TODO
-	return false;
+	std::ifstream file(path.c_str());
+	if(!file) {
+		std::cout << "Ouverture du fichier de sauvegarde de carte impossible." << std::endl;
+		return false;
+	}
+	
+	std::string l_path;
+	file >> l_path;
+	if(!m_tileset.load(l_path)) {
+		std::cout << "Chargement du tileset impossible." << std::endl;
+		return false;
+	}
+	
+	file >> m_dimensions.x >> m_dimensions.y;
+	
+	m_grounds.resize(m_dimensions.x * m_dimensions.y);
+	m_elements.resize(m_dimensions.x * m_dimensions.y);
+	
+	int GROUND_type, ELEMENT_type;
+	
+	for(int j(0) ; j < m_dimensions.y ; ++j) {
+		for(int i(0) ; i < m_dimensions.x ; ++i) {
+			file >> GROUND_type;
+			changeGround(GROUND_type, sf::Vector2i(i, j));
+		}
+	}
+	for(int j(0) ; j < m_dimensions.y ; ++j) {
+		for(int i(0) ; i < m_dimensions.x ; ++i) {
+			file >> ELEMENT_type;
+			if(ELEMENT_type == -1) {
+				removeElement(sf::Vector2i(i, j));
+			}
+			else {
+				addElement(ELEMENT_type, sf::Vector2i(i, j));
+			}
+		}
+	}
+	
+	for(int i(0) ; i < m_dimensions.x ; ++i) {
+		for(int j(0) ; j < m_dimensions.y ; ++j) {
+			updateBorders(sf::Vector2i(i, j));
+		}
+	}
+	
+	return true;
 }
 
 bool TileMap::save(std::string path) const {
-	//TODO
-	return false;
+	
+	std::ofstream file(path.c_str());
+	if(!file) {
+		std::cout << "Ecriture du fichier de sauvegarde de carte impossible." << std::endl;
+		return false;
+	}
+	
+	file << m_tileset.getPath() << std::endl;
+	file << m_dimensions.x << " " << m_dimensions.y << std::endl;
+	
+	file << std::endl;
+	for(int j(0) ; j < m_dimensions.y ; ++j) {
+		for(int i(0) ; i < m_dimensions.x ; ++i) {
+			file << " " << m_grounds[i + j * m_dimensions.x]->getType() << " ";
+		}
+		file << std::endl;
+	}
+	
+	file << std::endl;
+	for(int j(0) ; j < m_dimensions.y ; ++j) {
+		for(int i(0) ; i < m_dimensions.x ; ++i) {
+			if(m_elements[i + j * m_dimensions.x] == NULL) {
+				file << -1 << " ";
+			}
+			else {
+				file << " " << m_elements[i + j * m_dimensions.x]->getType() << " ";
+			}
+		}
+		file << std::endl;
+	}
+	
+	return true;
 }
 
 void TileMap::drawGrounds(sf::RenderTarget& target) const {

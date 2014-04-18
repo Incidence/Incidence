@@ -26,6 +26,12 @@ TileSet::~TileSet() {
 	//TODO
 }
 
+std::string TileSet::getPath() const {
+	
+	return m_path;
+	
+}
+
 const sf::Texture* TileSet::getTileset() const {
 
 	return &m_tileset;
@@ -145,7 +151,9 @@ std::vector<int> TileSet::getElementsByBehavior(TileBehavior behavior) const {
  *** Entree : une chaîne de caractères contenant le chemin (absolu ou relatif) du fichier .png du tileset
  *** Sortie : un booléen indiquant si le chargement est complet.
 */
-bool TileSet::load(const std::string& path) {
+bool TileSet::load(const std::string path) {
+	
+	m_path = path;
 
 	// === OUVERTURE DES FICHIERS ===
 

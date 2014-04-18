@@ -1,3 +1,9 @@
+/*******************************************************************
+** Description :                                                  **
+** Fichier d'en-tête contenant toutes les fonctions nécessaire au **
+** déroulement des incidences sur l'environnement et les entités. **
+*******************************************************************/
+
 #ifndef INCIDENCES_HPP
 #define INCIDENCES_HPP
 
@@ -44,6 +50,7 @@ void burnRessources(TileMap* tilemap);
 void spawnEntities(TileMap* tilemap);
 void killEntities(TileMap* tilemap);
 
+void citizenSpawn(TileMap* tilemap);
 void citizenFeeding(TileMap* tilemap);
 void citizenSicken(TileMap* tilemap);
 void citizenBirth(TileMap* tilemap);

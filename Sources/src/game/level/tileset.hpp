@@ -16,6 +16,7 @@ class TileSet {
 
 	private:
 
+		std::string m_path;
 		sf::Texture m_tileset;
 		sf::Vector2u m_tilesize;
 		int m_groundCount;
@@ -31,6 +32,7 @@ class TileSet {
 		TileSet(const std::string path);
 		~TileSet();
 
+		std::string getPath() const;
 		const sf::Texture* getTileset() const;
 		const sf::Vector2u getAshes() const;
 		sf::Vector2u getTileSize() const;
@@ -43,7 +45,7 @@ class TileSet {
 		std::vector<int> getGroundsByBehavior(TileBehavior behavior) const;
 		std::vector<int> getElementsByBehavior(TileBehavior behavior) const;
 
-		bool load(const std::string& path);
+		bool load(const std::string path);
 		
 		void TEST();
 

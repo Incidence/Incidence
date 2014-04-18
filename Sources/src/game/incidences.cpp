@@ -682,6 +682,12 @@ void killEntities(TileMap* tilemap) {
 	
 }
 
+void citizenSpawn(TileMap* tilemap) {
+	
+	//TODO
+	
+}
+
 void citizenFeeding(TileMap* tilemap) {
 	
 	//TODO
