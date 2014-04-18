@@ -19,6 +19,8 @@ Lunar<Pickman>::RegType Pickman::methods[] = {
     method(Pickman, getHealth),
     method(Pickman, setTarget),
     method(Pickman, isAttackMe),
+    method(EnemyCitizen, getDistanceToHome),
+    method(EnemyCitizen, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

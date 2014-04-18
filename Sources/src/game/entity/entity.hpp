@@ -42,6 +42,8 @@ public :
     int setTarget( lua_State * L ); // : void (int (id_target))
     int isAttackMe( lua_State * L ); // : bool (int (id_target))
     int getHealth( lua_State * L ); // : Health
+    int getDistanceToHome( lua_State * L ); // int
+    int getAngleToHome( lua_State * L ); // : float
     // *****
 
     void goHome( void );

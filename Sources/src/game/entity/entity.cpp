@@ -222,6 +222,32 @@ int Entity::isNearResource( lua_State * L )
     return 1;
 }
 
+int Entity::getDistanceToHome( lua_State * L )
+{
+    int argc = lua_gettop(L);
+    int id = -1;
+
+    if( argc > 0 && lua_isnumber(L, 1)) {
+        id = lua_tonumber(L, 1);
+        // la distance d'une entites
+    } else {
+        // ma propre distance
+    }
+
+    /// RECODE
+
+    lua_pushnumber(L, 0);
+    return 1;
+}
+
+int Entity::getAngleToHome( lua_State * L )
+{
+    /// RECODE
+
+    lua_pushnumber(L, 0);
+    return 1;
+}
+
 
 // **********
 
@@ -457,6 +483,8 @@ void Entity::luaInit( void )
         lua_setglobal(Entity::state, "ALLY_CITIZEN");
         lua_pushnumber(Entity::state, ENEMY_CITIZEN);
         lua_setglobal(Entity::state, "ENEMY_CITIZEN");
+        lua_pushnumber(Entity::state, HUNTER);
+        lua_setglobal(Entity::state, "HUNTER");
         lua_pushnumber(Entity::state, WILD_ANIMAL);
         lua_setglobal(Entity::state, "WILD_ANIMAL");
         lua_pushnumber(Entity::state, PEACEFUL_ANIMAL);

@@ -19,6 +19,8 @@ Lunar<Gatherer>::RegType Gatherer::methods[] = {
     method(Gatherer, getHealth),
     method(Gatherer, setTarget),
     method(Gatherer, isAttackMe),
+    method(EnemyCitizen, getDistanceToHome),
+    method(EnemyCitizen, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

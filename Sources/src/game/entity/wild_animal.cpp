@@ -19,6 +19,8 @@ Lunar<WildAnimal>::RegType WildAnimal::methods[] = {
     method(WildAnimal, getHealth),
     method(WildAnimal, setTarget),
     method(WildAnimal, isAttackMe),
+    method(EnemyCitizen, getDistanceToHome),
+    method(EnemyCitizen, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

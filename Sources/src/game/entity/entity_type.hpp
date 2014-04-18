@@ -4,6 +4,7 @@
 typedef enum {
     ALLY_CITIZEN,
     ENEMY_CITIZEN,
+    HUNTER,
     WILD_ANIMAL,
     PEACEFUL_ANIMAL,
     DEFAULT_ENTITY
