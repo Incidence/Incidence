@@ -886,7 +886,7 @@ void TileMap::generate() {
 }
 
 bool TileMap::load(std::string path) {
-	//TODO
+	
 	std::ifstream file(path.c_str());
 	if(!file) {
 		std::cout << "Ouverture du fichier de sauvegarde de carte impossible." << std::endl;
