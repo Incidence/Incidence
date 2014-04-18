@@ -94,7 +94,7 @@ $(TMP)/harvestable.o: $(LVL)/harvestable.cpp $(LVL)/harvestable.hpp
 
 ENT=$(GAME)/entity
 
-entity: $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/enemy_citizen.o $(TMP)/lumberjack.o
+entity: $(TMP)/entity.o $(TMP)/entity_set.o $(TMP)/enemy_citizen.o $(TMP)/gatherer.o $(TMP)/hunter.o $(TMP)/lumberjack.o $(TMP)/peaceful_animal.o $(TMP)/pickman.o $(TMP)/wild_animal.o
 
 $(TMP)/entity.o: $(ENT)/entity.cpp $(ENT)/entity.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -105,7 +105,22 @@ $(TMP)/entity_set.o: $(ENT)/entity_set.cpp $(ENT)/entity_set.hpp
 $(TMP)/enemy_citizen.o: $(ENT)/enemy_citizen.cpp $(ENT)/enemy_citizen.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
+$(TMP)/gatherer.o: $(ENT)/gatherer.cpp $(ENT)/gatherer.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/hunter.o: $(ENT)/hunter.cpp $(ENT)/hunter.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
 $(TMP)/lumberjack.o: $(ENT)/lumberjack.cpp $(ENT)/lumberjack.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/peaceful_animal.o: $(ENT)/peaceful_animal.cpp $(ENT)/peaceful_animal.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/pickman.o: $(ENT)/pickman.cpp $(ENT)/pickman.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/wild_animal.o: $(ENT)/wild_animal.cpp $(ENT)/wild_animal.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
