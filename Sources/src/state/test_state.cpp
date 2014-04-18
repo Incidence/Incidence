@@ -34,20 +34,19 @@ void TestState::draw( sf::RenderTarget & window )
 
 void TestState::update( void )
 {
-	sf::Vector2u windowSize = m_window->getSize();
 	sf::Vector2u dimensions = (m_game->getTilemap())->getDimensions();
 	sf::Vector2u tilesize = ((m_game->getTilemap())->getTileSet())->getTileSize();
 	
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_view.getCenter().x > windowSize.x/2) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_view.getCenter().x > m_view.getSize().x/2) {
 		m_view.move(-((int)tilesize.x),0);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_view.getCenter().x < dimensions.x*tilesize.x-windowSize.x/2) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_view.getCenter().x < dimensions.x*tilesize.x-m_view.getSize().x/2) {
 		m_view.move(tilesize.x,0);
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_view.getCenter().y > windowSize.y/2) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_view.getCenter().y > m_view.getSize().y/2) {
 		m_view.move(0,-((int)tilesize.y));
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_view.getCenter().y < dimensions.y*tilesize.y-windowSize.y/2) {
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_view.getCenter().y < dimensions.y*tilesize.y-m_view.getSize().y/2) {
 		m_view.move(0,tilesize.y);
 	}
 	
@@ -82,11 +81,10 @@ void TestState::handleEvent( sf::Event & e )
     }
     if(e.type == sf::Event::MouseButtonPressed) {
 		sf::Vector2u windowSize = m_window->getSize();
-		TileMap* tilemap = m_game->getTilemap();
 		sf::Vector2f position = sf::Vector2f(e.mouseButton.x, e.mouseButton.y);
 		position.x = position.x + m_view.getCenter().x - windowSize.x/2;
 		position.y = position.y + m_view.getCenter().y - windowSize.y/2;
-		tilemap->freePlace(tilemap->getXY(position));
+		(m_game->getTilemap())->freePlace((m_game->getTilemap())->getXY(position));
 	}
 
     m_game->handleEvent(e);
