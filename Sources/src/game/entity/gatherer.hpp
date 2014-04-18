@@ -1,5 +1,5 @@
-#ifndef _LUMBERJACK_
-#define _LUMBERJACK_
+#ifndef _GATHERER_
+#define _GATHERER_
 
 #include "SFML/Graphics.hpp"
 

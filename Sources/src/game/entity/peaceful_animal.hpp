@@ -1,5 +1,5 @@
-#ifndef _LUMBERJACK_
-#define _LUMBERJACK_
+#ifndef _PEACEFUL_ANIMAL_
+#define _PEACEFUL_ANIMAL_
 
 #include "SFML/Graphics.hpp"
 
