@@ -86,7 +86,6 @@ void TestState::handleEvent( sf::Event & e )
 		sf::Vector2f position = sf::Vector2f(e.mouseButton.x, e.mouseButton.y);
 		position.x = position.x + m_view.getCenter().x - windowSize.x/2;
 		position.y = position.y + m_view.getCenter().y - windowSize.y/2;
-		std::cout<<"i : "<<tilemap->getX(position)<<", j : "<<tilemap->getY(position)<<std::endl;
 		tilemap->freePlace(tilemap->getXY(position));
 	}
 
