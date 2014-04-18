@@ -19,8 +19,8 @@ Lunar<Hunter>::RegType Hunter::methods[] = {
     method(Hunter, getHealth),
     method(Hunter, setTarget),
     method(Hunter, isAttackMe),
-    method(EnemyCitizen, getDistanceToHome),
-    method(EnemyCitizen, getAngleToHome),
+    method(Hunter, getDistanceToHome),
+    method(Hunter, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

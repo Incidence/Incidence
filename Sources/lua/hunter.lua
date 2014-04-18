@@ -1,5 +1,10 @@
 --Script chasseur
 
+--getID
+--getAngle(i)
+--entites
+-- ""
+--getdisthome(i) /!\
 
 function Hunter:action()
 
@@ -13,34 +18,35 @@ function Hunter:action()
 	local nbfoes=0
 	local nbfriends=0
 
+	print("hunter")
 	if self:isAttacked() then
 
 		local sumangle=0
 		while (i<=taille) do
 
-			if (entites:isAttackMe(entities:getID(i))) and (entites:getAngle(i)==self:getAngle()) then
+			if (entites:isAttackMe(entites:getID(i))) and (entites:getAngle(i)==self:getAngle()) then
 				indice=i
 
-			elseif (not((entites:isAttackMe(entities:getID(indice))) and (entites:getAngle(indice)==self:getAngle()))) then
-				if (entites:isAttackMe(entities:getID(i))) and (entites:getType(i)=="ENEMY_CITIZEN") then
+			elseif (not((entites:isAttackMe(entites:getID(indice))) and (entites:getAngle(indice)==self:getAngle()))) then
+				if (entites:isAttackMe(entites:getID(i))) and (entites:getType(i)==ENEMY_CITIZEN) then
 					indice=i
 
-				elseif (not(entites:isAttackMe(entities:getID(indice)) and entites:getType(indice)=="ENEMY_CITIZEN")) then
-					if (entites:getType(i)=="ENEMY_CITIZEN") and (entites:getDistance(i)==1) then
+				elseif (not(entites:isAttackMe(entites:getID(indice)) and entites:getType(indice)==ENEMY_CITIZEN)) then
+					if (entites:getType(i)==ENEMY_CITIZEN) and (entites:getDistance(i)==1) then
 						indice=i
 
-					elseif (not((entites:getType(indice)=="ENEMY_CITIZEN") and (entites:getDistance(indice)==1))) then
-						if (entites:getType(i)=="WILD_ANIMAL") and (entites:isAttackMe(entities:getID(i))) then
+					elseif (not((entites:getType(indice)==ENEMY_CITIZEN) and (entites:getDistance(indice)==1))) then
+						if (entites:getType(i)==WILD_ANIMAL) and (entites:isAttackMe(entites:getID(i))) then
 							indice=i
 						end
 					end
 				end
 
-			elseif (entites:getType(i)== "WILD_ANIMAL")  or (entites:getType(i)=="ENEMY_CITIZEN") then
+			elseif (entites:getType(i)== WILD_ANIMAL)  or (entites:getType(i)==ENEMY_CITIZEN) then
 				nbfoes=nbfoes+1
-				sumangle=sumangle+entites:getAngle()
+				sumangle=sumangle+entites:getAngle(i)
 
-			elseif (entites:getType(i)== "HUNTER") then
+			elseif (entites:getType(i)== HUNTER) then
 				nbfriends=nbfriends+1
 			end
 			i=i+1
@@ -48,7 +54,7 @@ function Hunter:action()
 
 		local seuil=nbfriends+2
 		if(nbfoes<=seuil) then
-			self:setTarget(entites:getId(indice))
+			self:setTarget(entites:getID(indice))
 			return "attack"
 		else
 			local moyangle=sumangle/nbfoes     -- j'ai gardé le fait qu'il prenne le "meilleur angle" pour fuir mais sinon
@@ -61,37 +67,38 @@ function Hunter:action()
 		local sumangle=0
 		while (i<=taille) do
 
-			if (entites:getType(i)=="ENEMY_CITIZEN") and (entites:getDistanceToHome(i)<=MAXDISTANCEHUNT) then
+			if (entites:getType(i)==ENEMY_CITIZEN) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 				indice=i
 
-			elseif (not(entites:getType(indice)=="ENEMY_CITIZEN")) then
-				if (entites:getType(i)=="WILD_ANIMAL") and (entites:getDistanceToHome(i)<=MAXDISTANCEHUNT) then
+			elseif (not(entites:getType(indice)==ENEMY_CITIZEN)) then
+				if (entites:getType(i)==WILD_ANIMAL) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 					indice=i
-				elseif (not(entites:getType(indice)=="WILD_ANIMAL")) then
-					if (entites:getType(i)=="PEACEFUL_ANIMAL") and (entites:getDistanceToHome(i)<=MAXDISTANCEHUNT) then
+					print("wild ok")
+				elseif (not(entites:getType(indice)==WILD_ANIMAL)) then
+					if (entites:getType(i)==PEACEFUL_ANIMAL) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 						indice=i
 					end
 				end
 			end
 
-			if (entites:getType(i)== "WILD_ANIMAL") or (entites:getType(i)=="ENEMY_CITIZEN") then
+			if (entites:getType(i)== WILD_ANIMAL) or (entites:getType(i)==ENEMY_CITIZEN) then
 				nbfoes=nbfoes+1
-				sumangle=sumangle+entites:getAngle()
+				sumangle=sumangle+entites:getAngle(i)
 			end
 
-			if (entites:getType(i)=="HUNTER") then
+			if (entites:getType(i)==HUNTER) then
 				nbfriends=nbfriends+1
 			end
 			i=i+1
 		end
 		if(taille>0) then
-			local seuil=nbfriends+2
+			local seuil=nbfriends+1
 			if(nbfoes<=seuil) then
-				if (not ((entites:getType(indice)=="ALLY_CITIZEN") or (entites:getType(indice)=="HUNTER"))) and (entites:getDistanceToHome(i)<=MAXDISTANCEHUNT) then
-					self:setTarget(entites:getId(indice))
+				if (not ((entites:getType(indice)==ALLY_CITIZEN) or (entites:getType(indice)==HUNTER))) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
+					self:setTarget(entites:getID(indice))
 					return "attack"
 				else
-					if(self:getDistanceToHome()>MAXDISTANCE)
+					if(self:getDistanceToHome()>MAXDISTANCE) then
 					self:setAngle(self:getAngleToHome())
 					return "move"
 
@@ -100,7 +107,7 @@ function Hunter:action()
 						math.random()
 						math.random()
 
-						if(self:getDistanceToHome()==MAXDISTANCE)
+						if(self:getDistanceToHome()==MAXDISTANCE) then
 							local angleoppose=((self:getDistanceToHome()+math.pi))%2*math.pi
 							local angleinterditmin=((self:getDistanceToHome()+math.pi)+math.pi/2)%2*math.pi
 							local angleinterditmax=((self:getDistanceToHome()+math.pi)-math.pi/2)%2*math.pi
@@ -118,7 +125,7 @@ function Hunter:action()
 							self:setAngle(angle)
 							return "move"
 
-						elseif(self:getDistanceToHome()<MAXDISTANCE)
+						elseif(self:getDistanceToHome()<MAXDISTANCE) then
 							local rand = math.floor(math.random()*10000)%5
 							--print(rand)
 							if rand == 0 then
@@ -140,7 +147,8 @@ function Hunter:action()
 			end
 		else
 
-			if(self:getDistanceToHome()>MAXDISTANCE)
+
+			if(self:getDistanceToHome()>MAXDISTANCE) then
 				self:setAngle(self:getAngleToHome())
 				return "move"
 
@@ -149,7 +157,7 @@ function Hunter:action()
 				math.random()
 				math.random()
 
-				if(self:getDistanceToHome()==MAXDISTANCE)
+				if(self:getDistanceToHome()==MAXDISTANCE) then
 					local angleoppose=((self:getDistanceToHome()+math.pi))%2*math.pi
 					local angleinterditmin=((self:getDistanceToHome()+math.pi)+math.pi/2)%2*math.pi
 					local angleinterditmax=((self:getDistanceToHome()+math.pi)-math.pi/2)%2*math.pi
@@ -167,7 +175,7 @@ function Hunter:action()
 					self:setAngle(angle)
 					return "move"
 
-				elseif(self:getDistanceToHome()<MAXDISTANCE)
+				elseif(self:getDistanceToHome()<MAXDISTANCE) then
 					local rand = math.floor(math.random()*10000)%5
 					--print(rand)
 					if rand == 0 then
@@ -181,6 +189,7 @@ function Hunter:action()
 					return "move"
 				end
 			end
+			return "move"
 		end
 	end
 end

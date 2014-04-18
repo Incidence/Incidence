@@ -19,8 +19,8 @@ Lunar<Lumberjack>::RegType Lumberjack::methods[] = {
     method(Lumberjack, getHealth),
     method(Lumberjack, setTarget),
     method(Lumberjack, isAttackMe),
-    method(EnemyCitizen, getDistanceToHome),
-    method(EnemyCitizen, getAngleToHome),
+    method(Lumberjack, getDistanceToHome),
+    method(Lumberjack, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

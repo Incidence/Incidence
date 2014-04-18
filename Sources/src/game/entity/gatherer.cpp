@@ -19,8 +19,8 @@ Lunar<Gatherer>::RegType Gatherer::methods[] = {
     method(Gatherer, getHealth),
     method(Gatherer, setTarget),
     method(Gatherer, isAttackMe),
-    method(EnemyCitizen, getDistanceToHome),
-    method(EnemyCitizen, getAngleToHome),
+    method(Gatherer, getDistanceToHome),
+    method(Gatherer, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };
@@ -56,7 +56,7 @@ void Gatherer::init( void )
 {
     Entity::init();
 
-    m_ressource = WOOD;
+    m_ressource = FOOD;
 }
 
 void Gatherer::callScript( void )

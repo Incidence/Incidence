@@ -5,6 +5,11 @@
 #include "../game/game.hpp"
 #include "../game/entity/lumberjack.hpp"
 #include "../game/entity/enemy_citizen.hpp"
+#include "../game/entity/gatherer.hpp"
+#include "../game/entity/hunter.hpp"
+#include "../game/entity/peaceful_animal.hpp"
+#include "../game/entity/wild_animal.hpp"
+#include "../game/entity/pickman.hpp"
 
 
 TestState::TestState( sf::RenderWindow * window ) : m_game(NULL)
@@ -106,6 +111,5 @@ void TestState::handleEvent( sf::Event & e )
 
         }
     }
-
     m_game->handleEvent(e);
 }

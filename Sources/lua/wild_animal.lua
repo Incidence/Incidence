@@ -1,6 +1,8 @@
 --SCRIPT WILD_ANIMAL
 
-function WILD_ANIMAL:action()
+function WildAnimal:action()
+
+	print("Wild animal")
 
 	local entities = self:getEntities()
 	local size = entities:getSize()
@@ -8,7 +10,7 @@ function WILD_ANIMAL:action()
 	local statement = true
 	local target = 0
 	while (i<=size) and statement do
-		if entities:getType(i)~="WILD_ANIMAL" then
+		if entities:getType(i)~=WILD_ANIMAL then
 			if entities:getAngle(i)==self:getAngle() then
 				target = i
 				statement = false
@@ -27,9 +29,9 @@ function WILD_ANIMAL:action()
 		math.random()
 		local rand = math.floor(math.random()*10000)%5
 		if rand == 0 then
-			self:setAngle(self:getAngle()-(math.pi/4))
+			self:setAngle((self:getAngle()-(math.pi/4))%2*math.pi)
 		elseif rand == 4 then
-			self:setAngle(self:getAngle()+(math.pi/4))
+			self:setAngle((self:getAngle()+(math.pi/4))%2*math.pi)
 		end
 		return "move"
 	end
