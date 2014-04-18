@@ -68,10 +68,8 @@ void EnemyCitizen::callScript( void )
             m_way.clear();
             lua_settop(Entity::state, 0);
             Lunar<EnemyCitizen>::push(Entity::state, this);
-            if(Lunar<EnemyCitizen>::call(Entity::state, "action", 0, 1) < 0) {
-                std::cout << "Erreur : Script LUA - EnemyCitizen" << std::endl;
-                return;
-            }
+            Lunar<EnemyCitizen>::call(Entity::state, "action", 0, 1);
+
             // TODO : Recuperer le string retourne pour effectuer l'action demande
             float argc = lua_gettop(Entity::state);
             if( argc > 0 && lua_isstring(Entity::state, 1)) {

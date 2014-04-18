@@ -64,10 +64,7 @@ void Lumberjack::callScript( void )
             m_way.clear();
             lua_settop(Entity::state, 0);
             Lunar<Lumberjack>::push(Entity::state, this);
-            if(Lunar<Lumberjack>::call(Entity::state, "action", 0, 1) < 0) {
-                std::cout << "Erreur : Script LUA - Lumberjack" << std::endl;
-                return;
-            }
+            Lunar<Lumberjack>::call(Entity::state, "action", 0, 1);
 
             // TODO : Recuperer le string retourne pour effectuer l'action demande
             float argc = lua_gettop(Entity::state);
@@ -77,8 +74,8 @@ void Lumberjack::callScript( void )
                 // ***
                 if(action == "move") { m_action = MOVE; }
                 if(action == "give") { m_action = INTERACT_HOME; }
-                if(action == "gohome") { m_action = MOVE_HOME; }
-                if(action == "attack") { m_action = ATTACK; }
+                if(action == "gohome") { m_action = IDLE; }
+                if(action == "attack") { m_action = IDLE; }
                 if(action == "take") { m_action = INTERACT_RESOURCE; }
                 if(action == "gonearest") { m_action = MOVE_RESOURCE; }
                 /// TO COMPLETE ....
