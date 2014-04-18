@@ -1,6 +1,6 @@
---SCRIPT BUCHERON
+--SCRIPT MINEUR
 
-function Lumberjack:action()
+function Pickman:action()
 
 	if self:getHealth()=="WEAK" then
 		local entities = self:getEntities()
@@ -36,7 +36,7 @@ function Lumberjack:action()
 			i = i + 1
 		end
 		if target = 0 then
-			print("! WARNING ! lumberjack.lua : recherche de cible")
+			print("! WARNING ! pickman.lua : recherche de cible")
 		else
 			self:setTarget(entities:getID(target))
 			return "attack"
