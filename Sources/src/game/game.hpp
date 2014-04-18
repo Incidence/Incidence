@@ -25,9 +25,9 @@ public :
     void draw( sf::RenderTarget & window );
     void handleEvent( sf::Event & e );
 
-	TileMap * getTilemap( void );
     Entity * getEntity( int id );
     std::vector< Entity * > getEntities( void );
+    TileMap * getTilemap( void );
 
     void addEntity( Entity * e );
 

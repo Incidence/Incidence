@@ -1,46 +1,43 @@
-#include "enemy_citizen.hpp"
+#include "hunter.hpp"
 
-#include "../../engine/foo.hpp"
-#include "entity.hpp"
-
-const char EnemyCitizen::className[] = "EnemyCitizen";
+const char Hunter::className[] = "Hunter";
 
 #define method(class, name) {#name, &class::name}
 
 // On initialise le tableau des méthodes de la classe.
-Lunar<EnemyCitizen>::RegType EnemyCitizen::methods[] = {
-    method(EnemyCitizen, action),
-    method(EnemyCitizen, getEntities),
-    method(EnemyCitizen, getNearestResource),
-    method(EnemyCitizen, isNearHome),
-    method(EnemyCitizen, isNearResource),
-    method(EnemyCitizen, fullBag),
-    method(EnemyCitizen, emptyBag),
-    method(EnemyCitizen, getAngle),
-    method(EnemyCitizen, setAngle),
-    method(EnemyCitizen, getHealth),
-    method(EnemyCitizen, isAttacked),
-    method(EnemyCitizen, setTarget),
-    method(EnemyCitizen, isAttackMe),
+Lunar<Hunter>::RegType Hunter::methods[] = {
+    method(Hunter, action),
+    method(Hunter, getEntities),
+    method(Hunter, getNearestResource),
+    method(Hunter, isNearHome),
+    method(Hunter, isNearResource),
+    method(Hunter, fullBag),
+    method(Hunter, emptyBag),
+    method(Hunter, getAngle),
+    method(Hunter, setAngle),
+    method(Hunter, isAttacked),
+    method(Hunter, getHealth),
+    method(Hunter, setTarget),
+    method(Hunter, isAttackMe),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };
 
 
-EnemyCitizen::EnemyCitizen( lua_State * L ) : Entity(NULL)
+Hunter::Hunter( lua_State * L ) : Entity(NULL)
 {
     init();
 }
 
 
-EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game)
+Hunter::Hunter( EntityType t, Game * game ) : Entity(t, game)
 {
     /// LUA
     // on enregistre la classe auprès de lua
-    Lunar<EnemyCitizen>::Register(Entity::state);
+    Lunar<Hunter>::Register(Entity::state);
 
     // on vérifie si le script existe bien
-    if(luaL_dofile(Entity::state, "lua/enemy_citizen.lua") != 0)
+    if(luaL_dofile(Entity::state, "lua/hunter.lua") != 0)
     {
         // il y a eu une erreur dans le script
         fprintf(stderr, "%s\n", lua_tostring(Entity::state, -1));
@@ -51,25 +48,24 @@ EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game)
     init();
 }
 
-EnemyCitizen::~EnemyCitizen( void ) {}
+Hunter::~Hunter( void ) {}
 
-void EnemyCitizen::init( void )
+void Hunter::init( void )
 {
     Entity::init();
-    m_animation.load( "data/perso_en.ani" );
 
-    m_ressource = NOTHING;
+    m_ressource = WOOD;
 }
 
-void EnemyCitizen::callScript( void )
+void Hunter::callScript( void )
 {
     if(!isDead()) {
         if( m_action == IDLE ) {
             m_way.clear();
             lua_settop(Entity::state, 0);
-            Lunar<EnemyCitizen>::push(Entity::state, this);
-            if(Lunar<EnemyCitizen>::call(Entity::state, "action", 0, 1) < 0) {
-                std::cout << "Erreur : Script LUA - EnemyCitizen" << std::endl;
+            Lunar<Hunter>::push(Entity::state, this);
+            if(Lunar<Hunter>::call(Entity::state, "action", 0, 1) < 0) {
+                std::cout << "Erreur : Script LUA" << std::endl;
                 return;
             }
             // TODO : Recuperer le string retourne pour effectuer l'action demande
@@ -80,8 +76,8 @@ void EnemyCitizen::callScript( void )
                 // ***
                 if(action == "move") { m_action = MOVE; }
                 if(action == "give") { m_action = INTERACT_HOME; }
-                if(action == "gohome") { m_action = MOVE_HOME; }
-                if(action == "attack") { m_action = ATTACK; }
+                if(action == "gohome") { m_action = IDLE; }
+                if(action == "attack") { m_action = IDLE; }
                 if(action == "take") { m_action = INTERACT_RESOURCE; }
                 if(action == "gonearest") { m_action = MOVE_RESOURCE; }
                 /// TO COMPLETE ....
@@ -99,6 +95,8 @@ void EnemyCitizen::callScript( void )
             takeResource();
         } else if ( m_action == ATTACK ) {
             attack();
+        } else if ( m_action == RECOLT ) {
+            recolting();
         }
     }
 }

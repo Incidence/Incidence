@@ -68,49 +68,49 @@ void Game::handleEvent( sf::Event & e )
         }
     }
     if (e.type == sf::Event::KeyPressed) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
 			dilateFluids(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::F)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
 			erodeFluids(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
 			dilateNearFluids(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
 			erodeNearFluids(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::G)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
 			dilateForests(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::H)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
 			erodeForests(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::C)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
 			dilateNearCliffs(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
 			erodeNearCliffs(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
 			burnRessources(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
 			spawnRessources(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
 			m_tilemap->save("saves/test.ims");
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
 			m_tilemap->load("saves/test.ims");
 		}
     }
 }
 
 TileMap * Game::getTilemap( void ) {
-	
+
 	return m_tilemap;
-	
+
 }
 
 Entity * Game::getEntity( int id )
