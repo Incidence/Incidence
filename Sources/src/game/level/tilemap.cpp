@@ -6,6 +6,7 @@
 
 #include "pathfinding.hpp"
 #include "../../engine/foo.hpp"
+#include "../incidences.hpp"
 
 #define ELEMENT_PROPORTION 10
 #define ELEMENT_AREASIZE 5
@@ -173,48 +174,61 @@ void TileMap::changeGround(int type, sf::Vector2i position) {
 	sf::Vector2u tileSize = m_tileset.getTileSize();
 	int width = m_dimensions.x, height = m_dimensions.y;
 
-	//===== GROUND =====
+	if(i >= 0 && i < width && j >= 0 && j < height) {
+		
+		//===== GROUND =====
 
-	bool GROUND_tileBorders[4] = {false,false,false,false};
-	Ground* l_ground = m_tileset.getGround(type, GROUND_tileBorders);
-
-	if(l_ground != NULL) {
-
-		GROUND_tileBorders[0] = (i > 0 && l_ground->hasBorderWith(m_grounds[i - 1 + j * width]->getType()));
-		GROUND_tileBorders[1] = (j < height-1 && l_ground->hasBorderWith(m_grounds[i + (j + 1) * width]->getType()));
-		GROUND_tileBorders[2] = (j > 0 && l_ground->hasBorderWith(m_grounds[i + (j - 1) * width]->getType()));
-		GROUND_tileBorders[3] = (i < width-1 && l_ground->hasBorderWith(m_grounds[i + 1 + j * width]->getType()));
-
-		l_ground = m_tileset.getGround(type, GROUND_tileBorders);
+		bool GROUND_tileBorders[4] = {false,false,false,false};
+		Ground* l_ground = m_tileset.getGround(type, GROUND_tileBorders);
 
 		if(l_ground != NULL) {
 
-			m_grounds[i + j * width] = l_ground;
-			sf::Vertex* quadGround = &m_VertexGrounds[(i + j * width) * 4];
+			GROUND_tileBorders[0] = (i > 0 && l_ground->hasBorderWith(m_grounds[i - 1 + j * width]->getType()));
+			GROUND_tileBorders[1] = (j < height-1 && l_ground->hasBorderWith(m_grounds[i + (j + 1) * width]->getType()));
+			GROUND_tileBorders[2] = (j > 0 && l_ground->hasBorderWith(m_grounds[i + (j - 1) * width]->getType()));
+			GROUND_tileBorders[3] = (i < width-1 && l_ground->hasBorderWith(m_grounds[i + 1 + j * width]->getType()));
 
-			quadGround[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
-			quadGround[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
-			quadGround[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
-			quadGround[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+			l_ground = m_tileset.getGround(type, GROUND_tileBorders);
 
-			for(int k(0) ; k < 4 ; ++k) {
-				quadGround[k].texCoords = (l_ground->getQuad())[k].texCoords;
+			if(l_ground != NULL) {
+
+				m_grounds[i + j * width] = l_ground;
+				sf::Vertex* quadGround = &m_VertexGrounds[(i + j * width) * 4];
+
+				quadGround[0].position = sf::Vector2f(i * tileSize.x, j * tileSize.y);
+				quadGround[1].position = sf::Vector2f((i + 1) * tileSize.x, j * tileSize.y);
+				quadGround[2].position = sf::Vector2f((i + 1) * tileSize.x, (j + 1) * tileSize.y);
+				quadGround[3].position = sf::Vector2f(i * tileSize.x, (j + 1) * tileSize.y);
+
+				for(int k(0) ; k < 4 ; ++k) {
+					quadGround[k].texCoords = (l_ground->getQuad())[k].texCoords;
+				}
+			}
+			else {
+				std::cout << "Une erreur est survenue lors du changement d'un sol. (1)" << std::endl;
 			}
 		}
 		else {
-			std::cout << "Une erreur est survenue lors du changement d'un sol. (1)" << std::endl;
+			std::cout << "Une erreur est survenue lors du changement d'un sol. (2)" << std::endl;
+		}
+
+		//===== ELEMENT =====
+
+		if(m_elements[i + j * width] != NULL) {
+			addElement(m_elements[i + j * width]->getType(), position);
 		}
 	}
-	else {
-		std::cout << "Une erreur est survenue lors du changement d'un sol. (2)" << std::endl;
+
+}
+
+void TileMap::updateBorders(sf::Vector2i position) {
+	
+	Ground* l_ground = getGround(position);
+	
+	if(l_ground != NULL) {
+		changeGround(l_ground->getType(), position);
 	}
-
-	//===== ELEMENT =====
-
-	if(m_elements[i + j * width] != NULL) {
-		addElement(m_elements[i + j * width]->getType(), position);
-	}
-
+	
 }
 
 void TileMap::addElement(int type, sf::Vector2i position) {
@@ -325,6 +339,235 @@ void TileMap::burnElement(sf::Vector2i position) {
 		quadElementUp[2].texCoords = sf::Vector2f(tilesetSize.x, tilesetSize.y);
 		quadElementUp[3].texCoords = sf::Vector2f(tilesetSize.x - tileSize.x, tilesetSize.y);
 	}
+}
+
+/*
+ *** Description : cette fonction libère une zone de cinq cases de diamètre de tout élément ou sol infranchissable.
+ *
+ *** Entree : le centre de la zone (position).
+ *** Sortie : void.
+*/
+void TileMap::freePlace(sf::Vector2i position) {
+
+	int i = position.x;
+	int j = position.y;
+	
+	// === ELEMENT ===
+	
+	removeElement(position);
+	
+	removeElement(sf::Vector2i(i - 2, j));
+	removeElement(sf::Vector2i(i - 1, j));
+	removeElement(sf::Vector2i(i + 1, j));
+	removeElement(sf::Vector2i(i + 2, j));
+	
+	removeElement(sf::Vector2i(i, j - 2));
+	removeElement(sf::Vector2i(i, j - 1));
+	removeElement(sf::Vector2i(i, j + 1));
+	removeElement(sf::Vector2i(i, j + 2));
+	
+	removeElement(sf::Vector2i(i - 1, j - 1));
+	removeElement(sf::Vector2i(i - 1, j + 1));
+	removeElement(sf::Vector2i(i + 1, j + 1));
+	removeElement(sf::Vector2i(i + 1, j - 1));
+	
+	// === GROUND ===
+	
+	std::vector<int> defaults = m_tileset.getGroundsByBehavior(DEFAULT);
+	
+	Ground * l_ground_1, * l_ground_2, * l_ground_3, * l_ground_4;
+	std::vector<int> GROUND_types;
+	sf::Vector2i l_position = position;
+	
+	for(int l(0) ; l < 13 ; ++l) {
+		switch(l) {
+			
+			case 0 :
+				l_position.x = i - 2;
+				l_position.y = j;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = NULL;
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 1 :
+				l_position.x = i;
+				l_position.y = j - 2;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = NULL;
+				break;
+			
+			case 2 :
+				l_position.x = i + 2;
+				l_position.y = j;
+				
+				l_ground_1 = NULL;
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 3 :
+				l_position.x = i;
+				l_position.y = j + 2;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = NULL;
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 4 :
+				l_position.x = i - 1;
+				l_position.y = j + 1;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = NULL;
+				l_ground_3 = NULL;
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 5 :
+				l_position.x = i - 1;
+				l_position.y = j - 1;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = NULL;
+				l_ground_4 = NULL;
+				break;
+			
+			case 6 :
+				l_position.x = i + 1;
+				l_position.y = j - 1;
+				
+				l_ground_1 = NULL;
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = NULL;
+				break;
+			
+			case 7 :
+				l_position.x = i + 1;
+				l_position.y = j + 1;
+				
+				l_ground_1 = NULL;
+				l_ground_2 = NULL;
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 8 :
+				l_position.x = i - 1;
+				l_position.y = j;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = NULL;
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 9 :
+				l_position.x = i;
+				l_position.y = j - 1;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = NULL;
+				break;
+			
+			case 10 :
+				l_position.x = i + 1;
+				l_position.y = j;
+				
+				l_ground_1 = NULL;
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 11 :
+				l_position.x = i;
+				l_position.y = j + 1;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = NULL;
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+			
+			case 12 :
+				l_position.x = i;
+				l_position.y = j;
+				
+				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
+				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
+				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
+				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
+				break;
+		}
+		
+		for(int k(0) ; k < defaults.size() ; ++k) {
+			if((l_ground_1 == NULL || areCompatibleGrounds(defaults[k], l_ground_1->getType()))
+			&&
+			(l_ground_2 == NULL || areCompatibleGrounds(defaults[k], l_ground_2->getType()))
+			&&
+			(l_ground_3 == NULL || areCompatibleGrounds(defaults[k], l_ground_3->getType()))
+			&&
+			(l_ground_4 == NULL || areCompatibleGrounds(defaults[k], l_ground_4->getType()))
+			){
+				GROUND_types.push_back(defaults[k]);
+			}
+		}
+		
+		if(GROUND_types.size() == 0) {
+			spreadGround(this, defaults[rand()%defaults.size()], position);
+		}
+		else {
+			changeGround(GROUND_types[rand()%GROUND_types.size()], l_position);
+			GROUND_types.clear();
+		}
+	}
+	
+	// Mise à jour des bordures
+	
+	updateBorders(position);
+	
+	updateBorders(sf::Vector2i(i - 2, j));
+	updateBorders(sf::Vector2i(i - 1, j));
+	updateBorders(sf::Vector2i(i + 1, j));
+	updateBorders(sf::Vector2i(i + 2, j));
+	
+	updateBorders(sf::Vector2i(i, j - 2));
+	updateBorders(sf::Vector2i(i, j - 1));
+	updateBorders(sf::Vector2i(i, j + 1));
+	updateBorders(sf::Vector2i(i, j + 2));
+	
+	updateBorders(sf::Vector2i(i - 1, j - 1));
+	updateBorders(sf::Vector2i(i - 1, j + 1));
+	updateBorders(sf::Vector2i(i + 1, j + 1));
+	updateBorders(sf::Vector2i(i + 1, j - 1));
+	
+	updateBorders(sf::Vector2i(i - 3, j));
+	updateBorders(sf::Vector2i(i + 3, j));
+	updateBorders(sf::Vector2i(i, j - 3));
+	updateBorders(sf::Vector2i(i, j + 3));
+	
+	updateBorders(sf::Vector2i(i - 2, j - 1));
+	updateBorders(sf::Vector2i(i - 1, j - 2));
+	updateBorders(sf::Vector2i(i + 1, j - 2));
+	updateBorders(sf::Vector2i(i + 2, j - 1));
+	
+	updateBorders(sf::Vector2i(i - 2, j + 1));
+	updateBorders(sf::Vector2i(i - 1, j + 2));
+	updateBorders(sf::Vector2i(i + 1, j + 2));
+	updateBorders(sf::Vector2i(i + 2, j + 1));
 }
 
 /*

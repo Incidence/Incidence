@@ -8,7 +8,7 @@ class TestState : public State
 {
 
 public :
-    TestState( void );
+    TestState( sf::RenderWindow * window );
     ~TestState( void );
 
     void init( void );
@@ -19,6 +19,8 @@ public :
 private :
 
     Game * m_game;
+	sf::RenderWindow * m_window;
+	sf::View m_view;
 };
 
 #endif // _TEST_STATE_

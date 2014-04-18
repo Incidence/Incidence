@@ -101,6 +101,12 @@ void Game::handleEvent( sf::Event & e )
     }
 }
 
+TileMap * Game::getTilemap( void ) {
+	
+	return m_tilemap;
+	
+}
+
 Entity * Game::getEntity( int id )
 {
     if(id >= 0 && id < (int)m_entityList.size()) {

@@ -89,30 +89,10 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 			}
 			
 			// Mise à jour des bordures
-			if(i > 0) {
-				l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
-				if(l_ground != NULL) {
-					tilemap->changeGround(l_ground->getType(), sf::Vector2i(i - 1, j));
-				}
-			}
-			if(j > 0) {
-				l_ground = tilemap->getGround(sf::Vector2i(i, j - 1));
-				if(l_ground != NULL) {
-					tilemap->changeGround(l_ground->getType(), sf::Vector2i(i, j - 1));
-				}
-			}
-			if(i < width-1) {
-				l_ground = tilemap->getGround(sf::Vector2i(i + 1, j));
-				if(l_ground != NULL) {
-					tilemap->changeGround(l_ground->getType(), sf::Vector2i(i + 1, j));
-				}
-			}
-			if(j < height-1) {
-				l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
-				if(l_ground != NULL) {
-					tilemap->changeGround(l_ground->getType(), sf::Vector2i(i, j + 1));
-				}
-			}
+			tilemap->updateBorders(sf::Vector2i(i - 1, j));
+			tilemap->updateBorders(sf::Vector2i(i, j - 1));
+			tilemap->updateBorders(sf::Vector2i(i + 1, j));
+			tilemap->updateBorders(sf::Vector2i(i, j + 1));
 		}
 	}
 	
