@@ -56,7 +56,8 @@ void WildAnimal::init( void )
 {
     Entity::init();
 
-    m_ressource = WOOD;
+    m_animation.load( "data/perso_wi.ani" );
+    m_ressource = FOOD;
 }
 
 void WildAnimal::callScript( void )

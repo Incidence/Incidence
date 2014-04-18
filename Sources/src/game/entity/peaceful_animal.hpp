@@ -30,5 +30,5 @@ private :
 
 };
 
-#endif // _LUMBERJACK_
+#endif // _PEACEFUL_ANIMAL_
 

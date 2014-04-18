@@ -55,6 +55,7 @@ PeacefulAnimal::~PeacefulAnimal( void ) {}
 void PeacefulAnimal::init( void )
 {
     Entity::init();
+    m_animation.load( "data/perso_pe.ani" );
 
     m_ressource = WOOD;
 }

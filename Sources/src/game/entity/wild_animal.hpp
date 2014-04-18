@@ -30,5 +30,5 @@ private :
 
 };
 
-#endif // _LUMBERJACK_
+#endif // _WILD_ANIMAL_
 

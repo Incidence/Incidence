@@ -44,7 +44,7 @@ int EntitySet::getDistance( lua_State * L )
         id = lua_tonumber(L, 1);
     }
 
-id--;
+    id--;
     if(id <= -1 || id >= (int)m_entitySet.size()) {
         return 0;
     }
@@ -60,7 +60,8 @@ int EntitySet::getAngle( lua_State * L )
     if( argc > 0 && lua_isnumber(L, 1)) {
         id = lua_tonumber(L, 1);
     }
-id--;
+
+    id--;
     if(id <= -1 || id >= (int)m_entitySet.size()) {
         return 0;
     }
@@ -77,7 +78,7 @@ int EntitySet::getType( lua_State * L )
         id = lua_tonumber(L, 1);
     }
 
-id--;
+    id--;
     if(id <= -1 || id >= (int)m_entitySet.size()) {
         return 0;
     }
@@ -93,7 +94,8 @@ int EntitySet::getHealth( lua_State * L )
     if( argc > 0 && lua_isnumber(L, 1)) {
         id = lua_tonumber(L, 1);
     }
-id--;
+
+    id--;
     if(id <= -1 || id >= (int)m_entitySet.size()) {
         return 0;
     }
@@ -109,7 +111,8 @@ int EntitySet::getID( lua_State * L )
     if( argc > 0 && lua_isnumber(L, 1)) {
         id = lua_tonumber(L, 1);
     }
-id--;
+
+    id--;
     if(id <= -1 || id >= (int)m_entitySet.size()) {
         return 0;
     }

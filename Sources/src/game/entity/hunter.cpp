@@ -55,8 +55,10 @@ Hunter::~Hunter( void ) {}
 void Hunter::init( void )
 {
     Entity::init();
+    m_animation.load( "data/perso_hu.ani" );
 
     m_ressource = WOOD;
+    m_speed = 80;
 }
 
 void Hunter::callScript( void )

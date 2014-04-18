@@ -37,7 +37,7 @@ void Entity::init( void )
     m_health = GOOD;
     m_waitTime = 0;
 
-    m_animation.load( "data/perso.ani" );
+    m_animation.load( "data/perso_lu.ani" );
 
     /// TO COMPLETE
 }
@@ -75,7 +75,6 @@ int Entity::getEntities( lua_State * L )
 
                 eStruct->s_distance = distance(m_position, listEntities[i]->m_position);
                 eStruct->s_angle = eStruct->s_distance > 0 ? std::atan2(listEntities[i]->getPosition().y - getPosition().y, listEntities[i]->getPosition().x - getPosition().x) : 0;
-
                 eStruct->s_type = listEntities[i]->m_type;
                 eStruct->s_id = i;
                 eStruct->s_health = listEntities[i]->m_health;
@@ -153,6 +152,7 @@ int Entity::setTarget( lua_State * L )
 
     if(m_game) {
         m_target = m_game->getEntity(id);
+        if(m_target == this) { m_target = NULL; }
     }
 
     return 0;
@@ -225,9 +225,9 @@ int Entity::isNearResource( lua_State * L )
 int Entity::getDistanceToHome( lua_State * L )
 {
     int argc = lua_gettop(L);
-    int id = -1;
 
     if( argc > 0 && lua_isnumber(L, 1)) {
+        int id = -1;
         id = lua_tonumber(L, 1);
         // la distance d'une entites
     } else {

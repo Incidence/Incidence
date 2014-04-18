@@ -59,7 +59,7 @@ void EnemyCitizen::init( void )
 {
     Entity::init();
     m_animation.load( "data/perso_en.ani" );
-    m_speed=60;
+
     m_ressource = NOTHING;
 }
 

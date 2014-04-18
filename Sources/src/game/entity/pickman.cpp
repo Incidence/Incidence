@@ -55,6 +55,7 @@ Pickman::~Pickman( void ) {}
 void Pickman::init( void )
 {
     Entity::init();
+    m_animation.load( "data/perso_pi.ani" );
 
     m_ressource = STONE;
 }

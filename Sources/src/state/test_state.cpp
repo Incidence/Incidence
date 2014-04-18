@@ -3,6 +3,7 @@
 #include "../engine/state_manager.hpp"
 
 #include "../game/game.hpp"
+#include "../game/entity/entity.hpp"
 #include "../game/entity/lumberjack.hpp"
 #include "../game/entity/enemy_citizen.hpp"
 #include "../game/entity/gatherer.hpp"
@@ -111,5 +112,6 @@ void TestState::handleEvent( sf::Event & e )
 
         }
     }
+
     m_game->handleEvent(e);
 }
