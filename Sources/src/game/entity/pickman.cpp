@@ -1,46 +1,43 @@
-#include "enemy_citizen.hpp"
+#include "pickman.hpp"
 
-#include "../../engine/foo.hpp"
-#include "entity.hpp"
-
-const char EnemyCitizen::className[] = "EnemyCitizen";
+const char Pickman::className[] = "Pickman";
 
 #define method(class, name) {#name, &class::name}
 
 // On initialise le tableau des méthodes de la classe.
-Lunar<EnemyCitizen>::RegType EnemyCitizen::methods[] = {
-    method(EnemyCitizen, action),
-    method(EnemyCitizen, getEntities),
-    method(EnemyCitizen, getNearestResource),
-    method(EnemyCitizen, isNearHome),
-    method(EnemyCitizen, isNearResource),
-    method(EnemyCitizen, fullBag),
-    method(EnemyCitizen, emptyBag),
-    method(EnemyCitizen, getAngle),
-    method(EnemyCitizen, setAngle),
-    method(EnemyCitizen, getHealth),
-    method(EnemyCitizen, isAttacked),
-    method(EnemyCitizen, setTarget),
-    method(EnemyCitizen, isAttackMe),
+Lunar<Pickman>::RegType Pickman::methods[] = {
+    method(Pickman, action),
+    method(Pickman, getEntities),
+    method(Pickman, getNearestResource),
+    method(Pickman, isNearHome),
+    method(Pickman, isNearResource),
+    method(Pickman, fullBag),
+    method(Pickman, emptyBag),
+    method(Pickman, getAngle),
+    method(Pickman, setAngle),
+    method(Pickman, isAttacked),
+    method(Pickman, getHealth),
+    method(Pickman, setTarget),
+    method(Pickman, isAttackMe),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };
 
 
-EnemyCitizen::EnemyCitizen( lua_State * L ) : Entity(NULL)
+Pickman::Pickman( lua_State * L ) : Entity(NULL)
 {
     init();
 }
 
 
-EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game)
+Pickman::Pickman( EntityType t, Game * game ) : Entity(t, game)
 {
     /// LUA
     // on enregistre la classe auprès de lua
-    Lunar<EnemyCitizen>::Register(Entity::state);
+    Lunar<Pickman>::Register(Entity::state);
 
     // on vérifie si le script existe bien
-    if(luaL_dofile(Entity::state, "lua/enemy_citizen.lua") != 0)
+    if(luaL_dofile(Entity::state, "lua/pickman.lua") != 0)
     {
         // il y a eu une erreur dans le script
         fprintf(stderr, "%s\n", lua_tostring(Entity::state, -1));
@@ -51,27 +48,27 @@ EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game)
     init();
 }
 
-EnemyCitizen::~EnemyCitizen( void ) {}
+Pickman::~Pickman( void ) {}
 
-void EnemyCitizen::init( void )
+void Pickman::init( void )
 {
     Entity::init();
-    m_animation.load( "data/perso_en.ani" );
 
-    m_ressource = NOTHING;
+    m_ressource = WOOD;
 }
 
-void EnemyCitizen::callScript( void )
+void Pickman::callScript( void )
 {
     if(!isDead()) {
         if( m_action == IDLE ) {
             m_way.clear();
             lua_settop(Entity::state, 0);
-            Lunar<EnemyCitizen>::push(Entity::state, this);
-            if(Lunar<EnemyCitizen>::call(Entity::state, "action", 0, 1) < 0) {
-                std::cout << "Erreur : Script LUA - EnemyCitizen" << std::endl;
+            Lunar<Pickman>::push(Entity::state, this);
+            if(Lunar<Pickman>::call(Entity::state, "action", 0, 1) < 0) {
+                std::cout << "Erreur : Script LUA - Pickman" << std::endl;
                 return;
             }
+
             // TODO : Recuperer le string retourne pour effectuer l'action demande
             float argc = lua_gettop(Entity::state);
             if( argc > 0 && lua_isstring(Entity::state, 1)) {
@@ -99,6 +96,8 @@ void EnemyCitizen::callScript( void )
             takeResource();
         } else if ( m_action == ATTACK ) {
             attack();
+        } else if ( m_action == RECOLT ) {
+            recolting();
         }
     }
 }
