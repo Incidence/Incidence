@@ -85,6 +85,9 @@ int Entity::getEntities( lua_State * L )
     }
 
     Lunar<EntitySet>::push(L, e, true);
+
+    //delete e;
+
     return 1;
 }
 
@@ -331,11 +334,12 @@ void Entity::goNearestResource( void )
 
     if(m_game && m_game->m_tilemap) {
         sf::Vector2i posMap = (m_game->m_tilemap)->getXY(m_position);
-        float posNearest = 10000; // To infinte !
+        float posNearest = 10000; // To infinite !
 
         for(int x = posMap.x - m_perception; x <= posMap.x + m_perception; ++x) {
             for(int y = posMap.y - m_perception; y <= posMap.y + m_perception; ++y) {
                 Harvestable * pHarvestable = m_game->m_tilemap->getHarvestable( sf::Vector2i(x, y) );
+                /// AMELIORATION
                 if(pHarvestable && distance(posMap, sf::Vector2i(x, y)) <= m_perception && pHarvestable->containRessource(m_ressource) ) {
                     std::list< sf::Vector2f > w = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(sf::Vector2i(x, y)), 30, m_perception);
 
@@ -416,6 +420,8 @@ void Entity::takeResource( void )
                 break;
 
             default :
+                m_action = IDLE;
+                pHarvestable = NULL;
                 return;
                 break;
         }
@@ -448,6 +454,7 @@ void Entity::recolting( void )
         // Add tronc ?
 
         m_action = IDLE;
+        pHarvestable = NULL;
     }
 }
 

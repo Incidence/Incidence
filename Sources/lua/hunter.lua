@@ -18,7 +18,6 @@ function Hunter:action()
 	local nbfoes=0
 	local nbfriends=0
 
-	print("hunter")
 	if self:isAttacked() then
 
 		local sumangle=0
@@ -73,7 +72,6 @@ function Hunter:action()
 			elseif (not(entites:getType(indice)==ENEMY_CITIZEN)) then
 				if (entites:getType(i)==WILD_ANIMAL) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 					indice=i
-					print("wild ok")
 				elseif (not(entites:getType(indice)==WILD_ANIMAL)) then
 					if (entites:getType(i)==PEACEFUL_ANIMAL) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 						indice=i
@@ -87,12 +85,12 @@ function Hunter:action()
 			end
 
 			if (entites:getType(i)==HUNTER) then
-				nbfriends=nbfriends+1
+				nbfriends=nbfriends+2
 			end
 			i=i+1
 		end
 		if(taille>0) then
-			local seuil=nbfriends+1
+			local seuil=nbfriends+2
 			if(nbfoes<=seuil) then
 				if (not ((entites:getType(indice)==ALLY_CITIZEN) or (entites:getType(indice)==HUNTER))) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
 					self:setTarget(entites:getID(indice))

@@ -23,7 +23,13 @@ EntitySet::EntitySet( void ) {
     Lunar<EntitySet>::Register(Entity::state);
 }
 EntitySet::EntitySet( lua_State * L ) {}
-EntitySet::~EntitySet( void ) {}
+
+EntitySet::~EntitySet( void )
+{
+    for(int i = 0; i < m_entitySet.size(); i++) {
+        delete m_entitySet[i];
+    }
+}
 
 int EntitySet::getSize( void )
 {

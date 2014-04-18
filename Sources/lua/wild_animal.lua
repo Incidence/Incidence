@@ -2,8 +2,6 @@
 
 function WildAnimal:action()
 
-	print("Wild animal")
-
 	local entities = self:getEntities()
 	local size = entities:getSize()
 	local i = 1
