@@ -65,29 +65,34 @@ void TestState::handleEvent( sf::Event & e )
                 m_game->addEntity(new Lumberjack(ALLY_CITIZEN, m_game));
             } break;
 
+            case sf::Keyboard::Z :
+            {
+                m_game->addEntity(new Gatherer(ALLY_CITIZEN, m_game));
+            } break;
+
             case sf::Keyboard::E :
             {
                 m_game->addEntity(new EnemyCitizen(ENEMY_CITIZEN, m_game));
             } break;
 
-            case sf::Keyboard::Z :
-            {
-                m_game->addEntity(new Lumberjack(ALLY_CITIZEN, m_game));
-            } break;
-
             case sf::Keyboard::R :
             {
-                m_game->addEntity(new EnemyCitizen(ENEMY_CITIZEN, m_game));
+                m_game->addEntity(new Hunter(HUNTER, m_game));
             } break;
 
             case sf::Keyboard::T :
             {
-                m_game->addEntity(new Lumberjack(ALLY_CITIZEN, m_game));
+                m_game->addEntity(new PeacefulAnimal(PEACEFUL_ANIMAL, m_game));
             } break;
 
             case sf::Keyboard::Y :
             {
-                m_game->addEntity(new EnemyCitizen(ENEMY_CITIZEN, m_game));
+                m_game->addEntity(new WildAnimal(WILD_ANIMAL, m_game));
+            } break;
+
+            case sf::Keyboard::U :
+            {
+                m_game->addEntity(new Pickman(ALLY_CITIZEN, m_game));
             } break;
 
 
