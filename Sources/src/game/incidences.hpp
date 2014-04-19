@@ -2,13 +2,14 @@
 #define INCIDENCES_HPP
 
 #include "level/tilemap.hpp"
+#include "meteo.hpp"
 #include <vector>
 #include <iostream>
 
 #define ALEATOIRE 3
 
 // --- fonction principale ---
-void doIncidences();
+void doIncidences(TileMap* tilemap,Meteo* meteo);
 // ---------------------------
 
 // --- fonctions "privées" ---

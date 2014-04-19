@@ -7,6 +7,8 @@
 
 #include "level.hpp"
 #include "entity/entity.hpp"
+#include "incidences.hpp"
+
 
 class Entity;
 
@@ -28,13 +30,13 @@ public :
     Entity * getEntity( int id );
     std::vector< Entity * > getEntities( void );
     TileMap * getTilemap( void );
-
+    Meteo * getMeteo();
     void addEntity( Entity * e );
 
 private :
     TileMap * m_tilemap;
     std::vector< Entity * > m_entityList;
-
+    Meteo * m_meteo;
     friend class Entity;
 };
 

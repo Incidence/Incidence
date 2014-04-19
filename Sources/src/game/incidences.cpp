@@ -10,32 +10,69 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
  *** Entree : la carte (tilemap).
  *** Sortie : void
 */
-void doIncidences(TileMap* tilemap) {
-	
+void doIncidences(TileMap* tilemap,Meteo* meteo) {
+
 	//TODO : gérer la météo
-	
-	// Si 3 jours de pluie consécutifs
-	dilateFluids(tilemap);
-	
-	// Si 5 jours de soleil consécutifs
-	erodeFluids(tilemap);
-	
-	// Si 1 jour de pluie
-	erodeNearCliffs(tilemap);
-	dilateNearFluids(tilemap);
-	
-	// Si 1 jour de soleil
-	erodeNearFluids(tilemap);
-	dilateNearCliffs(tilemap);
-	
-	// Si 2 ou 3 jours de pluie parmi les 5 derniers jours
-	dilateForests(tilemap);
-	spawnRessources(tilemap);
-	
-	// Si 5 jours de soleil ou 5 jours de pluie consécutifs
-	erodeForests(tilemap);
-	burnRessources(tilemap);
-	
+	meteo->updateMeteo();
+	int compteur=meteo->getNbJMemeTemps();
+    switch(meteo->getTempsToday())
+    {
+    case PLUIE:
+        // Si 1 jour de pluie
+        erodeNearCliffs(tilemap);
+        dilateNearFluids(tilemap);
+
+        if(compteur%3==0)
+        {
+            // Si 3 jours de pluie consécutifs
+            dilateFluids(tilemap);
+        }
+        if(compteur%4==0)
+        {
+           // Si 2 ou 3 jours de pluie parmi les 5 derniers jours
+
+       ////// EDIT je ne garde pas plus loin que le temps d'hier donc je
+           // ne peux pas faire la condition alors je le fais si
+           // y'a 4 jours de pluie consécutifs, si tu y tiens vraiment
+           // je ferai ta condition XD
+            dilateForests(tilemap);
+            spawnRessources(tilemap);
+        }
+
+
+        if(compteur%5==0)
+        {
+            // Si 5 jours de soleil ou 5 jours de pluie consécutifs
+            erodeForests(tilemap);
+            burnRessources(tilemap);
+        }
+        break;
+
+    case SOLEIL:
+        // Si 1 jour de soleil
+        erodeNearFluids(tilemap);
+        dilateNearCliffs(tilemap);
+
+        if(compteur%3==0)
+        {
+            // Si 5 jours de soleil consécutifs
+
+        ///// EDIT Changer en 3 jours consécutifs comme ca y'a des incidences pour 1,3 et 5 jours.
+            erodeFluids(tilemap);
+        }
+
+        if(compteur%5==0)
+        {
+            // Si 5 jours de soleil ou 5 jours de pluie consécutifs
+            erodeForests(tilemap);
+            burnRessources(tilemap);
+        }
+        break;
+
+    default:
+        break;
+    }
+
 }
 
 /*
@@ -45,27 +82,27 @@ void doIncidences(TileMap* tilemap) {
  *** Sortie : void
 */
 void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	int i = position.x, j = position.y;
-	
+
 	Ground* l_ground = tilemap->getGround(position);
-	
+
 	if(l_ground != NULL) {
-		
+
 		// Changement du sol courant
 		int oldType = l_ground->getType();
 		if(type != oldType) {
-			
+
 			if(l_ground->getBehavior() == CLIFF) {
 				oldType = type;
 			}
 			else {
 				tilemap->changeGround(type, position);
 			}
-			
+
 			// Propagation
 			if(i > 0) {
 				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i - 1, j)) == 0) {
@@ -87,7 +124,7 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 					spreadGround(tilemap, oldType, sf::Vector2i(i, j + 1));
 				}
 			}
-			
+
 			// Mise à jour des bordures
 			tilemap->updateBorders(sf::Vector2i(i - 1, j));
 			tilemap->updateBorders(sf::Vector2i(i, j - 1));
@@ -95,7 +132,7 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 			tilemap->updateBorders(sf::Vector2i(i, j + 1));
 		}
 	}
-	
+
 }
 
 /*
@@ -105,26 +142,26 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
  *** Sortie : void
 */
 void dilateGround(TileMap* tilemap, TileBehavior behavior) {
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Ground* l_ground;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_ground = tilemap->getGround(sf::Vector2i(i, j));
-			
+
 			if(l_ground != NULL && l_ground->getBehavior() == behavior) {
-				
+
 				int GROUND_type = l_ground->getType();
-				
+
 				if(i > 0 && rand()%ALEATOIRE == 0) {
 					positions.push_back(sf::Vector2i(i - 1, j));
 					types.push_back(GROUND_type);
@@ -144,11 +181,11 @@ void dilateGround(TileMap* tilemap, TileBehavior behavior) {
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
-	
+
 }
 
 /*
@@ -158,30 +195,30 @@ void dilateGround(TileMap* tilemap, TileBehavior behavior) {
  *** Sortie : void
 */
 void erodeGround(TileMap* tilemap, TileBehavior behavior) {
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Ground* l_ground;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_ground = tilemap->getGround(sf::Vector2i(i, j));
-			
+
 			if(l_ground != NULL && l_ground->getBehavior() == behavior) {
-				
+
 				std::vector<int> GROUND_type;
-					
+
 				for(int k(0) ; k < 4 ; ++k) {
-					
+
 					l_ground = NULL;
-					
+
 					if(k == 0 && i > 0) {
 						l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
 					}
@@ -194,12 +231,12 @@ void erodeGround(TileMap* tilemap, TileBehavior behavior) {
 					else if(k == 3 && j < height-1) {
 						l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
 					}
-					
+
 					if(l_ground != NULL && l_ground->getBehavior() != behavior) {
 						GROUND_type.push_back(l_ground->getType());
 					}
 				}
-				
+
 				if(GROUND_type.size() != 0 && rand()%ALEATOIRE == 0) {
 					positions.push_back(sf::Vector2i(i, j));
 					types.push_back(GROUND_type[rand()%GROUND_type.size()]);
@@ -207,11 +244,11 @@ void erodeGround(TileMap* tilemap, TileBehavior behavior) {
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
-	
+
 }
 
 /*
@@ -222,10 +259,10 @@ void erodeGround(TileMap* tilemap, TileBehavior behavior) {
  *** Sortie : void
 */
 void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behaviorNear) {
-	
+
 	std::vector<int> nears = (tilemap->getTileSet())->getGroundsByBehavior(behaviorNear);
 	std::vector<int> nearCompatibles;
-	
+
 	for(int k(0) ; k < (tilemap->getTileSet())->getGroundCount() ; ++k) {
 		bool add = true;
 		for(int l(0) ; l < nears.size() ; ++l) {
@@ -245,28 +282,28 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 			}
 		}
 	}
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Ground* l_ground;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_ground = tilemap->getGround(sf::Vector2i(i, j));
-			
+
 			if(l_ground != NULL && l_ground->getBehavior() == behavior) {
-				
+
 				int GROUND_type = l_ground->getType();
-				
+
 				if(rand()%ALEATOIRE == 0 && contains(nearCompatibles, GROUND_type)) {
-					
+
 					if(i > 0 && rand()%ALEATOIRE == 0 && !contains(nears, (tilemap->getGround(sf::Vector2i(i - 1, j)))->getType())) {
 						positions.push_back(sf::Vector2i(i - 1, j));
 						types.push_back(GROUND_type);
@@ -287,11 +324,11 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
-	
+
 }
 
 /*
@@ -302,10 +339,10 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
  *** Sortie : void
 */
 void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behaviorNear) {
-	
+
 	std::vector<int> nears = (tilemap->getTileSet())->getGroundsByBehavior(behaviorNear);
 	std::vector<int> nearCompatibles;
-	
+
 	for(int k(0) ; k < (tilemap->getTileSet())->getGroundCount() ; ++k) {
 		bool add = true;
 		for(int l(0) ; l < nears.size() ; ++l) {
@@ -325,32 +362,32 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 			}
 		}
 	}
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Ground* l_ground;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_ground = tilemap->getGround(sf::Vector2i(i, j));
-			
+
 			if(l_ground != NULL && l_ground->getBehavior() == behavior) {
-				
+
 				std::vector<int> GROUND_types;
-				
+
 				if(contains(nearCompatibles, l_ground->getType())) {
-					
+
 					for(int k(0) ; k < 4 ; ++k) {
-						
+
 						l_ground = NULL;
-						
+
 						if(k == 0 && i > 0 && rand()%ALEATOIRE == 0) {
 							l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
 						}
@@ -363,15 +400,15 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 						else if(k == 3 && j < height-1 && rand()%ALEATOIRE == 0) {
 							l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
 						}
-							
+
 						if(l_ground != NULL && l_ground->getBehavior() == behavior) {
-							
+
 							if(!contains(nearCompatibles, l_ground->getType())) {
 								GROUND_types.push_back(l_ground->getType());
 							}
 						}
 					}
-					
+
 					if(GROUND_types.size() != 0 && rand()%ALEATOIRE == 0) {
 						positions.push_back(sf::Vector2i(i, j));
 						types.push_back(GROUND_types[rand()%GROUND_types.size()]);
@@ -380,11 +417,11 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
-	
+
 }
 
 /*
@@ -394,26 +431,26 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
  *** Sortie : void
 */
 void dilateElement(TileMap* tilemap, TileBehavior behavior) {
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Element* l_element;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_element = tilemap->getElement(sf::Vector2i(i, j));
-			
+
 			if(l_element != NULL && l_element->getBehavior() == behavior) {
-				
+
 				int ELEMENT_type = l_element->getType();
-				
+
 				if(i > 0 && rand()%ALEATOIRE == 0 && tilemap->getElement(sf::Vector2i(i - 1, j)) == NULL) {
 					positions.push_back(sf::Vector2i(i - 1, j));
 					types.push_back(ELEMENT_type);
@@ -433,11 +470,11 @@ void dilateElement(TileMap* tilemap, TileBehavior behavior) {
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		tilemap->addElement(types[p], positions[p]);
 	}
-	
+
 }
 
 /*
@@ -447,25 +484,25 @@ void dilateElement(TileMap* tilemap, TileBehavior behavior) {
  *** Sortie : void
 */
 void erodeElement(TileMap* tilemap, TileBehavior behavior) {
-	
+
 	srand(time(NULL));
-	
+
 	std::vector<sf::Vector2i> positions;
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Element* l_element;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			l_element = tilemap->getElement(sf::Vector2i(i, j));
-			
+
 			if(l_element != NULL && l_element->getBehavior() == behavior) {
-					
+
 				for(int k(0) ; k < 4 ; ++k) {
-					
+
 					if(k == 0 && i > 0 && rand()%ALEATOIRE == 0) {
 						l_element = tilemap->getElement(sf::Vector2i(i - 1, j));
 					}
@@ -478,7 +515,7 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 					else if(k == 3 && j < height-1 && rand()%ALEATOIRE == 0) {
 						l_element = tilemap->getElement(sf::Vector2i(i, j + 1));
 					}
-					
+
 					if(l_element == NULL || l_element->getBehavior() != behavior) {
 						positions.push_back(sf::Vector2i(i, j));
 					}
@@ -486,59 +523,59 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 			}
 		}
 	}
-	
+
 	for(int p(0) ; p < positions.size() ; ++p) {
 		tilemap->removeElement(positions[p]);
 	}
-	
+
 }
 
 void dilateFluids(TileMap* tilemap) {
-	
+
 	dilateGround(tilemap, FLUID);
-	
+
 }
 
 void erodeFluids(TileMap* tilemap) {
-	
+
 	erodeGround(tilemap, FLUID);
-	
+
 }
 
 void dilateNearFluids(TileMap* tilemap) {
-	
+
 	dilateNearGround(tilemap, DEFAULT, FLUID);
-	
+
 }
 
 void erodeNearFluids(TileMap* tilemap) {
-	
+
 	erodeNearGround(tilemap, DEFAULT, FLUID);
-	
+
 }
 
 void dilateNearCliffs(TileMap* tilemap) {
-	
+
 	dilateNearGround(tilemap, DEFAULT, CLIFF);
-	
+
 }
 
 void erodeNearCliffs(TileMap* tilemap) {
-	
+
 	erodeNearGround(tilemap, DEFAULT, CLIFF);
-	
+
 }
 
 void dilateForests(TileMap* tilemap) {
-	
+
 	dilateElement(tilemap, FOREST);
-	
+
 }
 
 void erodeForests(TileMap* tilemap) {
-	
+
 	erodeElement(tilemap, FOREST);
-	
+
 }
 
 /*
@@ -549,25 +586,25 @@ void erodeForests(TileMap* tilemap) {
  *** Sortie : void
 */
 void spawnRessources(TileMap* tilemap) {
-	
+
 	int elementCount = (tilemap->getTileSet())->getElementCount();
 	std::vector<int> stoneElements;
 	std::vector<int> woodElements;
-	
+
 	srand(time(NULL));
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Element* l_element;
-	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0]; 
-	
+	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0];
+
 	for(int k(0) ; k < elementCount ; ++k) {
-		
+
 		l_element = (tilemap->getTileSet())->getElement(k, GROUND_type);
-		
+
 		if(l_element != NULL) {
-			
+
 			if(l_element->containRessource(STONE)) {
 				stoneElements.push_back(k);
 			}
@@ -576,24 +613,24 @@ void spawnRessources(TileMap* tilemap) {
 			}
 		}
 	}
-	
+
 	Ground* l_ground;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			if(rand()%ALEATOIRE == 0) {
-				
+
 				l_element = tilemap->getElement(sf::Vector2i(i, j));
-				
+
 				if(l_element == NULL && rand()%ALEATOIRE == 0) {
-					
+
 					bool addStone = false, addWood = false;
-					
+
 					for(int k(0) ; k < 4 ; ++k) {
-						
+
 						l_ground = NULL;
-						
+
 						if(k == 0 && i > 0) {
 							l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
 							l_element = tilemap->getElement(sf::Vector2i(i - 1, j));
@@ -610,7 +647,7 @@ void spawnRessources(TileMap* tilemap) {
 							l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
 							l_element = tilemap->getElement(sf::Vector2i(i, j + 1));
 						}
-					
+
 						if(l_ground != NULL) {
 							if(l_ground->getBehavior() == CLIFF) {
 								addStone = true;
@@ -625,7 +662,7 @@ void spawnRessources(TileMap* tilemap) {
 							}
 						}
 					}
-					
+
 					if(addWood && woodElements.size() > 0) {
 						tilemap->addElement(woodElements[rand()%woodElements.size()], sf::Vector2i(i, j));
 					}
@@ -642,78 +679,78 @@ void spawnRessources(TileMap* tilemap) {
 			}
 		}
 	}
-	
+
 }
 
 void burnRessources(TileMap* tilemap) {
-	
+
 	srand(time(NULL));
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
-	
+
 	Element* l_element;
-	
+
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
-			
+
 			if(rand()%ALEATOIRE == 0) {
-				
+
 				l_element = tilemap->getElement(sf::Vector2i(i, j));
-				
+
 				if(l_element != NULL && rand()%ALEATOIRE == 0) {
 					tilemap->burnElement(sf::Vector2i(i, j));
 				}
 			}
 		}
 	}
-	
+
 }
 
 void spawnEntities(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void killEntities(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void citizenSpawn(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void citizenFeeding(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void citizenSicken(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void citizenBirth(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void citizenJobUpdate(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }
 
 void bonusPI(TileMap* tilemap) {
-	
+
 	//TODO
-	
+
 }

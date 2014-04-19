@@ -5,7 +5,6 @@
 #include "level/tileset.hpp"
 #include "../engine/foo.hpp"
 #include "../engine/time.hpp"
-#include "incidences.hpp"
 
 /// TODO
 Game::Game( void ) : m_tilemap(NULL)
@@ -30,8 +29,11 @@ void Game::newGame( void )
         delete m_tilemap;
     }
 
-	m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
+    m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
+
+	m_meteo=new Meteo(PLUIE,"data/pluie.ani");
+
 }
 
 void Game::loadGame( std::string path ) {}
@@ -56,8 +58,8 @@ void Game::draw( sf::RenderTarget & window )
             window.draw( * (*it)->draw() );
         }
     }
-
     m_tilemap->drawElementsUp( window );
+    m_meteo->draw(window);
 }
 
 void Game::handleEvent( sf::Event & e )
@@ -104,6 +106,15 @@ void Game::handleEvent( sf::Event & e )
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
 			m_tilemap->load("saves/test.ims");
 		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+			m_meteo->setTempsToday(SOLEIL);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
+			m_meteo->setTempsToday(PLUIE);
+		}
+
+
     }
 }
 
@@ -126,6 +137,11 @@ std::vector< Entity * > Game::getEntities( void )
 {
     return m_entityList;
 }
+
+ Meteo * Game::getMeteo()
+ {
+     return m_meteo;
+ }
 
 void Game::addEntity( Entity * e )
 {
