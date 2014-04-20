@@ -36,7 +36,8 @@ void Entity::init( void )
     m_ressource = NOTHING;
     m_health = GOOD;
     m_waitTime = 0;
-
+    m_previoustime=1;
+    m_timer=clock();
     m_animation.load( "data/perso_lu.ani" );
 
     /// TO COMPLETE
@@ -571,7 +572,25 @@ void Entity::setPosition( sf::Vector2f p )
     m_action = IDLE;
 }
 
+clock_t Entity::getTimer()
+{
+    return m_timer;
+}
 
+void Entity::resetTimer()
+{
+    m_timer=clock();
+}
+
+void Entity::setPreviousTime(int t)
+{
+    m_previoustime=t;
+}
+
+int Entity::getPreviousTime()
+{
+    return m_previoustime;
+}
 
 
 

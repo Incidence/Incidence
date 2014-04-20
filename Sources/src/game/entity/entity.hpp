@@ -2,7 +2,7 @@
 #define _ENTITY_
 
 #include "SFML/Graphics.hpp"
-
+#include <ctime>
 #include <lua.hpp>
 #include "lunar.h"
 
@@ -65,6 +65,11 @@ public :
 
     void setPosition( sf::Vector2f p );
 
+    clock_t getTimer();
+    void resetTimer();
+    int getPreviousTime();
+    void setPreviousTime(int t);
+
 protected :
     Game * m_game;
 
@@ -88,6 +93,9 @@ protected :
     Action m_action;
 
     float m_waitTime;
+
+    int m_previoustime;//temps ajusté en secondes
+    clock_t m_timer;//temps compté en clicks(unité biz)
 
 public :
     /// Lua

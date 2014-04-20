@@ -6,6 +6,12 @@
 #include "../engine/foo.hpp"
 #include "../engine/time.hpp"
 
+
+#define NB_PI 1
+#define TIME_PI 10 // NB_PI toutes les TIME_PI secondes par entité
+
+
+
 /// TODO
 Game::Game( void ) : m_tilemap(NULL)
 {
@@ -31,9 +37,8 @@ void Game::newGame( void )
 
     m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
-
 	m_weather=new Weather(RAINY,"data/rain.ani");
-
+	m_incidencePoint=0;
 }
 
 void Game::loadGame( std::string path ) {}
@@ -44,6 +49,13 @@ void Game::update( void )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
+            int temps=(int)((clock()-(*it)->getTimer())/CLOCKS_PER_SEC);
+            if(temps%TIME_PI==0 && temps!=(*it)->getPreviousTime() && temps!=0)//TIME_PI et NB_PI définis en macro
+            {
+                m_incidencePoint+=NB_PI;
+                (*it)->resetTimer();
+            }
+            (*it)->setPreviousTime(temps);
         }
     }
 }
@@ -146,4 +158,15 @@ std::vector< Entity * > Game::getEntities( void )
 void Game::addEntity( Entity * e )
 {
     m_entityList.push_back(e);
+}
+
+
+void Game::setPI(int n)
+{
+    m_incidencePoint=n;
+}
+
+int Game::getPI()
+{
+    return m_incidencePoint;
 }

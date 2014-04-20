@@ -33,10 +33,14 @@ public :
     Weather * getWeather();
     void addEntity( Entity * e );
 
+    void setPI(int n);
+    int getPI();
+
 private :
     TileMap * m_tilemap;
     std::vector< Entity * > m_entityList;
     Weather * m_weather;
+    int m_incidencePoint;
     friend class Entity;
 };
 
