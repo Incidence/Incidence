@@ -2,6 +2,7 @@
 
 function WildAnimal:action()
 
+
 	local entities = self:getEntities()
 	local size = entities:getSize()
 	local i = 1

@@ -98,7 +98,7 @@ function EnemyCitizen:action()
 		if(taille>0) then
 			local seuil=nbfriends+2
 			if(nbfoes<=seuil) then
-				iif (not ((entites:getType(indice)==WILD_ANIMAL) or (entites:getType(indice)==PEACEFUL_ANIMAL) or (entites:getType(indice)==ENEMY_CITIZEN) )) then
+				if (not ((entites:getType(indice)==WILD_ANIMAL) or (entites:getType(indice)==PEACEFUL_ANIMAL) or (entites:getType(indice)==ENEMY_CITIZEN) )) then
 					self:setTarget(entites:getID(indice))
 					return "attack"
 				else
