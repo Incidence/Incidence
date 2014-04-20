@@ -56,12 +56,15 @@ $(TMP)/test_state.o: $(STATE)/test_state.cpp $(STATE)/test_state.hpp
 
 GAME=src/game
 
-game: $(TMP)/game.o $(TMP)/incidences.o level entity
+game: $(TMP)/game.o $(TMP)/incidences.o $(TMP)/meteo.o level entity
 
 $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/incidences.o: $(GAME)/incidences.cpp $(GAME)/incidences.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/meteo.o: $(GAME)/meteo.cpp $(GAME)/meteo.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
