@@ -32,7 +32,7 @@ void Game::newGame( void )
     m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
 
-	m_meteo=new Meteo(PLUIE,"data/pluie.ani");
+	m_weather=new Weather(RAINY,"data/rain.ani");
 
 }
 
@@ -59,7 +59,7 @@ void Game::draw( sf::RenderTarget & window )
         }
     }
     m_tilemap->drawElementsUp( window );
-    m_meteo->draw(window);
+    m_weather->draw(window);
 }
 
 void Game::handleEvent( sf::Event & e )
@@ -108,10 +108,10 @@ void Game::handleEvent( sf::Event & e )
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
-			m_meteo->setTempsToday(SOLEIL);
+			m_weather->setWeatherToday(SUNNY);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			m_meteo->setTempsToday(PLUIE);
+			m_weather->setWeatherToday(RAINY);
 		}
 
 
@@ -138,9 +138,9 @@ std::vector< Entity * > Game::getEntities( void )
     return m_entityList;
 }
 
- Meteo * Game::getMeteo()
+ Weather * Game::getWeather()
  {
-     return m_meteo;
+     return m_weather;
  }
 
 void Game::addEntity( Entity * e )

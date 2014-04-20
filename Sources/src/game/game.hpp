@@ -30,13 +30,13 @@ public :
     Entity * getEntity( int id );
     std::vector< Entity * > getEntities( void );
     TileMap * getTilemap( void );
-    Meteo * getMeteo();
+    Weather * getWeather();
     void addEntity( Entity * e );
 
 private :
     TileMap * m_tilemap;
     std::vector< Entity * > m_entityList;
-    Meteo * m_meteo;
+    Weather * m_weather;
     friend class Entity;
 };
 
