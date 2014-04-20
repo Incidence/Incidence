@@ -10,7 +10,7 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
  *** Entree : la carte (tilemap).
  *** Sortie : void
 */
-void doIncidences(TileMap* tilemap,Meteo* meteo) {
+void doIncidences(TileMap* tilemap, Meteo* meteo) {
 
 	//TODO : gérer la météo
 	meteo->updateMeteo();

@@ -9,7 +9,7 @@
 #define ALEATOIRE 3
 
 // --- fonction principale ---
-void doIncidences(TileMap* tilemap,Meteo* meteo);
+void doIncidences(TileMap* tilemap, Meteo* meteo);
 // ---------------------------
 
 // --- fonctions "privées" ---
