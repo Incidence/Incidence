@@ -4,7 +4,9 @@
 
 using namespace std;
 
-
+// RECODE : franglais dégueulasse à changer n'est-ce pas thierry hein :-P (même pour .png et .ani hein)
+// faut décider aussi si la pluie va bien comme ça ou si on fait un cycle de 4 images au lieu de 2
+// j'ai changé l'image d'ailleurs, sinon c'est good ça rend bien ;)
 Meteo::Meteo( const string pluiepath)
 {
     //Meteo par défaut Soleil

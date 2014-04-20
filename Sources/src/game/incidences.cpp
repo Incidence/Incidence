@@ -35,6 +35,9 @@ void doIncidences(TileMap* tilemap,Meteo* meteo) {
            // ne peux pas faire la condition alors je le fais si
            // y'a 4 jours de pluie consécutifs, si tu y tiens vraiment
            // je ferai ta condition XD
+			
+	//////// EDIT si il faudrait garder un historique d'au moins les 5 derniers jours
+		  // sinon l'équilibrage du jeu va être moisi
             dilateForests(tilemap);
             spawnRessources(tilemap);
         }
