@@ -1,5 +1,5 @@
 CC=g++
-CXXFLAG=-w
+CXXFLAG=-Wall
 LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -llua -ldl
 BUILD=_build
 TMP=$(BUILD)/tmp

@@ -185,7 +185,7 @@ void dilateGround(TileMap* tilemap, TileBehavior behavior) {
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
 
@@ -248,7 +248,7 @@ void erodeGround(TileMap* tilemap, TileBehavior behavior) {
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
 
@@ -268,14 +268,14 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 
 	for(int k(0) ; k < (tilemap->getTileSet())->getGroundCount() ; ++k) {
 		bool add = true;
-		for(int l(0) ; l < nears.size() ; ++l) {
+		for(unsigned int l(0) ; l < nears.size() ; ++l) {
 			if(k == nears[l]) {
 				add = false;
 			}
 		}
 		if(add) {
 			add = false;
-			for(int l(0) ; l < nears.size() ; ++l) {
+			for(unsigned int l(0) ; l < nears.size() ; ++l) {
 				if(tilemap->areCompatibleGrounds(k, nears[l]) == 1) {
 					add = true;
 				}
@@ -328,7 +328,7 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
 
@@ -348,14 +348,14 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 
 	for(int k(0) ; k < (tilemap->getTileSet())->getGroundCount() ; ++k) {
 		bool add = true;
-		for(int l(0) ; l < nears.size() ; ++l) {
+		for(unsigned int l(0) ; l < nears.size() ; ++l) {
 			if(k == nears[l]) {
 				add = false;
 			}
 		}
 		if(add) {
 			add = false;
-			for(int l(0) ; l < nears.size() ; ++l) {
+			for(unsigned int l(0) ; l < nears.size() ; ++l) {
 				if(tilemap->areCompatibleGrounds(k, nears[l]) == 1) {
 					add = true;
 				}
@@ -421,7 +421,7 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		spreadGround(tilemap, types[p], positions[p]);
 	}
 
@@ -474,7 +474,7 @@ void dilateElement(TileMap* tilemap, TileBehavior behavior) {
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		tilemap->addElement(types[p], positions[p]);
 	}
 
@@ -527,7 +527,7 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 		}
 	}
 
-	for(int p(0) ; p < positions.size() ; ++p) {
+	for(unsigned int p(0) ; p < positions.size() ; ++p) {
 		tilemap->removeElement(positions[p]);
 	}
 

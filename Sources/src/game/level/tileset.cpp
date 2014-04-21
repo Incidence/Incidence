@@ -112,10 +112,10 @@ std::vector<int> TileSet::getGroundsByBehavior(TileBehavior behavior) const {
 	
 	std::vector<int> l_grounds;
 	
-	for(int i(0) ; i < m_grounds.size() ; ++i) {
+	for(unsigned int i(0) ; i < m_grounds.size() ; ++i) {
 		if(m_grounds[i].getBehavior() == behavior) {
 			bool add = true;
-			for(int j(0) ; j < l_grounds.size() ; ++j) {
+			for(unsigned int j(0) ; j < l_grounds.size() ; ++j) {
 				if(l_grounds[j] == m_grounds[i].getType()) {
 					add = false;
 				}
@@ -134,7 +134,7 @@ std::vector<int> TileSet::getElementsByBehavior(TileBehavior behavior) const {
 	
 	std::vector<int> l_elements;
 	
-	for(int i(0) ; i < m_elements.size() ; ++i) {
+	for(unsigned int i(0) ; i < m_elements.size() ; ++i) {
 		if(m_elements[i].getBehavior() == behavior) {
 			l_elements.push_back(m_elements[i].getType());
 		}

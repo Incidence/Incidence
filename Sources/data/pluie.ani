@@ -1,5 +1,5 @@
 data/pluie.png 800 600 1 1
-+Frame 0 0 0.1
-+Frame 0 600 0.1
-+Frame 0 1200 0.1
-+Frame 0 1800 0.1
++Frame 0 0 0.08
++Frame 0 600 0.08
++Frame 0 1200 0.08
++Frame 0 1800 0.08

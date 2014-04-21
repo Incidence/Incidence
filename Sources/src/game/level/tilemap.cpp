@@ -233,8 +233,8 @@ void TileMap::updateBorders(sf::Vector2i position) {
 
 void TileMap::addElement(int type, sf::Vector2i position) {
 
-	int i = position.x;
-	int j = position.y;
+	unsigned int i = position.x;
+	unsigned int j = position.y;
 	
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
 		
@@ -279,8 +279,8 @@ void TileMap::addElement(int type, sf::Vector2i position) {
 
 void TileMap::removeElement(sf::Vector2i position) {
 
-	int i = position.x;
-	int j = position.y;
+	unsigned int i = position.x;
+	unsigned int j = position.y;
 	
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
 		
@@ -302,8 +302,8 @@ void TileMap::burnElement(sf::Vector2i position) {
 
 	removeElement(position);
 
-	int i = position.x;
-	int j = position.y;
+	unsigned int i = position.x;
+	unsigned int j = position.y;
 	
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
 		
@@ -513,7 +513,7 @@ void TileMap::freePlace(sf::Vector2i position) {
 				break;
 		}
 		
-		for(int k(0) ; k < defaults.size() ; ++k) {
+		for(unsigned int k(0) ; k < defaults.size() ; ++k) {
 			if((l_ground_1 == NULL || areCompatibleGrounds(defaults[k], l_ground_1->getType()))
 			&&
 			(l_ground_2 == NULL || areCompatibleGrounds(defaults[k], l_ground_2->getType()))
@@ -907,14 +907,14 @@ bool TileMap::load(std::string path) {
 	
 	int GROUND_type, ELEMENT_type;
 	
-	for(int j(0) ; j < m_dimensions.y ; ++j) {
-		for(int i(0) ; i < m_dimensions.x ; ++i) {
+	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
+		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 			file >> GROUND_type;
 			changeGround(GROUND_type, sf::Vector2i(i, j));
 		}
 	}
-	for(int j(0) ; j < m_dimensions.y ; ++j) {
-		for(int i(0) ; i < m_dimensions.x ; ++i) {
+	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
+		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 			file >> ELEMENT_type;
 			if(ELEMENT_type == -1) {
 				removeElement(sf::Vector2i(i, j));
@@ -925,8 +925,8 @@ bool TileMap::load(std::string path) {
 		}
 	}
 	
-	for(int i(0) ; i < m_dimensions.x ; ++i) {
-		for(int j(0) ; j < m_dimensions.y ; ++j) {
+	for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
+		for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
 			updateBorders(sf::Vector2i(i, j));
 		}
 	}
@@ -946,16 +946,16 @@ bool TileMap::save(std::string path) const {
 	file << m_dimensions.x << " " << m_dimensions.y << std::endl;
 	
 	file << std::endl;
-	for(int j(0) ; j < m_dimensions.y ; ++j) {
-		for(int i(0) ; i < m_dimensions.x ; ++i) {
+	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
+		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 			file << " " << m_grounds[i + j * m_dimensions.x]->getType() << " ";
 		}
 		file << std::endl;
 	}
 	
 	file << std::endl;
-	for(int j(0) ; j < m_dimensions.y ; ++j) {
-		for(int i(0) ; i < m_dimensions.x ; ++i) {
+	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
+		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 			if(m_elements[i + j * m_dimensions.x] == NULL) {
 				file << -1 << " ";
 			}

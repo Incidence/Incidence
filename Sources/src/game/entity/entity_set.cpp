@@ -26,7 +26,7 @@ EntitySet::EntitySet( lua_State * L ) {}
 
 EntitySet::~EntitySet( void )
 {
-    for(int i = 0; i < m_entitySet.size(); i++) {
+    for(unsigned int i = 0; i < m_entitySet.size(); i++) {
         delete m_entitySet[i];
     }
 }
