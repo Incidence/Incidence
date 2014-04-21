@@ -35,7 +35,7 @@ void Game::newGame( void )
         delete m_tilemap;
     }
 
-    m_tilemap = new TileMap(TileSet("data/tileset.png"), sf::Vector2u(150, 150));
+    m_tilemap = new TileMap(TileSet("data/tileset.ini"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
 	m_weather=new Weather(RAINY,"data/rain.ani");
 	m_incidencePoint=0;

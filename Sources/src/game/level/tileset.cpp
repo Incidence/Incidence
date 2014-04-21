@@ -152,7 +152,7 @@ std::vector<int> TileSet::getElementsByBehavior(TileBehavior behavior) const {
  *** Sortie : un booléen indiquant si le chargement est complet.
 */
 bool TileSet::load(const std::string path) {
-	
+	/*
 	m_path = path;
 
 	// === OUVERTURE DES FICHIERS ===
@@ -164,9 +164,9 @@ bool TileSet::load(const std::string path) {
 		return false;
 	}
 
-	l_path.replace(l_path.find_last_of('.') + 1, l_path.size() - 1, "ini");
+	l_path.replace(l_path.find_last_of('.') + 1, l_path.size() - 1, "ini");*/
 
-	std::ifstream config(l_path.c_str());
+	std::ifstream config(path.c_str());
 	if(!config) {
 		std::cout << "Ouverture du fichier ini du tileset impossible." << std::endl;
 		return false;
@@ -184,7 +184,14 @@ bool TileSet::load(const std::string path) {
 
 	while(!config.eof()) {
 
-		if(keyWord.compare("tilesize") == 0) {
+		if(keyWord.compare("path") == 0) {
+			config >> m_path;
+			if(!m_tileset.loadFromFile(m_path)) {
+				std::cout << "Ouverture du fichier png du tileset impossible." << std::endl;
+				return false;
+			}
+		}
+		else if(keyWord.compare("tilesize") == 0) {
 
 			config >> m_tilesize.x;
 			config >> m_tilesize.y;

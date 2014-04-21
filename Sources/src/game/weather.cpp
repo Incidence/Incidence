@@ -95,6 +95,9 @@ WeatherType Weather::getWeather(unsigned int i)
     {
         return m_weatherList[i];
     }
+    else {
+		return UNDEFINED;
+	}
 }
 
 WeatherType Weather::getWeatherToday()

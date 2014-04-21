@@ -3,6 +3,7 @@
 #include "../../engine/time.hpp"
 #include "../../engine/foo.hpp"
 #include "entity_set.hpp"
+#include <cmath>
 
 bool Entity::bLuaInit = false;
 
