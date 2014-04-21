@@ -44,34 +44,34 @@ void TestState::update( void )
 {
 	sf::Vector2u dimensions = (m_game->getTilemap())->getDimensions();
 	sf::Vector2u tilesize = ((m_game->getTilemap())->getTileSet())->getTileSize();
-	Animation* Pluie = m_game->getMeteo()->getAnimationPluie();
+	Animation* Rain = m_game->getWeather()->getRainAnimation();
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_view.getCenter().x > m_view.getSize().x/2) {
 		m_view.move(-((int)tilesize.x),0);
-		if(Pluie->m_position.x>=32)
+		if(Rain->m_position.x>=32)
             {
-                Pluie->m_position.x-=32;
+                Rain->m_position.x-=32;
             }
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_view.getCenter().x < dimensions.x*tilesize.x-m_view.getSize().x/2) {
 		m_view.move(tilesize.x,0);
-		if(Pluie->m_position.x<(150-(800/32))*32)
+		if(Rain->m_position.x<(150-(800/32))*32)
             {
-                Pluie->m_position.x+=32;
+                Rain->m_position.x+=32;
             }
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_view.getCenter().y > m_view.getSize().y/2) {
 		m_view.move(0,-((int)tilesize.y));
-		if(Pluie->m_position.y>=32)
+		if(Rain->m_position.y>=32)
             {
-                Pluie->m_position.y-=32;
+                Rain->m_position.y-=32;
             }
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_view.getCenter().y < dimensions.y*tilesize.y-m_view.getSize().y/2) {
 		m_view.move(0,tilesize.y);
-		if(Pluie->m_position.y<(150-(600/32))*32)
+		if(Rain->m_position.y<(150-(600/32))*32)
             {
-                Pluie->m_position.y+=32;
+                Rain->m_position.y+=32;
             }
 	}
     m_game->update();

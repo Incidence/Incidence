@@ -10,40 +10,32 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
  *** Entree : la carte (tilemap).
  *** Sortie : void
 */
-void doIncidences(TileMap* tilemap, Meteo* meteo) {
+void doIncidences(TileMap* tilemap,Weather* weather) {
 
 	//TODO : gérer la météo
-	meteo->updateMeteo();
-	int compteur=meteo->getNbJMemeTemps();
-    switch(meteo->getTempsToday())
+	weather->updateWeather();
+	int nb=weather->getNbDSameWeather();
+    switch(weather->getWeatherToday())
     {
-    case PLUIE:
+    case RAINY:
         // Si 1 jour de pluie
         erodeNearCliffs(tilemap);
         dilateNearFluids(tilemap);
 
-        if(compteur%3==0)
+        if(nb%3==0)
         {
             // Si 3 jours de pluie consécutifs
             dilateFluids(tilemap);
         }
-        if(compteur%4==0)
-        {
+        if(weather->verifWeather(RAINY,2)||weather->verifWeather(RAINY,3))// on peut rajouter un paramètre si vous voulez
+        {                                                                 // pour faire un intervalle
            // Si 2 ou 3 jours de pluie parmi les 5 derniers jours
-
-       ////// EDIT je ne garde pas plus loin que le temps d'hier donc je
-           // ne peux pas faire la condition alors je le fais si
-           // y'a 4 jours de pluie consécutifs, si tu y tiens vraiment
-           // je ferai ta condition XD
-			
-	//////// EDIT si il faudrait garder un historique d'au moins les 5 derniers jours
-		  // sinon l'équilibrage du jeu va être moisi
             dilateForests(tilemap);
             spawnRessources(tilemap);
         }
 
 
-        if(compteur%5==0)
+        if(nb%5==0)
         {
             // Si 5 jours de soleil ou 5 jours de pluie consécutifs
             erodeForests(tilemap);
@@ -51,12 +43,12 @@ void doIncidences(TileMap* tilemap, Meteo* meteo) {
         }
         break;
 
-    case SOLEIL:
+    case SUNNY:
         // Si 1 jour de soleil
         erodeNearFluids(tilemap);
         dilateNearCliffs(tilemap);
 
-        if(compteur%3==0)
+        if(nb%3==0)
         {
             // Si 5 jours de soleil consécutifs
 
@@ -64,7 +56,7 @@ void doIncidences(TileMap* tilemap, Meteo* meteo) {
             erodeFluids(tilemap);
         }
 
-        if(compteur%5==0)
+        if(nb%5==0)
         {
             // Si 5 jours de soleil ou 5 jours de pluie consécutifs
             erodeForests(tilemap);

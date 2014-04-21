@@ -26,6 +26,8 @@ void Time::update( void )
 {
     m_lastFrame = m_elapsed.getElapsedTime() - m_lastTime;
     m_lastTime = m_elapsed.getElapsedTime();
+
+
 }
 
 Time::Time( void )
