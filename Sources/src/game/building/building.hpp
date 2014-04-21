@@ -6,9 +6,10 @@ class Building : public Harvestable
 
 public :
     Building( void );
+    Building( sf::Vector2i & position,const std::string path );
     ~Building( void );
 
-    void load( std::string path );
+    void load( const std::string path );
 
     void draw( sf::RenderTarget & target );
     void action( Entity * e );
@@ -22,7 +23,7 @@ private :
     sf::Vector2i m_position; // BAS-GAUCHE
     sf::Vector2i m_size; // Pour collision, vers HAUT-DROITE
 
-    std::list< RessourceType > m_ressourceStorage;
+    std::vector< RessourceType > m_ressourceStorage;
 
     unsigned int m_productDay;
 
