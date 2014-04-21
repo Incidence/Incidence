@@ -49,13 +49,13 @@ void Game::update( void )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
-            int temps=(int)((clock()-(*it)->getTimer())/CLOCKS_PER_SEC);
-            if(temps%TIME_PI==0 && temps!=(*it)->getPreviousTime() && temps!=0)//TIME_PI et NB_PI définis en macro
+            int temps=((int)Time::get()->elapsed().asSeconds()-(*it)->getCreationTime());
+            if((temps%TIME_PI==0) && (temps!=0) && temps!=(*it)->getPreviousTime())
             {
                 m_incidencePoint+=NB_PI;
-                (*it)->resetTimer();
+                //std::cout<<"nbpi : "<<m_incidencePoint<<std::endl; pour le debug voir le nombre de PI courant
+                (*it)->setPreviousTime(temps);
             }
-            (*it)->setPreviousTime(temps);
         }
     }
 }

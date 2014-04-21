@@ -1,7 +1,5 @@
 #include "entity.hpp"
 
-#include <cmath>
-
 #include "../../engine/time.hpp"
 #include "../../engine/foo.hpp"
 #include "entity_set.hpp"
@@ -37,7 +35,8 @@ void Entity::init( void )
     m_health = GOOD;
     m_waitTime = 0;
     m_previoustime=1;
-    m_timer=clock();
+    m_creationTime=(int)Time::get()->elapsed().asSeconds();
+
     m_animation.load( "data/perso_lu.ani" );
 
     /// TO COMPLETE
@@ -572,14 +571,9 @@ void Entity::setPosition( sf::Vector2f p )
     m_action = IDLE;
 }
 
-clock_t Entity::getTimer()
+int Entity::getCreationTime()
 {
-    return m_timer;
-}
-
-void Entity::resetTimer()
-{
-    m_timer=clock();
+    return m_creationTime;
 }
 
 void Entity::setPreviousTime(int t)
