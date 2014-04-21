@@ -1,4 +1,3 @@
-
 #include "weather.hpp"
 
 
@@ -7,7 +6,7 @@ using namespace std;
 
 Weather::Weather( const string pluiepath)
 {
-    //Meteo par défaut Soleil
+    //Meteo par dï¿½faut Soleil
     for(int i=0;i<4;i++)
     {
         m_weatherList.push_back(UNDEFINED);
@@ -15,7 +14,7 @@ Weather::Weather( const string pluiepath)
     m_weatherToday=SUNNY;
     m_weatherList.push_back(m_weatherToday);
     m_nbDSameWeather=0;
-    m_rain=new Animation();
+    m_rain=new Animation();  /// ICI IL Y A UN "NEW"
     initRain(pluiepath);
 }
 
@@ -28,11 +27,11 @@ Weather::Weather(WeatherType weather,const string pluiepath)
     m_weatherToday=weather;
     m_weatherList.push_back(m_weatherToday);
     m_nbDSameWeather=0;
-    m_rain=new Animation();
+    m_rain=new Animation();  /// ICI IL Y A UN "NEW"
     initRain(pluiepath);
 }
 
-Weather::~Weather(){}
+Weather::~Weather(){}  /// DONC LA IL FAUT METTRE UN "DELETE" NON ? XD
 
 
 
