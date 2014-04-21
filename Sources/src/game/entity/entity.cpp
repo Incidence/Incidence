@@ -281,7 +281,14 @@ void Entity::move( void )
 
         if(div < 2) {
             m_position = dest;
-            m_way.pop_front();
+			// résoud le free() : invalid pointer mais les entités se bloquent vers les murs :
+			// - soit fonction move ou pathfinding à modifier
+			// - soit les entités sont connes
+			// Rq : un hunter bloqué devant un mur se redéplace pour attaquer un ennemi donc
+			// je pencherais plutôt pour la deuxième solution :-p
+            if(m_way.size() > 0) {
+				m_way.pop_front();
+			}
         } else {
             dest.x = (dest.x - m_position.x) / div;
             dest.y = (dest.y - m_position.y) / div;
