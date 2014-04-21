@@ -36,11 +36,17 @@ public :
     void setPI(int n);
     int getPI();
 
+    void updateDay( void );
+
 private :
     TileMap * m_tilemap;
     std::vector< Entity * > m_entityList;
     Weather * m_weather;
     int m_incidencePoint;
+
+    int m_dayDuration;
+    int m_dayBeginTime;
+
     friend class Entity;
 };
 

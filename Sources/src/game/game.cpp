@@ -8,7 +8,7 @@
 
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL)
+Game::Game( void ) : m_tilemap(NULL), m_dayDuration(5), m_dayBeginTime(0)
 {
     newGame();
 }
@@ -46,6 +46,8 @@ void Game::saveGame( std::string path ) {}
 
 void Game::update( void )
 {
+    updateDay();
+
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
@@ -170,3 +172,17 @@ int Game::getPI()
 {
     return m_incidencePoint;
 }
+
+void Game::updateDay( void )
+{
+    if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {
+        m_dayBeginTime = Time::get()->elapsed().asSeconds();
+
+        int i = rand() % 2;
+        m_weather->setWeatherToday(i==0 ? RAINY : SUNNY);
+        std::cout << "New DAY ! (" << (i==0 ? "RAINY" : "SUNNY") << ")" << std::endl;
+        doIncidences(m_tilemap,m_weather);
+    }
+}
+
+
