@@ -11,7 +11,8 @@ public :
 
     void load( const std::string path );
 
-    void draw( sf::RenderTarget & target );
+    void drawTop( sf::RenderTarget & target );
+    void drawBottom( sf::RenderTarget & target );
     void action( Entity * e );
 
     virtual bool isHarvestable( void );
