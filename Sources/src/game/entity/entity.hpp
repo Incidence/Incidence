@@ -64,9 +64,10 @@ public :
 
     void setPosition( sf::Vector2f p );
 
-    int getCreationTime();
-    int getPreviousTime();
-    void setPreviousTime(int t);
+    float getGiveTime();
+    void updateGiveTime(float t);
+    int getGiveQuantity();
+    void updateGiveQuantity();
 
 protected :
     Game * m_game;
@@ -92,10 +93,8 @@ protected :
 
     float m_waitTime;
 
-    int m_previoustime;// temps mémorisé quand l'entité donne des PI
-    int m_creationTime;// temps où l'entité a été créee
-
-
+    float m_giveTime;
+    int m_giveQuantity;
 
 public :
 

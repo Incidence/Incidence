@@ -5,6 +5,11 @@
 #include "entity_set.hpp"
 #include <cmath>
 
+
+
+#define TEMPS_PI 5000//temps de base pour qu'une entité donne des PI en ms
+
+
 bool Entity::bLuaInit = false;
 
 Entity::Entity(lua_State * L)
@@ -35,9 +40,8 @@ void Entity::init( void )
     m_ressource = NOTHING;
     m_health = GOOD;
     m_waitTime = 0;
-    m_previoustime=1;
-    m_creationTime=(int)Time::get()->elapsed().asSeconds();
-
+    m_giveTime=Time::get()->elapsed().asMilliseconds()+rand()%10+TEMPS_PI;
+    m_giveQuantity=2;
     m_animation.load( "data/perso_lu.ani" );
 
     /// TO COMPLETE
@@ -579,19 +583,60 @@ void Entity::setPosition( sf::Vector2f p )
     m_action = IDLE;
 }
 
-int Entity::getCreationTime()
+
+void Entity::updateGiveTime(float t)
 {
-    return m_creationTime;
+    m_giveTime=t;
+    switch(m_health)
+    {
+    case GOOD:
+        m_giveTime+=TEMPS_PI+rand()%10000;
+        break;
+
+    case NORMAL:
+        m_giveTime+=TEMPS_PI+rand()%10000+2000;
+        break;
+
+    case WEAK:
+        m_giveTime+=TEMPS_PI+rand()%10000+6000;
+        break;
+
+    case VERY_WEAK:
+        m_giveTime+=TEMPS_PI+rand()%10000+10000;
+        break;
+    }
 }
 
-void Entity::setPreviousTime(int t)
+float Entity::getGiveTime()
 {
-    m_previoustime=t;
+    return m_giveTime;
 }
 
-int Entity::getPreviousTime()
+int Entity::getGiveQuantity()
 {
-    return m_previoustime;
+    return m_giveQuantity;
+}
+
+void Entity::updateGiveQuantity()
+{
+    switch(m_health)
+    {
+    case GOOD:
+        m_giveQuantity=2;
+        break;
+
+    case NORMAL:
+        m_giveQuantity=2;
+        break;
+
+    case WEAK:
+        m_giveQuantity=1;
+        break;
+
+    case VERY_WEAK:
+        m_giveQuantity=1;
+        break;
+    }
 }
 
 

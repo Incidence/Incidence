@@ -7,11 +7,6 @@
 #include "../engine/time.hpp"
 
 
-#define NB_PI 1
-#define TIME_PI 10 // NB_PI toutes les TIME_PI secondes par entité
-
-
-
 /// TODO
 Game::Game( void ) : m_tilemap(NULL)
 {
@@ -54,12 +49,12 @@ void Game::update( void )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
-            int temps=((int)Time::get()->elapsed().asSeconds()-(*it)->getCreationTime());
-            if((temps%TIME_PI==0) && (temps!=0) && temps!=(*it)->getPreviousTime())
+            float temps=Time::get()->elapsed().asMilliseconds();
+            if((*it)->getGiveTime()<temps)
             {
-                m_incidencePoint+=NB_PI;
-                //std::cout<<"nbpi : "<<m_incidencePoint<<std::endl; pour le debug voir le nombre de PI courant
-                (*it)->setPreviousTime(temps);
+                m_incidencePoint+=(*it)->getGiveQuantity();
+                //std::cout<<"nbpi : "<<m_incidencePoint<<std::endl; //pour le debug voir le nombre de PI courant
+                (*it)->updateGiveTime(temps);
             }
         }
     }
