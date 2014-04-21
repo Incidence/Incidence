@@ -24,6 +24,11 @@ Game::~Game( void )
         delete m_tilemap;
     }
 
+    if(m_weather)
+    {
+        delete m_weather;
+    }
+
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         delete *it;
     }
