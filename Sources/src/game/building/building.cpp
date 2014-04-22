@@ -105,7 +105,7 @@ void Building::drawBottom( sf::RenderTarget & target )
     target.draw(s);
 }
 
-virtual bool Building::isHarvestable( void )
+bool Building::isHarvestable( void )
 {
     return (this->m_ressources.size() > 0);
 }
