@@ -40,6 +40,7 @@ public :
 
 private :
     TileMap * m_tilemap;
+    std::vector< Building > m_buildings;
     std::vector< Entity * > m_entityList;
     Weather * m_weather;
     int m_incidencePoint;
