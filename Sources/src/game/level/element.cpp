@@ -12,7 +12,10 @@ Element::Element(int type, int groundType, std::string name, TileBehavior behavi
 }
 
 Element::~Element() {
-	//TODO
+	
+	delete *m_quad_down;
+	delete *m_quad_up;
+	
 }
 
 int Element::getType() const {

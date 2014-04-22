@@ -13,7 +13,10 @@ Ground::Ground(const int type, const std::string name, const TileBehavior behavi
 }
 
 Ground::~Ground() {
-	//TODO
+	
+	delete[] m_borders;
+	delete *m_quad;
+	
 }
 
 int Ground::getType() const {

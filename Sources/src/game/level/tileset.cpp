@@ -23,7 +23,10 @@ TileSet::TileSet(const std::string path) {
 }
 
 TileSet::~TileSet() {
-	//TODO
+	
+	delete[] m_grounds;
+	delete[] m_elements;
+	
 }
 
 std::string TileSet::getPath() const {
@@ -152,19 +155,8 @@ std::vector<int> TileSet::getElementsByBehavior(TileBehavior behavior) const {
  *** Sortie : un booléen indiquant si le chargement est complet.
 */
 bool TileSet::load(const std::string path) {
-	/*
+	
 	m_path = path;
-
-	// === OUVERTURE DES FICHIERS ===
-
-	std::string l_path = path;
-
-	if(!m_tileset.loadFromFile(l_path)) {
-		std::cout << "Ouverture du fichier png du tileset impossible." << std::endl;
-		return false;
-	}
-
-	l_path.replace(l_path.find_last_of('.') + 1, l_path.size() - 1, "ini");*/
 
 	std::ifstream config(path.c_str());
 	if(!config) {
