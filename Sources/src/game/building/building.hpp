@@ -1,6 +1,8 @@
 #ifndef _BUILDING_
 #define _BUILDING_
 
+// FAIRE LES INCLUDES
+
 class Building : public Harvestable
 {
 
@@ -8,6 +10,9 @@ public :
     Building( void );
     Building( sf::Vector2i & position,const std::string path );
     ~Building( void );
+    
+    void setPosition( int x,int y );
+    void setPosition( const sf::Vector2i & position );
 
     void load( const std::string path );
 
