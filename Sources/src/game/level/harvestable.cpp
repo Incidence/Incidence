@@ -7,6 +7,11 @@ Harvestable::Harvestable( float pickingTime, std::vector<Ressource> ressources )
 	m_ressources = ressources;
 }
 
+Harvestable::Harvestable( void )
+{
+	m_pickingTime = 0;
+}
+
 Harvestable::~Harvestable( void )
 {
 

@@ -8,6 +8,7 @@ class Harvestable
 {
 
 public :
+    Harvestable( void );
     Harvestable( float pickingTime, std::vector< Ressource > ressources );
     ~Harvestable( void );
 
