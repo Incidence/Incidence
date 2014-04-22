@@ -8,6 +8,7 @@
 #include "level.hpp"
 #include "entity/entity.hpp"
 #include "incidences.hpp"
+#include "building.hpp"
 
 
 class Entity;
