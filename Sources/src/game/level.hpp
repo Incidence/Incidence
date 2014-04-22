@@ -9,5 +9,6 @@
 #include "level/tileset.hpp"
 #include "level/tilemap.hpp"
 #include "level/pathfinding.hpp"
+#include "level/harvestable.hpp"
 
 #endif

@@ -1,5 +1,5 @@
 CC=g++
-CXXFLAG=-Wall -g
+CXXFLAG=-Wall
 LDFLAG=-lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -llua -ldl
 BUILD=_build
 TMP=$(BUILD)/tmp
@@ -56,7 +56,7 @@ $(TMP)/test_state.o: $(STATE)/test_state.cpp $(STATE)/test_state.hpp
 
 GAME=src/game
 
-game: $(TMP)/game.o $(TMP)/incidences.o $(TMP)/weather.o level entity
+game: $(TMP)/game.o $(TMP)/incidences.o $(TMP)/weather.o $(TMP)/building.o level entity
 
 $(TMP)/game.o: $(GAME)/game.cpp $(GAME)/game.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -65,6 +65,9 @@ $(TMP)/incidences.o: $(GAME)/incidences.cpp $(GAME)/incidences.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/weather.o: $(GAME)/weather.cpp $(GAME)/weather.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/building.o: $(GAME)/building/building.cpp $(GAME)/building/building.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
