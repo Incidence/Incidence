@@ -66,6 +66,10 @@ void Game::draw( sf::RenderTarget & window )
 {
     m_tilemap->drawGrounds( window );
     m_tilemap->drawElementsDown( window );
+    
+    for(std::vector< Building >::iterator it = m_buildings.begin(); it != m_buildings.end(); it++) {
+    	(*it).drawBottom( window );
+    }
 
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
@@ -73,6 +77,11 @@ void Game::draw( sf::RenderTarget & window )
         }
     }
     m_tilemap->drawElementsUp( window );
+    
+    for(std::vector< Building >::iterator it = m_buildings.begin(); it != m_buildings.end(); it++) {
+    	(*it).drawTop( window );
+    }
+    
     m_weather->draw(window);
 }
 
