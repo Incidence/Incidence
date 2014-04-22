@@ -26,6 +26,16 @@ Building::~Building( void )
     delete this->m_animation;
 }
 
+void Building::setPosition( int x,int y )
+{
+    this->m_position = sf::Vector2i(x,y);
+}
+
+void Building::setPosition( const sf::Vector2i & position )
+{
+    this->m_position = position;
+}
+
 void Building::load( const std::string path )
 {
     int sizeX,sizeY,nbR;
