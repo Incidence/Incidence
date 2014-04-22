@@ -24,9 +24,6 @@ TileSet::TileSet(const std::string path) {
 
 TileSet::~TileSet() {
 	
-	delete[] m_grounds;
-	delete[] m_elements;
-	
 }
 
 std::string TileSet::getPath() const {

@@ -13,9 +13,7 @@ Ground::Ground(const int type, const std::string name, const TileBehavior behavi
 }
 
 Ground::~Ground() {
-	
-	delete[] m_borders;
-	delete *m_quad;
+	delete m_quad; // delete m_quad[]; Si m_quad est un tableau dynamique
 	
 }
 

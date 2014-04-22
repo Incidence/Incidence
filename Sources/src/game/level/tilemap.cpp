@@ -21,13 +21,13 @@ TileMap::TileMap(TileSet tileset, sf::Vector2u dimensions) {
 TileMap::~TileMap() {
 	
     for(unsigned int i(0) ; i < m_grounds.size(); i++) {
-        delete *m_grounds[i];
+		if(m_grounds[i] != NULL) {
+			delete m_grounds[i];
+		}
 		if(m_elements[i] != NULL) {
-			delete *m_elements[i];
+			delete m_elements[i];
 		}
     }
-    
-    delete[] m_way;
     
 }
 
