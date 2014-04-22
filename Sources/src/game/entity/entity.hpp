@@ -32,6 +32,7 @@ public :
     int getEntities( lua_State * L ); // : EntitySet
     int getNearestResource( lua_State * L ); // : bool
     int isNearHome( lua_State * L ); // : bool
+    bool isNearHome( void );
     int isNearResource( lua_State * L ); // : bool
     int fullBag( lua_State * L ); // : bool
     int emptyBag( lua_State * L ); // : bool
@@ -95,6 +96,8 @@ protected :
 
     float m_giveTime;
     int m_giveQuantity;
+
+    bool m_isAttacked;
 
 public :
 

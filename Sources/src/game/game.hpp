@@ -8,7 +8,7 @@
 #include "level.hpp"
 #include "entity/entity.hpp"
 #include "incidences.hpp"
-#include "building.hpp"
+#include "building/building.hpp"
 
 
 class Entity;
@@ -38,13 +38,19 @@ public :
     int getPI();
 
     void updateDay( void );
+    void addRessource(RessourceType t, int qty);
 
 private :
     TileMap * m_tilemap;
     std::vector< Building > m_buildings;
+    Building m_home;
     std::vector< Entity * > m_entityList;
     Weather * m_weather;
     int m_incidencePoint;
+
+    int qtyWood;
+    int qtyFood;
+    int qtyStone;
 
     int m_dayDuration;
     int m_dayBeginTime;

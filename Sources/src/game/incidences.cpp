@@ -10,7 +10,26 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
  *** Entree : la carte (tilemap).
  *** Sortie : void
 */
-void doIncidences(TileMap* tilemap,Weather* weather) {
+void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome) {
+
+    /**
+
+
+        -1 : dilateNearFluids   4%
+        -2 : erodeNearCliff     8%
+        -3 : dilateFluids + dilateForest    16%
+        -4 : spawnResource|caillou          32%
+        -5 : dilateFluid        56%
+
+        -1/0/1 : spawnRessources => 40%
+
+        +1 : erodeNearFluid
+        +2 :
+        +3 : dilateNearCliff
+        +4 : erodeFluid + burn  5%  / vitesse
+        +5 :                    20% / vitesse
+
+    **/
 
 	//TODO : gérer la météo
 	weather->updateWeather();
@@ -27,8 +46,8 @@ void doIncidences(TileMap* tilemap,Weather* weather) {
             // Si 3 jours de pluie consécutifs
             dilateFluids(tilemap);
         }
-        if(weather->verifWeather(RAINY,2)||weather->verifWeather(RAINY,3))// on peut rajouter un paramètre si vous voulez
-        {                                                                 // pour faire un intervalle
+        if(nb%4)// on peut rajouter un paramètre si vous voulez
+        {           // pour faire un intervalle
            // Si 2 ou 3 jours de pluie parmi les 5 derniers jours
             dilateForests(tilemap);
             spawnRessources(tilemap);
@@ -67,6 +86,8 @@ void doIncidences(TileMap* tilemap,Weather* weather) {
     default:
         break;
     }
+
+    tilemap->freePlace(posHome);
 
 }
 

@@ -8,7 +8,7 @@
 
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL), m_dayDuration(5), m_dayBeginTime(0)
+Game::Game( void ) : m_tilemap(NULL), m_dayDuration(50000), m_dayBeginTime(0)
 {
     newGame();
 }
@@ -39,6 +39,12 @@ void Game::newGame( void )
 	m_tilemap->generate();
 	m_weather=new Weather(RAINY,"data/rain.ani");
 	m_incidencePoint=0;
+
+	m_home.load("data/buildings/home.bld");
+	m_home.setPosition(10, 10);
+	m_buildings.push_back(m_home);
+
+	m_tilemap->freePlace(m_home.getPosition());
 }
 
 void Game::loadGame( std::string path ) {}
@@ -66,7 +72,7 @@ void Game::draw( sf::RenderTarget & window )
 {
     m_tilemap->drawGrounds( window );
     m_tilemap->drawElementsDown( window );
-    
+
     for(std::vector< Building >::iterator it = m_buildings.begin(); it != m_buildings.end(); it++) {
     	(*it).drawBottom( window );
     }
@@ -77,11 +83,11 @@ void Game::draw( sf::RenderTarget & window )
         }
     }
     m_tilemap->drawElementsUp( window );
-    
+
     for(std::vector< Building >::iterator it = m_buildings.begin(); it != m_buildings.end(); it++) {
     	(*it).drawTop( window );
     }
-    
+
     m_weather->draw(window);
 }
 
@@ -190,8 +196,24 @@ void Game::updateDay( void )
         int i = rand() % 2;
         m_weather->setWeatherToday(i==0 ? RAINY : SUNNY);
         std::cout << "New DAY ! (" << (i==0 ? "RAINY" : "SUNNY") << ")" << std::endl;
-        doIncidences(m_tilemap,m_weather);
+        doIncidences(m_tilemap,m_weather, m_home.getPosition());
     }
 }
 
+void Game::addRessource(RessourceType t, int qty)
+{
+    switch(t) {
+        case FOOD :
+            qtyFood += qty;
+            break;
+        case WOOD :
+            qtyWood += qty;
+            break;
+        case STONE :
+            qtyStone += qty;
+            break;
+        default :
+            break;
+    }
+}
 

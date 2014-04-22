@@ -9,7 +9,7 @@
 #define ALEATOIRE 3
 
 // --- fonction principale ---
-void doIncidences(TileMap* tilemap,Weather* weather);
+void doIncidences(TileMap* tilemap,Weather* weather, sf::Vector2i posHome);
 // ---------------------------
 
 // --- fonctions "privées" ---

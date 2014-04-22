@@ -1,7 +1,6 @@
 #include "building.hpp"
 
 #include <fstream>
-#include "../../engine/animation.hpp"
 
 Building::Building( void ) : Harvestable( )
 {
@@ -27,11 +26,6 @@ Building::~Building( void )
     delete this->m_animation;
 }
 
-sf::Vector2i Building::getPosition( void )
-{
-    return m_position;
-}
-
 void Building::setPosition( int x,int y )
 {
     this->m_position = sf::Vector2i(x,y);
@@ -53,28 +47,23 @@ void Building::load( const std::string path )
     ifs >> nbR;
     for (int i(0);i<nbR;i++)
     {
-        int qt;
-        ifs >> resource >> qt;
-        Ressource r;
-        r.quantity = qt;
+        ifs >> resource;
         if (resource == "FOOD")
         {
-            r.type = FOOD;
+            this->m_ressources.push_back(FOOD);
         }
         else if (resource == "WOOD")
         {
-            r.type = WOOD;
+            this->m_ressources.push_back(WOOD);
         }
         else if (resource == "STONE")
         {
-            r.type = STONE;
+            this->m_ressources.push_back(STONE);
         }
         else
         {
-            r.type = NOTHING;
+            this->m_ressources.push_back(NOTHING);
         }
-
-        m_ressources.push_back(r);
     }
     ifs >> this->m_productDay;
     ifs >> nbR;
@@ -105,12 +94,12 @@ void Building::load( const std::string path )
     ifs.close();
 
     this->m_size = sf::Vector2i(sizeX,sizeY);
-    this->m_animation->load(animationPath);
+    this->m_animation.load(animationPath);
 }
 
 void Building::drawTop( sf::RenderTarget & target )
 {
-    sf::Sprite s(*(this->m_animation->update()));
+    sf::Sprite s(*(this->m_animation.update()));
     sf::IntRect ir(0,0,(this->m_size.x*32),32);
     s.setTextureRect(ir);
     s.setPosition((this->m_position.x*32),((this->m_position.y-1)*32));
@@ -119,7 +108,7 @@ void Building::drawTop( sf::RenderTarget & target )
 
 void Building::drawBottom( sf::RenderTarget & target )
 {
-    sf::Sprite s(*(this->m_animation->update()));
+    sf::Sprite s(*(this->m_animation.update()));
     sf::IntRect ir(0,32,(this->m_size.x*32),32);
     s.setTextureRect(ir);
     s.setPosition((this->m_position.x*32),(this->m_position.y*32));
@@ -129,9 +118,4 @@ void Building::drawBottom( sf::RenderTarget & target )
 bool Building::isHarvestable( void )
 {
     return (this->m_ressources.size() > 0);
-}
-
-void Building::havested( void )
-{
-
 }

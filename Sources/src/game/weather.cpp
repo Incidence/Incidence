@@ -5,31 +5,23 @@
 using namespace std;
 
 
-Weather::Weather( const string pluiepath)
+Weather::Weather( const string rainpath)
 {
     //Meteo par défaut Soleil
-    for(int i=0;i<4;i++)
-    {
-        m_weatherList.push_back(UNDEFINED);
-    }
     m_weatherToday=SUNNY;
-    m_weatherList.push_back(m_weatherToday);
+    m_weatherYesterday=UNDEFINED;
     m_nbDSameWeather=0;
     m_rain=new Animation();
-    initRain(pluiepath);
+    initRain(rainpath);
 }
 
-Weather::Weather(WeatherType weather,const string pluiepath)
+Weather::Weather(WeatherType weather,const string rainpath)
 {
-    for(int i=0;i<4;i++)
-    {
-        m_weatherList.push_back(UNDEFINED);
-    }
     m_weatherToday=weather;
-    m_weatherList.push_back(m_weatherToday);
+    m_weatherYesterday=UNDEFINED;
     m_nbDSameWeather=0;
     m_rain=new Animation();
-    initRain(pluiepath);
+    initRain(rainpath);
 }
 
 Weather::~Weather()
@@ -44,21 +36,20 @@ Weather::~Weather()
 
 void Weather::updateWeather()
 {
-    if(m_weatherList[3]==m_weatherList[4])
+    if(m_weatherToday==m_weatherYesterday)
     {
         m_nbDSameWeather++;
     }
     else
     {
+        m_weatherYesterday=m_weatherToday;
         m_nbDSameWeather=1;
     }
-    m_weatherList.erase(m_weatherList.begin());
-    m_weatherList.push_back(UNDEFINED);
 }
 
-void Weather::initRain(const string pluiepath)
+void Weather::initRain(const string rainpath)
 {
-    m_rain->load(pluiepath);
+    m_rain->load(rainpath);
 }
 
 void Weather::draw(sf::RenderTarget& target)
@@ -74,30 +65,10 @@ void Weather::draw(sf::RenderTarget& target)
     }
 }
 
-bool Weather::verifWeather(WeatherType m,int nb)
+
+WeatherType Weather::getWeatherYesterday()
 {
-    int times=0;
-   for(unsigned int i=0;i<m_weatherList.size();i++)
-   {
-       if(m_weatherList[i]==m)
-       {
-           times++;
-       }
-   }
-
-   return times==nb;
-}
-
-
-WeatherType Weather::getWeather(unsigned int i)
-{
-    if(i>=0 && i<m_weatherList.size())
-    {
-        return m_weatherList[i];
-    }
-    else {
-		return UNDEFINED;
-	}
+    return m_weatherYesterday;
 }
 
 WeatherType Weather::getWeatherToday()
@@ -121,12 +92,9 @@ void Weather::setWeatherToday(WeatherType m)
     m_weatherToday=m;
 }
 
-void Weather::setWeather(WeatherType m,unsigned int i)
+void Weather::setWeatherYesterday(WeatherType m)
 {
-    if(i>=0 && i<m_weatherList.size())
-    {
-        m_weatherList[i]=m;
-    }
+    m_weatherYesterday=m;
 }
 
 void Weather::setNbDSameWeather(int n)
@@ -134,9 +102,9 @@ void Weather::setNbDSameWeather(int n)
     m_nbDSameWeather=n;
 }
 
-void Weather::setRainAnimation(const string pluiepath)
+void Weather::setRainAnimation(const string rainpath)
 {
-    initRain(pluiepath);
+    initRain(rainpath);
 }
 
 

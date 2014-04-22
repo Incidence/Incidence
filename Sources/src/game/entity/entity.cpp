@@ -30,6 +30,7 @@ void Entity::init( void )
 {
     /// TODO : Animation default
     m_target = NULL;
+    m_isAttacked = false;
 
     m_perception = 5;
     m_position = sf::Vector2f(200, 200);
@@ -96,11 +97,19 @@ int Entity::getEntities( lua_State * L )
     return 1;
 }
 
+bool Entity::isNearHome( void )
+{
+    if(m_type != ALLY_CITIZEN && m_type != HUNTER) { return true; }
+    if(m_game && m_game->m_tilemap) {
+        return distance(m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), m_position) <= 32;
+    }
+
+    return false;
+}
+
 int Entity::isNearHome( lua_State * L )
 {
-    bool bNearHome = true; // vrai = proche home
-
-    /// RECODE : Verifier la presence de la base
+    bool bNearHome = isNearHome(); // vrai = proche home
 
     lua_pushboolean(L, bNearHome);
     return 1;
@@ -141,9 +150,7 @@ int Entity::getHealth( lua_State * L )
 
 int Entity::isAttacked( lua_State * L )
 {
-    bool attacked = false;
-
-    /// RECODE : Comment voir si on est attaque ?
+    bool attacked = m_isAttacked;
 
     lua_pushboolean(L, attacked);
     return 1;
@@ -161,6 +168,7 @@ int Entity::setTarget( lua_State * L )
     if(m_game) {
         m_target = m_game->getEntity(id);
         if(m_target == this) { m_target = NULL; }
+        //else { m_target->m_isAttacked = true; }
     }
 
     return 0;
@@ -233,18 +241,21 @@ int Entity::isNearResource( lua_State * L )
 int Entity::getDistanceToHome( lua_State * L )
 {
     int argc = lua_gettop(L);
+    int d = 0;
 
     if( argc > 0 && lua_isnumber(L, 1)) {
         int id = -1;
         id = lua_tonumber(L, 1);
+        if(id != -1) {
+            d = distance(m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), m_game->m_entityList[id]->getPosition());
+        }
         // la distance d'une entites
     } else {
         // ma propre distance
+        d = distance(m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), m_position);
     }
 
-    /// RECODE
-
-    lua_pushnumber(L, 0);
+    lua_pushnumber(L, d);
     return 1;
 }
 
@@ -261,8 +272,14 @@ int Entity::getAngleToHome( lua_State * L )
 
 void Entity::goHome( void )
 {
-    /// TODO
-    m_action = IDLE;
+    if( ( m_type == ALLY_CITIZEN || m_type == HUNTER ) && m_game && m_game->m_tilemap) {
+        m_way = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), 30, 99999);
+        std::cout << m_way.size() << std::endl;
+        m_action = MOVE;
+    }
+    else {
+        m_action = IDLE;
+    }
 }
 
 void Entity::move( void )
@@ -313,6 +330,7 @@ void Entity::attack( void )
     if(m_target) {
         if(m_target->isDead()) {
             m_action = IDLE;
+            m_target->m_isAttacked = false;
             m_target = NULL;
         }
         else if(nearEntity(m_target)) {
@@ -334,7 +352,6 @@ void Entity::attack( void )
 
 void Entity::goNearestResource( void )
 {
-    /// TODO
     /*
         Cherche l'ELEMENT avec M_RESSOURCE le plus proche
             pathfinding vers ELEMENT
@@ -383,7 +400,6 @@ void Entity::goNearestResource( void )
 
 void Entity::takeResource( void )
 {
-    /// TODO
     /*
         ELEMENT avec du M_RESSOURCE proche ?
             prendre ressource
@@ -472,14 +488,15 @@ void Entity::recolting( void )
 
 void Entity::giveResource( void )
 {
-    /// TODO
-
+    if(isNearHome()) {
+        m_game->addRessource(m_ressource, m_bag);
+        m_bag = 0;
+    }
     /*
         Home proche ?
             donner ressource
         Sinon RIEN
     */
-    m_bag = 0;
     m_action = IDLE;
 }
 
@@ -536,6 +553,8 @@ bool Entity::nearEntity( const Entity * e )
 
 void Entity::isAttackedBy( Entity * e )
 {
+    m_isAttacked = true;
+
     int hit = rand() % 100;
     if(hit > 50) {
 
@@ -560,6 +579,10 @@ void Entity::isAttackedBy( Entity * e )
             m_health = DEAD;
             break;
         }
+    }
+
+    if(m_target) {
+        m_target->m_isAttacked = false;
     }
 }
 
@@ -604,6 +627,8 @@ void Entity::updateGiveTime(float t)
     case VERY_WEAK:
         m_giveTime+=TEMPS_PI+rand()%10000+10000;
         break;
+
+        //default
     }
 }
 

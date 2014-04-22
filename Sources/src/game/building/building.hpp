@@ -2,6 +2,10 @@
 #define _BUILDING_
 
 // FAIRE LES INCLUDES
+#include <SFML/Graphics.hpp>
+#include "../level/harvestable.hpp"
+
+class Animation;
 
 class Building : public Harvestable
 {
@@ -10,7 +14,8 @@ public :
     Building( void );
     Building( sf::Vector2i & position,const std::string path );
     ~Building( void );
-    
+
+    sf::Vector2i getPosition( void );
     void setPosition( int x,int y );
     void setPosition( const sf::Vector2i & position );
 
@@ -18,13 +23,13 @@ public :
 
     void drawTop( sf::RenderTarget & target );
     void drawBottom( sf::RenderTarget & target );
-    void action( Entity * e );
+    //void action( Entity * e );
 
     virtual bool isHarvestable( void );
     virtual void havested( void );
 
 private :
-    Animation m_animation;
+    Animation * m_animation;
 
     sf::Vector2i m_position; // BAS-GAUCHE
     sf::Vector2i m_size; // Pour collision, vers HAUT-DROITE
