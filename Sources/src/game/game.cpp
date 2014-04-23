@@ -47,6 +47,57 @@ void Game::newGame( void )
 	m_tilemap->freePlace(m_home.getPosition());
 }
 
+void Game::spawnEntity( Entity & e )
+{
+    if ((e.m_type == ALLY_CITIZEN) || (e.m_type == HUNTER))
+    {
+        e.setPosition(sf::Vector2f(this->m_home.getPosition().x*32,this->m_home.getPosition().y*32));
+    }
+    else if ((e.m_type == WILD_ANIMAL) || (e.m_type == PEACEFUL_ANIMAL))
+    {
+        int x(rand() % (this->m_tilemap->getDimensions().x));
+        int y;
+        if ((x > (this->m_home.getPosition().x-5)) || (x < (this->m_home.getPosition().x+5)))
+        {
+            y = rand() % (this->m_tilemap->getDimensions().y-9);
+            if (y > (this->m_home.getPosition().y-5))
+            {
+                y += 9;
+            }
+        }
+        else
+        {
+            y = (rand() % (this->m_tilemap->getDimensions().y));
+        }
+        this->m_tilemap->freePlace(sf::Vector2i(x,y));
+        e.setPosition(sf::Vector2f(x*32,y*32));
+    }
+    else if (e.m_type == ENEMY_CITIZEN)
+    {
+        int x(rand() % (this->m_tilemap->getDimensions().x));
+        int y;
+        if ((x > 4) || (x < (this->m_tilemap->getDimensions().x-5)))
+        {
+            y = rand() % 10;
+            if (y > 4)
+            {
+                y += (this->m_tilemap->getDimensions().y-10);
+            }
+        }
+        else
+        {
+            y = rand() % (this->m_tilemap->getDimensions().y);
+        }
+        y = rand() % 10;
+        this->m_tilemap->freePlace(sf::Vector2i(x,y));
+        e.setPosition(sf::Vector2f(x*32,y*32));
+    }
+    else
+    {
+        std::cerr << "In \"void Game::spawnEntity( Entity & e )\" : unexpected value of \"e\" !" << std::endl;
+    }
+}
+
 void Game::loadGame( std::string path ) {}
 void Game::saveGame( std::string path ) {}
 

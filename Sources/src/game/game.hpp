@@ -45,6 +45,8 @@ public :
     void updateDay( void );
     void addRessource(RessourceType t, int qty);
 
+    void spawnEntity( Entity & e );
+
 private :
     TileMap * m_tilemap;
     std::vector< Building > m_buildings;
