@@ -12,7 +12,9 @@ Ground::Ground(const int type, const std::string name, const TileBehavior behavi
 
 }
 
-Ground::~Ground() {}
+Ground::~Ground() {
+
+}
 
 int Ground::getType() const {
 
@@ -27,9 +29,9 @@ std::string Ground::getName() const {
 }
 
 TileBehavior Ground::getBehavior() const {
-	
+
 	return m_behavior;
-	
+
 }
 
 bool Ground::isPassable() const {

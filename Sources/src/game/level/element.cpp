@@ -11,7 +11,9 @@ Element::Element(int type, int groundType, std::string name, TileBehavior behavi
 	m_quad_up = quad_up;
 }
 
-Element::~Element() {}
+Element::~Element() {
+
+}
 
 int Element::getType() const {
 

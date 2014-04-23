@@ -18,12 +18,14 @@ TileMap::TileMap(TileSet tileset, sf::Vector2u dimensions) {
 
 }
 
-TileMap::~TileMap() {}
+TileMap::~TileMap() {
+
+}
 
 TileSet* TileMap::getTileSet() {
-	
+
 	return &m_tileset;
-	
+
 }
 
 void TileMap::setTileSet(TileSet tileset) {
@@ -127,19 +129,19 @@ Harvestable * TileMap::getHarvestable(sf::Vector2i position) const {
  *** Sortie : -1 si un sol est NULL, 1 si compatibles, 0 sinon.
 */
 int TileMap::areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position_2) {
-	
+
 	Ground* l_ground_1 = this->getGround(position_1);
 	Ground* l_ground_2 = this->getGround(position_2);
-	
+
 	if(l_ground_1 == NULL || l_ground_2 == NULL) {
 		return -1;
 	}
 	else {
-		return (l_ground_1->hasBorderWith(l_ground_2->getType()) || 
-				l_ground_2->hasBorderWith(l_ground_1->getType()) || 
+		return (l_ground_1->hasBorderWith(l_ground_2->getType()) ||
+				l_ground_2->hasBorderWith(l_ground_1->getType()) ||
 				l_ground_1->getType() == l_ground_2->getType())?1:0;
 	}
-	
+
 }
 
 /*
@@ -149,20 +151,20 @@ int TileMap::areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position
  *** Sortie : -1 si un sol est NULL, 1 si compatibles, 0 sinon.
 */
 int TileMap::areCompatibleGrounds(int type_1, int type_2) {
-	
+
 	bool tileBorders[4] = {false, false, false, false};
 	Ground* l_ground_1 = m_tileset.getGround(type_1, tileBorders);
 	Ground* l_ground_2 = m_tileset.getGround(type_2, tileBorders);
-	
+
 	if(l_ground_1 == NULL || l_ground_2 == NULL) {
 		return -1;
 	}
 	else {
-		return (l_ground_1->hasBorderWith(l_ground_2->getType()) || 
-				l_ground_2->hasBorderWith(l_ground_1->getType()) || 
+		return (l_ground_1->hasBorderWith(l_ground_2->getType()) ||
+				l_ground_2->hasBorderWith(l_ground_1->getType()) ||
 				l_ground_1->getType() == l_ground_2->getType())?1:0;
 	}
-	
+
 }
 
 void TileMap::changeGround(int type, sf::Vector2i position) {
@@ -173,7 +175,7 @@ void TileMap::changeGround(int type, sf::Vector2i position) {
 	int width = m_dimensions.x, height = m_dimensions.y;
 
 	if(i >= 0 && i < width && j >= 0 && j < height) {
-		
+
 		//===== GROUND =====
 
 		bool GROUND_tileBorders[4] = {false,false,false,false};
@@ -220,22 +222,22 @@ void TileMap::changeGround(int type, sf::Vector2i position) {
 }
 
 void TileMap::updateBorders(sf::Vector2i position) {
-	
+
 	Ground* l_ground = getGround(position);
-	
+
 	if(l_ground != NULL) {
 		changeGround(l_ground->getType(), position);
 	}
-	
+
 }
 
 void TileMap::addElement(int type, sf::Vector2i position) {
 
 	unsigned int i = position.x;
 	unsigned int j = position.y;
-	
+
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
-		
+
 		sf::Vector2u tileSize = m_tileset.getTileSize();
 		int width = m_dimensions.x;
 
@@ -279,9 +281,9 @@ void TileMap::removeElement(sf::Vector2i position) {
 
 	unsigned int i = position.x;
 	unsigned int j = position.y;
-	
+
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
-		
+
 		int width = m_dimensions.x;
 
 		m_elements[i + j * width] = NULL;
@@ -302,9 +304,9 @@ void TileMap::burnElement(sf::Vector2i position) {
 
 	unsigned int i = position.x;
 	unsigned int j = position.y;
-	
+
 	if(i >= 0 && i < m_dimensions.x && j >= 0 && j < m_dimensions.y) {
-		
+
 		sf::Vector2u tileSize = m_tileset.getTileSize();
 		sf::Vector2u tilesetSize = (m_tileset.getTileset())->getSize();
 		sf::Vector2u ashes = m_tileset.getAshes();
@@ -349,168 +351,168 @@ void TileMap::freePlace(sf::Vector2i position) {
 
 	int i = position.x;
 	int j = position.y;
-	
+
 	// === ELEMENT ===
-	
+
 	removeElement(position);
-	
+
 	removeElement(sf::Vector2i(i - 2, j));
 	removeElement(sf::Vector2i(i - 1, j));
 	removeElement(sf::Vector2i(i + 1, j));
 	removeElement(sf::Vector2i(i + 2, j));
-	
+
 	removeElement(sf::Vector2i(i, j - 2));
 	removeElement(sf::Vector2i(i, j - 1));
 	removeElement(sf::Vector2i(i, j + 1));
 	removeElement(sf::Vector2i(i, j + 2));
-	
+
 	removeElement(sf::Vector2i(i - 1, j - 1));
 	removeElement(sf::Vector2i(i - 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j - 1));
-	
+
 	// === GROUND ===
-	
+
 	std::vector<int> defaults = m_tileset.getGroundsByBehavior(DEFAULT);
-	
+
 	Ground * l_ground_1, * l_ground_2, * l_ground_3, * l_ground_4;
 	std::vector<int> GROUND_types;
 	sf::Vector2i l_position = position;
-	
+
 	for(int l(0) ; l < 13 ; ++l) {
 		switch(l) {
-			
+
 			case 0 :
 				l_position.x = i - 2;
 				l_position.y = j;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = NULL;
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 1 :
 				l_position.x = i;
 				l_position.y = j - 2;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = NULL;
 				break;
-			
+
 			case 2 :
 				l_position.x = i + 2;
 				l_position.y = j;
-				
+
 				l_ground_1 = NULL;
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 3 :
 				l_position.x = i;
 				l_position.y = j + 2;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = NULL;
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 4 :
 				l_position.x = i - 1;
 				l_position.y = j + 1;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = NULL;
 				l_ground_3 = NULL;
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 5 :
 				l_position.x = i - 1;
 				l_position.y = j - 1;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = NULL;
 				l_ground_4 = NULL;
 				break;
-			
+
 			case 6 :
 				l_position.x = i + 1;
 				l_position.y = j - 1;
-				
+
 				l_ground_1 = NULL;
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = NULL;
 				break;
-			
+
 			case 7 :
 				l_position.x = i + 1;
 				l_position.y = j + 1;
-				
+
 				l_ground_1 = NULL;
 				l_ground_2 = NULL;
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 8 :
 				l_position.x = i - 1;
 				l_position.y = j;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = NULL;
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 9 :
 				l_position.x = i;
 				l_position.y = j - 1;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = NULL;
 				break;
-			
+
 			case 10 :
 				l_position.x = i + 1;
 				l_position.y = j;
-				
+
 				l_ground_1 = NULL;
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 11 :
 				l_position.x = i;
 				l_position.y = j + 1;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = NULL;
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
-			
+
 			case 12 :
 				l_position.x = i;
 				l_position.y = j;
-				
+
 				l_ground_1 = getGround(sf::Vector2i(l_position.x - 1, l_position.y));
 				l_ground_2 = getGround(sf::Vector2i(l_position.x, l_position.y - 1));
 				l_ground_3 = getGround(sf::Vector2i(l_position.x + 1, l_position.y));
 				l_ground_4 = getGround(sf::Vector2i(l_position.x, l_position.y + 1));
 				break;
 		}
-		
+
 		for(unsigned int k(0) ; k < defaults.size() ; ++k) {
 			if((l_ground_1 == NULL || areCompatibleGrounds(defaults[k], l_ground_1->getType()))
 			&&
@@ -523,7 +525,7 @@ void TileMap::freePlace(sf::Vector2i position) {
 				GROUND_types.push_back(defaults[k]);
 			}
 		}
-		
+
 		if(GROUND_types.size() == 0) {
 			spreadGround(this, defaults[rand()%defaults.size()], position);
 		}
@@ -532,36 +534,36 @@ void TileMap::freePlace(sf::Vector2i position) {
 			GROUND_types.clear();
 		}
 	}
-	
+
 	// Mise à jour des bordures
-	
+
 	updateBorders(position);
-	
+
 	updateBorders(sf::Vector2i(i - 2, j));
 	updateBorders(sf::Vector2i(i - 1, j));
 	updateBorders(sf::Vector2i(i + 1, j));
 	updateBorders(sf::Vector2i(i + 2, j));
-	
+
 	updateBorders(sf::Vector2i(i, j - 2));
 	updateBorders(sf::Vector2i(i, j - 1));
 	updateBorders(sf::Vector2i(i, j + 1));
 	updateBorders(sf::Vector2i(i, j + 2));
-	
+
 	updateBorders(sf::Vector2i(i - 1, j - 1));
 	updateBorders(sf::Vector2i(i - 1, j + 1));
 	updateBorders(sf::Vector2i(i + 1, j + 1));
 	updateBorders(sf::Vector2i(i + 1, j - 1));
-	
+
 	updateBorders(sf::Vector2i(i - 3, j));
 	updateBorders(sf::Vector2i(i + 3, j));
 	updateBorders(sf::Vector2i(i, j - 3));
 	updateBorders(sf::Vector2i(i, j + 3));
-	
+
 	updateBorders(sf::Vector2i(i - 2, j - 1));
 	updateBorders(sf::Vector2i(i - 1, j - 2));
 	updateBorders(sf::Vector2i(i + 1, j - 2));
 	updateBorders(sf::Vector2i(i + 2, j - 1));
-	
+
 	updateBorders(sf::Vector2i(i - 2, j + 1));
 	updateBorders(sf::Vector2i(i - 1, j + 2));
 	updateBorders(sf::Vector2i(i + 1, j + 2));
@@ -581,8 +583,8 @@ void TileMap::generate() {
 	int width = m_dimensions.x, height = m_dimensions.y;
 	sf::Vector2u tileSize = m_tileset.getTileSize();
 
-	m_grounds.resize(width * height);
-	m_elements.resize(width * height);
+	m_grounds.resize(width * height, NULL);
+	m_elements.resize(width * height, NULL);
 
 	m_VertexGrounds.setPrimitiveType(sf::Quads);
 	m_VertexGrounds.resize(width * height * 4);
@@ -884,27 +886,27 @@ void TileMap::generate() {
 }
 
 bool TileMap::load(std::string path) {
-	
+
 	std::ifstream file(path.c_str());
 	if(!file) {
 		std::cout << "Ouverture du fichier de sauvegarde de carte impossible." << std::endl;
 		return false;
 	}
-	
+
 	std::string l_path;
 	file >> l_path;
 	if(!m_tileset.load(l_path)) {
 		std::cout << "Chargement du tileset impossible." << std::endl;
 		return false;
 	}
-	
+
 	file >> m_dimensions.x >> m_dimensions.y;
-	
+
 	m_grounds.resize(m_dimensions.x * m_dimensions.y);
 	m_elements.resize(m_dimensions.x * m_dimensions.y);
-	
+
 	int GROUND_type, ELEMENT_type;
-	
+
 	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
 		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 			file >> GROUND_type;
@@ -922,27 +924,27 @@ bool TileMap::load(std::string path) {
 			}
 		}
 	}
-	
+
 	for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
 		for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
 			updateBorders(sf::Vector2i(i, j));
 		}
 	}
-	
+
 	return true;
 }
 
 bool TileMap::save(std::string path) const {
-	
+
 	std::ofstream file(path.c_str());
 	if(!file) {
 		std::cout << "Ecriture du fichier de sauvegarde de carte impossible." << std::endl;
 		return false;
 	}
-	
+
 	file << m_tileset.getPath() << std::endl;
 	file << m_dimensions.x << " " << m_dimensions.y << std::endl;
-	
+
 	file << std::endl;
 	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
 		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
@@ -950,7 +952,7 @@ bool TileMap::save(std::string path) const {
 		}
 		file << std::endl;
 	}
-	
+
 	file << std::endl;
 	for(unsigned int j(0) ; j < m_dimensions.y ; ++j) {
 		for(unsigned int i(0) ; i < m_dimensions.x ; ++i) {
@@ -963,7 +965,7 @@ bool TileMap::save(std::string path) const {
 		}
 		file << std::endl;
 	}
-	
+
 	return true;
 }
 
