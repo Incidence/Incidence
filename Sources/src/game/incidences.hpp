@@ -3,8 +3,12 @@
 
 #include "level/tilemap.hpp"
 #include "weather.hpp"
+#include "entity/entity_type.hpp"
+#include "entity/entity.hpp"
 #include <vector>
 #include <iostream>
+
+class Entity;
 
 #define ALEATOIRE 3
 
@@ -23,6 +27,9 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 
 void dilateElement(TileMap* tilemap, TileBehavior behavior);
 void erodeElement(TileMap* tilemap, TileBehavior behavior);
+
+int spawnEntities(EntityType type, std::vector< Entity * > list);
+int killEntities(EntityType type, std::vector< Entity * > list);
 // ---------------------------
 
 // --- fonctions à utiliser ---
@@ -40,16 +47,22 @@ void erodeForests(TileMap* tilemap);
 
 void spawnRessources(TileMap* tilemap);
 void burnRessources(TileMap* tilemap);
-// ----------------------------
 
-void spawnEntities(TileMap* tilemap);
-void killEntities(TileMap* tilemap);
+void allyCitizenBirth(Game* game);
+void enemyCitizenBirth(Game* game);
+void wildAnimalBirth(Game* game);
+void peacefulAnimalBirth(Game* game);
+    
+void allyCitizenDeath(Game* game);
+void enemyCitizenDeath(Game* game);
+void wildAnimalDeath(Game* game);
+void peacefulAnimalDeath(Game* game);
 
 void citizenFeeding(TileMap* tilemap);
 void citizenSicken(TileMap* tilemap);
-void citizenBirth(TileMap* tilemap);
 void citizenJobUpdate(TileMap* tilemap);
 
 void bonusPI(TileMap* tilemap);
+// ----------------------------
 
 #endif

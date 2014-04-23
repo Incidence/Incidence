@@ -4,6 +4,8 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
 	for(int i(0);i<vec.size();++i) { if(vec[i] == val) { return true; } } return false;
 }
 
+//--------------------------------------------------------------------------------------------------------------------------
+
 /*
  *** Description : Fonction du cycle jour nuit, applique toutes les incidences de la journée.
  *
@@ -90,6 +92,8 @@ void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome) {
     tilemap->freePlace(posHome);
 
 }
+
+//--------------------------------------------------------------------------------------------------------------------------
 
 /*
  *** Description : cette fonction met à jour les cases environnantes, et si besoin harmonise les types compatibles.
@@ -546,6 +550,58 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 
 }
 
+int spawnEntities(EntityType type, std::vector< Entity * > list) {
+
+	int result = 0;
+	
+	for(unsigned int i(0) ; i < list.size() ; ++i) {
+		if(list[i]->getType() == type) {
+			
+			result++;
+			
+			if(rand()%100 < 10) {
+				result++;
+			}
+		}
+	}
+	
+	if(result == 0) {
+		result++;
+	}
+	
+	return result;
+
+}
+
+int killEntities(EntityType type, std::vector< Entity * > list) {
+
+	int result = 0;
+	
+	for(unsigned int i(0) ; i < list.size() ; ++i) {
+		if(list[i]->getType() == type) {
+			
+			if(list[i]->getHealth() == GOOD || list[i]->getHealth() == NORMAL) {
+				result++;
+			}
+			else if(list[i]->getHealth() == WEAK && rand()%100 > 10) { // 10% de risque de mourir
+					result++;
+			}
+			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 > 30) { // 30% de risque de mourir
+					result++;
+			}
+		}
+	}
+	
+	if(result < 0) {
+		result = 0;
+	}
+	
+	return result;
+
+}
+
+//--------------------------------------------------------------------------------------------------------------------------
+
 void dilateFluids(TileMap* tilemap) {
 
 	dilateGround(tilemap, FLUID);
@@ -723,22 +779,52 @@ void burnRessources(TileMap* tilemap) {
 
 }
 
-void spawnEntities(TileMap* tilemap) {
-
-	//TODO
-
+int allyCitizenBirth(Game* game) {
+	
+	return spawnEntities(ALLY_CITIZEN, game->getEntities());
+	
 }
 
-void killEntities(TileMap* tilemap) {
-
-	//TODO
-
+int enemyCitizenBirth(Game* game) {
+	
+	return spawnEntities(ENEMY_CITIZEN, game->getEntities());
+	
 }
 
-void citizenSpawn(TileMap* tilemap) {
+int wildAnimalBirth(Game* game) {
+	
+	return spawnEntities(WILD_ANIMAL, game->getEntities());
+	
+}
 
-	//TODO
+int peacefulAnimalBirth(Game* game) {
+	
+	return spawnEntities(PEACEFUL_ANIMAL, game->getEntities());
+	
+}
+    
+int allyCitizenDeath(Game* game) {
+	
+	return killEntities(ALLY_CITIZEN, game->getEntities());
+	
+}
 
+int enemyCitizenDeath(Game* game) {
+	
+	return killEntities(ENEMY_CITIZEN, game->getEntities());
+	
+}
+
+int wildAnimalDeath(Game* game) {
+	
+	return killEntities(WILD_ANIMAL, game->getEntities());
+	
+}
+
+int peacefulAnimalDeath(Game* game) {
+	
+	return killEntities(PEACEFUL_ANIMAL, game->getEntities());
+	
 }
 
 void citizenFeeding(TileMap* tilemap) {
@@ -748,12 +834,6 @@ void citizenFeeding(TileMap* tilemap) {
 }
 
 void citizenSicken(TileMap* tilemap) {
-
-	//TODO
-
-}
-
-void citizenBirth(TileMap* tilemap) {
 
 	//TODO
 

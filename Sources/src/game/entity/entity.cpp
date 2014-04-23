@@ -632,6 +632,18 @@ void Entity::updateGiveTime(float t)
     }
 }
 
+EntityType Entity::getType() {
+	
+	return m_type;
+	
+}
+
+Health getHealth() {
+	
+	return m_health;
+	
+}
+
 float Entity::getGiveTime()
 {
     return m_giveTime;

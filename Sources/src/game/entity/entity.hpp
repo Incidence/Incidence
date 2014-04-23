@@ -65,6 +65,9 @@ public :
 
     void setPosition( sf::Vector2f p );
 
+    EntityType getType();
+	Health getHealth();
+	
     float getGiveTime();
     void updateGiveTime(float t);
     int getGiveQuantity();
