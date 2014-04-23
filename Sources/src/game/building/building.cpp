@@ -24,7 +24,7 @@ Building::Building( sf::Vector2i & position,const std::string path ) : Harvestab
 
 Building::~Building( void )
 {
-    delete this->m_animation;
+    //delete this->m_animation; ->Error in `_build/Incidence': double free or corruption (fasttop)
 }
 
 sf::Vector2i Building::getPosition( void )

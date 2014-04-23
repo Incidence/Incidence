@@ -13,8 +13,8 @@ Element::Element(int type, int groundType, std::string name, TileBehavior behavi
 
 Element::~Element() {
 	
-	delete m_quad_down;
-	delete m_quad_up;
+	//delete m_quad_down; ->Error in `_build/Incidence': double free or corruption (fasttop)
+	//delete m_quad_up; ->Error in `_build/Incidence': double free or corruption (fasttop)
 	
 }
 
