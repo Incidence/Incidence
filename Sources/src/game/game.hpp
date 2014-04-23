@@ -9,6 +9,7 @@
 #include "entity/entity.hpp"
 #include "incidences.hpp"
 #include "building/building.hpp"
+#include "weather.hpp"
 
 
 class Entity;

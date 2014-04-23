@@ -10,6 +10,7 @@
 #include <iostream>
 
 class Entity;
+class Game;
 
 #define ALEATOIRE 3
 
