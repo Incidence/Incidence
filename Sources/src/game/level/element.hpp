@@ -27,7 +27,7 @@ class Element : public Harvestable {
 	public:
 
 		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
-		~Element();
+		virtual ~Element();
 
 		int getType() const;
 		int getGroundType() const;
