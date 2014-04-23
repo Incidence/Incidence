@@ -163,8 +163,6 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 */
 void dilateGround(TileMap* tilemap, TileBehavior behavior) {
 
-	srand(time(NULL));
-
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
 
@@ -215,8 +213,6 @@ void dilateGround(TileMap* tilemap, TileBehavior behavior) {
  *** Sortie : void
 */
 void erodeGround(TileMap* tilemap, TileBehavior behavior) {
-
-	srand(time(NULL));
 
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
@@ -303,8 +299,6 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 		}
 	}
 
-	srand(time(NULL));
-
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
 
@@ -383,8 +377,6 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 		}
 	}
 
-	srand(time(NULL));
-
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
 
@@ -452,8 +444,6 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 */
 void dilateElement(TileMap* tilemap, TileBehavior behavior) {
 
-	srand(time(NULL));
-
 	std::vector<sf::Vector2i> positions;
 	std::vector<int> types;
 
@@ -504,8 +494,6 @@ void dilateElement(TileMap* tilemap, TileBehavior behavior) {
  *** Sortie : void
 */
 void erodeElement(TileMap* tilemap, TileBehavior behavior) {
-
-	srand(time(NULL));
 
 	std::vector<sf::Vector2i> positions;
 
@@ -663,8 +651,6 @@ void spawnRessources(TileMap* tilemap) {
 	std::vector<int> stoneElements;
 	std::vector<int> woodElements;
 
-	srand(time(NULL));
-
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
 
@@ -755,8 +741,6 @@ void spawnRessources(TileMap* tilemap) {
 }
 
 void burnRessources(TileMap* tilemap) {
-
-	srand(time(NULL));
 
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;

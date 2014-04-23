@@ -638,7 +638,7 @@ EntityType Entity::getType() {
 	
 }
 
-Health getHealth() {
+Health Entity::getHealth() {
 	
 	return m_health;
 	

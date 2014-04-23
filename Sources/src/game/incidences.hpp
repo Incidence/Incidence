@@ -1,6 +1,7 @@
 #ifndef INCIDENCES_HPP
 #define INCIDENCES_HPP
 
+#include "game.hpp"
 #include "level/tilemap.hpp"
 #include "weather.hpp"
 #include "entity/entity_type.hpp"
@@ -48,15 +49,15 @@ void erodeForests(TileMap* tilemap);
 void spawnRessources(TileMap* tilemap);
 void burnRessources(TileMap* tilemap);
 
-void allyCitizenBirth(Game* game);
-void enemyCitizenBirth(Game* game);
-void wildAnimalBirth(Game* game);
-void peacefulAnimalBirth(Game* game);
+int allyCitizenBirth(Game* game);
+int enemyCitizenBirth(Game* game);
+int wildAnimalBirth(Game* game);
+int peacefulAnimalBirth(Game* game);
     
-void allyCitizenDeath(Game* game);
-void enemyCitizenDeath(Game* game);
-void wildAnimalDeath(Game* game);
-void peacefulAnimalDeath(Game* game);
+int allyCitizenDeath(Game* game);
+int enemyCitizenDeath(Game* game);
+int wildAnimalDeath(Game* game);
+int peacefulAnimalDeath(Game* game);
 
 void citizenFeeding(TileMap* tilemap);
 void citizenSicken(TileMap* tilemap);
