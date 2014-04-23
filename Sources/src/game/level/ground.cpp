@@ -12,10 +12,7 @@ Ground::Ground(const int type, const std::string name, const TileBehavior behavi
 
 }
 
-Ground::~Ground() {
-	if(m_quad) { delete m_quad; }
-	
-}
+Ground::~Ground() {}
 
 int Ground::getType() const {
 

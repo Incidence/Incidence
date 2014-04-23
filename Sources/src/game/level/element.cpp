@@ -11,12 +11,7 @@ Element::Element(int type, int groundType, std::string name, TileBehavior behavi
 	m_quad_up = quad_up;
 }
 
-Element::~Element() {
-	
-	if(m_quad_down) { delete m_quad_down; }
-	if(m_quad_up) { delete m_quad_up; }
-	
-}
+Element::~Element() {}
 
 int Element::getType() const {
 
