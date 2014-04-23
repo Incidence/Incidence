@@ -907,26 +907,23 @@ int peacefulAnimalDeath(Game* game) {
 	
 }
 
-void citizenFeeding(TileMap* tilemap) {
+void updateRessources(Game* game) {
 
-	//TODO
-
-}
-
-void citizenSicken(TileMap* tilemap) {
-
-	//TODO
-
-}
-
-void citizenJobUpdate(TileMap* tilemap) {
-
-	//TODO
-
-}
-
-void bonusPI(TileMap* tilemap) {
-
-	//TODO
+	std::vector< Entity * > list = game->getEntities();
+	int number = 0;
+	
+	for(unsigned int i(0) ; i < list.size() ; ++i) {
+		if(list[i]->getType() == ALLY_CITIZEN) {
+			number++;
+		}
+	}
+	
+	game->setPI(game->getPI() + 10 * number);
+	game->addRessource(FOOD, -(number*3));
+	if(game->getQtyFood() < 0) {
+		// rendre malade chaque péon pas nourri ?
+		game->addRessource(FOOD, -game->getQtyFood());
+	}
+	// utiliser aussi du bois et de la pierre ? genre pour faire du feu dans sa cahute...
 
 }

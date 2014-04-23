@@ -38,6 +38,10 @@ public :
     void setPI(int n);
     int getPI();
 
+    int getQtyWood();
+    int getQtyFood();
+    int getQtyStone();
+
     void updateDay( void );
     void addRessource(RessourceType t, int qty);
 

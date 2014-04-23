@@ -188,6 +188,24 @@ int Game::getPI()
     return m_incidencePoint;
 }
 
+int Game::getQtyWood() {
+	
+	return qtyWood;
+	
+}
+
+int Game::getQtyFood() {
+	
+	return qtyFood;
+	
+}
+
+int Game::getQtyStone() {
+	
+	return qtyStone;
+	
+}
+
 void Game::updateDay( void )
 {
     if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {

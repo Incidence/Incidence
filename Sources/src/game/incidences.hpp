@@ -61,11 +61,7 @@ int enemyCitizenDeath(Game* game);
 int wildAnimalDeath(Game* game);
 int peacefulAnimalDeath(Game* game);
 
-void citizenFeeding(TileMap* tilemap);
-void citizenSicken(TileMap* tilemap);
-void citizenJobUpdate(TileMap* tilemap);
-
-void bonusPI(TileMap* tilemap);
+void updateRessources(Game* game);
 // ----------------------------
 
 #endif
