@@ -51,7 +51,7 @@ void Game::spawnEntity( Entity & e )
 {
     if ((e.m_type == ALLY_CITIZEN) || (e.m_type == HUNTER))
     {
-        e.setPosition(sf::Vector2f(this->m_home.getPosition().x*32,this->m_home.getPosition().y*32));
+        e.setPosition(sf::Vector2f((this->m_home.getPosition().x*32)+16,(this->m_home.getPosition().y*32)+16));
     }
     else if ((e.m_type == WILD_ANIMAL) || (e.m_type == PEACEFUL_ANIMAL))
     {
@@ -70,13 +70,13 @@ void Game::spawnEntity( Entity & e )
             y = (rand() % (this->m_tilemap->getDimensions().y));
         }
         this->m_tilemap->freePlace(sf::Vector2i(x,y));
-        e.setPosition(sf::Vector2f(x*32,y*32));
+        e.setPosition(sf::Vector2f((x*32)+16,(y*32)+16));
     }
     else if (e.m_type == ENEMY_CITIZEN)
     {
         unsigned int x(rand() % (this->m_tilemap->getDimensions().x));
         unsigned int y;
-        if ((x > 4) || (x < (this->m_tilemap->getDimensions().x-5)))
+        if ((x > 4) && (x < (this->m_tilemap->getDimensions().x-5)))
         {
             y = rand() % 10;
             if (y > 4)
@@ -88,9 +88,8 @@ void Game::spawnEntity( Entity & e )
         {
             y = rand() % (this->m_tilemap->getDimensions().y);
         }
-        y = rand() % 10;
         this->m_tilemap->freePlace(sf::Vector2i(x,y));
-        e.setPosition(sf::Vector2f(x*32,y*32));
+        e.setPosition(sf::Vector2f((x*32)+16,(y*32)+16)));
     }
     else
     {
