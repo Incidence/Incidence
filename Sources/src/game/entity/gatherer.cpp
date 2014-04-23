@@ -55,7 +55,7 @@ Gatherer::~Gatherer( void ) {}
 void Gatherer::init( void )
 {
     Entity::init();
-    m_animation.load( "data/perso_ga.ani" );
+    m_animation.load( "data/ani/gatherer_down.ani" );
 
     m_ressource = FOOD;
 }

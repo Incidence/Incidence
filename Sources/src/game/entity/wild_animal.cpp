@@ -56,7 +56,7 @@ void WildAnimal::init( void )
 {
     Entity::init();
 
-    m_animation.load( "data/perso_wi.ani" );
+    m_animation.load( "data/ani/bear_down.ani" );
     m_ressource = FOOD;
 }
 

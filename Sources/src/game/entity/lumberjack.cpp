@@ -55,7 +55,7 @@ Lumberjack::~Lumberjack( void ) {}
 void Lumberjack::init( void )
 {
     Entity::init();
-    m_animation.load( "data/perso_lu.ani" );
+    m_animation.load( "data/ani/lumberjack_down.ani" );
 
     m_ressource = WOOD;
 }

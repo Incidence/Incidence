@@ -58,7 +58,7 @@ EnemyCitizen::~EnemyCitizen( void ) {}
 void EnemyCitizen::init( void )
 {
     Entity::init();
-    m_animation.load( "data/perso_en.ani" );
+    m_animation.load( "data/ani/enemy_down.ani" );
 
     m_ressource = NOTHING;
 }

@@ -74,8 +74,8 @@ void Game::spawnEntity( Entity & e )
     }
     else if (e.m_type == ENEMY_CITIZEN)
     {
-        int x(rand() % (this->m_tilemap->getDimensions().x));
-        int y;
+        unsigned int x(rand() % (this->m_tilemap->getDimensions().x));
+        unsigned int y;
         if ((x > 4) || (x < (this->m_tilemap->getDimensions().x-5)))
         {
             y = rand() % 10;
