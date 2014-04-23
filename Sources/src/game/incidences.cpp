@@ -740,12 +740,30 @@ void spawnRessources(TileMap* tilemap) {
 
 }
 
-void burnRessources(TileMap* tilemap) {
+void spawnOnlyStone(TileMap* tilemap) {
+
+	int elementCount = (tilemap->getTileSet())->getElementCount();
+	std::vector<int> stoneElements;
 
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
 
 	Element* l_element;
+	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0];
+
+	for(int k(0) ; k < elementCount ; ++k) {
+
+		l_element = (tilemap->getTileSet())->getElement(k, GROUND_type);
+
+		if(l_element != NULL) {
+
+			if(l_element->containRessource(STONE)) {
+				stoneElements.push_back(k);
+			}
+		}
+	}
+
+	Ground* l_ground;
 
 	for(int i(0) ; i < width ; ++i) {
 		for(int j(0) ; j < height ; ++j) {
@@ -754,7 +772,85 @@ void burnRessources(TileMap* tilemap) {
 
 				l_element = tilemap->getElement(sf::Vector2i(i, j));
 
-				if(l_element != NULL && rand()%ALEATOIRE == 0) {
+				if(l_element == NULL && rand()%ALEATOIRE == 0) {
+
+					bool addStone = false;
+
+					for(int k(0) ; k < 4 ; ++k) {
+
+						l_ground = NULL;
+
+						if(k == 0 && i > 0) {
+							l_ground = tilemap->getGround(sf::Vector2i(i - 1, j));
+							l_element = tilemap->getElement(sf::Vector2i(i - 1, j));
+						}
+						else if(k == 1 && j > 0) {
+							l_ground = tilemap->getGround(sf::Vector2i(i, j - 1));
+							l_element = tilemap->getElement(sf::Vector2i(i, j - 1));
+						}
+						else if(k == 2 && i < width - 1) {
+							l_ground = tilemap->getGround(sf::Vector2i(i + 1, j));
+							l_element = tilemap->getElement(sf::Vector2i(i + 1, j));
+						}
+						else if(k == 3 && j < height - 1) {
+							l_ground = tilemap->getGround(sf::Vector2i(i, j + 1));
+							l_element = tilemap->getElement(sf::Vector2i(i, j + 1));
+						}
+
+						if(l_ground != NULL) {
+							if(l_ground->getBehavior() == CLIFF) {
+								addStone = true;
+							}
+						}
+						if(l_element != NULL) {
+							if(rand()%ALEATOIRE == 0 && contains(stoneElements, l_element->getType())) {
+								addStone = true;
+							}
+						}
+					}
+
+					if(addStone && stoneElements.size() > 0) {
+						tilemap->addElement(stoneElements[rand()%stoneElements.size()], sf::Vector2i(i, j));
+					}
+				}
+			}
+		}
+	}
+
+}
+
+void burnRessources(TileMap* tilemap) {
+
+	int elementCount = (tilemap->getTileSet())->getElementCount();
+	std::vector<int> stoneElements;
+	std::vector<int> woodElements;
+
+	Element* l_element;
+	int GROUND_type = ((tilemap->getTileSet())->getGroundsByBehavior(DEFAULT))[0];
+
+	for(int k(0) ; k < elementCount ; ++k) {
+
+		l_element = (tilemap->getTileSet())->getElement(k, GROUND_type);
+
+		if(l_element != NULL) {
+
+			if(l_element->containRessource(STONE)) {
+				stoneElements.push_back(k);
+			}
+		}
+	}
+	
+	int width = tilemap->getDimensions().x;
+	int height = tilemap->getDimensions().y;
+
+	for(int i(0) ; i < width ; ++i) {
+		for(int j(0) ; j < height ; ++j) {
+
+			if(rand()%ALEATOIRE == 0) {
+
+				l_element = tilemap->getElement(sf::Vector2i(i, j));
+
+				if(l_element != NULL && !contains(stoneElements, l_element->getType()) && rand()%ALEATOIRE == 0) {
 					tilemap->burnElement(sf::Vector2i(i, j));
 				}
 			}

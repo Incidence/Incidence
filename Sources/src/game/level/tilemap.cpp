@@ -578,8 +578,6 @@ void TileMap::freePlace(sf::Vector2i position) {
 */
 void TileMap::generate() {
 
-	srand(time(NULL));
-
 	int width = m_dimensions.x, height = m_dimensions.y;
 	sf::Vector2u tileSize = m_tileset.getTileSize();
 

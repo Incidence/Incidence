@@ -48,6 +48,7 @@ void dilateForests(TileMap* tilemap);
 void erodeForests(TileMap* tilemap);
 
 void spawnRessources(TileMap* tilemap);
+void spawnOnlyStone(TileMap* tilemap);
 void burnRessources(TileMap* tilemap);
 
 int allyCitizenBirth(Game* game);
