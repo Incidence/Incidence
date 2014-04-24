@@ -89,7 +89,7 @@ void Game::spawnEntity( Entity & e )
             y = rand() % (this->m_tilemap->getDimensions().y);
         }
         this->m_tilemap->freePlace(sf::Vector2i(x,y));
-        e.setPosition(sf::Vector2f((x*32)+16,(y*32)+16)));
+        e.setPosition(sf::Vector2f((x*32)+16,(y*32)+16));
     }
     else
     {
