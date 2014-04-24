@@ -63,15 +63,24 @@ public :
 
     sf::Vector2f getPosition( void ) const;
 
+
     void setPosition( sf::Vector2f p );
 
     EntityType getType();
 	Health getHealth();
-	
+
     float getGiveTime();
     void updateGiveTime(float t);
     int getGiveQuantity();
     void updateGiveQuantity();
+
+    bool isTired();
+    bool isSick();
+    void setisTired(bool t);
+    void setisSick(bool s);
+    float weaknessCoeff(Health h);//mise ici car erreur avec multiple definition si mise dans entity_type.hpp
+
+
 
 protected :
     Game * m_game;
@@ -101,6 +110,8 @@ protected :
     int m_giveQuantity;
 
     bool m_isAttacked;
+    bool m_isSick;
+    bool m_isTired;
 
 public :
 

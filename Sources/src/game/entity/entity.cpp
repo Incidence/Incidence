@@ -7,8 +7,6 @@
 
 
 
-#define TEMPS_PI 5000//temps de base pour qu'une entité donne des PI en ms
-
 
 bool Entity::bLuaInit = false;
 
@@ -41,9 +39,11 @@ void Entity::init( void )
     m_ressource = NOTHING;
     m_health = GOOD;
     m_waitTime = 0;
-    m_giveTime=Time::get()->elapsed().asMilliseconds()+rand()%10+TEMPS_PI;
+    m_giveTime=(Time::get()->elapsed().asMilliseconds()+rand()%10+5000)/weaknessCoeff(m_health);
     m_giveQuantity=2;
     m_animation.load( "data/perso_lu.ani" );
+    m_isSick=false;
+    m_isTired=false;
 
     /// TO COMPLETE
 }
@@ -314,8 +314,13 @@ void Entity::move( void )
             dest.x = (dest.x - m_position.x) / div;
             dest.y = (dest.y - m_position.y) / div;
 
-            m_position.x += dest.x * m_speed * Time::get()->deltaTime();
-            m_position.y += dest.y * m_speed * Time::get()->deltaTime();
+            float coeffTired=1.0;
+            if(isTired())
+            {
+                coeffTired=0.8;
+            }
+            m_position.x += ((dest.x * m_speed * Time::get()->deltaTime())/weaknessCoeff(m_health))/coeffTired;
+            m_position.y += ((dest.y * m_speed * Time::get()->deltaTime())/weaknessCoeff(m_health))/coeffTired;
         }
 
         if(m_way.empty()) {
@@ -456,7 +461,12 @@ void Entity::takeResource( void )
 
         pHarvestable = m_game->m_tilemap->getHarvestable(mapPos);
         m_recolt = mapPos;
-        m_waitTime = Time::get()->elapsed().asMilliseconds() + pHarvestable->getPickingTime();
+        float coeffTired=1;
+        if(isTired())
+        {
+            coeffTired=0.8;
+        }
+        m_waitTime = ((Time::get()->elapsed().asMilliseconds() + pHarvestable->getPickingTime())/weaknessCoeff(m_health))/coeffTired;
 
         m_action = RECOLT;
     } else {
@@ -609,39 +619,28 @@ void Entity::setPosition( sf::Vector2f p )
 
 void Entity::updateGiveTime(float t)
 {
+    int TEMPS_PI=5000;//temps de base pour qu'une entité donne des PI en ms
     m_giveTime=t;
-    switch(m_health)
+    float weakCoeff=weaknessCoeff(m_health);
+    float TiredCoeff=1.0;
+    if(isTired())
     {
-    case GOOD:
-        m_giveTime+=TEMPS_PI+rand()%10000;
-        break;
-
-    case NORMAL:
-        m_giveTime+=TEMPS_PI+rand()%10000+2000;
-        break;
-
-    case WEAK:
-        m_giveTime+=TEMPS_PI+rand()%10000+6000;
-        break;
-
-    case VERY_WEAK:
-        m_giveTime+=TEMPS_PI+rand()%10000+10000;
-        break;
-
-        //default
+        TiredCoeff=0.8;
     }
+    m_giveTime+=((TEMPS_PI+rand()%10000)/weakCoeff)/TiredCoeff;
+
 }
 
 EntityType Entity::getType() {
-	
+
 	return m_type;
-	
+
 }
 
 Health Entity::getHealth() {
-	
+
 	return m_health;
-	
+
 }
 
 float Entity::getGiveTime()
@@ -658,23 +657,79 @@ void Entity::updateGiveQuantity()
 {
     switch(m_health)
     {
-    case GOOD:
-        m_giveQuantity=2;
-        break;
+        case GOOD:
+            m_giveQuantity=2;
+            break;
 
-    case NORMAL:
-        m_giveQuantity=2;
-        break;
+        case NORMAL:
+            m_giveQuantity=2;
+            break;
 
-    case WEAK:
-        m_giveQuantity=1;
-        break;
+        case WEAK:
+            m_giveQuantity=1;
+            break;
 
-    case VERY_WEAK:
-        m_giveQuantity=1;
-        break;
+        case VERY_WEAK:
+            m_giveQuantity=1;
+            break;
+
+        case DEAD:
+                break;
+
+            default:
+                break;
     }
 }
 
+bool Entity::isTired()
+{
+    return m_isTired;
+}
+
+bool Entity::isSick()
+{
+    return m_isSick;
+}
+
+void Entity::setisTired(bool t)
+{
+    m_isTired=t;
+}
+
+void Entity::setisSick(bool s)
+{
+    m_isSick=s;
+}
+
+
+float Entity::weaknessCoeff(Health h)
+{
+    switch(h)
+    {
+        case GOOD:
+            return 1.4;
+            break;
+
+        case NORMAL:
+            return 1.0;
+            break;
+
+        case WEAK:
+            return 0.6;
+            break;
+
+        case VERY_WEAK:
+            return 0.2;
+            break;
+
+        case DEAD:
+            return 0;
+                break;
+
+        default:
+            return 0;
+            break;
+    }
+}
 
 

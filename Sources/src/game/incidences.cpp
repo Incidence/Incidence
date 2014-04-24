@@ -12,7 +12,7 @@ template<typename T> bool contains(std::vector<T> vec, T val) {
  *** Entree : la carte (tilemap).
  *** Sortie : void
 */
-void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome) {
+void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome,std::vector< Entity * > entityList) {
 
     /**
 
@@ -33,61 +33,61 @@ void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome) {
 
     **/
 
-	//TODO : gérer la météo
+	//Incidences sur le territoire
+
 	weather->updateWeather();
-	int nb=weather->getNbDSameWeather();
-    switch(weather->getWeatherToday())
+	int nb=weather->getWeatherGrade();
+	if(nb==-5)
     {
-    case RAINY:
-        // Si 1 jour de pluie
-        erodeNearCliffs(tilemap);
-        dilateNearFluids(tilemap);
-
-        if(nb%3==0)
-        {
-            // Si 3 jours de pluie consécutifs
-            dilateFluids(tilemap);
-        }
-        if(nb%4)// on peut rajouter un paramètre si vous voulez
-        {           // pour faire un intervalle
-           // Si 2 ou 3 jours de pluie parmi les 5 derniers jours
-            dilateForests(tilemap);
-            spawnRessources(tilemap);
-        }
-
-
-        if(nb%5==0)
-        {
-            // Si 5 jours de soleil ou 5 jours de pluie consécutifs
-            erodeForests(tilemap);
-            burnRessources(tilemap);
-        }
-        break;
-
-    case SUNNY:
-        // Si 1 jour de soleil
-        erodeNearFluids(tilemap);
-        dilateNearCliffs(tilemap);
-
-        if(nb%3==0)
-        {
-            // Si 5 jours de soleil consécutifs
-
-        ///// EDIT Changer en 3 jours consécutifs comme ca y'a des incidences pour 1,3 et 5 jours.
-            erodeFluids(tilemap);
-        }
-
-        if(nb%5==0)
-        {
-            // Si 5 jours de soleil ou 5 jours de pluie consécutifs
-            erodeForests(tilemap);
-            burnRessources(tilemap);
-        }
-        break;
-
-    default:
-        break;
+        dilateFluids(tilemap);
     }
+    if(nb<=-4)
+    {
+        spawnOnlyStone(tilemap);
+    }
+    if(nb<=-3)
+    {
+        dilateFluids(tilemap);
+        dilateForests(tilemap);
+    }
+    if(nb<=-2)
+    {
+        erodeNearCliffs(tilemap);
+    }
+    if(nb<=-1)
+    {
+        dilateNearFluids(tilemap);
+    }
+    if(nb>=-1 && nb<=1)
+    {
+         srand (time(NULL));
+         if(rand()%100<=40)
+         {
+             spawnRessources(tilemap);
+         }
+    }
+    if(nb>=1)
+    {
+        erodeNearFluids(tilemap);
+    }
+    if(nb>=3)
+    {
+        dilateNearCliffs(tilemap);
+    }
+    if(nb>=4)
+    {
+        erodeFluids(tilemap);
+        burnRessources(tilemap);
+    }
+
+    //Incidences sur les entités
+
+    //Meteo
+    if(nb!=0)
+    {
+        weather->impactsOnEntities(entityList,nb);
+    }
+
 
     tilemap->freePlace(posHome);
 
@@ -541,22 +541,22 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 int spawnEntities(EntityType type, std::vector< Entity * > list) {
 
 	int result = 0;
-	
+
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == type) {
-			
+
 			result++;
-			
+
 			if(rand()%100 < 10) {
 				result++;
 			}
 		}
 	}
-	
+
 	if(result == 0) {
 		result++;
 	}
-	
+
 	return result;
 
 }
@@ -564,10 +564,10 @@ int spawnEntities(EntityType type, std::vector< Entity * > list) {
 int killEntities(EntityType type, std::vector< Entity * > list) {
 
 	int result = 0;
-	
+
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == type) {
-			
+
 			if(list[i]->getHealth() == GOOD || list[i]->getHealth() == NORMAL) {
 				result++;
 			}
@@ -579,11 +579,11 @@ int killEntities(EntityType type, std::vector< Entity * > list) {
 			}
 		}
 	}
-	
+
 	if(result < 0) {
 		result = 0;
 	}
-	
+
 	return result;
 
 }
@@ -839,7 +839,7 @@ void burnRessources(TileMap* tilemap) {
 			}
 		}
 	}
-	
+
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
 
@@ -860,65 +860,65 @@ void burnRessources(TileMap* tilemap) {
 }
 
 int allyCitizenBirth(Game* game) {
-	
+
 	return spawnEntities(ALLY_CITIZEN, game->getEntities());
-	
+
 }
 
 int enemyCitizenBirth(Game* game) {
-	
+
 	return spawnEntities(ENEMY_CITIZEN, game->getEntities());
-	
+
 }
 
 int wildAnimalBirth(Game* game) {
-	
+
 	return spawnEntities(WILD_ANIMAL, game->getEntities());
-	
+
 }
 
 int peacefulAnimalBirth(Game* game) {
-	
+
 	return spawnEntities(PEACEFUL_ANIMAL, game->getEntities());
-	
+
 }
-    
+
 int allyCitizenDeath(Game* game) {
-	
+
 	return killEntities(ALLY_CITIZEN, game->getEntities());
-	
+
 }
 
 int enemyCitizenDeath(Game* game) {
-	
+
 	return killEntities(ENEMY_CITIZEN, game->getEntities());
-	
+
 }
 
 int wildAnimalDeath(Game* game) {
-	
+
 	return killEntities(WILD_ANIMAL, game->getEntities());
-	
+
 }
 
 int peacefulAnimalDeath(Game* game) {
-	
+
 	return killEntities(PEACEFUL_ANIMAL, game->getEntities());
-	
+
 }
 
 void updateRessources(Game* game) {
 
 	std::vector< Entity * > list = game->getEntities();
 	int number = 0;
-	
+
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == ALLY_CITIZEN) {
 			number++;
 		}
 	}
-	
-	game->setPI(game->getPI() + 10 * number);
+
+	game->setPI(game->getPI() + 10 * number);//BONUS PI
 	game->addRessource(FOOD, -(number*3));
 	if(game->getQtyFood() < 0) {
 		// rendre malade chaque péon pas nourri ?

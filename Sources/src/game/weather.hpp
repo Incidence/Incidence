@@ -3,6 +3,10 @@
 
 
 #include "../engine/animation.hpp"
+#include "entity/entity.hpp"
+#include <ctime>
+#include <cstdlib>
+
 
 typedef enum WeatherType {
 	SUNNY,
@@ -10,6 +14,8 @@ typedef enum WeatherType {
 	UNDEFINED
 } WeatherType;
 
+
+class Entity;
 
 class Weather
 {
@@ -22,23 +28,26 @@ class Weather
         void initRain(const std::string rainpath);
         void draw(sf::RenderTarget& target);
 
+        //Incidences sur les entités
+        void impactsOnEntities(std::vector< Entity * > entityList, int weatherGrade);
+
         //getters
         WeatherType getWeatherYesterday();
         WeatherType getWeatherToday();
-        int       getNbDSameWeather();//nombre de jours consécutifs du même temps que la journée
+        int       getWeatherGrade();
         Animation* getRainAnimation();
 
         //setters
         void setWeatherYesterday(WeatherType m);
         void setWeatherToday(WeatherType m);
-        void setNbDSameWeather(int n);
+        void setWeatherGrade(int n);
         void setRainAnimation(const std::string rainpath);
 
 
     private:
         WeatherType m_weatherYesterday;
         WeatherType m_weatherToday;
-        int       m_nbDSameWeather;
+        int       m_weatherGrade;
         Animation* m_rain;
 
 };

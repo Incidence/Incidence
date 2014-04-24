@@ -225,7 +225,7 @@ std::vector< Entity * > Game::getEntities( void )
 void Game::addEntity( Entity * e )
 {
     m_entityList.push_back(e);
-	spawnEntity(*e);
+    spawnEntity(*e);
 }
 
 
@@ -240,21 +240,21 @@ int Game::getPI()
 }
 
 int Game::getQtyWood() {
-	
+
 	return qtyWood;
-	
+
 }
 
 int Game::getQtyFood() {
-	
+
 	return qtyFood;
-	
+
 }
 
 int Game::getQtyStone() {
-	
+
 	return qtyStone;
-	
+
 }
 
 void Game::updateDay( void )
@@ -265,7 +265,7 @@ void Game::updateDay( void )
         int i = rand() % 2;
         m_weather->setWeatherToday(i==0 ? RAINY : SUNNY);
         std::cout << "New DAY ! (" << (i==0 ? "RAINY" : "SUNNY") << ")" << std::endl;
-        doIncidences(m_tilemap,m_weather, m_home.getPosition());
+        doIncidences(m_tilemap,m_weather, m_home.getPosition(),m_entityList);
     }
 }
 

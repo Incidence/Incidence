@@ -8,14 +8,17 @@
 #include "entity/entity.hpp"
 #include <vector>
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 class Entity;
 class Game;
+class Weather;
 
 #define ALEATOIRE 3
 
 // --- fonction principale ---
-void doIncidences(TileMap* tilemap,Weather* weather, sf::Vector2i posHome);
+void doIncidences(TileMap* tilemap,Weather* weather, sf::Vector2i posHome,std::vector< Entity * > entityList);
 // ---------------------------
 
 // --- fonctions "privées" ---
@@ -55,7 +58,7 @@ int allyCitizenBirth(Game* game);
 int enemyCitizenBirth(Game* game);
 int wildAnimalBirth(Game* game);
 int peacefulAnimalBirth(Game* game);
-    
+
 int allyCitizenDeath(Game* game);
 int enemyCitizenDeath(Game* game);
 int wildAnimalDeath(Game* game);

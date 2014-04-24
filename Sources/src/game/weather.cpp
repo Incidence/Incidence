@@ -10,7 +10,7 @@ Weather::Weather( const string rainpath)
     //Meteo par défaut Soleil
     m_weatherToday=SUNNY;
     m_weatherYesterday=UNDEFINED;
-    m_nbDSameWeather=0;
+    m_weatherGrade=0;
     m_rain=new Animation();
     initRain(rainpath);
 }
@@ -19,7 +19,7 @@ Weather::Weather(WeatherType weather,const string rainpath)
 {
     m_weatherToday=weather;
     m_weatherYesterday=UNDEFINED;
-    m_nbDSameWeather=0;
+    m_weatherGrade=0;
     m_rain=new Animation();
     initRain(rainpath);
 }
@@ -36,15 +36,62 @@ Weather::~Weather()
 
 void Weather::updateWeather()
 {
-    if(m_weatherToday==m_weatherYesterday)
+    if(m_weatherToday==m_weatherYesterday || m_weatherYesterday==UNDEFINED)
     {
-        m_nbDSameWeather++;
+        switch(m_weatherToday)
+        {
+            case SUNNY:
+                if(m_weatherGrade!=5)
+                {
+                    m_weatherGrade++;
+                }
+                break;
+
+            case RAINY:
+                if(m_weatherGrade!=-5)
+                {
+                    m_weatherGrade--;
+                }
+                break;
+
+            default:
+                break;
+        }
     }
     else
     {
-        m_weatherYesterday=m_weatherToday;
-        m_nbDSameWeather=1;
+       switch(m_weatherToday)
+        {
+            case SUNNY:
+                if(m_weatherGrade<=-3)
+                {
+                    m_weatherGrade=-1;
+                }
+                else
+                {
+                    m_weatherGrade++;
+                }
+
+                break;
+
+            case RAINY:
+                 if(m_weatherGrade>=3)
+                {
+                    m_weatherGrade=1;
+                }
+                else
+                {
+                    m_weatherGrade--;
+                }
+                break;
+
+            default:
+                break;
+        }
     }
+
+    m_weatherYesterday=m_weatherToday;
+    std::cout<<"Niveau du temps : "<<m_weatherGrade<<std::endl;
 }
 
 void Weather::initRain(const string rainpath)
@@ -65,6 +112,55 @@ void Weather::draw(sf::RenderTarget& target)
     }
 }
 
+void Weather::impactsOnEntities(std::vector< Entity * > entityList, int weatherGrade)
+{
+    srand (time(NULL));
+    for(unsigned int i=0;i<entityList.size();i++)
+    {
+        int nb=rand()%100;
+        switch(weatherGrade)
+        {
+            case 5:
+                if(nb<=20){
+                    entityList[i]->setisTired(true);
+                }
+                break;
+            case 4:
+                if(nb<=5){
+                    entityList[i]->setisTired(true);
+                }
+                break;
+            case -1:
+                if(nb<=4){
+                    entityList[i]->setisSick(true);
+                }
+                break;
+            case -2:
+                if(nb<=8){
+                    entityList[i]->setisSick(true);
+                }
+                break;
+            case -3:
+                if(nb<=16){
+                    entityList[i]->setisSick(true);
+                }
+                break;
+            case -4:
+                if(nb<=32){
+                    entityList[i]->setisSick(true);
+                }
+                break;
+            case -5:
+                if(nb<=50){
+                    entityList[i]->setisSick(true);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+}
+
 
 WeatherType Weather::getWeatherYesterday()
 {
@@ -76,9 +172,9 @@ WeatherType Weather::getWeatherToday()
     return m_weatherToday;
 }
 
-int Weather::getNbDSameWeather()
+int Weather::getWeatherGrade()
 {
-    return m_nbDSameWeather;
+    return m_weatherGrade;
 }
 
 Animation* Weather::getRainAnimation()
@@ -90,6 +186,8 @@ Animation* Weather::getRainAnimation()
 void Weather::setWeatherToday(WeatherType m)
 {
     m_weatherToday=m;
+    //updateWeather();// à enlever après debug
+
 }
 
 void Weather::setWeatherYesterday(WeatherType m)
@@ -97,9 +195,9 @@ void Weather::setWeatherYesterday(WeatherType m)
     m_weatherYesterday=m;
 }
 
-void Weather::setNbDSameWeather(int n)
+void Weather::setWeatherGrade(int n)
 {
-    m_nbDSameWeather=n;
+    m_weatherGrade=n;
 }
 
 void Weather::setRainAnimation(const string rainpath)
