@@ -1,5 +1,5 @@
 \documentclass[a4paper]{article}
-\usepackage[utf8x]{inputenc}  % si utf8
+\usepackage[utf8]{inputenc}  % si utf8
 \usepackage{graphicx}
 \usepackage{verbatim}
 
@@ -59,6 +59,7 @@
         \alinea Voici tout de même une première estimation du temps nécessaire :
         \begin{figure}
           \begin{center}
+            %TODO
             %\includegraphics[scale=0.5]{DiagrammeGantt.png}
           \end{center}
           \label{DiagGantt}
@@ -88,12 +89,13 @@
         \alinea En confrontant nos préférences personnelles quant au choix de l'une ou l'autre, nous nous sommes finalement mis d'accord pour utiliser la bibliothèque graphique SFML 2.1, qui paraît plus simple d'utilisation que la SDL. De plus, elle permet une gestion aisée des fichiers audio, ce qui sera un plus pour la finalité de notre jeu.
 
     \section{Profil de risques}
-      %Tableau conduite projet
-		
+	  %TODO
+	  %Tableau conduite projet
+	
 \newpage
   \part{Code Overview}
     \section{Format des Fichiers}
-      \alinea Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
+	  \alinea Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
       \alinea Toutes les images nécessaires au jeu seront au format PNG afin de pouvoir utiliser la transparence et garder la pleine qualité d'image (contrairement à JPEG qui perd de l'information à la compression).\\
       \alinea Les sons quant à eux seront au format WAV afin d'éviter toute gestion de la compression de fichier pour de petits fichiers qui n'en ont aucunement besoin.
 
@@ -106,10 +108,13 @@
         \end{verbatim}
       
       \subsection{Tileset}
-      
+	    \alinea Le tileset sera une unique image au format PNG représentant l'ensemble des tuiles possibles. Chaque type de sol constituera une ligne du tileset, avec toutes les variantes dépendant des rebords entre tuiles (ce fichier sera présenté plus en détails dans la section \ref{TilesetDev}, page \pageref{TilesetDev}).
+
       \subsection{Carte}
+	    \alinea Les différentes cartes sauvegardées seront enregistrées dans des fichiers IMS (Incidence Map Save), dans lesquels seront stockés le tileset utilisé et la conformation de la carte (dimensions, sols et éléments).
       
       \subsection{Sauvegarde}
+		%TODO
       
     \section{Commentaires}
       \alinea Chaque fichier aura un en-tête devant contenir une brève explication quant au rôle de celui-ci, ainsi que les date de création et de dernière modification afin de faciliter les éventuelles recherches de versions sur le dépôt distant.\\
@@ -133,7 +138,6 @@
           \hline
           \textbf{Marqueur spécifique} & \textbf{Signification}\\
           \hline
-      %En tableau/liste : |Marqueur spécifique|Signification|
           TODO & A mettre à la place du code d'une fonctionnalité à implémenter\\
           \hline
           RECODE & A mettre au dessus du bloc d'une fonctionnalité à refaire\\
@@ -151,7 +155,7 @@
           \hline
           Classe & Majuscule suivit de minuscules\\
           \hline
-          Méthode& Minuscules (pour les mots composés,\\
+          Méthode & Minuscules (pour les mots composés,\\
           et & chaque mots suivant est\\
           Fonction & une majuscule suivit de minuscules)\\
           \hline
@@ -210,12 +214,90 @@
         \end{itemize}
         
       \subsection{Liste des scripts}
+        %TODO
       
     \section{La Carte}
       \subsection{Les Tuiles}
-      
+        \alinea Les différents types de tuile seront tous recensés dans le tileset, qui se chargera de fournir les textures et attributs associés à ceux-ci. La carte n'utilisera que des pointeurs vers ces instances constantes de tuile, ce  qui évitera le stockage inutile d'instances identiques.
+        
+        \subsubsection{Les Sols}
+          \alinea Chaque sol aura différents attributs définis dans le fichier de configuration du tileset (cf section \ref{TilesetDev}, page \pageref{TilesetDev}). Comme définis dans le cachier des charges, certains sols seront incompatibles avec d'autres.\\
+          \\
+	  	  \begin{small}
+			\begin{tabular}{| c | l |}
+			  \hline
+			  \textbf{Attribut} & \textbf{Description}\\
+			  \hline
+			  Type & Entier définissant un identificateur du type de sol.\\
+			  \hline
+			  Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
+			  \hline
+			  Comportement & Enumération de trois comportements :\\
+			  & DEFAULT : comportement par défaut (tous les type de Terre).\\
+			  & FLUID : les sols forment des zones (étendues d'eau).\\
+			  & CLIFF : les sols sont fixes et forment des zones (falaises).\\
+			  \hline
+			  Franchissable & Booléen indiquant si le sol est franchissable ou non par les unités.\\
+			  \hline
+			  Rebords & Tableaux d'entiers indiquant tous les types de sol compatibles\\
+			  & avec les bordures de l'image (cf  section \ref{TilesetDev}, page \pageref{TilesetDev}).\\
+			  \hline
+			\end{tabular}
+		  \end{small}
+          
+        \subsubsection{Les Elements}
+          \alinea Chaque sol aura différents attributs définis dans le fichier de configuration du tileset (cf section \ref{TilesetDev}, page \pageref{TilesetDev}).\\
+          \\
+	  	  \begin{small}
+			\begin{tabular}{| c | l |}
+			  \hline
+			  \textbf{Attribut} & \textbf{Description}\\
+			  \hline
+			  Type & Entier définissant un identificateur du type d'élément.\\
+			  \hline
+			  Type de sol & Entier définissant un identificateur du type de sol sur lequel se place l'élément.\\
+			  \hline
+			  Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
+			  \hline
+			  Comportement & Enumération de deux comportements :\\
+			  & DEFAULT : comportement par défaut.\\
+			  & FOREST : les éléments forment des zones (arbres).\\
+			  \hline
+			  Franchissable & Booléen indiquant si le sol est franchissable ou non par les unités.\\
+			  \hline
+			  Temps de récolte & Valeur de temps durant laquelle le citoyen doit agir afin de récolter les ressources.\\
+			  \hline
+			  Ressources & Ressources (et leur quantité) associées à l'élément.\\
+			  \hline
+			\end{tabular}
+		  \end{small}
+          
+          
       \subsection{Le Tileset}
-      
+		\label{TilesetDev}
+		\alinea Un unique fichier image au format PNG contiendra l'ensemble des tuiles utilisées dans le jeu pour les sols ou éléments. Cette image sera utilisée comme texture et certaines parties seront extraites par le programme au gré des besoins.
+		\alinea Dans le but de permettre à l'utilisateur d'aisément créer des mods de jeu ou changer de tileset, nous avons créé un fichier au format INI détaillant toutes les particularités du tileset.\\
+		\alinea Voici le tileset que nous utiliserons :\\
+        \begin{figure}
+          \begin{center}
+            \includegraphics[scale=0.35]{TilesetPngIni.png}
+          \end{center}
+          \label{TilesetPngIni}
+          \caption{Texture et configuration du tileset}
+        \end{figure}
+        \\
+        \textbf{Fichier de configuration :}\\
+        \alinea Chaque ligne commençant par "\#" ne sera pas lue, ce sont les commentaires. Les mots en vert sont les mots clés utilisés pour la lecture qui se fait ligne par ligne :\\
+        - path : indique le chemin du fichier de texture du tileset\\
+        - tilesize : est suivi des dimensions (en pixel, largeur puis hauteur) d'une tuile\\
+        - groundColumnCount : nombre de colonnes pour chaque sol dans le fichier de texture (toutes les associations de rebords)\\
+        - elementColumnCount : nombre de colonnes pour chaque élément dans le fichier de texture (tous les types de sols)\\
+        - ground : définit un sol et tous ses attributs\\
+        - element : définit un élément et tous ses attributs (height est la hauteur en nombre de cases dans la texture)\\
+        - ashes : fourni une texture pour les cendres (lorsque des éléments brûlent) (cf GDD)\\
+        \\
+        Remarque : chaque ligne commençant par ground, element ou ashes incrémente un compteur afin de connaître la position de la zone de texture correspondante. L'ordre est donc important (définition des lignes de haut en bas).
+        
       
 \newpage
   \part{Milestones}

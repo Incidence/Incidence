@@ -225,6 +225,7 @@ std::vector< Entity * > Game::getEntities( void )
 void Game::addEntity( Entity * e )
 {
     m_entityList.push_back(e);
+	spawnEntity(*e);
 }
 
 
