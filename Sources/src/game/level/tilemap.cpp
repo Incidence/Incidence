@@ -342,13 +342,114 @@ void TileMap::burnElement(sf::Vector2i position) {
 }
 
 /*
+ *** Description : cette fonction pose un sol à la position choisie par l'utilisateur et récpercute sur les sols alentours.
+ *
+ *** Entree : le type de sol (type), la position à laquelle le poser (position).
+ *** Sortie : void.
+*/
+void TileMap::userSetGround(int type, sf::Vector2i position) {
+	
+	int i = position.x;
+	int j = position.y;
+	
+	std::vector<int> groundCompatibles;
+	
+	for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
+		if(this->areCompatibleGrounds(k, type)) {
+			groundCompatibles.push_back(k);
+		}
+	}
+	if(groundCompatibles.size() == 0) {
+		std::cout << "Erreur : aucun sol n'est compatible avec le sol posé." << std::endl;
+	}
+	else {
+		
+		changeGround(type, position);
+		
+		Ground* l_ground;
+		int GROUND_type;
+		sf::Vector2i l_position;
+		
+		for(int k(0) ; k < 4 ; ++k) {
+			if(k == 0) {
+				l_position.x = i - 1;
+				l_position.y = j;
+			}
+			else if(k == 1) {
+				l_position.x = i;
+				l_position.y = j - 1;
+			}
+			else if(k == 2) {
+				l_position.x = i + 1;
+				l_position.y = j;
+			}
+			else if(k == 3) {
+				l_position.x = i;
+				l_position.y = j + 1;
+			}
+			
+			l_ground = getGround(l_position);
+			if(l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), type)) {
+				
+				//TODO
+				if(type == 4 || type == 3) {GROUND_type = type - 1;}
+				else {GROUND_type = type;}
+/*				Ground* l_ground_tmp;
+				sf::Vector2i l_position_tmp;
+				std::vector<int> tmp;
+				
+				for(int l(0) ; l < groundCompatibles.size() ; ++l) {
+					
+					tmp.push_back(0);
+					
+					for(int l(0) ; l < 4 ; ++l) {
+						if(l == 0) {
+							l_position_tmp.x = l_position.x - 1;
+							l_position_tmp.y = l_position.y;
+						}
+						else if(l == 1) {
+							l_position_tmp.x = l_position.x;
+							l_position_tmp.y = l_position.y - 1;
+						}
+						else if(l == 2) {
+							l_position_tmp.x = l_position.x + 1;
+							l_position_tmp.y = l_position.y;
+						}
+						else if(l == 3) {
+							l_position_tmp.x = l_position.x;
+							l_position_tmp.y = l_position.y + 1;
+						}
+							l_ground_tmp = getGround(l_position_tmp);
+							if(l_ground_tmp != NULL && areCompatibleGrounds(l_ground->getType(), l_ground_tmp.getType())) {
+								
+							}	
+						}
+					
+					for(int l(0) ; l < tmp.size() ; ++l) {
+						
+					}
+*/					
+					userSetGround(GROUND_type, l_position);
+			}
+		}
+		
+		updateBorders(position);
+		
+		updateBorders(sf::Vector2i(i - 1, j));
+		updateBorders(sf::Vector2i(i, j - 1));
+		updateBorders(sf::Vector2i(i + 1, j));
+		updateBorders(sf::Vector2i(i, j + 1));
+	}
+	
+}
+
+/*
  *** Description : cette fonction libère une zone de cinq cases de diamètre de tout élément ou sol infranchissable.
  *
  *** Entree : le centre de la zone (position).
  *** Sortie : void.
 */
 void TileMap::freePlace(sf::Vector2i position) {
-
 	int i = position.x;
 	int j = position.y;
 
@@ -370,7 +471,8 @@ void TileMap::freePlace(sf::Vector2i position) {
 	removeElement(sf::Vector2i(i - 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j - 1));
-
+	
+	
 	// === GROUND ===
 
 	std::vector<int> defaults = m_tileset.getGroundsByBehavior(DEFAULT);
@@ -527,12 +629,18 @@ void TileMap::freePlace(sf::Vector2i position) {
 		}
 
 		if(GROUND_types.size() == 0) {
-			spreadGround(this, defaults[rand()%defaults.size()], position);
+			int t = defaults[rand()%defaults.size()];
+			spreadGround(this, t, position);
+			spreadGround(this, t, sf::Vector2i(position.x - 1, position.y));
+			spreadGround(this, t, sf::Vector2i(position.x, position.y - 1));
+			spreadGround(this, t, sf::Vector2i(position.x + 1, position.y));
+			spreadGround(this, t, sf::Vector2i(position.x, position.y + 1));
 		}
 		else {
 			changeGround(GROUND_types[rand()%GROUND_types.size()], l_position);
 			GROUND_types.clear();
 		}
+
 	}
 
 	// Mise à jour des bordures
