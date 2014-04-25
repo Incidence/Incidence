@@ -1,0 +1,277 @@
+#include "night_state.hpp"
+
+#include "../engine/state_manager.hpp"
+
+NightState::NightState( Game * g ) : m_ui(this)
+{
+    m_game = g;
+	m_window = window;
+
+	init();
+}
+
+NightState::~NightState( void )
+{
+
+}
+
+void NightState::init( void )
+{
+    m_prctLumberjack = 5;
+    m_prctPickman = 5;
+    m_prctHunter = 5;
+    m_prctGatherer = 5;
+
+    Widget * w;
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", "Lumberjack % : ", sf::Color::White ) );
+    w->setPositionAbsolute( 100, 20 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", "Hunter % : ", sf::Color::White ) );
+    w->setPositionAbsolute( 100, 40 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", "Pickman % : ", sf::Color::White ) );
+    w->setPositionAbsolute( 100, 60 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", "Gatherer % : ", sf::Color::White ) );
+    w->setPositionAbsolute( 100, 80 );
+    m_ui.addWidget(w);
+
+    // ------
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", itos(m_prctLumberjack), sf::Color::White ) );
+    w->setPositionAbsolute( 200, 20 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", itos(m_prctHunter), sf::Color::White ) );
+    w->setPositionAbsolute( 200, 40 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", itos(m_prctPickman), sf::Color::White ) );
+    w->setPositionAbsolute( 200, 60 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setContent( new WidgetContent( "TEXT", itos(m_prctGatherer), sf::Color::White ) );
+    w->setPositionAbsolute( 200, 80 );
+    m_ui.addWidget(w);
+
+    // -----
+
+    GameEvent ge;
+    ge.type = EV_MORE_LUMBERJACK;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 180, 20 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_MORE_HUNTER;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 180, 40 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_MORE_PICKMAN;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 180, 60 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_MORE_GATHERER;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 180, 80 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    // -----
+
+    GameEvent ge;
+    ge.type = EV_LESS_LUMBERJACK;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 280, 20 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_LESS_HUNTER;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 280, 40 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_LESS_PICKMAN;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 280, 60 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    ge.type = EV_LESS_GATHERER;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    w->setPadding( 4, 4 );
+    w->setBorder( sf::Color::Yellow );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 280, 80 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    // ----------
+
+    ge.type = EV_SELECT_RAIN;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "SPRITE", "data/img/rainButton.png" ) );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 200, 200 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setName("rainSelected");
+    w->setShow(false);
+    w->setContent( new WidgetContent( "TEXT", "data/img/select.png" ) );
+    w->setPositionAbsolute( 240, 200 );
+    m_ui.addWidget(w);
+
+
+    ge.type = EV_SELECT_SUN;
+
+    w = new Button();
+    w->setContent( new WidgetContent( "SPRITE", "data/img/sunButton.png" ) );
+    w->setBorderOVer( sf::Color::Red );
+    w->setBorderSize(1);
+    w->setPositionAbsolute( 300, 200 );
+    w->setEvent( ge );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setName("sunSelected");
+    w->setShow(false);
+    w->setContent( new WidgetContent( "TEXT", "data/img/select.png" ) );
+    w->setPositionAbsolute( 340, 200 );
+    m_ui.addWidget(w);
+
+
+}
+
+void NightState::draw( sf::RenderTarget & window )
+{
+    m_ui.draw(window);
+}
+
+void NightState::update( void )
+{
+
+}
+
+void NightState::handleEvent( sf::Event & e )
+{
+    m_ui.handleEvent(e);
+}
+
+void NightState::treatEvent( GameEvent e )
+{
+    switch(e.type) {
+
+    case EV_LESS_GATHERER :
+        m_prctGatherer--;
+        break;
+
+    case EV_MORE_GATHERER :
+        m_prctGatherer++;
+        break;
+
+    case EV_LESS_HUNTER :
+        m_prctHunter--;
+        break;
+
+    case EV_MORE_HUNTER :
+        m_prctHunter++;
+        break;
+
+    case EV_LESS_PICKMAN :
+        m_prctPickman--;
+        break;
+
+    case EV_MORE_PICKMAN :
+        m_prctPickman++;
+        break;
+
+    case EV_LESS_LUMBERJACK :
+        m_prctLumberjack--;
+        break;
+
+    case EV_MORE_LUMBERJACK :
+        m_prctLumberjack++;
+        break;
+
+        /// ---
+
+    case EV_SELECT_RAIN :
+        m_ui.getWidget("rainSelected")->setShow(true);
+        m_ui.getWidget("sunSelected")->setShow(false);
+        break;
+
+    case EV_SELECT_SUN :
+        m_ui.getWidget("sunSelected")->setShow(true);
+        m_ui.getWidget("rainSelected")->setShow(false);
+        break;
+
+    }
+
+    default :
+        break;
+}

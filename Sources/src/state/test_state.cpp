@@ -12,6 +12,8 @@
 #include "../game/entity/wild_animal.hpp"
 #include "../game/entity/pickman.hpp"
 
+#include "night_state.hpp"
+
 #include <iostream>
 
 TestState::TestState( sf::RenderWindow * window ) : m_game(NULL)
@@ -119,6 +121,12 @@ void TestState::handleEvent( sf::Event & e )
             } break;
 
 
+            case sf::Keyboard::K :
+            {
+                StateManager::get()->addState(new NightState(m_game));
+            } break;
+
+
             case sf::Keyboard::Escape :
             {
                 StateManager::get()->popState();
@@ -131,3 +139,5 @@ void TestState::handleEvent( sf::Event & e )
     }
     m_game->handleEvent(e);
 }
+
+void TestState::treatEvent( GameEvent e ) {}

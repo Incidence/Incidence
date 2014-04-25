@@ -11,6 +11,11 @@ public :
     static DataManager * get( void );
     static void kill( void );
 
+    // Font :
+
+    sf::Font * addFont( const std::string path );
+    sf::Font * getFont( const std::string path );
+
     // Graphic :
 
     sf::Texture * getTexture( const std::string path );
@@ -33,6 +38,7 @@ private :
 
     static DataManager * singleton;
 
+    std::map< std::string, sf::Font * > fonts;
     std::map<std::string, sf::Texture*> m_textures;
     std::map<std::string, sf::Sprite*> m_sprites;
     std::map<std::string, sf::SoundBuffer*> m_sounds;

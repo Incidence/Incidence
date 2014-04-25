@@ -63,6 +63,7 @@ private :
     int m_dayBeginTime;
 
     friend class Entity;
+    friend class NightState;
 };
 
 

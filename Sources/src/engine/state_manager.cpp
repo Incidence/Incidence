@@ -42,6 +42,7 @@ void StateManager::update( void )
 {
     if(m_current) {
         m_current->update();
+        m_current->processEvent();
     }
 }
 

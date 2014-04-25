@@ -5,10 +5,12 @@
 #include "level/tileset.hpp"
 #include "../engine/foo.hpp"
 #include "../engine/time.hpp"
+#include "../engine/state_manager.hpp"
+#include "../state/night_state.hpp"
 
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL), m_dayDuration(50000), m_dayBeginTime(0)
+Game::Game( void ) : m_tilemap(NULL), m_dayDuration(5), m_dayBeginTime(0)
 {
     newGame();
 }
@@ -147,7 +149,6 @@ void Game::handleEvent( sf::Event & e )
         if( m_entityList.size() > 0 ) {
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
-        m_tilemap->userSetGround(3,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
     }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
@@ -261,13 +262,9 @@ int Game::getQtyStone() {
 void Game::updateDay( void )
 {
     if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {
-        m_dayBeginTime = Time::get()->elapsed().asSeconds();
-
-        int i = rand() % 2;
-        m_weather->setWeatherToday(i==0 ? RAINY : SUNNY);
-        std::cout << "New DAY ! (" << (i==0 ? "RAINY" : "SUNNY") << ")" << std::endl;
-        doIncidences(m_tilemap,m_weather, m_home.getPosition(),m_entityList);
+        StateManager::get()->addState( new NightState(this) );
     }
+
 }
 
 void Game::addRessource(RessourceType t, int qty)

@@ -15,6 +15,7 @@ public :
     void draw( sf::RenderTarget & window );
     void update( void );
     void handleEvent( sf::Event & e );
+    void treatEvent( GameEvent e );
 
 private :
 

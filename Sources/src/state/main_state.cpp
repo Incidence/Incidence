@@ -128,3 +128,5 @@ void MainState::handleEvent( sf::Event & e )
 
     }
 }
+
+void MainState::treatEvent( GameEvent e ) {}

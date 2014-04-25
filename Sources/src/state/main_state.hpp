@@ -18,6 +18,8 @@ public :
     void update( void );
     void handleEvent( sf::Event & e );
 
+    void treatEvent( GameEvent e );
+
 private :
     Animation a_goku;
     Animation a_energy;

@@ -63,6 +63,38 @@ sf::Texture * DataManager::getTexture( const std::string path )
     return t;
 }
 
+// *********************** FONTS ******
+
+sf::Font * DataManager::addFont( const std::string path )
+{
+    sf::Font * f = new sf::Font;
+    if( f->loadFromFile( path ) )
+    {
+        this->fonts[path] = f;
+        return f;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+sf::Font * DataManager::getFont( const std::string path )
+{
+    sf::Font * f = NULL;
+    std::map< std::string, sf::Font * >::iterator i = this->fonts.find( path );
+    if( i == this->fonts.end() )
+    {
+        f = addFont( path );
+    }
+    else
+    {
+        f = (*i).second;
+    }
+
+    return f;
+}
+
 
 // *********************** SPRITES ******
 
