@@ -319,8 +319,8 @@ void Entity::move( void )
             {
                 coeffTired=0.8;
             }
-            m_position.x += ((dest.x * m_speed * Time::get()->deltaTime())/weaknessCoeff(m_health))/coeffTired;
-            m_position.y += ((dest.y * m_speed * Time::get()->deltaTime())/weaknessCoeff(m_health))/coeffTired;
+            m_position.x += ((dest.x * m_speed * Time::get()->deltaTime())*weaknessCoeff(m_health))*coeffTired;
+            m_position.y += ((dest.y * m_speed * Time::get()->deltaTime())*weaknessCoeff(m_health))*coeffTired;
         }
 
         if(m_way.empty()) {
