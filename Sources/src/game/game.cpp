@@ -147,6 +147,7 @@ void Game::handleEvent( sf::Event & e )
         if( m_entityList.size() > 0 ) {
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
+        m_tilemap->userSetGround(3,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
     }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {

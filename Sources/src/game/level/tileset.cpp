@@ -174,8 +174,8 @@ bool TileSet::load(const std::string path) {
 	while(!config.eof()) {
 
 		if(keyWord.compare("path") == 0) {
-			config >> m_path;
-			if(!m_tileset.loadFromFile(m_path)) {
+			config >> keyWord;
+			if(!m_tileset.loadFromFile(keyWord)) {
 				std::cout << "Ouverture du fichier png du tileset impossible." << std::endl;
 				return false;
 			}

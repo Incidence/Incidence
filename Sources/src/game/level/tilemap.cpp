@@ -364,81 +364,109 @@ void TileMap::userSetGround(int type, sf::Vector2i position) {
 	}
 	else {
 		
-		changeGround(type, position);
+		Ground* l_ground = getGround(position);
 		
-		Ground* l_ground;
-		int GROUND_type;
-		sf::Vector2i l_position;
-		
-		for(int k(0) ; k < 4 ; ++k) {
-			if(k == 0) {
-				l_position.x = i - 1;
-				l_position.y = j;
-			}
-			else if(k == 1) {
-				l_position.x = i;
-				l_position.y = j - 1;
-			}
-			else if(k == 2) {
-				l_position.x = i + 1;
-				l_position.y = j;
-			}
-			else if(k == 3) {
-				l_position.x = i;
-				l_position.y = j + 1;
-			}
-			
-			l_ground = getGround(l_position);
-			if(l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), type)) {
+		if(areCompatibleGrounds(l_ground->getType(), type)) {
+			if(l_ground->getBehavior() == CLIFF) {
+				changeGround(type, position);
 				
-				//TODO
-				if(type == 4 || type == 3) {GROUND_type = type - 1;}
-				else {GROUND_type = type;}
-/*				Ground* l_ground_tmp;
-				sf::Vector2i l_position_tmp;
-				std::vector<int> tmp;
-				
-				for(int l(0) ; l < groundCompatibles.size() ; ++l) {
-					
-					tmp.push_back(0);
-					
-					for(int l(0) ; l < 4 ; ++l) {
-						if(l == 0) {
-							l_position_tmp.x = l_position.x - 1;
-							l_position_tmp.y = l_position.y;
-						}
-						else if(l == 1) {
-							l_position_tmp.x = l_position.x;
-							l_position_tmp.y = l_position.y - 1;
-						}
-						else if(l == 2) {
-							l_position_tmp.x = l_position.x + 1;
-							l_position_tmp.y = l_position.y;
-						}
-						else if(l == 3) {
-							l_position_tmp.x = l_position.x;
-							l_position_tmp.y = l_position.y + 1;
-						}
-							l_ground_tmp = getGround(l_position_tmp);
-							if(l_ground_tmp != NULL && areCompatibleGrounds(l_ground->getType(), l_ground_tmp.getType())) {
-								
-							}	
-						}
-					
-					for(int l(0) ; l < tmp.size() ; ++l) {
-						
-					}
-*/					
-					userSetGround(GROUND_type, l_position);
+				updateBorders(position);
+				updateBorders(sf::Vector2i(i - 1, j));
+				updateBorders(sf::Vector2i(i, j - 1));
+				updateBorders(sf::Vector2i(i + 1, j));
+				updateBorders(sf::Vector2i(i, j + 1));
+			}
+			else {
+				spreadGround(this, type, position);
 			}
 		}
-		
-		updateBorders(position);
-		
-		updateBorders(sf::Vector2i(i - 1, j));
-		updateBorders(sf::Vector2i(i, j - 1));
-		updateBorders(sf::Vector2i(i + 1, j));
-		updateBorders(sf::Vector2i(i, j + 1));
+		else {
+			changeGround(type, position);
+			
+			int GROUND_type;
+			sf::Vector2i l_position;
+			
+			for(int k(0) ; k < 4 ; ++k) {
+				if(k == 0) {
+					l_position.x = i - 1;
+					l_position.y = j;
+				}
+				else if(k == 1) {
+					l_position.x = i;
+					l_position.y = j - 1;
+				}
+				else if(k == 2) {
+					l_position.x = i + 1;
+					l_position.y = j;
+				}
+				else if(k == 3) {
+					l_position.x = i;
+					l_position.y = j + 1;
+				}
+				
+				l_ground = getGround(l_position);
+				if(l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), type)) {
+					
+					Ground* l_ground_tmp;
+					sf::Vector2i l_position_tmp;
+					std::vector<int> tmp;
+					int max = -1;
+					
+					for(unsigned int l(0) ; l < groundCompatibles.size() ; ++l) {
+						
+						tmp.push_back(0);
+						
+						for(int m(0) ; m < 4 ; ++m) {
+							if(m == 0) {
+								l_position_tmp.x = l_position.x - 1;
+								l_position_tmp.y = l_position.y;
+							}
+							else if(m == 1) {
+								l_position_tmp.x = l_position.x;
+								l_position_tmp.y = l_position.y - 1;
+							}
+							else if(m == 2) {
+								l_position_tmp.x = l_position.x + 1;
+								l_position_tmp.y = l_position.y;
+							}
+							else if(m == 3) {
+								l_position_tmp.x = l_position.x;
+								l_position_tmp.y = l_position.y + 1;
+							}
+							
+							l_ground_tmp = getGround(l_position_tmp);
+							if(l_ground_tmp != NULL && areCompatibleGrounds(groundCompatibles[l], l_ground_tmp->getType())) {
+								tmp[l]++;
+							}	
+						}
+					}
+					
+					for(unsigned int m(0) ; m < tmp.size() ; ++m) {
+						if(tmp[m] > max) {
+							max = tmp[m];
+							GROUND_type = groundCompatibles[m];
+						}
+						else if(tmp[m] == max && groundCompatibles[m] != type) {
+							GROUND_type = groundCompatibles[m];
+						}
+					}
+					if(max == -1) {
+						std::cout<<"Erreur : incompatibilité de sols (userSetGround)"<<std::endl;
+						GROUND_type = type;
+					}
+					
+					//RECODE : eau et cliff -> segmentation fault
+					userSetGround(GROUND_type, l_position);
+				}
+			}
+			
+			updateBorders(position);
+			
+			updateBorders(sf::Vector2i(i - 1, j));
+			updateBorders(sf::Vector2i(i, j - 1));
+			updateBorders(sf::Vector2i(i + 1, j));
+			updateBorders(sf::Vector2i(i, j + 1));
+		}
 	}
 	
 }
@@ -1036,6 +1064,8 @@ bool TileMap::load(std::string path) {
 			updateBorders(sf::Vector2i(i, j));
 		}
 	}
+
+	m_tileset.TEST();
 
 	return true;
 }
