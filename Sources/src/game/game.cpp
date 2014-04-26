@@ -10,7 +10,7 @@
 
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL), m_dayDuration(5), m_dayBeginTime(0)
+Game::Game( void ) : m_tilemap(NULL), m_dayDuration(500), m_dayBeginTime(0)
 {
     newGame();
 }
@@ -151,6 +151,7 @@ void Game::handleEvent( sf::Event & e )
         if( m_entityList.size() > 0 ) {
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
+        m_tilemap->userSetGround(0,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
     }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {

@@ -60,6 +60,7 @@ class TileMap {
 		void removeElement(sf::Vector2i position);
 		void burnElement(sf::Vector2i position);
 		
+		void userSetGroundRec(int type, sf::Vector2i position);
 		void userSetGround(int type, sf::Vector2i position);
 		void freePlace(sf::Vector2i position);
 

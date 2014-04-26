@@ -98,10 +98,10 @@ void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome,std::
 /*
  *** Description : cette fonction met à jour les cases environnantes, et si besoin harmonise les types compatibles.
  *
- *** Entree : la carte (tilemap), le type souhaité (type), la position (position).
+ *** Entree : la carte (tilemap), le type souhaité (type), la position (position), fixer ou non les falaises (fixCliffs).
  *** Sortie : void
 */
-void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
+void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCliffs) {
 
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
@@ -116,7 +116,7 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 		int oldType = l_ground->getType();
 		if(type != oldType) {
 
-			if(l_ground->getBehavior() == CLIFF) {
+			if(fixCliffs && l_ground->getBehavior() == CLIFF) {
 				oldType = type;
 			}
 			else {
@@ -126,22 +126,22 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position) {
 			// Propagation
 			if(i > 0) {
 				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i - 1, j)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i - 1, j));
+					spreadGround(tilemap, oldType, sf::Vector2i(i - 1, j), fixCliffs);
 				}
 			}
 			if(j > 0) {
 				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i, j - 1)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i, j - 1));
+					spreadGround(tilemap, oldType, sf::Vector2i(i, j - 1), fixCliffs);
 				}
 			}
 			if(i < width-1) {
 				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i + 1, j)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i + 1, j));
+					spreadGround(tilemap, oldType, sf::Vector2i(i + 1, j), fixCliffs);
 				}
 			}
 			if(j < height-1) {
 				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i, j + 1)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i, j + 1));
+					spreadGround(tilemap, oldType, sf::Vector2i(i, j + 1), fixCliffs);
 				}
 			}
 
@@ -201,7 +201,7 @@ void dilateGround(TileMap* tilemap, TileBehavior behavior) {
 	}
 
 	for(unsigned int p(0) ; p < positions.size() ; ++p) {
-		spreadGround(tilemap, types[p], positions[p]);
+		spreadGround(tilemap, types[p], positions[p], true);
 	}
 
 }
@@ -262,7 +262,7 @@ void erodeGround(TileMap* tilemap, TileBehavior behavior) {
 	}
 
 	for(unsigned int p(0) ; p < positions.size() ; ++p) {
-		spreadGround(tilemap, types[p], positions[p]);
+		spreadGround(tilemap, types[p], positions[p], true);
 	}
 
 }
@@ -340,7 +340,7 @@ void dilateNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior beha
 	}
 
 	for(unsigned int p(0) ; p < positions.size() ; ++p) {
-		spreadGround(tilemap, types[p], positions[p]);
+		spreadGround(tilemap, types[p], positions[p], true);
 	}
 
 }
@@ -431,7 +431,7 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 	}
 
 	for(unsigned int p(0) ; p < positions.size() ; ++p) {
-		spreadGround(tilemap, types[p], positions[p]);
+		spreadGround(tilemap, types[p], positions[p], true);
 	}
 
 }
@@ -568,22 +568,17 @@ int killEntities(EntityType type, std::vector< Entity * > list) {
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == type) {
 
-			if(list[i]->getHealth() == GOOD || list[i]->getHealth() == NORMAL) {
+			if(list[i]->getHealth() == WEAK && rand()%100 < 10) { // 10% de risque de mourir
+				list[i]->setHealth(DEAD);
 				result++;
 			}
-			else if(list[i]->getHealth() == WEAK && rand()%100 > 10) { // 10% de risque de mourir
-					result++;
-			}
-			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 > 30) { // 30% de risque de mourir
-					result++;
+			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 < 30) { // 30% de risque de mourir
+				list[i]->setHealth(DEAD);
+				result++;
 			}
 		}
 	}
-
-	if(result < 0) {
-		result = 0;
-	}
-
+	
 	return result;
 
 }

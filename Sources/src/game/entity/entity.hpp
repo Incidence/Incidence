@@ -68,6 +68,7 @@ public :
 
     EntityType getType();
 	Health getHealth();
+	void setHealth(Health h);
 
     float getGiveTime();
     void updateGiveTime(float t);

@@ -643,6 +643,12 @@ Health Entity::getHealth() {
 
 }
 
+void Entity::setHealth(Health h) {
+	
+	m_health = h;
+	
+}
+
 float Entity::getGiveTime()
 {
     return m_giveTime;
