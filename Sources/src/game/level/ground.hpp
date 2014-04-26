@@ -21,11 +21,12 @@ class Ground {
 		std::vector<int> m_borders;
 		bool* m_tileBorders;
 		sf::Vertex* m_quad;
+		int m_cost;
 
 
 	public:
 
-		Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad);
+		Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad, int cost);
 		~Ground();
 
 		int getType() const ;
@@ -35,6 +36,7 @@ class Ground {
 		std::vector<int> getBorders() const;
 		bool* getTileBorders() const;
 		sf::Vertex* getQuad() const;
+		int getCost() const;
 		
 		bool hasBorderWith(int type) const;
 

@@ -38,6 +38,8 @@ class TileSet {
 		sf::Vector2u getTileSize() const;
 		int getGroundCount() const;
 		int getElementCount() const;
+		int getGroundCost(int type) const;
+		int getElementCost(int type) const;
 
 		Ground* getGround(int type, bool* tileBorders);
 		Element* getElement(int type, int groundType);

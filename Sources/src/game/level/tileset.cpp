@@ -62,6 +62,28 @@ int TileSet::getElementCount() const {
 
 }
 
+int TileSet::getGroundCost(int type) const {
+	
+	for(int i(0) ; i < m_groundCount ; ++i) {
+		if(m_grounds[i].getType() == type) {
+			return m_grounds[i].getCost();
+		}
+	}
+	
+	return 0;
+}
+
+int TileSet::getElementCost(int type) const {
+	
+	for(int i(0) ; i < m_elementCount ; ++i) {
+		if(m_elements[i].getType() == type) {
+			return m_elements[i].getCost();
+		}
+	}
+	
+	return 0;
+}
+
 /*
  *** Entree : un entier correspondant au type de sol et un tableau de 4 booléens indiquant ses bordures
  *** Sortie : un pointeur sur une instance constante du sol, NULL s'il n'existe pas
@@ -210,6 +232,7 @@ bool TileSet::load(const std::string path) {
 			TileBehavior GROUND_behavior;
 			bool GROUND_passable;
 			std::vector<int> GROUND_borders;
+			int GROUND_cost;
 
 			std::string tmp;
 			config >> GROUND_type >> GROUND_name >> tmp;
@@ -239,6 +262,8 @@ bool TileSet::load(const std::string path) {
 				GROUND_borders.push_back(atoi(tmp.c_str()));
 				config >> tmp;
 			}
+			
+			config >> GROUND_cost;
 
 			for(int i(0) ; i < groundColumnCount ; ++i) {
 
@@ -255,7 +280,7 @@ bool TileSet::load(const std::string path) {
 				GROUND_quad[2].texCoords = sf::Vector2f((currentX + 1) * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 				GROUND_quad[3].texCoords = sf::Vector2f(currentX * m_tilesize.x, (currentY + 1) * m_tilesize.y);
 
-				m_grounds.push_back(Ground(GROUND_type, GROUND_name, GROUND_behavior, GROUND_passable, GROUND_borders, GROUND_tileBorders, GROUND_quad));
+				m_grounds.push_back(Ground(GROUND_type, GROUND_name, GROUND_behavior, GROUND_passable, GROUND_borders, GROUND_tileBorders, GROUND_quad, GROUND_cost));
 
 				++ currentX;
 
@@ -276,6 +301,7 @@ bool TileSet::load(const std::string path) {
 			bool ELEMENT_passable;
 			int ELEMENT_pickingTime;
 			std::vector<Ressource> ELEMENT_ressources;
+			int ELEMENT_cost;
 
 			std::string tmp;
 			config >> ELEMENT_type >> ELEMENT_height >> ELEMENT_name >> tmp;
@@ -354,10 +380,12 @@ bool TileSet::load(const std::string path) {
 					std::cout << "Mauvais format de height dans le fichier ini du tileset." << std::endl;
 					return false;
 				}
+				
+				config >> ELEMENT_cost;
 
-					m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, ELEMENT_pickingTime, ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up));
+				m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, ELEMENT_pickingTime, ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up, ELEMENT_cost));
 
-					++ currentX;
+				++ currentX;
 			}
 
 			currentX = 0;
@@ -401,7 +429,7 @@ void TileSet::TEST() {
 				std::cout << j << " ";
 			}
 		}
-		std::cout << ">" << std::endl;
+		std::cout << "> " << m_grounds[i].getCost() << std::endl;
 
 		std::cout << "    Quad : ";
 		for(int j(0) ; j < 4 ; ++j) {
@@ -415,7 +443,7 @@ void TileSet::TEST() {
 		for(int j(0) ; j < (int)(m_elements[i].getRessources()).size() ; ++j) {
 			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantity;
 		}
-		std::cout << std::endl;
+		std::cout << " " << m_elements[i].getCost() << std::endl;
 
 		std::cout << "    Quad_Haut : ";
 		for(int j(0) ; j < 4 ; ++j) {

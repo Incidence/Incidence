@@ -110,6 +110,18 @@ Element* TileMap::getElement(sf::Vector2i position) const {
 
 }
 
+int TileMap::getGroundCost(int type) const {
+	
+	return m_tileset.getGroundCost(type);
+	
+}
+
+int TileMap::getElementCost(int type) const {
+	
+	return m_tileset.getElementCost(type);
+	
+}
+
 Harvestable * TileMap::getHarvestable(sf::Vector2i position) const {
 
 	int id = getId(position);

@@ -1,6 +1,6 @@
 #include "ground.hpp"
 
-Ground::Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad) {
+Ground::Ground(const int type, const std::string name, const TileBehavior behavior, const bool passable, std::vector<int> borders, bool* tileBorders, sf::Vertex* quad, int cost) {
 
 	m_type = type;
 	m_name = name;
@@ -9,6 +9,7 @@ Ground::Ground(const int type, const std::string name, const TileBehavior behavi
 	m_borders = borders;
 	m_tileBorders = tileBorders;
 	m_quad = quad;
+	m_cost = cost;
 
 }
 
@@ -56,6 +57,12 @@ sf::Vertex* Ground::getQuad() const {
 
 	return m_quad;
 
+}
+
+int Ground::getCost() const {
+	
+	return m_cost;
+	
 }
 
 bool Ground::hasBorderWith(int type) const {

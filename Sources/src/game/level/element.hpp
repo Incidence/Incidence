@@ -23,10 +23,11 @@ class Element : public Harvestable {
 		bool m_passable;
 		sf::Vertex* m_quad_down;
 		sf::Vertex* m_quad_up;
+		int m_cost;
 
 	public:
 
-		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up);
+		Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up, int cost);
 		virtual ~Element();
 
 		int getType() const;
@@ -36,6 +37,7 @@ class Element : public Harvestable {
 		bool isPassable() const;
 		sf::Vertex* getQuadDown() const;
 		sf::Vertex* getQuadUp() const;
+		int getCost() const;
 
         virtual bool isHarvestable( void );
         virtual void havested( void );

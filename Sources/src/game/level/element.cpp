@@ -1,14 +1,16 @@
 #include "element.hpp"
 
-Element::Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up) : Harvestable(pickingTime, ressources)
-{
+Element::Element(int type, int groundType, std::string name, TileBehavior behavior, bool passable, float pickingTime, std::vector<Ressource> ressources, sf::Vertex* quad_down, sf::Vertex* quad_up, int cost) : Harvestable(pickingTime, ressources) {
+	
 	m_type = type;
 	m_groundType = groundType;
-    m_name = name;
+	m_name = name;
 	m_behavior = behavior;
 	m_passable = passable;
 	m_quad_down = quad_down;
 	m_quad_up = quad_up;
+	m_cost = cost;
+
 }
 
 Element::~Element() {
@@ -55,6 +57,12 @@ sf::Vertex* Element::getQuadUp() const {
 
 	return m_quad_up;
 
+}
+
+int Element::getCost() const {
+	
+	return m_cost;
+	
 }
 
 bool Element::isHarvestable( void )
