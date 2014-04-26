@@ -30,5 +30,16 @@ typedef enum {
 } Health;
 
 
+typedef enum{
+
+    A_STAY,
+    A_UP,
+    A_DOWN,
+    A_LEFT,
+    A_RIGHT,
+    A_HIT,
+    A_ACTION
+} AnimationType;
+
 
 #endif

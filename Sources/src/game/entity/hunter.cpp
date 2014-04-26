@@ -55,10 +55,22 @@ Hunter::~Hunter( void ) {}
 void Hunter::init( void )
 {
     Entity::init();
-    m_animation.load( "data/ani/hunter_down.ani" );
-
+    initAnimations();
     m_ressource = WOOD;
     m_speed = 80;
+}
+
+void Hunter::initAnimations()
+{
+   // m_animationList[A_STAY]=new Animation("data/ani/hunter_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/hunter_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/hunter_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/hunter_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/hunter_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/hunter_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/hunter_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void Hunter::callScript( void )

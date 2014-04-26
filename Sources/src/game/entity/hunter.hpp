@@ -21,6 +21,7 @@ public :
     virtual void init( void );
 
     virtual void callScript( void );
+    void initAnimations();
 
 
 private :

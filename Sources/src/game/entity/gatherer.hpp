@@ -22,6 +22,8 @@ public :
 
     virtual void callScript( void );
 
+    void initAnimations();
+
 
 private :
     friend class Lunar<Gatherer>;

@@ -55,9 +55,21 @@ Pickman::~Pickman( void ) {}
 void Pickman::init( void )
 {
     Entity::init();
-    m_animation.load( "data/ani/pickman_down.ani" );
-
+    initAnimations();
     m_ressource = STONE;
+}
+
+void Pickman::initAnimations()
+{
+   // m_animationList[A_STAY]=new Animation("data/ani/pickman_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/pickman_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/pickman_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/pickman_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/pickman_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/pickman_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/pickman_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void Pickman::callScript( void )

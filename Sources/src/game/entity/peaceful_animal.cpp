@@ -55,9 +55,21 @@ PeacefulAnimal::~PeacefulAnimal( void ) {}
 void PeacefulAnimal::init( void )
 {
     Entity::init();
-    m_animation.load( "data/ani/deer_down.ani" );
-
+    initAnimations();
     m_ressource = WOOD;
+}
+
+void PeacefulAnimal::initAnimations()
+{
+   // m_animationList[A_STAY]=new Animation("data/ani/deer_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/deer_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/deer_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/deer_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/deer_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/deer_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/deer_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void PeacefulAnimal::callScript( void )

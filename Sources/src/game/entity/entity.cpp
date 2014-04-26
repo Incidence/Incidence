@@ -41,7 +41,6 @@ void Entity::init( void )
     m_waitTime = 0;
     m_giveTime=(Time::get()->elapsed().asMilliseconds()+rand()%10+5000)/weaknessCoeff(m_health);
     m_giveQuantity=2;
-    m_animation.load( "data/perso_lu.ani" );
     m_isSick=false;
     m_isTired=false;
 
@@ -58,7 +57,7 @@ int Entity::action(lua_State * L)
 
 sf::Sprite * Entity::draw( void )
 {
-    sf::Sprite * s = m_animation.update();
+    sf::Sprite * s = m_animation->update();
     s->setOrigin(16, 16);
     s->setPosition(m_position);
     return s;
@@ -290,7 +289,6 @@ void Entity::move( void )
             sf::Vector2f vDirect;
             vDirect.x = cos(m_angle) * 3 * 32 + m_position.x;
             vDirect.y = sin(m_angle) * 3 * 32 + m_position.y;
-
             /// RECODE : 30
             m_way = m_game->m_tilemap->findWay(m_position, vDirect, 30, m_perception);
         }
@@ -314,6 +312,9 @@ void Entity::move( void )
             dest.x = (dest.x - m_position.x) / div;
             dest.y = (dest.y - m_position.y) / div;
 
+            float positionXPrev=m_position.x;
+            float positionYPrev=m_position.y;
+
             float coeffTired=1.0;
             if(isTired())
             {
@@ -321,6 +322,25 @@ void Entity::move( void )
             }
             m_position.x += ((dest.x * m_speed * Time::get()->deltaTime())*weaknessCoeff(m_health))*coeffTired;
             m_position.y += ((dest.y * m_speed * Time::get()->deltaTime())*weaknessCoeff(m_health))*coeffTired;
+            float angle=std::atan2(m_position.y - positionYPrev, m_position.x - positionXPrev);
+
+            int angledegree=angle*180.0/M_PI;
+            if(angledegree>= -46 && angledegree <= 46)
+            {
+                m_animation=m_animationList[A_RIGHT];
+            }
+            if(angledegree> -136 && angledegree < -46)
+            {
+                m_animation=m_animationList[A_UP];
+            }
+            if(angledegree>= 134 || angledegree <= -136)
+            {
+                m_animation=m_animationList[A_LEFT];
+            }
+            if(angledegree> 46 && angledegree < 134)
+            {
+                m_animation=m_animationList[A_DOWN];
+            }
         }
 
         if(m_way.empty()) {
@@ -645,9 +665,10 @@ Health Entity::getHealth() {
 
 void Entity::setHealth(Health h) {
 
-	m_health = h;
+    m_health = h;
 
 }
+
 
 float Entity::getGiveTime()
 {

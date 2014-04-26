@@ -86,7 +86,8 @@ public :
 protected :
     Game * m_game;
 
-    Animation m_animation;
+    Animation* m_animation;
+    std::map<AnimationType,Animation*> m_animationList;
     int m_perception;
     RessourceType m_ressource;
     sf::Vector2i m_recolt;

@@ -55,9 +55,21 @@ Lumberjack::~Lumberjack( void ) {}
 void Lumberjack::init( void )
 {
     Entity::init();
-    m_animation.load( "data/ani/lumberjack_down.ani" );
-
+   initAnimations();
     m_ressource = WOOD;
+}
+
+void Lumberjack::initAnimations()
+{
+   // m_animationList[STAY]=new Animation("data/ani/lumberjack_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/lumberjack_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/lumberjack_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/lumberjack_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/lumberjack_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/lumberjack_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/lumberjack_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void Lumberjack::callScript( void )

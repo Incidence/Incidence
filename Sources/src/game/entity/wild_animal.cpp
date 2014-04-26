@@ -55,9 +55,21 @@ WildAnimal::~WildAnimal( void ) {}
 void WildAnimal::init( void )
 {
     Entity::init();
-
-    m_animation.load( "data/ani/bear_down.ani" );
+    initAnimations();
     m_ressource = FOOD;
+}
+
+void WildAnimal::initAnimations()
+{
+   // m_animationList[A_STAY]=new Animation("data/ani/bear_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/bear_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/bear_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/bear_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/bear_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/bear_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/bear_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void WildAnimal::callScript( void )

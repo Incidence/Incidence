@@ -58,9 +58,22 @@ EnemyCitizen::~EnemyCitizen( void ) {}
 void EnemyCitizen::init( void )
 {
     Entity::init();
-    m_animation.load( "data/ani/enemy_down.ani" );
-
+    initAnimations();
     m_ressource = NOTHING;
+}
+
+
+void EnemyCitizen::initAnimations()
+{
+   // m_animationList[A_STAY]=new Animation("data/ani/enemy_idle.ani" );
+   m_animationList[A_UP]=new Animation("data/ani/enemy_up.ani" );
+   m_animationList[A_DOWN]=new Animation("data/ani/enemy_down.ani" );
+   m_animationList[A_LEFT]=new Animation("data/ani/enemy_left.ani" );
+   m_animationList[A_RIGHT]=new Animation("data/ani/enemy_right.ani" );
+   //m_animationList[A_HIT]=new Animation("data/ani/enemy_attack.ani" );
+   //m_animationList[A_ACTION]=new Animation("data/ani/enemy_action.ani" );
+
+    m_animation=m_animationList[A_DOWN];
 }
 
 void EnemyCitizen::callScript( void )
