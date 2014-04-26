@@ -21,7 +21,7 @@ $(TMP)/main.o: main.cpp
 
 ENGINE=src/engine
 
-engine: $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o
+engine: $(TMP)/animation.o $(TMP)/data_manager.o $(TMP)/foo.o $(TMP)/state_manager.o $(TMP)/time.o ui
 
 $(TMP)/animation.o: $(ENGINE)/animation.cpp $(ENGINE)/animation.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -39,16 +39,44 @@ $(TMP)/time.o: $(ENGINE)/time.cpp $(ENGINE)/time.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
+# Ui
+
+UI=src/engine/ui
+
+ui: $(TMP)/button.o $(TMP)/container.o $(TMP)/text_insert.o $(TMP)/ui.o $(TMP)/widget.o $(TMP)/widget_content.o
+
+$(TMP)/button.o: $(UI)/button.cpp $(UI)/button.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/container.o: $(UI)/container.cpp $(UI)/container.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/text_insert.o: $(UI)/text_insert.cpp $(UI)/text_insert.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/ui.o: $(UI)/ui.cpp $(UI)/ui.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/widget.o: $(UI)/widget.cpp $(UI)/widget.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/widget_content.o: $(UI)/widget_content.cpp $(UI)/widget_content.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+
 # State
 
 STATE=src/state
 
-state: $(TMP)/main_state.o $(TMP)/test_state.o
+state: $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/night_state.o
 
 $(TMP)/main_state.o: $(STATE)/main_state.cpp $(STATE)/main_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/test_state.o: $(STATE)/test_state.cpp $(STATE)/test_state.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/night_state.o: $(STATE)/night_state.cpp $(STATE)/night_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 
