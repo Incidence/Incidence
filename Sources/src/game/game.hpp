@@ -42,7 +42,6 @@ public :
     int getQtyFood();
     int getQtyStone();
 
-    void updateDay( void );
     void addRessource(RessourceType t, int qty);
 
     void spawnEntity( Entity & e );
@@ -58,9 +57,6 @@ private :
     int qtyWood;
     int qtyFood;
     int qtyStone;
-
-    int m_dayDuration;
-    int m_dayBeginTime;
 
     friend class Entity;
     friend class NightState;

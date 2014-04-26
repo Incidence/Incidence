@@ -1,6 +1,7 @@
 #include "test_state.hpp"
 
 #include "../engine/state_manager.hpp"
+#include "../engine/time.hpp"
 
 #include "../game/game.hpp"
 #include "../game/entity/entity.hpp"
@@ -16,7 +17,7 @@
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window ) : m_game(NULL)
+TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true)
 {
     m_game = new Game();
 	m_window = window;
@@ -44,6 +45,11 @@ void TestState::draw( sf::RenderTarget & window )
 
 void TestState::update( void )
 {
+    if(m_night) {
+        m_dayBeginTime = Time::get()->elapsed().asSeconds();
+        m_night = false;
+    }
+
 	sf::Vector2u dimensions = (m_game->getTilemap())->getDimensions();
 	sf::Vector2u tilesize = ((m_game->getTilemap())->getTileSet())->getTileSize();
 	Animation* Rain = m_game->getWeather()->getRainAnimation();
@@ -76,6 +82,8 @@ void TestState::update( void )
                 Rain->m_position.y+=32;
             }
 	}
+
+    updateDay();
     m_game->update();
 }
 
@@ -141,3 +149,17 @@ void TestState::handleEvent( sf::Event & e )
 }
 
 void TestState::treatEvent( GameEvent e ) {}
+
+
+void TestState::updateDay( void )
+{
+
+    if(m_dayBeginTime + m_dayDuration - 5 < Time::get()->elapsed().asSeconds()) {
+        // ALL GO_HOME
+    }
+
+    if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {
+        StateManager::get()->addState( new NightState(m_game) );
+        m_night = true;
+    }
+}

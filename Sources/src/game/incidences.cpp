@@ -1,7 +1,9 @@
 #include "incidences.hpp"
 
+#include "entity/entity.hpp"
+
 template<typename T> bool contains(std::vector<T> vec, T val) {
-	for(int i(0);i<vec.size();++i) { if(vec[i] == val) { return true; } } return false;
+	for(unsigned int i(0);i<vec.size();++i) { if(vec[i] == val) { return true; } } return false;
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -60,7 +62,7 @@ void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome,std::
     }
     if(nb>=-1 && nb<=1)
     {
-         srand (time(NULL));
+         //srand (time(NULL));
          if(rand()%100<=40)
          {
              spawnRessources(tilemap);
@@ -578,7 +580,7 @@ int killEntities(EntityType type, std::vector< Entity * > list) {
 			}
 		}
 	}
-	
+
 	return result;
 
 }
