@@ -4,6 +4,14 @@
 #include "../engine/ui/button.hpp"
 #include "../engine/time.hpp"
 
+#include "../game/entity/lumberjack.hpp"
+#include "../game/entity/enemy_citizen.hpp"
+#include "../game/entity/gatherer.hpp"
+#include "../game/entity/hunter.hpp"
+#include "../game/entity/peaceful_animal.hpp"
+#include "../game/entity/wild_animal.hpp"
+#include "../game/entity/pickman.hpp"
+
 NightState::NightState( Game * g ) : m_ui(this)
 {
     m_game = g;
@@ -324,6 +332,40 @@ void NightState::validation( void )
 {
     StateManager::get()->popState();
 
-    m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
+    allyCitizenDeath(m_game);
+    int nb = allyCitizenBirth(m_game);
+
+    std::cout << "new : " << nb << std::endl;
+
     doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
+    m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
+
+    m_game->clearEntity();
+
+    for(int i = 0; i < nb; i++) {
+
+        int r = rand() % 100;
+
+        if(r < prct(m_prctGatherer)) {
+            m_game->addEntity( new Gatherer(ALLY_CITIZEN, m_game));
+        } else if (r < prct(m_prctGatherer + m_prctHunter)) {
+            m_game->addEntity( new Hunter(HUNTER, m_game));
+        } else if (r < prct(m_prctGatherer + m_prctHunter + m_prctLumberjack)) {
+            m_game->addEntity( new Lumberjack(ALLY_CITIZEN, m_game));
+        } else {
+            m_game->addEntity( new Pickman(ALLY_CITIZEN, m_game));
+        }
+    }
+
+    for(int i = 0; i < wildAnimalBirth(m_game); i++) {
+        m_game->addEntity( new WildAnimal(WILD_ANIMAL, m_game));
+    }
+
+    for(int i = 0; i < peacefulAnimalBirth(m_game); i++) {
+        m_game->addEntity( new PeacefulAnimal(PEACEFUL_ANIMAL, m_game));
+    }
+
+    for(int i = 0; i < enemyCitizenBirth(m_game); i++) {
+        m_game->addEntity( new EnemyCitizen(ENEMY_CITIZEN, m_game));
+    }
 }

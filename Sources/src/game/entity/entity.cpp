@@ -274,7 +274,7 @@ void Entity::goHome( void )
 {
     if( ( m_type == ALLY_CITIZEN || m_type == HUNTER ) && m_game && m_game->m_tilemap) {
         m_way = m_game->m_tilemap->findWay(m_position, m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), 30, 99999);
-        std::cout << m_way.size() << std::endl;
+        //std::cout << m_way.size() << std::endl;
         m_action = MOVE;
     }
     else {
@@ -644,9 +644,9 @@ Health Entity::getHealth() {
 }
 
 void Entity::setHealth(Health h) {
-	
+
 	m_health = h;
-	
+
 }
 
 float Entity::getGiveTime()

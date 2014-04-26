@@ -34,6 +34,7 @@ public :
     TileMap * getTilemap( void );
     Weather * getWeather();
     void addEntity( Entity * e );
+    void clearEntity( void );
 
     void setPI(int n);
     int getPI();
@@ -45,6 +46,7 @@ public :
     void addRessource(RessourceType t, int qty);
 
     void spawnEntity( Entity & e );
+    void allHome( void );
 
 private :
     TileMap * m_tilemap;

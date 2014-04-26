@@ -25,9 +25,9 @@ private :
 	sf::RenderWindow * m_window;
 	sf::View m_view;
 
-    bool m_night;
     int m_dayDuration;
     int m_dayBeginTime;
+    bool m_night;
 };
 
 #endif // _TEST_STATE_
