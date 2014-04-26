@@ -18,6 +18,10 @@ public :
     void handleEvent( sf::Event & e );
     void treatEvent( GameEvent e );
 
+    int prct(int v);
+
+    void validation( void );
+
 private :
 
     int m_prctLumberjack;

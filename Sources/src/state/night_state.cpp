@@ -50,25 +50,25 @@ void NightState::init( void )
 
     w = new Widget();
     w->setName("textLumberjack");
-    w->setContent( new WidgetContent( "TEXT", itos(m_prctLumberjack), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::White ) );
     w->setPositionAbsolute( 300, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textHunter");
-    w->setContent( new WidgetContent( "TEXT", itos(m_prctHunter), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::White ) );
     w->setPositionAbsolute( 300, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textPickman");
-    w->setContent( new WidgetContent( "TEXT", itos(m_prctPickman), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::White ) );
     w->setPositionAbsolute( 300, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textGatherer");
-    w->setContent( new WidgetContent( "TEXT", itos(m_prctGatherer), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::White ) );
     w->setPositionAbsolute( 300, 160 );
     m_ui.addWidget(w);
 
@@ -248,42 +248,34 @@ void NightState::treatEvent( GameEvent e )
 
     case EV_LESS_GATHERER :
         m_prctGatherer--;
-        m_ui.getWidget("textGatherer")->setContent( new WidgetContent( "TEXT", itos(m_prctGatherer), sf::Color::White ) );
         break;
 
     case EV_MORE_GATHERER :
         m_prctGatherer++;
-        m_ui.getWidget("textGatherer")->setContent( new WidgetContent( "TEXT", itos(m_prctGatherer), sf::Color::White ) );
         break;
 
     case EV_LESS_HUNTER :
         m_prctHunter--;
-        m_ui.getWidget("textHunter")->setContent( new WidgetContent( "TEXT", itos(m_prctHunter), sf::Color::White ) );
         break;
 
     case EV_MORE_HUNTER :
         m_prctHunter++;
-        m_ui.getWidget("textHunter")->setContent( new WidgetContent( "TEXT", itos(m_prctHunter), sf::Color::White ) );
         break;
 
     case EV_LESS_PICKMAN :
         m_prctPickman--;
-        m_ui.getWidget("textPickman")->setContent( new WidgetContent( "TEXT", itos(m_prctPickman), sf::Color::White ) );
         break;
 
     case EV_MORE_PICKMAN :
         m_prctPickman++;
-        m_ui.getWidget("textPickman")->setContent( new WidgetContent( "TEXT", itos(m_prctPickman), sf::Color::White ) );
         break;
 
     case EV_LESS_LUMBERJACK :
         m_prctLumberjack--;
-        m_ui.getWidget("textLumberjack")->setContent( new WidgetContent( "TEXT", itos(m_prctLumberjack), sf::Color::White ) );
         break;
 
     case EV_MORE_LUMBERJACK :
         m_prctLumberjack++;
-        m_ui.getWidget("textLumberjack")->setContent( new WidgetContent( "TEXT", itos(m_prctLumberjack), sf::Color::White ) );
         break;
 
         /// ---
@@ -302,14 +294,36 @@ void NightState::treatEvent( GameEvent e )
 
 
     case EV_VALID :
-        StateManager::get()->popState();
-        m_game->m_dayBeginTime = Time::get()->elapsed().asSeconds();
-        m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
-        doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
+        validation();
         break;
 
     default :
         break;
 
     }
+
+    if(m_prctGatherer < 0) { m_prctGatherer = 0; }
+    if(m_prctHunter < 0) { m_prctHunter = 0; }
+    if(m_prctLumberjack < 0) { m_prctLumberjack = 0; }
+    if(m_prctPickman < 0) { m_prctPickman = 0; }
+
+    m_ui.getWidget("textGatherer")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::White ) );
+    m_ui.getWidget("textLumberjack")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::White ) );
+    m_ui.getWidget("textPickman")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::White ) );
+    m_ui.getWidget("textHunter")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::White ) );
+}
+
+
+int NightState::prct(int v)
+{
+    return (v*100) / (m_prctGatherer + m_prctHunter + m_prctLumberjack + m_prctPickman);
+}
+
+
+void NightState::validation( void )
+{
+    StateManager::get()->popState();
+
+    m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
+    doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
 }

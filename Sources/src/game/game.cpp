@@ -10,7 +10,7 @@
 
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL), m_dayDuration(500), m_dayBeginTime(0)
+Game::Game( void ) : m_tilemap(NULL)
 {
     newGame();
 }
@@ -47,8 +47,6 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
-	
-	//(m_tilemap->getTileSet())->TEST();
 }
 
 void Game::spawnEntity( Entity & e )
@@ -106,8 +104,6 @@ void Game::saveGame( std::string path ) {}
 
 void Game::update( void )
 {
-    updateDay();
-
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
@@ -151,7 +147,6 @@ void Game::handleEvent( sf::Event & e )
         if( m_entityList.size() > 0 ) {
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
-        m_tilemap->userSetGround(0,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
     }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
@@ -259,14 +254,6 @@ int Game::getQtyFood() {
 int Game::getQtyStone() {
 
 	return qtyStone;
-
-}
-
-void Game::updateDay( void )
-{
-    if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {
-        StateManager::get()->addState( new NightState(this) );
-    }
 
 }
 

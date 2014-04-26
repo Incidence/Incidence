@@ -114,7 +114,7 @@ void Weather::draw(sf::RenderTarget& target)
 
 void Weather::impactsOnEntities(std::vector< Entity * > entityList, int weatherGrade)
 {
-    srand (time(NULL));
+    //srand (time(NULL));
     for(unsigned int i=0;i<entityList.size();i++)
     {
         int nb=rand()%100;
