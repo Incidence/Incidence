@@ -468,7 +468,8 @@ void TileMap::userSetGround(int type, sf::Vector2i position) {
 					}
 					
 					//RECODE : eau et cliff -> segmentation fault
-					userSetGround(GROUND_type, l_position);
+					//userSetGround(GROUND_type, l_position);
+					userSetGround(type, l_position);
 				}
 			}
 			
