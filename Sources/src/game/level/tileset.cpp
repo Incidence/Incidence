@@ -235,7 +235,7 @@ bool TileSet::load(const std::string path) {
 			int GROUND_cost;
 
 			std::string tmp;
-			config >> GROUND_type >> GROUND_name >> tmp;
+			config >> GROUND_type >> GROUND_cost >> GROUND_name >> tmp;
 			if(tmp.compare("default") == 0) {
 				GROUND_behavior = DEFAULT;
 			}
@@ -262,8 +262,6 @@ bool TileSet::load(const std::string path) {
 				GROUND_borders.push_back(atoi(tmp.c_str()));
 				config >> tmp;
 			}
-			
-			config >> GROUND_cost;
 
 			for(int i(0) ; i < groundColumnCount ; ++i) {
 
@@ -304,7 +302,7 @@ bool TileSet::load(const std::string path) {
 			int ELEMENT_cost;
 
 			std::string tmp;
-			config >> ELEMENT_type >> ELEMENT_height >> ELEMENT_name >> tmp;
+			config >> ELEMENT_type >> ELEMENT_cost >> ELEMENT_height >> ELEMENT_name >> tmp;
 			if(tmp.compare("default") == 0) {
 				ELEMENT_behavior = DEFAULT;
 			}
@@ -380,8 +378,6 @@ bool TileSet::load(const std::string path) {
 					std::cout << "Mauvais format de height dans le fichier ini du tileset." << std::endl;
 					return false;
 				}
-				
-				config >> ELEMENT_cost;
 
 				m_elements.push_back(Element(ELEMENT_type, ELEMENT_groundType, ELEMENT_name, ELEMENT_behavior, ELEMENT_passable, ELEMENT_pickingTime, ELEMENT_ressources, ELEMENT_quad_down, ELEMENT_quad_up, ELEMENT_cost));
 
@@ -419,7 +415,7 @@ void TileSet::TEST() {
 	std::cout << "===== TILESET =====" << std::endl << "tilesize : " << m_tilesize.x << " x " << m_tilesize.y << std::endl;
 	std::cout << std::endl << m_groundCount << " Grounds :" << std::endl;
 	for(int i(0) ; i < (int)m_grounds.size() ; ++i) {
-		std::cout << "  " << m_grounds[i].getType() << " " << m_grounds[i].getName() << " " << m_grounds[i].getBehavior() << " " << m_grounds[i].isPassable() << " ";
+		std::cout << "  " << m_grounds[i].getType() << " " << m_grounds[i].getCost() << " " << m_grounds[i].getName() << " " << m_grounds[i].getBehavior() << " " << m_grounds[i].isPassable() << " ";
 		for(int j(0) ; j < 4 ; ++j) {
 			std::cout << (m_grounds[i].getTileBorders())[j];
 		}
@@ -429,7 +425,7 @@ void TileSet::TEST() {
 				std::cout << j << " ";
 			}
 		}
-		std::cout << "> " << m_grounds[i].getCost() << std::endl;
+		std::cout << "> " << std::endl;
 
 		std::cout << "    Quad : ";
 		for(int j(0) ; j < 4 ; ++j) {
@@ -439,11 +435,11 @@ void TileSet::TEST() {
 	}
 	std::cout << std::endl << m_elementCount << " Elements :" << std::endl;
 	for(int i(0) ; i < (int)m_elements.size() ; ++i) {
-		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].getBehavior() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime() << " ";
+		std::cout << "  " << m_elements[i].getType() << " " << m_elements[i].getCost() << " " << m_elements[i].getGroundType() << " " << m_elements[i].getName() << " " << m_elements[i].getBehavior() << " " << m_elements[i].isPassable() << " " << m_elements[i].getPickingTime() << " ";
 		for(int j(0) ; j < (int)(m_elements[i].getRessources()).size() ; ++j) {
 			std::cout << (m_elements[i].getRessources())[j].type << (m_elements[i].getRessources())[j].quantity;
 		}
-		std::cout << " " << m_elements[i].getCost() << std::endl;
+		std::cout << std::endl;
 
 		std::cout << "    Quad_Haut : ";
 		for(int j(0) ; j < 4 ; ++j) {
