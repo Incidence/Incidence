@@ -545,7 +545,7 @@ int spawnEntities(EntityType type, std::vector< Entity * > list) {
 	int result = 0;
 
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
-		if(list[i]->getType() == type) {
+		if(list[i]->getType() == type && list[i]->getHealth() != DEAD) {
 
 			result++;
 
@@ -858,7 +858,7 @@ void burnRessources(TileMap* tilemap) {
 
 int allyCitizenBirth(Game* game) {
 
-	return spawnEntities(ALLY_CITIZEN, game->getEntities());
+	return spawnEntities(ALLY_CITIZEN, game->getEntities()) + spawnEntities(HUNTER, game->getEntities());
 
 }
 
@@ -882,7 +882,7 @@ int peacefulAnimalBirth(Game* game) {
 
 int allyCitizenDeath(Game* game) {
 
-	return killEntities(ALLY_CITIZEN, game->getEntities());
+	return killEntities(ALLY_CITIZEN, game->getEntities()) + killEntities(HUNTER, game->getEntities());
 
 }
 

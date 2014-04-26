@@ -192,8 +192,6 @@ void Game::handleEvent( sf::Event & e )
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			m_weather->setWeatherToday(RAINY);
 		}
-
-
     }
 }
 
@@ -274,3 +272,18 @@ void Game::addRessource(RessourceType t, int qty)
     }
 }
 
+
+void Game::allHome( void )
+{
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if( !(*it)->isDead() && (*it)->m_action != MOVE) {
+            (*it)->m_action = MOVE_HOME;
+        }
+    }
+}
+
+
+void Game::clearEntity( void )
+{
+    m_entityList.clear();
+}

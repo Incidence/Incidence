@@ -156,6 +156,7 @@ void TestState::updateDay( void )
 
     if(m_dayBeginTime + m_dayDuration - 5 < Time::get()->elapsed().asSeconds()) {
         // ALL GO_HOME
+        m_game->allHome();
     }
 
     if(m_dayBeginTime + m_dayDuration < Time::get()->elapsed().asSeconds()) {
