@@ -17,7 +17,7 @@
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true)
+TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(1), m_dayBeginTime(0), m_night(true)
 {
     m_game = new Game();
 	m_window = window;
