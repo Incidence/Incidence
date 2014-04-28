@@ -14,6 +14,7 @@
 
 NightState::NightState( Game * g ) : m_ui(this)
 {
+
     m_game = g;
 
 	init();

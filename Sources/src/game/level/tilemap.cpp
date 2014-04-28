@@ -352,7 +352,27 @@ void TileMap::burnElement(sf::Vector2i position) {
 		quadElementUp[3].texCoords = sf::Vector2f(tilesetSize.x - tileSize.x, tilesetSize.y);
 	}
 }
-
+/*
+int bestLinkType(std::vector<int> possibleTypes, int startType, int goalType) {
+	
+	std::vector<int> scores;
+	
+	for(unsigned int i(0) ; i < possibleTypes.size() ; ++i) {
+		scores.push_back(bestLinkTypeRec(possibleTypes[i], startType, goalType));
+	}
+	
+	int min = 2147483647;
+	int result = -1;
+	
+	for(unsigned int i(0) ; i < possibleTypes.size() ; ++i) {
+		if(scores[i] < min) {
+			min = scores[i];
+			result = possibleTypes[i];
+		}
+	}
+	
+}
+*/
 /*
  *** Description : cette fonction propage le sol posé par userSetGround.
  *
