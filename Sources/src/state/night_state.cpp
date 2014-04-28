@@ -41,22 +41,22 @@ void NightState::init( void )
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Lumberjack % : ", sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", "Lumberjack % : ", sf::Color::Black ) );
     w->setPositionAbsolute( 100, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Hunter % : ", sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", "Hunter % : ", sf::Color::Black ) );
     w->setPositionAbsolute( 100, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Pickman % : ", sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", "Pickman % : ", sf::Color::Black ) );
     w->setPositionAbsolute( 100, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Gatherer % : ", sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", "Gatherer % : ", sf::Color::Black ) );
     w->setPositionAbsolute( 100, 160 );
     m_ui.addWidget(w);
 
@@ -64,25 +64,25 @@ void NightState::init( void )
 
     w = new Widget();
     w->setName("textLumberjack");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::Black ) );
     w->setPositionAbsolute( 300, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textHunter");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::Black ) );
     w->setPositionAbsolute( 300, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textPickman");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::Black ) );
     w->setPositionAbsolute( 300, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textGatherer");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::White ) );
+    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::Black ) );
     w->setPositionAbsolute( 300, 160 );
     m_ui.addWidget(w);
 
@@ -93,7 +93,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 40 );
@@ -105,7 +105,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 80 );
@@ -117,7 +117,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 120 );
@@ -129,7 +129,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 160 );
@@ -143,7 +143,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 40 );
@@ -155,7 +155,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 80 );
@@ -168,7 +168,7 @@ void NightState::init( void )
     b = new Button();
     b->setName("d");
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 120 );
@@ -180,7 +180,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
-    b->setBorder( sf::Color::Yellow );
+    b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(1);
     b->setPositionAbsolute(340, 160 );
