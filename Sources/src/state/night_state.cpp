@@ -36,6 +36,11 @@ void NightState::init( void )
     Button * b;
 
     w = new Widget();
+    w->setContent( new WidgetContent( "SPRITE", "data/img/nightBackground.png" ) );
+    w->setPositionAbsolute( 0, 0 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
     w->setContent( new WidgetContent( "TEXT", "Lumberjack % : ", sf::Color::White ) );
     w->setPositionAbsolute( 100, 40 );
     m_ui.addWidget(w);
