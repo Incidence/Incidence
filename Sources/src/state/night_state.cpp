@@ -94,7 +94,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 40 );
     b->setSize(32, 32);
@@ -106,7 +106,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 80 );
     b->setSize(32, 32);
@@ -118,7 +118,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 120 );
     b->setSize(32, 32);
@@ -130,7 +130,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 160 );
     b->setSize(32, 32);
@@ -144,7 +144,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 40 );
     b->setSize(32, 32);
@@ -156,7 +156,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 80 );
     b->setSize(32, 32);
@@ -169,7 +169,7 @@ void NightState::init( void )
     b->setName("d");
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 120 );
     b->setSize( 32, 32 );
@@ -181,7 +181,7 @@ void NightState::init( void )
     b = new Button();
     b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
     b->setBorder( sf::Color::Black );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute(340, 160 );
     b->setSize( 32, 32 );
@@ -194,7 +194,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "SPRITE", "data/img/rainButton.png" ) );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 200, 300 );
     b->setEvent( ge );
@@ -212,7 +212,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setContent( new WidgetContent( "SPRITE", "data/img/sunButton.png" ) );
-    b->setBorderOver( sf::Color::Red );
+    b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 300, 300 );
     b->setEvent( ge );
@@ -234,6 +234,16 @@ void NightState::init( void )
     b->setBorderOver( sf::Color::Green );
     b->setBorderSize(2);
     b->setPositionAbsolute( 400, 400 );
+    b->setEvent( ge );
+    m_ui.addWidget(b);
+
+    //ge.type = EV_RESET; -> réinitialise les paramètres ??
+
+    b = new Button();
+    b->setContent( new WidgetContent( "SPRITE", "data/img/resetButton.png" ) );
+    b->setBorderOver( sf::Color::Red );
+    b->setBorderSize(2);
+    b->setPositionAbsolute( 150, 400 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
