@@ -353,9 +353,19 @@ void TileMap::burnElement(sf::Vector2i position) {
 	}
 }
 
-int bestLinkType(std::vector<int> possibleTypes, int startType, int goalType) {
-	// RECODE : meilleur type (récursif)
-	return possibleTypes[rand()%possibleTypes.size()];
+int TileMap::bestLinkType(std::vector<int> possibleTypes, int startType, int goalType) {
+	// RECODE : faire du code générique
+	if(areCompatibleGrounds(startType, goalType)) {
+		return goalType;
+	}
+	else {
+		if(startType < goalType) {
+			return startType+1;
+		}
+		else {
+			return startType-1;
+		}
+	}
 	/*
 	std::vector<int> scores;
 	
