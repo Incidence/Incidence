@@ -17,7 +17,7 @@ class Entity
 {
 
 public :
-    Entity( EntityType t, Game * game );
+    Entity( EntityType t, Game * game, char j );
     Entity( lua_State * L );
     virtual ~Entity( void );
 
@@ -81,7 +81,7 @@ public :
     void setisSick(bool s);
     float weaknessCoeff(Health h);//mise ici car erreur avec multiple definition si mise dans entity_type.hpp
 
-
+    const char m_job;
 
 protected :
     Game * m_game;

@@ -32,7 +32,7 @@ Lumberjack::Lumberjack( lua_State * L ) : Entity(NULL)
 }
 
 
-Lumberjack::Lumberjack( EntityType t, Game * game ) : Entity(t, game)
+Lumberjack::Lumberjack( EntityType t, Game * game ) : Entity(t, game, 'l')
 {
     /// LUA
     // on enregistre la classe auprès de lua

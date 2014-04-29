@@ -32,7 +32,7 @@ PeacefulAnimal::PeacefulAnimal( lua_State * L ) : Entity(NULL)
 }
 
 
-PeacefulAnimal::PeacefulAnimal( EntityType t, Game * game ) : Entity(t, game)
+PeacefulAnimal::PeacefulAnimal( EntityType t, Game * game ) : Entity(t, game, 'a')
 {
     /// LUA
     // on enregistre la classe auprès de lua

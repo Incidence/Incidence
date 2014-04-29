@@ -35,7 +35,7 @@ EnemyCitizen::EnemyCitizen( lua_State * L ) : Entity(NULL)
 }
 
 
-EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game)
+EnemyCitizen::EnemyCitizen( EntityType t, Game * game ) : Entity(t, game, 'e')
 {
     /// LUA
     // on enregistre la classe auprès de lua

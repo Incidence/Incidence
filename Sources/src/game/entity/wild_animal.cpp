@@ -32,7 +32,7 @@ WildAnimal::WildAnimal( lua_State * L ) : Entity(NULL)
 }
 
 
-WildAnimal::WildAnimal( EntityType t, Game * game ) : Entity(t, game)
+WildAnimal::WildAnimal( EntityType t, Game * game ) : Entity(t, game, 'w')
 {
     /// LUA
     // on enregistre la classe auprès de lua

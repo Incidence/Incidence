@@ -8,6 +8,14 @@
 #include "../engine/state_manager.hpp"
 #include "../state/night_state.hpp"
 
+#include "../game/entity/entity.hpp"
+#include "../game/entity/lumberjack.hpp"
+#include "../game/entity/enemy_citizen.hpp"
+#include "../game/entity/gatherer.hpp"
+#include "../game/entity/hunter.hpp"
+#include "../game/entity/peaceful_animal.hpp"
+#include "../game/entity/wild_animal.hpp"
+#include "../game/entity/pickman.hpp"
 
 /// TODO
 Game::Game( void ) : m_tilemap(NULL)
@@ -99,8 +107,107 @@ void Game::spawnEntity( Entity & e )
     }
 }
 
-void Game::loadGame( std::string path ) {}
-void Game::saveGame( std::string path ) {}
+void Game::loadGame( std::string path )
+{
+
+	std::ifstream file( path.c_str() );
+	if(!file) {
+		std::cout << "Ecriture du fichier de sauvegarde de la partie impossible." << std::endl;
+	}
+
+	file >> path;
+
+	m_tilemap->save( path );
+
+
+    file >> qtyFood >> qtyStone >> qtyWood;
+    file >> m_incidencePoint;
+
+    unsigned int gatherer = 0, lumberjack = 0, pickman = 0, hunter = 0, wild = 0, peaceful = 0, enemy = 0, m = 0;
+    char w = 's';
+
+    file >> gatherer >> lumberjack >> pickman >> hunter >> wild >> peaceful >> enemy;
+    file >> m >> w;
+    m_weather->setWeatherGrade(m);
+
+    if(w == 'r') {
+        m_weather->setWeatherToday(RAINY);
+    } else {
+        m_weather->setWeatherToday(SUNNY);
+    }
+
+    m_entityList.clear();
+
+    for(unsigned int g = 0; g < gatherer; g++) {
+        addEntity(new Gatherer(ALLY_CITIZEN, this));
+    }
+
+    for(unsigned int l = 0; l < lumberjack; l++) {
+        addEntity(new Lumberjack(ALLY_CITIZEN, this));
+    }
+
+    for(unsigned int p = 0; p < pickman; p++) {
+        addEntity(new Pickman(ALLY_CITIZEN, this));
+    }
+
+    for(unsigned int h = 0; h < hunter; h++) {
+        addEntity(new Hunter(HUNTER, this));
+    }
+
+    for(unsigned int w = 0; w < wild; w++) {
+        addEntity(new WildAnimal(WILD_ANIMAL, this));
+    }
+
+    for(unsigned int a = 0; a < peaceful; a++) {
+        addEntity(new PeacefulAnimal(PEACEFUL_ANIMAL, this));
+    }
+
+    for(unsigned int e = 0; e < enemy; e++) {
+        addEntity(new EnemyCitizen(ENEMY_CITIZEN, this));
+    }
+
+}
+
+void Game::saveGame( std::string path )
+{
+	std::ofstream file( path.c_str() );
+	if(!file) {
+		std::cout << "Ecriture du fichier de sauvegarde de la partie impossible." << std::endl;
+	}
+
+    m_tilemap->save( path.append(".map") );
+
+    file << path << std::endl;
+
+    file << qtyFood << " " << qtyStone << " " << qtyWood << std::endl;
+    file << m_incidencePoint << std::endl;
+
+    int gatherer = 0, lumberjack = 0, pickman = 0, hunter = 0, wild = 0, peaceful = 0, enemy = 0;
+
+    for(unsigned int i = 0; i < m_entityList.size(); i++) {
+        if(!m_entityList[i]->isDead()) {
+            if(m_entityList[i]->m_job == 'g') {
+                gatherer++;
+            } else if(m_entityList[i]->m_job == 'l') {
+                lumberjack++;
+            } else if(m_entityList[i]->m_job == 'p') {
+                pickman++;
+            } else if(m_entityList[i]->m_job == 'h') {
+                hunter++;
+            } else if(m_entityList[i]->m_job == 'w') {
+                wild++;
+            } else if(m_entityList[i]->m_job == 'a') {
+                peaceful++;
+            } else if(m_entityList[i]->m_job == 'e') {
+                enemy++;
+            }
+        }
+    }
+
+    file << gatherer << " " << lumberjack << " " << pickman << " " << hunter << " " << wild << " " << peaceful << " " << enemy << std::endl;
+    file << m_weather->getWeatherGrade() << " " << (m_weather->getWeatherToday() == RAINY ? "r" : "s") << std::endl;
+
+}
 
 void Game::update( void )
 {
@@ -179,13 +286,6 @@ void Game::handleEvent( sf::Event & e )
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
 			spawnRessources(m_tilemap);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-			m_tilemap->save("saves/test.ims");
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::O)) {
-			m_tilemap->load("saves/test.ims");
-		}
-
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
 			m_weather->setWeatherToday(SUNNY);
 		}

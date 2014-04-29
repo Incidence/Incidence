@@ -10,13 +10,13 @@
 
 bool Entity::bLuaInit = false;
 
-Entity::Entity(lua_State * L)
+Entity::Entity(lua_State * L) : m_job('?')
 {
     Entity::luaInit();
     init();
 }
 
-Entity::Entity( EntityType t, Game * game ) : m_game(game), m_type(t)
+Entity::Entity( EntityType t, Game * game, char j ) : m_game(game), m_type(t), m_job(j)
 {
     Entity::luaInit();
     init();
