@@ -22,6 +22,7 @@ void doIncidences(TileMap* tilemap,Weather* weather, sf::Vector2i posHome,std::v
 // ---------------------------
 
 // --- fonctions "privées" ---
+int abstractSpreadGround(TileMap* tilemap, int type, sf::Vector2i position, std::vector<sf::Vector2i>& calledPositions);
 void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCliffs);
 
 void dilateGround(TileMap* tilemap, TileBehavior behavior);

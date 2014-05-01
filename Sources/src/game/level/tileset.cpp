@@ -64,7 +64,7 @@ int TileSet::getElementCount() const {
 
 int TileSet::getGroundCost(int type) const {
 	
-	for(int i(0) ; i < m_groundCount ; ++i) {
+	for(unsigned int i(0) ; i < m_grounds.size() ; ++i) {
 		if(m_grounds[i].getType() == type) {
 			return m_grounds[i].getCost();
 		}
@@ -75,7 +75,7 @@ int TileSet::getGroundCost(int type) const {
 
 int TileSet::getElementCost(int type) const {
 	
-	for(int i(0) ; i < m_elementCount ; ++i) {
+	for(unsigned int i(0) ; i < m_elements.size() ; ++i) {
 		if(m_elements[i].getType() == type) {
 			return m_elements[i].getCost();
 		}

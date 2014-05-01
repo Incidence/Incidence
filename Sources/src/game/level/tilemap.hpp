@@ -9,10 +9,15 @@
 
 #include <SFML/Graphics.hpp>
 #include <list>
+#include <queue>
 
 #include "ground.hpp"
 #include "element.hpp"
 #include "tileset.hpp"
+
+template<typename T> bool contains(std::vector<T> vec, T val) {
+	for(unsigned int i(0);i<vec.size();++i) { if(vec[i] == val) { return true; } } return false;
+}
 
 class TileMap {
 
@@ -47,7 +52,7 @@ class TileMap {
 
 		Ground * getGround(sf::Vector2i position) const;
 		Element * getElement(sf::Vector2i position) const;
-		int getGroundCost(int type) const;
+		int getGroundCost(int type, sf::Vector2i position);
 		int getElementCost(int type) const;
 		Harvestable * getHarvestable(sf::Vector2i position) const;
 		
@@ -56,12 +61,12 @@ class TileMap {
 
 		void changeGround(int type, sf::Vector2i position);
 		void updateBorders(sf::Vector2i position);
+		void updateAllBorders(sf::Vector2i position);
 		void addElement(int type, sf::Vector2i position);
 		void removeElement(sf::Vector2i position);
 		void burnElement(sf::Vector2i position);
 		
-		int bestLinkType(std::vector<int> possibleTypes, int startType, int goalType);
-		void userSetGroundRec(int type, sf::Vector2i position);
+		int bestLinkType(int startType, int goalType);
 		void userSetGround(int type, sf::Vector2i position);
 		void freePlace(sf::Vector2i position);
 

@@ -110,9 +110,91 @@ Element* TileMap::getElement(sf::Vector2i position) const {
 
 }
 
-int TileMap::getGroundCost(int type) const {
+/*
+ *** Description : cette fonction prévoit le coût d'un changement de sol avec la propagation de celui-ci.
+ *
+ *** Entree : le type souhaité (type), la position (position).
+ *** Sortie : le coût de la fonction userSetGround si elle est appelée.
+*/
+int TileMap::getGroundCost(int type, sf::Vector2i position) {
 	
-	return m_tileset.getGroundCost(type);
+	int l_cost = 0;
+	
+	std::queue<sf::Vector2i> queuePos;
+	std::queue<int> queueTyp;
+	queuePos.push(position);
+	queueTyp.push(type);
+	std::vector<sf::Vector2i> calledPositions;
+	calledPositions.push_back(position);
+	
+	while(!queuePos.empty() && !queueTyp.empty()) {
+		
+		sf::Vector2i currentPos = queuePos.front();
+		int currentTyp = queueTyp.front();
+		
+		Ground* l_ground = getGround(currentPos);
+		
+		if(areCompatibleGrounds(l_ground->getType(), currentTyp)) {
+			l_cost += abstractSpreadGround(this, currentTyp, currentPos, calledPositions);
+		}
+		else {
+			int i = currentPos.x;
+			int j = currentPos.y;
+			
+			std::vector<int> groundCompatibles;
+			
+			for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
+				if(this->areCompatibleGrounds(k, currentTyp)) {
+					groundCompatibles.push_back(k);
+				}
+			}
+			if(groundCompatibles.size() == 0) {
+				std::cout << "Erreur : aucun sol n'est compatible avec le sol posé." << std::endl;
+			}
+			else {
+				
+				l_cost += m_tileset.getGroundCost(currentTyp);
+				
+				Ground* l_ground;
+				int GROUND_type;
+				sf::Vector2i l_position;
+				
+				for(int k(0) ; k < 4 ; ++k) {
+					if(k == 0) {
+						l_position.x = i - 1;
+						l_position.y = j;
+					}
+					else if(k == 1) {
+						l_position.x = i;
+						l_position.y = j - 1;
+					}
+					else if(k == 2) {
+						l_position.x = i + 1;
+						l_position.y = j;
+					}
+					else if(k == 3) {
+						l_position.x = i;
+						l_position.y = j + 1;
+					}
+					
+					l_ground = getGround(l_position);
+					if(!contains(calledPositions, l_position) && l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), currentTyp)) {
+						
+						GROUND_type = bestLinkType(currentTyp, l_ground->getType());
+						
+						queuePos.push(l_position);
+						queueTyp.push(GROUND_type);
+						calledPositions.push_back(l_position);
+					}
+				}
+			}
+		}
+		
+		queuePos.pop();
+		queueTyp.pop();
+	}
+	
+	return l_cost;
 	
 }
 
@@ -243,6 +325,16 @@ void TileMap::updateBorders(sf::Vector2i position) {
 
 }
 
+void TileMap::updateAllBorders(sf::Vector2i position) {
+	
+	updateBorders(position);
+	updateBorders(sf::Vector2i(position.x - 1, position.y));
+	updateBorders(sf::Vector2i(position.x, position.y - 1));
+	updateBorders(sf::Vector2i(position.x + 1, position.y));
+	updateBorders(sf::Vector2i(position.x, position.y + 1));
+	
+}
+
 void TileMap::addElement(int type, sf::Vector2i position) {
 
 	unsigned int i = position.x;
@@ -353,151 +445,25 @@ void TileMap::burnElement(sf::Vector2i position) {
 	}
 }
 
-int TileMap::bestLinkType(std::vector<int> possibleTypes, int startType, int goalType) {
+int TileMap::bestLinkType(int startType, int goalType) {
 	// RECODE : faire du code générique
 	if(areCompatibleGrounds(startType, goalType)) {
 		return goalType;
 	}
 	else {
 		if(startType < goalType) {
+			if(startType == 0 && goalType != 1) {
+				return 2;
+			}
 			return startType+1;
 		}
 		else {
+			if(startType == 2 && goalType != 1) {
+				return 0;
+			}
 			return startType-1;
 		}
 	}
-	/*
-	std::vector<int> scores;
-	
-	for(unsigned int i(0) ; i < possibleTypes.size() ; ++i) {
-		scores.push_back(bestLinkTypeRec(possibleTypes[i], startType, goalType));
-	}
-	
-	int min = 2147483647;
-	int result = -1;
-	
-	for(unsigned int i(0) ; i < possibleTypes.size() ; ++i) {
-		if(scores[i] < min) {
-			min = scores[i];
-			result = possibleTypes[i];
-		}
-	}
-	*/
-}
-
-/*
- *** Description : cette fonction propage le sol posé par userSetGround.
- *
- *** Entree : le type de sol (type), la position à laquelle le poser (position).
- *** Sortie : void.
-*/
-void TileMap::userSetGroundRec(int type, sf::Vector2i position) {
-	
-	int i = position.x;
-	int j = position.y;
-	
-	std::vector<int> groundCompatibles;
-	
-	for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
-		if(this->areCompatibleGrounds(k, type)) {
-			groundCompatibles.push_back(k);
-		}
-	}
-	if(groundCompatibles.size() == 0) {
-		std::cout << "Erreur : aucun sol n'est compatible avec le sol posé." << std::endl;
-	}
-	else {
-		changeGround(type, position);
-		
-		Ground* l_ground;
-		int GROUND_type;
-		sf::Vector2i l_position;
-		
-		for(int k(0) ; k < 4 ; ++k) {
-			if(k == 0) {
-				l_position.x = i - 1;
-				l_position.y = j;
-			}
-			else if(k == 1) {
-				l_position.x = i;
-				l_position.y = j - 1;
-			}
-			else if(k == 2) {
-				l_position.x = i + 1;
-				l_position.y = j;
-			}
-			else if(k == 3) {
-				l_position.x = i;
-				l_position.y = j + 1;
-			}
-			
-			l_ground = getGround(l_position);
-			if(l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), type)) {
-				
-				Ground* l_ground_tmp;
-				sf::Vector2i l_position_tmp;
-				int score;
-				std::vector<int> compatibilityScores;
-				int compatibilityMax = -1;
-				
-				for(unsigned int l(0) ; l < groundCompatibles.size() ; ++l) {
-					
-					score = 0;
-					
-					for(int m(0) ; m < 4 ; ++m) {
-						if(m == 0) {
-							l_position_tmp.x = l_position.x - 1;
-							l_position_tmp.y = l_position.y;
-						}
-						else if(m == 1) {
-							l_position_tmp.x = l_position.x;
-							l_position_tmp.y = l_position.y - 1;
-						}
-						else if(m == 2) {
-							l_position_tmp.x = l_position.x + 1;
-							l_position_tmp.y = l_position.y;
-						}
-						else if(m == 3) {
-							l_position_tmp.x = l_position.x;
-							l_position_tmp.y = l_position.y + 1;
-						}
-						
-						l_ground_tmp = getGround(l_position_tmp);
-						if(l_ground_tmp != NULL && areCompatibleGrounds(groundCompatibles[l], l_ground_tmp->getType())) {
-							score++;
-						}
-					}
-					
-					compatibilityScores.push_back(score);
-				}
-				
-				for(unsigned int l(0) ; l < compatibilityScores.size() ; ++l) {
-					if(compatibilityScores[l] > compatibilityMax) {
-						compatibilityMax = compatibilityScores[l];
-					}
-				}
-				if(compatibilityMax == -1) {
-					std::cout<<"Erreur : incompatibilité de sols (userSetGround)"<<std::endl;
-					GROUND_type = type;
-				}
-				
-				std::vector<int> possibleTypes;
-				for(unsigned int l(0) ; l < compatibilityScores.size() ; ++l) {
-					if(compatibilityScores[l] == compatibilityMax) {
-						possibleTypes.push_back(groundCompatibles[l]);
-					}
-				}
-				
-				GROUND_type = bestLinkType(possibleTypes, type, l_ground->getType());
-				userSetGroundRec(GROUND_type, l_position);
-			}
-			
-			updateBorders(l_position);
-		}
-		
-		updateBorders(position);
-	}
-	
 }
 
 /*
@@ -508,20 +474,79 @@ void TileMap::userSetGroundRec(int type, sf::Vector2i position) {
 */
 void TileMap::userSetGround(int type, sf::Vector2i position) {
 	
-	Ground* l_ground = getGround(position);
+	std::queue<sf::Vector2i> queuePos;
+	std::queue<int> queueTyp;
+	queuePos.push(position);
+	queueTyp.push(type);
+	std::vector<sf::Vector2i> calledPositions;
+	calledPositions.push_back(position);
 	
-	if(areCompatibleGrounds(l_ground->getType(), type)) {
-		spreadGround(this, type, position, false);
-	}
-	else {
-		userSetGroundRec(type, position);
-		userSetGroundRec(type, position); //à enlever après meilleur type
+	while(!queuePos.empty() && !queueTyp.empty()) {
 		
-		updateBorders(position);
-		updateBorders(sf::Vector2i(position.x - 1, position.y));
-		updateBorders(sf::Vector2i(position.x, position.y - 1));
-		updateBorders(sf::Vector2i(position.x + 1, position.y));
-		updateBorders(sf::Vector2i(position.x, position.y + 1));
+		sf::Vector2i currentPos = queuePos.front();
+		int currentTyp = queueTyp.front();
+		
+		Ground* l_ground = getGround(currentPos);
+		
+		if(areCompatibleGrounds(l_ground->getType(), currentTyp)) {
+			spreadGround(this, currentTyp, currentPos, false);
+		}
+		else {
+			int i = currentPos.x;
+			int j = currentPos.y;
+			
+			std::vector<int> groundCompatibles;
+			
+			for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
+				if(this->areCompatibleGrounds(k, currentTyp)) {
+					groundCompatibles.push_back(k);
+				}
+			}
+			if(groundCompatibles.size() == 0) {
+				std::cout << "Erreur : aucun sol n'est compatible avec le sol posé." << std::endl;
+			}
+			else {
+				changeGround(currentTyp, currentPos);
+				
+				Ground* l_ground;
+				int GROUND_type;
+				sf::Vector2i l_position;
+				
+				for(int k(0) ; k < 4 ; ++k) {
+					if(k == 0) {
+						l_position.x = i - 1;
+						l_position.y = j;
+					}
+					else if(k == 1) {
+						l_position.x = i;
+						l_position.y = j - 1;
+					}
+					else if(k == 2) {
+						l_position.x = i + 1;
+						l_position.y = j;
+					}
+					else if(k == 3) {
+						l_position.x = i;
+						l_position.y = j + 1;
+					}
+					
+					l_ground = getGround(l_position);
+					if(!contains(calledPositions, l_position) && l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), currentTyp)) {
+						
+						GROUND_type = bestLinkType(currentTyp, l_ground->getType());
+						
+						queuePos.push(l_position);
+						queueTyp.push(GROUND_type);
+						calledPositions.push_back(l_position);
+					}
+				}
+			}
+			
+			updateAllBorders(currentPos);
+		}
+		
+		queuePos.pop();
+		queueTyp.pop();
 	}
 	
 }

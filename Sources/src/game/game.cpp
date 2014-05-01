@@ -55,6 +55,8 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
+	
+	//(m_tilemap->getTileSet())->TEST();
 }
 
 void Game::spawnEntity( Entity & e )
@@ -254,6 +256,8 @@ void Game::handleEvent( sf::Event & e )
         if( m_entityList.size() > 0 ) {
             m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
         }
+        std::cout << m_tilemap->getGroundCost(5,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y))) << std::endl;
+        m_tilemap->userSetGround(5,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
     }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {

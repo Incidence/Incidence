@@ -2,10 +2,6 @@
 
 #include "entity/entity.hpp"
 
-template<typename T> bool contains(std::vector<T> vec, T val) {
-	for(unsigned int i(0);i<vec.size();++i) { if(vec[i] == val) { return true; } } return false;
-}
-
 //--------------------------------------------------------------------------------------------------------------------------
 
 /*
@@ -96,6 +92,59 @@ void doIncidences(TileMap* tilemap, Weather* weather, sf::Vector2i posHome,std::
 }
 
 //--------------------------------------------------------------------------------------------------------------------------
+
+/*
+ *** Description : cette fonction prévoit le coût de la fonction spredGround.
+ *
+ *** Entree : la carte (tilemap), le type souhaité (type), la position (position), les positions déjà vues (calledPositions).
+ *** Sortie : le coût de la fonction spreadGround si elle est appelée.
+*/
+int abstractSpreadGround(TileMap* tilemap, int type, sf::Vector2i position, std::vector<sf::Vector2i>& calledPositions) {
+
+	int l_cost = 0;
+	int i = position.x, j = position.y;
+
+	Ground* l_ground = tilemap->getGround(position);
+
+	if(l_ground != NULL) {
+
+		// Changement du sol courant
+		int oldType = l_ground->getType();
+		if(type != oldType) {
+
+			l_cost += (tilemap->getTileSet())->getGroundCost(type);
+			sf::Vector2i l_position;
+			
+			for(int k(0) ; k < 4 ; ++k) {
+				if(k == 0) {
+					l_position.x = i - 1;
+					l_position.y = j;
+				}
+				else if(k == 1) {
+					l_position.x = i;
+					l_position.y = j - 1;
+				}
+				else if(k == 2) {
+					l_position.x = i + 1;
+					l_position.y = j;
+				}
+				else if(k == 3) {
+					l_position.x = i;
+					l_position.y = j + 1;
+				}
+				
+				// Propagation
+				l_ground = tilemap->getGround(l_position);
+				if(l_ground != NULL && !contains(calledPositions, l_position) && tilemap->areCompatibleGrounds(type, l_ground->getType()) == 0) {
+					l_cost += abstractSpreadGround(tilemap, oldType, l_position, calledPositions);
+				}
+			}
+		}
+	}
+
+	return l_cost;
+
+}
 
 /*
  *** Description : cette fonction met à jour les cases environnantes, et si besoin harmonise les types compatibles.
