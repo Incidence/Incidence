@@ -114,7 +114,7 @@ void Game::loadGame( std::string path )
 
 	std::ifstream file( path.c_str() );
 	if(!file) {
-		std::cout << "Ecriture du fichier de sauvegarde de la partie impossible." << std::endl;
+		std::cout << "Ouverture du fichier de sauvegarde de la partie impossible." << std::endl;
 	}
 
 	file >> path;
