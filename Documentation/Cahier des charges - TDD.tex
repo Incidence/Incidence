@@ -33,7 +33,7 @@
         \alinea Afin de préparer le développement du jeu, il était nécessaire de séparer les fonctionnalités les unes des autres. Nous avons abouti à ce diagramme, qui résume notre choix de découpage :
         \begin{figure}
           \begin{center}
-            \includegraphics[scale=0.5]{DiagrammeDecoupageProjet.png}
+            \includegraphics[scale=0.5]{img/DiagrammeDecoupageProjet.png}
           \end{center}
           \label{DiagDecoupage}
           \caption{Découpage du projet en sous-tâches}
@@ -60,7 +60,7 @@
         \begin{figure}
           \begin{center}
             %TODO
-            %\includegraphics[scale=0.5]{DiagrammeGantt.png}
+            %\includegraphics[scale=0.5]{img/DiagrammeGantt.png}
           \end{center}
           \label{DiagGantt}
           \caption{Première estimation du temps sous forme de Gantt}
@@ -72,8 +72,8 @@
         \alinea Voici des tests de performances concernant un large panel de langages, comparés ici dans quatre contextes différents :\\
         \begin{figure}
           \begin{center}
-            \includegraphics[scale=0.5]{AnalyseLangage1.png}
-            \includegraphics[scale=0.5]{AnalyseLangage2.png} 
+            \includegraphics[scale=0.5]{img/AnalyseLangage1.png}
+            \includegraphics[scale=0.5]{img/AnalyseLangage2.png} 
           \end{center}
           \label{DiagAnalyse}
           \caption{Comparaisons de performances de divers langages dans des cas donnés}
@@ -230,6 +230,8 @@
 			  \hline
 			  Type & Entier définissant un identificateur du type de sol.\\
 			  \hline
+			  Coût & Entier définissant le coût en PI de la pose du sol.\\
+			  \hline
 			  Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
 			  \hline
 			  Comportement & Enumération de trois comportements :\\
@@ -257,6 +259,8 @@
 			  \hline
 			  Type de sol & Entier définissant un identificateur du type de sol sur lequel se place l'élément.\\
 			  \hline
+			  Coût & Entier définissant le coût en PI de la pose de l'élément.\\
+			  \hline
 			  Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
 			  \hline
 			  Comportement & Enumération de deux comportements :\\
@@ -280,7 +284,7 @@
 		\alinea Voici le tileset que nous utiliserons :\\
         \begin{figure}
           \begin{center}
-            \includegraphics[scale=0.35]{TilesetPngIni.png}
+            \includegraphics[scale=0.35]{img/TilesetPngIni.png}
           \end{center}
           \label{TilesetPngIni}
           \caption{Texture et configuration du tileset}
@@ -297,6 +301,85 @@
         - ashes : fourni une texture pour les cendres (lorsque des éléments brûlent) (cf GDD)\\
         \\
         Remarque : chaque ligne commençant par ground, element ou ashes incrémente un compteur afin de connaître la position de la zone de texture correspondante. L'ordre est donc important (définition des lignes de haut en bas).
+        
+      \subsection{Les Incidences}
+        \subsubsection{Dilatation}
+          \alinea Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
+          \alinea Voici quelques présentations des résultats de ces dilatations :\\
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/DilateFluid.png}
+            \end{center}
+            \caption{Dilatation des étendues de fluides}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/DilateNearFluid.png}
+            \end{center}
+            \caption{Dilatation des zones humides}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/DilateNearCliff.png}
+            \end{center}
+            \caption{Dilatation des zones sèches}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/DilateForest.png}
+            \end{center}
+            \caption{Dilatation des forêts}
+          \end{figure}
+        
+        \subsubsection{Erosion}
+          \alinea Les incidences basées sur l'érosion des zones prennent en compte les types de sols ou éléments alentours afin de choisir les types en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
+          \alinea Voici quelques présentations des résultats de ces érosions :\\
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/ErodeFluid.png}
+            \end{center}
+            \caption{Erosion des étendues de fluides}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/ErodeNearFluid.png}
+            \end{center}
+            \caption{Erosion des zones humides}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/ErodeNearCliff.png}
+            \end{center}
+            \caption{Erosion des zones sèches}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/ErodeForest.png}
+            \end{center}
+            \caption{Erosion des forêts}
+          \end{figure}
+        
+        \subsubsection{Aléatoire}
+          \alinea Les dernières incidences concernant le territoire sont basées sur un choix aléatoire de cases. Il s'agit ici d'appartition ou disparition de certaines ressources.\\
+          \alinea Voici quelques résultats de ces incidences particulières :\\
+          \begin{figure}
+            \begin{center}
+              %\includegraphics[scale=0.2]{img/SpawnRessource.png}
+            \end{center}
+            \caption{Apparition de tout type de ressource}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              \includegraphics[scale=0.2]{img/BurnRessource.png}
+            \end{center}
+            \caption{Disparition par le feu des ressources contenant du bois}
+          \end{figure}
+          \begin{figure}
+            \begin{center}
+              %\includegraphics[scale=0.2]{img/SpawnOnlyStone.png}
+            \end{center}
+            \caption{Apparition de rochers uniquement}
+          \end{figure}
         
       
 \newpage
