@@ -391,3 +391,33 @@ void Game::clearEntity( void )
 {
     m_entityList.clear();
 }
+
+void Game::actionElement( int type,sf::Vector2i & position )
+{
+    int cost(this->m_tilemap->getElementCost( type ));
+    if (this->m_incidencePoint >= cost)
+    {
+        this->m_tilemap->addElement( type,position );
+        this->m_incidencePoint -= cost;
+    }
+    else
+    {
+        /// NOT ENOUGH POINTS
+        std::cout << "Not enough points !" << std::endl;
+    }
+}
+
+void Game::actionGround( int type,sf::Vector2i & position )
+{
+    int cost(this->m_tilemap->getGroundCost( type,position ));
+    if (this->m_incidencePoint >= cost)
+    {
+        this->m_tilemap->userSetGround( type,position );
+        this->m_incidencePoint -= cost;
+    }
+    else
+    {
+        /// NOT ENOUGH POINTS
+        std::cout << "Not enough points !" << std::endl;
+    }
+}
