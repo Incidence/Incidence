@@ -55,7 +55,7 @@ class TileMap {
 		int getGroundCost(int type, sf::Vector2i position);
 		int getElementCost(int type) const;
 		Harvestable * getHarvestable(sf::Vector2i position) const;
-		
+
 		int areCompatibleGrounds(sf::Vector2i position_1, sf::Vector2i position_2);
 		int areCompatibleGrounds(int type_1, int type_2);
 
@@ -65,7 +65,7 @@ class TileMap {
 		void addElement(int type, sf::Vector2i position);
 		void removeElement(sf::Vector2i position);
 		void burnElement(sf::Vector2i position);
-		
+
 		int bestLinkType(int startType, int goalType);
 		void userSetGround(int type, sf::Vector2i position);
 		void freePlace(sf::Vector2i position);

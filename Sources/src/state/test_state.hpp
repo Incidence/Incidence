@@ -2,6 +2,7 @@
 #define _TEST_STATE_
 
 #include "../engine/state.hpp"
+#include "../engine/ui/ui.hpp"
 #include "../game/game.hpp"
 
 class TestState : public State
@@ -28,6 +29,9 @@ private :
     int m_dayDuration;
     int m_dayBeginTime;
     bool m_night;
+
+    UI m_ui;
+    int m_select;
 };
 
 #endif // _TEST_STATE_

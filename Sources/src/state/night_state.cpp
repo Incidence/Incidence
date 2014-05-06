@@ -12,6 +12,8 @@
 #include "../game/entity/wild_animal.hpp"
 #include "../game/entity/pickman.hpp"
 
+#include "../engine/data_manager.hpp"
+
 NightState::NightState( Game * g ) : m_ui(this)
 {
 
@@ -36,27 +38,27 @@ void NightState::init( void )
     Button * b;
 
     w = new Widget();
-    w->setContent( new WidgetContent( "SPRITE", "data/img/nightBackground.png" ) );
+    w->setSprite( DataManager::get()->getSprite( "data/img/nightBackground.png" ) );
     w->setPositionAbsolute( 0, 0 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Lumberjack % : ", sf::Color::Black ) );
+    w->setText( "Lumberjack % : ", sf::Color::Black );
     w->setPositionAbsolute( 100, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Hunter % : ", sf::Color::Black ) );
+    w->setText( "Hunter % : ", sf::Color::Black );
     w->setPositionAbsolute( 100, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Pickman % : ", sf::Color::Black ) );
+    w->setText( "Pickman % : ", sf::Color::Black );
     w->setPositionAbsolute( 100, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setContent( new WidgetContent( "TEXT", "Gatherer % : ", sf::Color::Black ) );
+    w->setText( "Gatherer % : ", sf::Color::Black );
     w->setPositionAbsolute( 100, 160 );
     m_ui.addWidget(w);
 
@@ -64,25 +66,25 @@ void NightState::init( void )
 
     w = new Widget();
     w->setName("textLumberjack");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::Black ) );
+    w->setText( itos(prct(m_prctLumberjack)), sf::Color::Black );
     w->setPositionAbsolute( 300, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textHunter");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::Black ) );
+    w->setText( itos(prct(m_prctHunter)), sf::Color::Black );
     w->setPositionAbsolute( 300, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textPickman");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::Black ) );
+    w->setText( itos(prct(m_prctPickman)), sf::Color::Black );
     w->setPositionAbsolute( 300, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textGatherer");
-    w->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::Black ) );
+    w->setText( itos(prct(m_prctGatherer)), sf::Color::Black );
     w->setPositionAbsolute( 300, 160 );
     m_ui.addWidget(w);
 
@@ -92,7 +94,7 @@ void NightState::init( void )
     ge.type = EV_MORE_LUMBERJACK;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    b->setText( "+", sf::Color::Green );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -104,7 +106,7 @@ void NightState::init( void )
     ge.type = EV_MORE_HUNTER;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    b->setText( "+", sf::Color::Green );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -116,7 +118,7 @@ void NightState::init( void )
     ge.type = EV_MORE_PICKMAN;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    b->setText( "+", sf::Color::Green );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -128,7 +130,7 @@ void NightState::init( void )
     ge.type = EV_MORE_GATHERER;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "+", sf::Color::Green ) );
+    b->setText( "+", sf::Color::Green );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -142,7 +144,7 @@ void NightState::init( void )
     ge.type = EV_LESS_LUMBERJACK;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    b->setText( "-", sf::Color::Red );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -154,7 +156,7 @@ void NightState::init( void )
     ge.type = EV_LESS_HUNTER;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    b->setText( "-", sf::Color::Red );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -167,7 +169,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setName("d");
-    b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    b->setText( "-", sf::Color::Red );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -179,7 +181,7 @@ void NightState::init( void )
     ge.type = EV_LESS_GATHERER;
 
     b = new Button();
-    b->setContent( new WidgetContent( "TEXT", "-", sf::Color::Red ) );
+    b->setText( "-", sf::Color::Red );
     b->setBorder( sf::Color::Black );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
@@ -193,7 +195,7 @@ void NightState::init( void )
     ge.type = EV_SELECT_RAIN;
 
     b = new Button();
-    b->setContent( new WidgetContent( "SPRITE", "data/img/rainButton.png" ) );
+    b->setSprite( DataManager::get()->getSprite( "data/img/rainButton.png" ) );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 200, 300 );
@@ -203,7 +205,7 @@ void NightState::init( void )
     w = new Widget();
     w->setName("rainSelected");
     w->setShow(false);
-    w->setContent( new WidgetContent( "SPRITE", "data/img/validButton.png" ) );
+    w->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
     w->setPositionAbsolute( 240, 300 );
     m_ui.addWidget(w);
 
@@ -211,7 +213,7 @@ void NightState::init( void )
     ge.type = EV_SELECT_SUN;
 
     b = new Button();
-    b->setContent( new WidgetContent( "SPRITE", "data/img/sunButton.png" ) );
+    b->setSprite( DataManager::get()->getSprite( "data/img/sunButton.png" ) );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 300, 300 );
@@ -220,8 +222,8 @@ void NightState::init( void )
 
     w = new Widget();
     w->setName("sunSelected");
-    w->setShow(false);
-    w->setContent( new WidgetContent( "SPRITE", "data/img/validButton.png" ) );
+    w->setShow(true);
+    w->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
     w->setPositionAbsolute( 340, 300 );
     m_ui.addWidget(w);
 
@@ -230,7 +232,7 @@ void NightState::init( void )
     ge.type = EV_VALID;
 
     b = new Button();
-    b->setContent( new WidgetContent( "SPRITE", "data/img/validButton.png" ) );
+    b->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
     b->setBorderOver( sf::Color::Green );
     b->setBorderSize(2);
     b->setPositionAbsolute( 400, 400 );
@@ -240,7 +242,7 @@ void NightState::init( void )
     //ge.type = EV_RESET; -> réinitialise les paramètres ??
 
     b = new Button();
-    b->setContent( new WidgetContent( "SPRITE", "data/img/resetButton.png" ) );
+    b->setSprite( DataManager::get()->getSprite( "data/img/resetButton.png" ) );
     b->setBorderOver( sf::Color::Red );
     b->setBorderSize(2);
     b->setPositionAbsolute( 150, 400 );
@@ -331,10 +333,10 @@ void NightState::treatEvent( GameEvent e )
     if(m_prctLumberjack < 0) { m_prctLumberjack = 0; }
     if(m_prctPickman < 0) { m_prctPickman = 0; }
 
-    m_ui.getWidget("textGatherer")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctGatherer)), sf::Color::White ) );
-    m_ui.getWidget("textLumberjack")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctLumberjack)), sf::Color::White ) );
-    m_ui.getWidget("textPickman")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctPickman)), sf::Color::White ) );
-    m_ui.getWidget("textHunter")->setContent( new WidgetContent( "TEXT", itos(prct(m_prctHunter)), sf::Color::White ) );
+    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::White );
+    m_ui.getWidget("textLumberjack")->setText( itos(prct(m_prctLumberjack)), sf::Color::White );
+    m_ui.getWidget("textPickman")->setText( itos(prct(m_prctPickman)), sf::Color::White );
+    m_ui.getWidget("textHunter")->setText( itos(prct(m_prctHunter)), sf::Color::White );
 }
 
 

@@ -24,8 +24,8 @@ public :
     virtual bool isSetelected() const;
 
     virtual void select( bool b );
-    virtual std::string getText() const;
-    virtual void setText( std::string s );
+    virtual std::string getTextEnter() const;
+    virtual void setTextEnter( std::string s );
 
     virtual void setLenght( unsigned int l );
 
@@ -34,7 +34,7 @@ private :
     // Attributes :
 
     bool selected;
-    std::string text;
+    std::string textEnter;
     unsigned int lenght;
 
 };

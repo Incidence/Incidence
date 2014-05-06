@@ -3,7 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 
-enum TypeContent { TYPE_SPRITE, TYPE_TEXT, TYPE_NONE };
+enum TypeContent { TYPE_SPRITE, TYPE_TEXT, TYPE_ANIMATION, TYPE_NONE };
 
 class WidgetContent
 {
@@ -14,7 +14,7 @@ private :
     union {
         sf::Sprite * s;
         sf::Text * t;
-        //! Animation, ...
+        //Animation * a;
     };
     sf::Vector2f position;
 

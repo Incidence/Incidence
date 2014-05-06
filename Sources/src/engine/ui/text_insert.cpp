@@ -2,11 +2,13 @@
 
 #include <fstream>
 
+#include "../animation.hpp"
+
 TextInsert::TextInsert( void ) : Widget('t')
 {
     this->selected = false;
-    this->text = "";
-    this->content = new WidgetContent("TEXT", "", sf::Color::White);
+    this->textEnter = "";
+    this->setTextEnter("");
     this->lenght = 256;
 }
 
@@ -59,18 +61,18 @@ void TextInsert::enter( char e )
 {
     if(e == '\b')
     {
-        if(this->text.length() > 0)
+        if(this->textEnter.length() > 0)
         {
-            this->text.erase(this->text.end() - 1);
+            this->textEnter.erase(this->textEnter.end() - 1);
         }
     }
-    else if(this->text.length() < this->lenght)
+    else if(this->textEnter.length() < this->lenght)
     {
         if( (e >= 'a' && e <= 'z') || (e >= 'A' && e <= 'Z') || (e >= '0' && e <= '9') || e == '_' )
-        this->text.push_back(e);
+        this->textEnter.push_back(e);
     }
 
-    this->content->setText(this->text);
+    this->setTextEnter(this->textEnter);
     this->update();
 }
 
@@ -99,24 +101,44 @@ void TextInsert::select( bool b )
     }
 }
 
-std::string TextInsert::getText() const
+std::string TextInsert::getTextEnter() const
 {
-    return this->text;
+    return this->textEnter;
 }
 
-void TextInsert::setText( std::string s )
+void TextInsert::setTextEnter( std::string s )
 {
-    this->text = s;
-    this->content->setText(this->text);
+    this->textEnter = s;
+    this->setText(this->textEnter);
     this->update();
 }
 
 void TextInsert::update( void )
 {
     sf::FloatRect r(0, 0, 0, 0);
-    if(this->content)
+
+    if(this->sprite)
     {
-        r = this->content->getContentBounds();
+        r.height = std::max(this->sprite->getLocalBounds().height, r.height);
+        r.width = std::max(this->sprite->getLocalBounds().width, r.width);
+        r.top = std::max(this->sprite->getLocalBounds().top, r.top);
+        r.left = std::max(this->sprite->getLocalBounds().left, r.left);
+    }
+
+    if(this->text)
+    {
+        r.height = std::max(this->text->getLocalBounds().height, r.height);
+        r.width = std::max(this->text->getLocalBounds().width, r.width);
+        r.top = std::max(this->text->getLocalBounds().top, r.top);
+        r.left = std::max(this->text->getLocalBounds().left, r.left);
+    }
+
+    if(this->animation)
+    {
+        r.height = std::max(this->animation->update()->getLocalBounds().height, r.height);
+        r.width = std::max(this->animation->update()->getLocalBounds().width, r.width);
+        r.top = std::max(this->animation->update()->getLocalBounds().top, r.top);
+        r.left = std::max(this->animation->update()->getLocalBounds().left, r.left);
     }
 
     sf::Vector2f s1( r.width + this->padding.x*2, r.height + this->padding.y*2 );
@@ -128,14 +150,31 @@ void TextInsert::update( void )
     this->shape.setSize( sf );
     this->shape.setPosition( this->position );
 
-    if(this->content)
+    if(this->animation)
     {
-        int x = getAbsolutePosition( r, shape.getGlobalBounds(), LEFT).x;
+        int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
         int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
-        x += 5;
         sf::Vector2f p(x, y);
 
-        this->content->setContentPosition( p );
+        this->animation->m_position = p;
+    }
+
+    if(this->text)
+    {
+        int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
+        int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
+        sf::Vector2f p(x, y);
+
+        this->text->setPosition( p );
+    }
+
+    if(this->sprite)
+    {
+        int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
+        int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
+        sf::Vector2f p(x, y);
+
+        this->sprite->setPosition( p );
     }
 }
 

@@ -6,6 +6,8 @@
 #include "../foo.hpp"
 #include "widget_content.hpp"
 
+class Animation;
+
 class Widget : public sf::Drawable
 {
 
@@ -25,7 +27,11 @@ public :
     void setBackground( sf::Color c );
     void setBorder( sf::Color c );
     void setBorderSize( int s );
-    void setContent( WidgetContent * d );
+    //void setContent( WidgetContent * d );
+    void setAnimation( Animation * a );
+    void setText( sf::Text * s );
+    void setText( std::string t, const sf::Color c = sf::Color::Black );
+    void setSprite( sf::Sprite * s );
 
     void setPositionRelative( RelativePosition p );
     void setPositionAbsolute( float x, float y );
@@ -62,8 +68,15 @@ protected :
     sf::Color background;
     sf::Color border;
     int border_size;
-    WidgetContent * content; //! sf::Font, Animation, sf::Sprite, ...
+    //WidgetContent * content; //! sf::Font, Animation, sf::Sprite, ...
     sf::RectangleShape shape;
+
+    // Content :
+    sf::Text * text;
+    Animation * animation;
+    sf::Sprite * sprite;
+    sf::Vector2f spritePosition;
+    // -----
 
     sf::Vector2f position;
     sf::Vector2f padding;

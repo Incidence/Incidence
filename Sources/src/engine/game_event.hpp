@@ -15,6 +15,19 @@ typedef enum GameType{
     EV_SELECT_RAIN,
     EV_SELECT_SUN,
     EV_VALID,
+    EV_BACK,
+    EV_SAVE_MENU,
+    EV_LOAD_MENU,
+    EV_LOAD,
+    EV_QUIT,
+    EV_START,
+    EV_EXIT,
+    EV_SCROLL_UP,
+    EV_SCROLL_DOWN,
+    EV_SELECT_SOL,
+    EV_SELECT_ELEMENT,
+    EV_SELECT_FALAISE,
+    EV_SELECT_EAU,
     EV_DEFAULT
 } GameType;
 

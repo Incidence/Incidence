@@ -14,15 +14,21 @@
 #include "../game/entity/pickman.hpp"
 
 #include "night_state.hpp"
+#include "game_menu_state.hpp"
+
+#include "../engine/ui/button.hpp"
+#include "../engine/ui/container.hpp"
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true)
+TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this)
 {
     m_game = new Game();
 	m_window = window;
 	sf::Vector2u windowSize = m_window->getSize();
 	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2), sf::Vector2f(windowSize.x,windowSize.y));
+
+	init();
 }
 
 TestState::~TestState( void )
@@ -34,13 +40,91 @@ TestState::~TestState( void )
 
 void TestState::init( void )
 {
+    Container * c;
+    Button * b;
+    Widget * w;
 
+    c = new Container;
+    c->setBackground(sf::Color(150, 150, 150));
+    c->setSize(800, 20);
+    c->setPositionRelative(TOP);
+    c->setPositionRelative(LEFT);
+
+    w = new Widget;
+    w->setName("PI_compteur");
+    w->setText( "PI : " + itos(m_game->m_incidencePoint), sf::Color::White );
+    w->setPositionAbsolute( 50, 5 );
+
+    c->addWidget(w);
+    m_ui.addWidget(c);
+
+
+    c = new Container;
+    c->setName("cont_selection");
+    c->setBackground(sf::Color(150, 150, 150));
+    c->setSize(30, 600);
+    c->setPositionAbsolute(770, 0);
+    m_ui.addWidget(c);
+
+    GameEvent ge;
+
+    b = new Button;
+    b->setText("Sols");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_SOL;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 30 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("Elements");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_ELEMENT;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 60 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    /// ----
+
+    c = new Container;
+    c->setName("cont_sols");
+    c->setBackground(sf::Color(150, 150, 150));
+    c->setSize(30, 600);
+    c->setPositionAbsolute(770, 0);
+    c->setShow(false);
+    m_ui.addWidget(c);
+
+    b = new Button;
+    b->setText("falaise");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_FALAISE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 30 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("eau");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_EAU;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 60 );
+    b->setEvent( ge );
+    c->addWidget(b);
 }
 
 void TestState::draw( sf::RenderTarget & window )
 {
 	window.setView(m_view);
     m_game->draw(window);
+    window.setView(window.getDefaultView());
+    m_ui.draw(window);
 }
 
 void TestState::update( void )
@@ -85,6 +169,8 @@ void TestState::update( void )
 
     updateDay();
     m_game->update();
+
+    m_ui.getWidget("PI_compteur")->setText("PI : " + itos(m_game->m_incidencePoint), sf::Color::White);
 }
 
 void TestState::handleEvent( sf::Event & e )
@@ -154,7 +240,7 @@ void TestState::handleEvent( sf::Event & e )
 
             case sf::Keyboard::Escape :
             {
-                StateManager::get()->popState();
+                StateManager::get()->addState(new GameMenuState(m_game));
             } break;
 
             default :
@@ -162,10 +248,40 @@ void TestState::handleEvent( sf::Event & e )
 
         }
     }
+
+    if (e.type == sf::Event::MouseButtonPressed) {
+        m_game->actionGround(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
+    }
+
     m_game->handleEvent(e);
+    m_ui.handleEvent(e);
 }
 
-void TestState::treatEvent( GameEvent e ) {}
+void TestState::treatEvent( GameEvent e )
+{
+    switch(e.type) {
+
+    case EV_SELECT_SOL :
+        m_ui.getWidget("cont_sols")->setShow(true);
+        m_ui.getWidget("cont_selection")->setShow(false);
+        std::cout << "selec sol" << std::endl;
+        break;
+
+    case EV_SELECT_FALAISE :
+        m_select = 5;
+        std::cout << "eua sol" << std::endl;
+        break;
+
+    case EV_SELECT_EAU :
+        m_select = 0;
+        std::cout << "fala sol" << std::endl;
+        break;
+
+    default :
+        break;
+
+    }
+}
 
 
 void TestState::updateDay( void )

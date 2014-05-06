@@ -5,10 +5,17 @@
 
 #include "../foo.hpp"
 
+#include "../data_manager.hpp"
+#include "../animation.hpp"
+
 Widget::Widget( char t ) : wType(t)
 {
+    animation = NULL;
+    sprite = NULL;
+    text = NULL;
+
     this->name = "";
-    this->content = NULL;
+    //this->content = NULL;
 
     this->setBackground( sf::Color::Transparent );
     this->setBorder( sf::Color::Transparent );
@@ -20,7 +27,11 @@ Widget::Widget( char t ) : wType(t)
     this->show = true;
 }
 
-Widget::~Widget( void ) { }
+Widget::~Widget( void )
+{
+    if(animation) { delete animation; }
+    if(text) { delete text; }
+}
 
 void Widget::loadFromFile( const std::string & path, const std::string & name )
 {
@@ -57,6 +68,9 @@ void Widget::loadFromFile( const std::string & path, const std::string & name )
         }
     } while( b || file.eof());
 
+
+    std::string type, val = "";
+
     this->setName( buffer );
 
     while( buffer != "+End" && !file.eof() )
@@ -79,41 +93,49 @@ void Widget::loadFromFile( const std::string & path, const std::string & name )
             file >> s;
             this->setBorderSize( s );
         }
-        else if( buffer == "Content" )
+        else if( buffer == "ContentText")
         {
-            std::string type, val = "";
             int r, g, b;
             sf::Color c(0, 0, 0);
-            WidgetContent * d = NULL;
-
-            file >> type;
-
-            if(type == "TEXT")
+            char s;
+            file >> s; // Read the first '"'
+            file.get(s); // Read the first character of the text
+            while( s != '"')
             {
-                char s;
-                file >> s; // Read the first '"'
-                file.get(s); // Read the first character of the text
-                while( s != '"')
-                {
-                    val.push_back(s);
-                    file.get(s);
-                }
-
-                file >> r >> g >> b;
-                c.r = r;
-                c.b = b;
-                c.g = g;
-
-                d = new WidgetContent(type, val, c);
-            }
-            else
-            {
-                file >> val;
-
-                d = new WidgetContent(type, val);
+                val.push_back(s);
+                file.get(s);
             }
 
-            this->setContent( d );
+            file >> r >> g >> b;
+            c.r = r;
+            c.b = b;
+            c.g = g;
+
+            //d = new WidgetContent(type, val, c);
+            this->text = new sf::Text;
+            sf::Font * f = DataManager::get()->getFont( "data/font/font1.ttf" );
+            if(f)
+            {
+                this->text->setFont( *f );
+            }
+            this->text->setColor( c );
+            this->text->setCharacterSize( 18 );
+            this->text->setString( val );
+        }
+        else if( buffer == "ContentAnimation" )
+        {
+            file >> val;
+
+            //d = new WidgetContent(type, val);
+            this->animation = new Animation;
+            this->animation->load(val);
+        }
+        else if( buffer == "Background" )
+        {
+            file >> val;
+
+            //
+            this->sprite = DataManager::get()->getSprite(val);
         }
         else if( buffer == "PosRel" )
         {
@@ -228,6 +250,42 @@ void Widget::setBorderSize( int s )
     this->shape.setOutlineThickness( s );
 }
 
+void Widget::setAnimation( Animation * a )
+{
+    if(this->animation) { delete animation; }
+    this->animation = a;
+    this->update();
+}
+
+void Widget::setText( sf::Text * t )
+{
+    if(this->text) { delete text; }
+    this->text = t;
+    this->update();
+}
+
+void Widget::setText( std::string t, const sf::Color c )
+{
+    this->text = new sf::Text;
+    sf::Font * f = DataManager::get()->getFont( "data/font/font1.ttf" );
+    if(f)
+    {
+        this->text->setFont( *f );
+    }
+    this->text->setColor( c );
+    this->text->setCharacterSize( 18 );
+    this->text->setString( t );
+    this->update();
+}
+
+void Widget::setSprite( sf::Sprite * s )
+{
+    if(this->sprite) { delete sprite; }
+    this->sprite = s;
+    this->update();
+}
+
+/*
 void Widget::setContent( WidgetContent * d )
 {
     if(this->content)
@@ -238,6 +296,7 @@ void Widget::setContent( WidgetContent * d )
     this->content = d;
     this->update();
 }
+*/
 
 void Widget::setPositionRelative( RelativePosition p )
 {
@@ -318,9 +377,35 @@ void Widget::move( sf::Vector2f p )
 void Widget::update( void )
 {
     sf::FloatRect r(0, 0, 0, 0);
+    /*
     if(this->content)
     {
         r = this->content->getContentBounds();
+    }
+    */
+
+    if(this->sprite)
+    {
+        r.height = std::max(this->sprite->getLocalBounds().height, r.height);
+        r.width = std::max(this->sprite->getLocalBounds().width, r.width);
+        r.top = std::max(this->sprite->getLocalBounds().top, r.top);
+        r.left = std::max(this->sprite->getLocalBounds().left, r.left);
+    }
+
+    if(this->text)
+    {
+        r.height = std::max(this->text->getLocalBounds().height, r.height);
+        r.width = std::max(this->text->getLocalBounds().width, r.width);
+        r.top = std::max(this->text->getLocalBounds().top, r.top);
+        r.left = std::max(this->text->getLocalBounds().left, r.left);
+    }
+
+    if(this->animation)
+    {
+        r.height = std::max(this->animation->update()->getLocalBounds().height, r.height);
+        r.width = std::max(this->animation->update()->getLocalBounds().width, r.width);
+        r.top = std::max(this->animation->update()->getLocalBounds().top, r.top);
+        r.left = std::max(this->animation->update()->getLocalBounds().left, r.left);
     }
 
     sf::Vector2f s1( r.width + this->padding.x*2, r.height + this->padding.y*2 );
@@ -332,13 +417,32 @@ void Widget::update( void )
     this->shape.setSize( sf );
     this->shape.setPosition( this->position );
 
-    if(this->content)
+    if(this->animation)
     {
         int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
         int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
         sf::Vector2f p(x, y);
 
-        this->content->setContentPosition( p );
+        this->animation->m_position = p;
+    }
+
+    if(this->text)
+    {
+        int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
+        int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
+        sf::Vector2f p(x, y);
+
+        this->text->setPosition( p );
+    }
+
+    if(this->sprite)
+    {
+        int x = getAbsolutePosition( r, shape.getGlobalBounds(), CENTER).x;
+        int y = getAbsolutePosition( r, shape.getGlobalBounds(), MIDDLE).y;
+        sf::Vector2f p(x, y);
+
+        this->spritePosition = p;
+        //this->sprite->setPosition( p );
     }
 }
 
@@ -363,13 +467,19 @@ void Widget::draw(sf::RenderTarget& target, sf::RenderStates states) const
     {
         target.draw( this->shape );
 
-        if(this->content)
+        if(this->sprite)
         {
-            sf::Drawable * d = this->content->getContentDraw();
-            if(d)
-            {
-                target.draw( *d );
-            }
+            sprite->setPosition(this->spritePosition);
+            target.draw(*sprite);
+        }
+        if(this->animation)
+        {
+            //target.draw(*animation->update());
+            animation->draw(target);
+        }
+        if(this->text)
+        {
+            target.draw(*text);
         }
     }
 }

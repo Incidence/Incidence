@@ -117,32 +117,32 @@ Element* TileMap::getElement(sf::Vector2i position) const {
  *** Sortie : le coût de la fonction userSetGround si elle est appelée.
 */
 int TileMap::getGroundCost(int type, sf::Vector2i position) {
-	
+
 	int l_cost = 0;
-	
+
 	std::queue<sf::Vector2i> queuePos;
 	std::queue<int> queueTyp;
 	queuePos.push(position);
 	queueTyp.push(type);
 	std::vector<sf::Vector2i> calledPositions;
 	calledPositions.push_back(position);
-	
+
 	while(!queuePos.empty() && !queueTyp.empty()) {
-		
+
 		sf::Vector2i currentPos = queuePos.front();
 		int currentTyp = queueTyp.front();
-		
+
 		Ground* l_ground = getGround(currentPos);
-		
+
 		if(areCompatibleGrounds(l_ground->getType(), currentTyp)) {
 			l_cost += abstractSpreadGround(this, currentTyp, currentPos, calledPositions);
 		}
 		else {
 			int i = currentPos.x;
 			int j = currentPos.y;
-			
+
 			std::vector<int> groundCompatibles;
-			
+
 			for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
 				if(this->areCompatibleGrounds(k, currentTyp)) {
 					groundCompatibles.push_back(k);
@@ -152,13 +152,13 @@ int TileMap::getGroundCost(int type, sf::Vector2i position) {
 				std::cout << "Erreur : aucun sol n'est compatible avec le sol posé." << std::endl;
 			}
 			else {
-				
+
 				l_cost += m_tileset.getGroundCost(currentTyp);
-				
+
 				Ground* l_ground;
 				int GROUND_type;
 				sf::Vector2i l_position;
-				
+
 				for(int k(0) ; k < 4 ; ++k) {
 					if(k == 0) {
 						l_position.x = i - 1;
@@ -176,12 +176,12 @@ int TileMap::getGroundCost(int type, sf::Vector2i position) {
 						l_position.x = i;
 						l_position.y = j + 1;
 					}
-					
+
 					l_ground = getGround(l_position);
 					if(!contains(calledPositions, l_position) && l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), currentTyp)) {
-						
+
 						GROUND_type = bestLinkType(currentTyp, l_ground->getType());
-						
+
 						queuePos.push(l_position);
 						queueTyp.push(GROUND_type);
 						calledPositions.push_back(l_position);
@@ -189,19 +189,19 @@ int TileMap::getGroundCost(int type, sf::Vector2i position) {
 				}
 			}
 		}
-		
+
 		queuePos.pop();
 		queueTyp.pop();
 	}
-	
+
 	return l_cost;
-	
+
 }
 
 int TileMap::getElementCost(int type) const {
-	
+
 	return m_tileset.getElementCost(type);
-	
+
 }
 
 Harvestable * TileMap::getHarvestable(sf::Vector2i position) const {
@@ -326,13 +326,13 @@ void TileMap::updateBorders(sf::Vector2i position) {
 }
 
 void TileMap::updateAllBorders(sf::Vector2i position) {
-	
+
 	updateBorders(position);
 	updateBorders(sf::Vector2i(position.x - 1, position.y));
 	updateBorders(sf::Vector2i(position.x, position.y - 1));
 	updateBorders(sf::Vector2i(position.x + 1, position.y));
 	updateBorders(sf::Vector2i(position.x, position.y + 1));
-	
+
 }
 
 void TileMap::addElement(int type, sf::Vector2i position) {
@@ -473,30 +473,30 @@ int TileMap::bestLinkType(int startType, int goalType) {
  *** Sortie : void.
 */
 void TileMap::userSetGround(int type, sf::Vector2i position) {
-	
+
 	std::queue<sf::Vector2i> queuePos;
 	std::queue<int> queueTyp;
 	queuePos.push(position);
 	queueTyp.push(type);
 	std::vector<sf::Vector2i> calledPositions;
 	calledPositions.push_back(position);
-	
+
 	while(!queuePos.empty() && !queueTyp.empty()) {
-		
+
 		sf::Vector2i currentPos = queuePos.front();
 		int currentTyp = queueTyp.front();
-		
+
 		Ground* l_ground = getGround(currentPos);
-		
+
 		if(areCompatibleGrounds(l_ground->getType(), currentTyp)) {
 			spreadGround(this, currentTyp, currentPos, false);
 		}
 		else {
 			int i = currentPos.x;
 			int j = currentPos.y;
-			
+
 			std::vector<int> groundCompatibles;
-			
+
 			for(int k(0) ; k < (this->getTileSet())->getGroundCount() ; ++k) {
 				if(this->areCompatibleGrounds(k, currentTyp)) {
 					groundCompatibles.push_back(k);
@@ -507,11 +507,11 @@ void TileMap::userSetGround(int type, sf::Vector2i position) {
 			}
 			else {
 				changeGround(currentTyp, currentPos);
-				
+
 				Ground* l_ground;
 				int GROUND_type;
 				sf::Vector2i l_position;
-				
+
 				for(int k(0) ; k < 4 ; ++k) {
 					if(k == 0) {
 						l_position.x = i - 1;
@@ -529,26 +529,26 @@ void TileMap::userSetGround(int type, sf::Vector2i position) {
 						l_position.x = i;
 						l_position.y = j + 1;
 					}
-					
+
 					l_ground = getGround(l_position);
 					if(!contains(calledPositions, l_position) && l_ground != NULL && !areCompatibleGrounds(l_ground->getType(), currentTyp)) {
-						
+
 						GROUND_type = bestLinkType(currentTyp, l_ground->getType());
-						
+
 						queuePos.push(l_position);
 						queueTyp.push(GROUND_type);
 						calledPositions.push_back(l_position);
 					}
 				}
 			}
-			
+
 			updateAllBorders(currentPos);
 		}
-		
+
 		queuePos.pop();
 		queueTyp.pop();
 	}
-	
+
 }
 
 /*
@@ -579,8 +579,8 @@ void TileMap::freePlace(sf::Vector2i position) {
 	removeElement(sf::Vector2i(i - 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j + 1));
 	removeElement(sf::Vector2i(i + 1, j - 1));
-	
-	
+
+
 	// === GROUND ===
 
 	std::vector<int> defaults = m_tileset.getGroundsByBehavior(DEFAULT);

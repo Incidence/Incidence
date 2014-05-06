@@ -47,9 +47,9 @@ public :
 
     void spawnEntity( Entity & e );
     void allHome( void );
-    
-    void actionElement( int type,sf::Vector2i & position );
-    void actionGround( int type,sf::Vector2i & position );
+
+    void actionElement( int type,sf::Vector2i position );
+    void actionGround( int type,sf::Vector2i position );
 
 private :
     TileMap * m_tilemap;
@@ -65,6 +65,7 @@ private :
 
     friend class Entity;
     friend class NightState;
+    friend class TestState;
 };
 
 

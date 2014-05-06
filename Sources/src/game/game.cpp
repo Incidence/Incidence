@@ -55,7 +55,7 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
-	
+
 	//(m_tilemap->getTileSet())->TEST();
 }
 
@@ -252,13 +252,6 @@ void Game::draw( sf::RenderTarget & window )
 
 void Game::handleEvent( sf::Event & e )
 {
-    if (e.type == sf::Event::MouseButtonPressed) {
-        if( m_entityList.size() > 0 ) {
-            m_entityList[0]->setPosition(sf::Vector2f(e.mouseButton.x, e.mouseButton.y));
-        }
-        std::cout << m_tilemap->getGroundCost(5,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y))) << std::endl;
-        m_tilemap->userSetGround(5,m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
-    }
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
 			dilateFluids(m_tilemap);
@@ -392,7 +385,7 @@ void Game::clearEntity( void )
     m_entityList.clear();
 }
 
-void Game::actionElement( int type,sf::Vector2i & position )
+void Game::actionElement( int type,sf::Vector2i position )
 {
     int cost(this->m_tilemap->getElementCost( type ));
     if (this->m_incidencePoint >= cost)
@@ -407,7 +400,7 @@ void Game::actionElement( int type,sf::Vector2i & position )
     }
 }
 
-void Game::actionGround( int type,sf::Vector2i & position )
+void Game::actionGround( int type,sf::Vector2i position )
 {
     int cost(this->m_tilemap->getGroundCost( type,position ));
     if (this->m_incidencePoint >= cost)
