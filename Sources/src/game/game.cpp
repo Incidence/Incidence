@@ -47,7 +47,7 @@ void Game::newGame( void )
 
     m_tilemap = new TileMap(TileSet("data/tileset.ini"), sf::Vector2u(150, 150));
 	m_tilemap->generate();
-	m_weather=new Weather(RAINY,"data/rain.ani");
+	m_weather=new Weather(RAINY,"data/ani/rain.ani");
 	m_incidencePoint=0;
 
 	m_home.load("data/buildings/home.bld");
