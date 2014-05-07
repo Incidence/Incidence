@@ -604,10 +604,6 @@ int spawnEntities(EntityType type, std::vector< Entity * > list) {
 		}
 	}
 
-	if(result == 0) {
-		result++;
-	}
-
 	return result;
 
 }

@@ -55,6 +55,17 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
+	
+	this->addEntity( new Gatherer(ALLY_CITIZEN, this));
+	this->addEntity( new Hunter(HUNTER, this));
+	this->addEntity( new Lumberjack(ALLY_CITIZEN, this));
+	this->addEntity( new Pickman(ALLY_CITIZEN, this));
+	
+	for(int i(0) ; i < 10 ; ++i) {
+		this->addEntity( new EnemyCitizen(ENEMY_CITIZEN, this));
+		this->addEntity( new PeacefulAnimal(PEACEFUL_ANIMAL, this));
+		this->addEntity( new WildAnimal(WILD_ANIMAL, this));
+	}
 
 	//(m_tilemap->getTileSet())->TEST();
 }
