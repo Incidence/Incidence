@@ -278,6 +278,12 @@ void Widget::setText( std::string t, const sf::Color c )
     this->update();
 }
 
+void Widget::setTextSize( int i )
+{
+	this->text->setCharacterSize( i );
+    this->update();
+}
+
 void Widget::setSprite( sf::Sprite * s )
 {
     if(this->sprite) { delete sprite; }

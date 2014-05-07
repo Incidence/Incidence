@@ -31,6 +31,7 @@ public :
     void setAnimation( Animation * a );
     void setText( sf::Text * s );
     void setText( std::string t, const sf::Color c = sf::Color::Black );
+	void setTextSize( int i );
     void setSprite( sf::Sprite * s );
 
     void setPositionRelative( RelativePosition p );

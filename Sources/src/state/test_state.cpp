@@ -53,6 +53,7 @@ void TestState::init( void )
     w = new Widget;
     w->setName("PI_compteur");
     w->setText( "PI : " + itos(m_game->m_incidencePoint), sf::Color::White );
+	w->setTextSize( 10 );
     w->setPositionAbsolute( 50, 5 );
 
     c->addWidget(w);
@@ -282,6 +283,7 @@ void TestState::update( void )
     m_game->update();
 
     m_ui.getWidget("PI_compteur")->setText("PI : " + itos(m_game->m_incidencePoint), sf::Color::White);
+	m_ui.getWidget("PI_compteur")->setTextSize( 10 );
 }
 
 void TestState::handleEvent( sf::Event & e )
