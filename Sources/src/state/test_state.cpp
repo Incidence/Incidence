@@ -73,7 +73,7 @@ void TestState::init( void )
     b->setText("Sols");
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
-    ge.type = EV_SELECT_SOL;
+    ge.type = EV_SELECT_GROUND;
     b->setPositionAbsolute(770, 0);
     b->move( 5, 30 );
     b->setEvent( ge );
@@ -88,6 +88,8 @@ void TestState::init( void )
     b->move( 5, 60 );
     b->setEvent( ge );
     c->addWidget(b);
+	
+	c->setWidgetTextSize( 10 );
 
     /// ----
 
@@ -107,6 +109,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 30 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -117,6 +120,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 60 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -127,6 +131,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 90 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -137,6 +142,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 120 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -147,6 +153,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 150 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -157,6 +164,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 180 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -167,7 +175,10 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 250 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
+	
+	c->setWidgetTextSize( 10 );
 
 
     /// ----
@@ -188,6 +199,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 30 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -198,6 +210,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 60 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -208,6 +221,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 90 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -218,6 +232,7 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 120 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
 
     b = new Button;
@@ -228,7 +243,10 @@ void TestState::init( void )
     b->setPositionAbsolute(770, 0);
     b->move( 5, 250 );
     b->setEvent( ge );
+	b->setShow(false);
     c->addWidget(b);
+	
+	c->setWidgetTextSize( 10 );
 }
 
 void TestState::draw( sf::RenderTarget & window )
@@ -384,7 +402,7 @@ void TestState::treatEvent( GameEvent e )
 {
     switch(e.type) {
 
-    case EV_SELECT_SOL :
+    case EV_SELECT_GROUND :
         m_ui.getWidget("cont_sols")->setShow(true);
         m_ui.getWidget("cont_selection")->setShow(false);
         m_ui.getWidget("cont_elem")->setShow(false);

@@ -107,6 +107,14 @@ void Container::addWidget( Widget * w )
     this->contents.push_back( w );
 }
 
+void Container::setWidgetTextSize( int size )
+{
+	for( std::list< Widget* >::iterator i = this->contents.begin(); i != this->contents.end(); i++ )
+    {
+		(*i)->setTextSize(size);
+	}
+}
+
 Widget * Container::getWidget( std::string name )
 {
     Widget * w = NULL;

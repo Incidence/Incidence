@@ -24,7 +24,7 @@ typedef enum GameType{
     EV_EXIT,
     EV_SCROLL_UP,
     EV_SCROLL_DOWN,
-    EV_SELECT_SOL,
+    EV_SELECT_GROUND,
     EV_SELECT_ELEMENT,
     EV_SELECT_FALAISE,
     EV_SELECT_EAU,

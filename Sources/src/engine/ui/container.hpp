@@ -24,6 +24,7 @@ public :
     // Methods :
 
     virtual void addWidget( Widget * w );
+	void setWidgetTextSize( int size );
     virtual void update( void );
     virtual Widget * getWidget( std::string name );
     virtual void setShow( bool b );
