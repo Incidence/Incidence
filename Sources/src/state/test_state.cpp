@@ -109,12 +109,123 @@ void TestState::init( void )
     c->addWidget(b);
 
     b = new Button;
+    b->setText("sable");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_SABLE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 60 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("terre");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_TERRE_SECHE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 90 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("herbe");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_TERRE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 120 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("herbe mouillé");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_TERRE_INNONDE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 150 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
     b->setText("eau");
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_EAU;
     b->setPositionAbsolute(770, 0);
+    b->move( 5, 180 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("retour");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_CANCEL;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 250 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+
+    /// ----
+
+    c = new Container;
+    c->setName("cont_elem");
+    c->setBackground(sf::Color(150, 150, 150));
+    c->setSize(30, 600);
+    c->setPositionAbsolute(770, 0);
+    c->setShow(false);
+    m_ui.addWidget(c);
+
+    b = new Button;
+    b->setText("arbre");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_ARBRE;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 30 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("pierre");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_PIERRE;
+    b->setPositionAbsolute(770, 0);
     b->move( 5, 60 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("fruit");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_FRUITIER;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 90 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("buisson");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_SELECT_BUISSON;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 120 );
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    b = new Button;
+    b->setText("retour");
+    b->setBorderOver(sf::Color::Red);
+    b->setBorderSize(1);
+    ge.type = EV_CANCEL;
+    b->setPositionAbsolute(770, 0);
+    b->move( 5, 250 );
     b->setEvent( ge );
     c->addWidget(b);
 }
@@ -249,12 +360,22 @@ void TestState::handleEvent( sf::Event & e )
         }
     }
 
-    if (e.type == sf::Event::MouseButtonPressed) {
-        m_game->actionGround(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
+
+    if(! m_ui.handleEvent(e)) {
+        if ( e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && m_element != -1 ) {
+            if(m_element == 0) {
+                m_game->actionGround(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x + m_view.getCenter().x - m_view.getSize().x/2, e.mouseButton.y + m_view.getCenter().y - m_view.getSize().y/2)));
+            } else if(m_element == 1) {
+                m_game->actionElement(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
+            }
+        }
+    }
+
+     if ( e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Right ) {
+            m_select = -1;
     }
 
     m_game->handleEvent(e);
-    m_ui.handleEvent(e);
 }
 
 void TestState::treatEvent( GameEvent e )
@@ -264,17 +385,78 @@ void TestState::treatEvent( GameEvent e )
     case EV_SELECT_SOL :
         m_ui.getWidget("cont_sols")->setShow(true);
         m_ui.getWidget("cont_selection")->setShow(false);
+        m_ui.getWidget("cont_elem")->setShow(false);
         std::cout << "selec sol" << std::endl;
+        m_element = 0;
         break;
+
+    case EV_SELECT_ELEMENT :
+        m_ui.getWidget("cont_sols")->setShow(false);
+        m_ui.getWidget("cont_selection")->setShow(false);
+        m_ui.getWidget("cont_elem")->setShow(true);
+        std::cout << "selec elem" << std::endl;
+        m_element = 1;
+        break;
+
+    case EV_CANCEL :
+        m_ui.getWidget("cont_sols")->setShow(false);
+        m_ui.getWidget("cont_selection")->setShow(true);
+        m_ui.getWidget("cont_elem")->setShow(false);
+        std::cout << "cancel" << std::endl;
+        m_element = -1;
+        break;
+
+/// //
 
     case EV_SELECT_FALAISE :
         m_select = 5;
-        std::cout << "eua sol" << std::endl;
+        std::cout << "fal sol" << std::endl;
+        break;
+
+    case EV_SELECT_SABLE :
+        m_select = 4;
+        std::cout << "sable sol" << std::endl;
+        break;
+
+    case EV_SELECT_TERRE_SECHE :
+        m_select = 3;
+        std::cout << "sec sol" << std::endl;
+        break;
+
+    case EV_SELECT_TERRE :
+        m_select = 2;
+        std::cout << "terre sol" << std::endl;
+        break;
+
+    case EV_SELECT_TERRE_INNONDE :
+        m_select = 1;
+        std::cout << "inno sol" << std::endl;
         break;
 
     case EV_SELECT_EAU :
         m_select = 0;
-        std::cout << "fala sol" << std::endl;
+        std::cout << "eau sol" << std::endl;
+        break;
+
+
+    case EV_SELECT_ARBRE :
+        m_select = 0;
+        std::cout << "arbre sol" << std::endl;
+        break;
+
+    case EV_SELECT_FRUITIER :
+        m_select = 1;
+        std::cout << "fruit sol" << std::endl;
+        break;
+
+    case EV_SELECT_BUISSON :
+        m_select = 2;
+        std::cout << "buisson sol" << std::endl;
+        break;
+
+    case EV_SELECT_PIERRE :
+        m_select = 3;
+        std::cout << "roch sol" << std::endl;
         break;
 
     default :

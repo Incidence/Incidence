@@ -22,7 +22,7 @@ public :
     void addWidget( Widget * w );
 
     void draw( sf::RenderTarget & window );
-    void handleEvent( sf::Event & e, std::list< Widget* > * c = NULL);
+    bool handleEvent( sf::Event & e, std::list< Widget* > * c = NULL);
 
     Widget * getWidget( std::string name );
 

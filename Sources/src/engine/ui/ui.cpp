@@ -112,8 +112,10 @@ void UI::draw( sf::RenderTarget & window )
     }
 }
 
-void UI::handleEvent( sf::Event & e, std::list< Widget* > * c )
+bool UI::handleEvent( sf::Event & e, std::list< Widget* > * c )
 {
+    bool onUi = false;
+
     std::list< Widget* > * content = c;
     if(content == NULL)
     {
@@ -170,6 +172,20 @@ void UI::handleEvent( sf::Event & e, std::list< Widget* > * c )
             }
         } break;
 
+
+        case sf::Event::MouseButtonPressed :
+        {
+            for( std::list< Widget* >::iterator i = content->begin(); i != content->end(); i++ )
+            {
+                if( (*i)->isShow() && (*i)->isOver( sf::Vector2i(e.mouseButton.x, e.mouseButton.y)) )
+                {
+                    onUi = true;
+                    break;
+                }
+            }
+        } break;
+
+
         case sf::Event::TextEntered :
         {
             for( std::list< Widget* >::iterator i = content->begin(); i != content->end(); i++ )
@@ -196,6 +212,8 @@ void UI::handleEvent( sf::Event & e, std::list< Widget* > * c )
         default :
             break;
     }
+
+    return onUi;
 }
 
 Widget * UI::getWidget( std::string name )

@@ -32,6 +32,7 @@ private :
 
     UI m_ui;
     int m_select;
+    int m_element;
 };
 
 #endif // _TEST_STATE_
