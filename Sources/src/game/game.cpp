@@ -317,7 +317,7 @@ void Game::handleEvent( sf::Event & e )
             else{std::cout<<"erreur chargement musique"<<std::endl;}
 		}
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
 			m_Ambiancemusic.stop();
 		}
     }
