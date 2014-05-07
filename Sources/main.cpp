@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 #include "src/engine/state_manager.hpp"
-#include "src/state/main_state.hpp"
+#include "src/state/main_menu_state.hpp"
 #include "src/state/test_state.hpp"
 #include "src/engine/time.hpp"
 
@@ -16,11 +16,13 @@ int main()
     window.setFramerateLimit(60);
     window.setKeyRepeatEnabled(false);
 
-    StateManager::get()->addState(new TestState(&window));
+    StateManager::get()->addState(new MainMenuState(&window));
 
     while (window.isOpen() && !StateManager::get()->isEmpty())
     {
         StateManager::get()->setCurrent();
+
+        StateManager::get()->update();
 
         sf::Event event;
         while (window.pollEvent(event))
@@ -32,8 +34,6 @@ int main()
 
             StateManager::get()->handleEvent( event );
         }
-
-        StateManager::get()->update();
 
         window.clear();
             StateManager::get()->draw( window );
