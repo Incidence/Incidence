@@ -55,18 +55,17 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
-	
+
 	this->addEntity( new Gatherer(ALLY_CITIZEN, this));
 	this->addEntity( new Hunter(HUNTER, this));
 	this->addEntity( new Lumberjack(ALLY_CITIZEN, this));
 	this->addEntity( new Pickman(ALLY_CITIZEN, this));
-	
+
 	for(int i(0) ; i < 10 ; ++i) {
 		this->addEntity( new EnemyCitizen(ENEMY_CITIZEN, this));
 		this->addEntity( new PeacefulAnimal(PEACEFUL_ANIMAL, this));
 		this->addEntity( new WildAnimal(WILD_ANIMAL, this));
 	}
-
 	//(m_tilemap->getTileSet())->TEST();
 }
 
@@ -299,6 +298,27 @@ void Game::handleEvent( sf::Event & e )
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			m_weather->setWeatherToday(RAINY);
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+			if (m_Ambiancemusic.openFromFile("data/ambiance_civ.ogg")) //musique un peu plus percutante
+            {
+                m_Ambiancemusic.setLoop(true);
+                m_Ambiancemusic.play();
+            }
+            else{std::cout<<"erreur chargement musique"<<std::endl;}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			if (m_Ambiancemusic.openFromFile("data/ambiance_magic.ogg")) //musique douce
+            {
+                m_Ambiancemusic.setLoop(true);
+                m_Ambiancemusic.play();
+            }
+            else{std::cout<<"erreur chargement musique"<<std::endl;}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+			m_Ambiancemusic.stop();
 		}
     }
 }
