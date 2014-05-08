@@ -333,7 +333,7 @@ void NightState::treatEvent( GameEvent e )
     if(m_prctLumberjack < 0) { m_prctLumberjack = 0; }
     if(m_prctPickman < 0) { m_prctPickman = 0; }
 
-    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::Black );
+    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::Black  );
     m_ui.getWidget("textLumberjack")->setText( itos(prct(m_prctLumberjack)), sf::Color::Black );
     m_ui.getWidget("textPickman")->setText( itos(prct(m_prctPickman)), sf::Color::Black );
     m_ui.getWidget("textHunter")->setText( itos(prct(m_prctHunter)), sf::Color::Black );

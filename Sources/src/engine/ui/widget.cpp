@@ -266,14 +266,16 @@ void Widget::setText( sf::Text * t )
 
 void Widget::setText( std::string t, const sf::Color c )
 {
-    this->text = new sf::Text;
-    sf::Font * f = DataManager::get()->getFont( "data/font/font1.ttf" );
-    if(f)
-    {
-        this->text->setFont( *f );
+    if(!text) {
+        this->text = new sf::Text;
+        sf::Font * f = DataManager::get()->getFont( "data/font/font1.ttf" );
+        if(f)
+        {
+            this->text->setFont( *f );
+        }
+        this->text->setCharacterSize( 18 );
     }
     this->text->setColor( c );
-    this->text->setCharacterSize( 18 );
     this->text->setString( t );
     this->update();
 }

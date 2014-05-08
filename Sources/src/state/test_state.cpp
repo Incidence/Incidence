@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this)
+TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this), m_pause(false)
 {
     m_game = new Game();
 	m_window = window;
@@ -71,6 +71,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("Sols");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_GROUND;
@@ -81,6 +82,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("Elements");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_ELEMENT;
@@ -88,8 +90,6 @@ void TestState::init( void )
     b->move( 5, 60 );
     b->setEvent( ge );
     c->addWidget(b);
-	
-	c->setWidgetTextSize( 10 );
 
     /// ----
 
@@ -103,6 +103,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("falaise");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_FALAISE;
@@ -114,6 +115,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("sable");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_SABLE;
@@ -125,6 +127,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("terre");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_TERRE_SECHE;
@@ -136,6 +139,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("herbe");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_TERRE;
@@ -147,6 +151,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("herbe mouillé");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_TERRE_INNONDE;
@@ -158,6 +163,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("eau");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_EAU;
@@ -169,6 +175,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("retour");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_CANCEL;
@@ -177,8 +184,6 @@ void TestState::init( void )
     b->setEvent( ge );
 	b->setShow(false);
     c->addWidget(b);
-	
-	c->setWidgetTextSize( 10 );
 
 
     /// ----
@@ -193,6 +198,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("arbre");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_ARBRE;
@@ -204,6 +210,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("pierre");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_PIERRE;
@@ -215,6 +222,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("fruit");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_FRUITIER;
@@ -226,6 +234,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("buisson");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_SELECT_BUISSON;
@@ -237,6 +246,7 @@ void TestState::init( void )
 
     b = new Button;
     b->setText("retour");
+	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
     ge.type = EV_CANCEL;
@@ -245,8 +255,6 @@ void TestState::init( void )
     b->setEvent( ge );
 	b->setShow(false);
     c->addWidget(b);
-	
-	c->setWidgetTextSize( 10 );
 }
 
 void TestState::draw( sf::RenderTarget & window )
@@ -262,6 +270,11 @@ void TestState::update( void )
     if(m_night) {
         m_dayBeginTime = Time::get()->elapsed().asSeconds();
         m_night = false;
+    }
+
+    if(m_pause) {
+        m_dayBeginTime = Time::get()->elapsed().asSeconds() - (m_timePause - m_dayBeginTime);
+        m_pause = false;
     }
 
 	sf::Vector2u dimensions = (m_game->getTilemap())->getDimensions();
@@ -371,6 +384,8 @@ void TestState::handleEvent( sf::Event & e )
 
             case sf::Keyboard::Escape :
             {
+                m_pause = true;
+                m_timePause = Time::get()->elapsed().asSeconds();
                 StateManager::get()->addState(new GameMenuState(m_game));
             } break;
 

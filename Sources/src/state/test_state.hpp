@@ -29,6 +29,8 @@ private :
     int m_dayDuration;
     int m_dayBeginTime;
     bool m_night;
+    int m_timePause;
+    bool m_pause;
 
     UI m_ui;
     int m_select;
