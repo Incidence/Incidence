@@ -41,5 +41,17 @@ typedef enum{
     A_ACTION
 } AnimationType;
 
+typedef enum{
+
+    S_GOOD,
+    S_NORMAL,
+    S_TIRED,
+    S_WEAK,
+    S_VERY_WEAK,
+    S_TIRED_GOOD,
+    S_TIRED_NORMAL,
+    S_TIRED_WEAK,
+    S_TIRED_VERY_WEAK
+}StateType;
 
 #endif

@@ -80,6 +80,8 @@ public :
     void setisTired(bool t);
     void setisSick(bool s);
     float weaknessCoeff(Health h);//mise ici car erreur avec multiple definition si mise dans entity_type.hpp
+    void initStateiconList();
+    void setStateicon(StateType s);
 
     const char m_job;
 
@@ -114,6 +116,9 @@ protected :
     bool m_isAttacked;
     bool m_isSick;
     bool m_isTired;
+
+    sf::Sprite m_etat;
+    std::map<StateType,sf::Texture> m_stateiconList;
 
 public :
 

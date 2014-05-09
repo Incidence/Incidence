@@ -55,12 +55,12 @@ void Game::newGame( void )
 	m_buildings.push_back(m_home);
 
 	m_tilemap->freePlace(m_home.getPosition());
-	
+
 	this->addEntity( new Gatherer(ALLY_CITIZEN, this));
 	this->addEntity( new Hunter(HUNTER, this));
 	this->addEntity( new Lumberjack(ALLY_CITIZEN, this));
 	this->addEntity( new Pickman(ALLY_CITIZEN, this));
-	
+
 	for(int i(0) ; i < 10 ; ++i) {
 		this->addEntity( new EnemyCitizen(ENEMY_CITIZEN, this));
 		this->addEntity( new PeacefulAnimal(PEACEFUL_ANIMAL, this));
@@ -250,6 +250,7 @@ void Game::draw( sf::RenderTarget & window )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             window.draw( * (*it)->draw() );
+            window.draw( (*it)->m_etat );
         }
     }
     m_tilemap->drawElementsUp( window );
@@ -265,31 +266,95 @@ void Game::handleEvent( sf::Event & e )
 {
     if (e.type == sf::Event::KeyPressed) {
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-			dilateFluids(m_tilemap);
+			//dilateFluids(m_tilemap);
+            for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_GOOD);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-			erodeFluids(m_tilemap);
+			//erodeFluids(m_tilemap);
+            for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_NORMAL);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-			dilateNearFluids(m_tilemap);
+			//dilateNearFluids(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_TIRED);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-			erodeNearFluids(m_tilemap);
+			//erodeNearFluids(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_WEAK);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
-			dilateForests(m_tilemap);
+			//dilateForests(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_VERY_WEAK);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-			erodeForests(m_tilemap);
+			//erodeForests(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_TIRED_GOOD);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
-			dilateNearCliffs(m_tilemap);
+			//dilateNearCliffs(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_TIRED_NORMAL);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
-			erodeNearCliffs(m_tilemap);
+			//erodeNearCliffs(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_TIRED_WEAK);
+                }
+            }
+
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
-			burnRessources(m_tilemap);
+			//burnRessources(m_tilemap);
+			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
+            {
+                if( !(*it)->isDead() )
+                {
+                    (*it)->setStateicon(S_TIRED_VERY_WEAK);
+                }
+            }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
 			spawnRessources(m_tilemap);
@@ -299,6 +364,26 @@ void Game::handleEvent( sf::Event & e )
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
 			m_weather->setWeatherToday(RAINY);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
+			if (m_Ambiancemusic.openFromFile("data/ambiance_civ.ogg")) //musique un peu plus percutante
+            {
+                m_Ambiancemusic.setLoop(true);
+                m_Ambiancemusic.play();
+            }
+            else{std::cout<<"erreur chargement musique"<<std::endl;}
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+			if (m_Ambiancemusic.openFromFile("data/ambiance_magic.ogg")) //musique douce
+            {
+                m_Ambiancemusic.setLoop(true);
+                m_Ambiancemusic.play();
+            }
+            else{std::cout<<"erreur chargement musique"<<std::endl;}
+		}
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
+			m_Ambiancemusic.stop();
 		}
     }
 }

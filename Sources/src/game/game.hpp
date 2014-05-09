@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 #include "level.hpp"
 #include "entity/entity.hpp"
@@ -62,6 +63,8 @@ private :
     int qtyWood;
     int qtyFood;
     int qtyStone;
+
+    sf::Music m_Ambiancemusic;
 
     friend class Entity;
     friend class NightState;
