@@ -250,7 +250,7 @@ void Game::draw( sf::RenderTarget & window )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             window.draw( * (*it)->draw() );
-            window.draw( (*it)->m_etat );
+            window.draw( (*it)->m_state );
         }
     }
     m_tilemap->drawElementsUp( window );

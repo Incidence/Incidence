@@ -91,7 +91,7 @@ void GameMenuState::treatEvent( GameEvent e )
         break;
 
     case EV_QUIT :
-        StateManager::get()->popState();
+		StateManager::get()->popState(); //il faudrait kill mais là il fait processEvent après
         break;
 
     case EV_SAVE_MENU :

@@ -61,7 +61,7 @@ sf::Sprite * Entity::draw( void )
     sf::Sprite * s = m_animation->update();
     s->setOrigin(16, 16);
     s->setPosition(m_position);
-    m_etat.setPosition(m_position.x-25,m_position.y-(s->getLocalBounds().height+10));
+    m_state.setPosition(m_position.x-25,m_position.y-(s->getLocalBounds().height+10));
     return s;
 }
 
@@ -763,40 +763,69 @@ float Entity::weaknessCoeff(Health h)
 
 void Entity::initStateiconList()
 {
-    sf::Texture good;
-    good.loadFromFile("data/img/entities/Etats/good.png");
-    sf::Texture normal;
-    normal.loadFromFile("data/img/entities/Etats/bnormal.png");
-    sf::Texture tired;
-    tired.loadFromFile("data/img/entities/Etats/tired.png");
-    sf::Texture weak;
-    weak.loadFromFile("data/img/entities/Etats/weak.png");
-    sf::Texture veryweak;
-    veryweak.loadFromFile("data/img/entities/Etats/veryweak.png");
-    sf::Texture tiredgood;
-    tiredgood.loadFromFile("data/img/entities/Etats/tiredgood.png");
-    sf::Texture tirednormal;
-    tirednormal.loadFromFile("data/img/entities/Etats/tirednormal.png");
-    sf::Texture tiredweak;
-    tiredweak.loadFromFile("data/img/entities/Etats/tiredweak.png");
-    sf::Texture tiredveryweak;
-    tiredveryweak.loadFromFile("data/img/entities/Etats/tiredveryweak.png");
+    m_stateiconList[S_GOOD].loadFromFile("data/img/entities/states/good.png");
+    m_stateiconList[S_NORMAL].loadFromFile("data/img/entities/states/bnormal.png");
+    //m_stateiconList[S_TIRED].loadFromFile("data/img/entities/states/tired.png"); -> inutilisé
+    m_stateiconList[S_WEAK].loadFromFile("data/img/entities/states/weak.png");
+    m_stateiconList[S_VERY_WEAK].loadFromFile("data/img/entities/states/veryweak.png");
+    m_stateiconList[S_TIRED_GOOD].loadFromFile("data/img/entities/states/tiredgood.png");
+    m_stateiconList[S_TIRED_NORMAL].loadFromFile("data/img/entities/states/tirednormal.png");
+    m_stateiconList[S_TIRED_WEAK].loadFromFile("data/img/entities/states/tiredweak.png");
+    m_stateiconList[S_TIRED_VERY_WEAK].loadFromFile("data/img/entities/states/tiredveryweak.png");
+	
+	if(!isTired()) {
+		switch(getHealth())
+		{
+			case GOOD:
+				m_state.setTexture(m_stateiconList[S_GOOD]);
+				break;
 
-    m_stateiconList[S_GOOD]= good;
-    m_stateiconList[S_NORMAL]= normal;
-    m_stateiconList[S_TIRED]= tired;
-    m_stateiconList[S_WEAK]= weak;
-    m_stateiconList[S_VERY_WEAK]= veryweak;
-    m_stateiconList[S_TIRED_GOOD]= tiredgood;
-    m_stateiconList[S_TIRED_NORMAL]= tirednormal;
-    m_stateiconList[S_TIRED_WEAK]= tiredweak;
-    m_stateiconList[S_TIRED_VERY_WEAK]= tiredveryweak;
-    m_etat.setTexture(m_stateiconList[S_GOOD]);
+			case NORMAL:
+				m_state.setTexture(m_stateiconList[S_NORMAL]);
+				break;
+
+			case WEAK:
+				m_state.setTexture(m_stateiconList[S_WEAK]);
+				break;
+
+			case VERY_WEAK:
+				m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+				break;
+
+			default:
+				m_state.setTexture(m_stateiconList[S_NORMAL]);
+				break;
+		}
+	}
+	else {
+		switch(getHealth())
+		{
+			case GOOD:
+				m_state.setTexture(m_stateiconList[S_TIRED_GOOD]);
+				break;
+
+			case NORMAL:
+				m_state.setTexture(m_stateiconList[S_TIRED_NORMAL]);
+				break;
+
+			case WEAK:
+				m_state.setTexture(m_stateiconList[S_TIRED_WEAK]);
+				break;
+
+			case VERY_WEAK:
+				m_state.setTexture(m_stateiconList[S_TIRED_VERY_WEAK]);
+				break;
+
+			default:
+				m_state.setTexture(m_stateiconList[S_TIRED_NORMAL]);
+				break;
+		}
+	}
 }
 
 void Entity::setStateicon(StateType s)
 {
-   m_etat.setTexture( m_stateiconList[s]);
+   m_state.setTexture( m_stateiconList[s]);
 }
 
 

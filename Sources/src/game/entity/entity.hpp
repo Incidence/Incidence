@@ -117,7 +117,7 @@ protected :
     bool m_isSick;
     bool m_isTired;
 
-    sf::Sprite m_etat;
+    sf::Sprite m_state;
     std::map<StateType,sf::Texture> m_stateiconList;
 
 public :
