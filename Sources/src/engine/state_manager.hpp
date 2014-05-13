@@ -18,7 +18,7 @@ public :
     void handleEvent( sf::Event & e );
 
     void addState( State * s );
-    void popState( void );
+    void popState( int popNb = 1 );
     State * getCurrent( void );
     void setCurrent( void );
     bool isEmpty( void ) const;
@@ -33,7 +33,7 @@ private :
 
     State * m_current;
     std::stack<State*> m_stateManaged;
-    bool m_pop;
+    int m_pop;
 
 };
 
