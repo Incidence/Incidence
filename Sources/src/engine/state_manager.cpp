@@ -24,7 +24,7 @@ void StateManager::kill( void )
 }
 
 
-StateManager::StateManager( void ) : m_pop(false) { }
+StateManager::StateManager( void ) : m_pop(0) { }
 
 StateManager::~StateManager( void )
 {
@@ -66,16 +66,16 @@ void StateManager::addState( State * s )
 }
 
 
-void StateManager::popState( void )
+void StateManager::popState( int popNb )
 {
-    m_pop = true;
+    m_pop = popNb;
 }
 
 void StateManager::deleteState( void )
 {
-    if( m_pop )
+    while( m_pop > 0 )
     {
-        m_pop = false;
+        m_pop--;
 
         State * s = getCurrent();
         if(s)
@@ -83,6 +83,10 @@ void StateManager::deleteState( void )
             delete s;
             s = NULL;
             m_stateManaged.pop();
+            if (!m_stateManaged.empty())
+            {
+                m_current = m_stateManaged.top();
+            }
         }
     }
 }
