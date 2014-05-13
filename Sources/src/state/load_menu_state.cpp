@@ -157,7 +157,7 @@ void LoadMenuState::treatEvent( GameEvent e )
         {
             std::cout << ("saves/"+e.text) << std::endl;
             m_game->loadGame("saves/"+e.text);
-            StateManager::get()->popState();
+            StateManager::get()->popState(2);
         }
         break;
 
