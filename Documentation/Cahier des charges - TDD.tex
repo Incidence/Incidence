@@ -55,15 +55,21 @@
 
       \subsection{Gestion du temps}
         \label{GestionTps}
-        \alinea Afin de clarifier notre gestion du temps, un diagramme Gantt est disponible dans la documentation de notre projet, et sera mis à jour en fonction de l'avancée du projet.\\
-        \alinea Voici tout de même une première estimation du temps nécessaire :
+        \alinea Afin de clarifier notre gestion du temps, un diagramme de Gantt est disponible dans la documentation de notre projet, et sera mis à jour en fonction de l'avancée du projet.\\
+		\newpage
         \begin{figure}
           \begin{center}
-            %TODO
-            %\includegraphics[scale=0.5]{img/DiagrammeGantt.png}
+            %\includegraphics[scale=0.5]{img/gantt_1.png}
           \end{center}
           \label{DiagGantt}
-          \caption{Première estimation du temps sous forme de Gantt}
+          \caption{Diagramme de Gantt (page 1)}
+        \end{figure}
+		\newpage
+        \begin{figure}
+          \begin{center}
+            %\includegraphics[scale=0.5]{img/gantt_2.png}
+          \end{center}
+          \caption{Diagramme de Gantt (page 2)}
         \end{figure}
 
     \section{Choix technologiques}
@@ -132,7 +138,11 @@
 	    \alinea Les différentes cartes sauvegardées seront enregistrées dans des fichiers IMS (Incidence Map Save), dans lesquels seront stockés le tileset utilisé et la conformation de la carte (dimensions, sols et éléments).
       
       \subsection{Sauvegarde}
-		%TODO
+		\alinea Un fichier sera créé pour la savegarde du jeu et un autre pour la sauvegarde de la carte, cela permettant dans le futur de créer des cartes réutilisables, comme par exemple dans un éditeur de carte.\\
+		\\
+		\alinea %TODO
+		\\
+		\alinea Le fichier de carte contiendra uniquement le lien vers le tileset ainsi que les types de sols et éléments présents sur la carte. Le fichier sera donc de la taille : 2 * nombre_de_cases * sizeof(int) + sizeof(chemin_du_tileset).\\
       
     \section{Commentaires}
       \alinea Chaque fichier aura un en-tête devant contenir une brève explication quant au rôle de celui-ci, ainsi que les date de création et de dernière modification afin de faciliter les éventuelles recherches de versions sur le dépôt distant.\\
@@ -399,19 +409,34 @@
             \caption{Apparition de rochers uniquement}
           \end{figure}
         
-      
-\newpage
-  \part{Milestones}
-    12 Mars 2013 : Gestion de la carte et des entités terminée + ajout des entités sur la carte + ajout des scripts aux entités\\
-    19 Mars 2013 : Finalisation des scripts et des entités\\
-    10 Avril 2013 : Fin de la première version :D\\
-      
-      
 \newpage
   \part{Effets Graphiques}
-    
+	\alinea Tous les effets graphiques du projet sont à base de sprites. Nous avons initialement choisi des tuiles de 32x32 pixels, mais il serait possible de changer cette taille dans le futur.\\
+	\\
+	\alinea Chaque sol du tileset est affiché avec des bordures selon les types de sols environnant.\\
+    \begin{figure}
+      \begin{center}
+        %\includegraphics[scale=0.2]{img/groundSample.png}
+      \end{center}
+      \caption{Exemple de bordures sur les sols}
+    \end{figure}
+	\alinea Chaque élément est affiché différemment selon le type de sol sur lequel il se trouve.\\
+    \begin{figure}
+      \begin{center}
+        %\includegraphics[scale=0.2]{img/elementSample.png}
+      \end{center}
+      \caption{Exemple d'élément qui diffère selon le sol}
+    \end{figure}
+    \alinea Chaque entité est animée selon sa classe, son sens de déplacement ou son action.\\
+    \begin{figure}
+      \begin{center}
+        %\includegraphics[scale=0.2]{img/animationSample.png}
+      \end{center}
+      \caption{Exemple d'animations}
+    \end{figure}
       
 \newpage
   \part{Effets Sonores}
+	%TODO
 
 \end{document}
