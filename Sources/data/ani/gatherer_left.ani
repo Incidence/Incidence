@@ -1,5 +1,5 @@
-data/img/entities/gatherer_left.png 32 32 1 1
-+Frame 0 0 0.2
-+Frame 0 32 0.2
-+Frame 0 64 0.2
-+Frame 0 96 0.2
+data/img/entities/gatherer.png 32 32 1 1
++Frame 32 0 0.2
++Frame 32 32 0.2
++Frame 32 64 0.2
++Frame 32 96 0.2

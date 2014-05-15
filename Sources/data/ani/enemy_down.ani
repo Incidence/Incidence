@@ -1,4 +1,4 @@
-data/img/entities/enemy_down.png 32 32 1 1
+data/img/entities/enemy.png 32 32 1 1
 +Frame 0 0 0.2
 +Frame 0 32 0.2
 +Frame 0 64 0.2

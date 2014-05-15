@@ -1,5 +1,5 @@
-data/img/entities/lumberjack_up.png 32 32 1 1
-+Frame 0 0 0.2
-+Frame 0 32 0.2
-+Frame 0 64 0.2
-+Frame 0 96 0.2
+data/img/entities/lumberjack.png 32 32 1 1
++Frame 96 0 0.2
++Frame 96 32 0.2
++Frame 96 64 0.2
++Frame 96 96 0.2
