@@ -18,7 +18,8 @@
   
   \newpage
   \part{Remerciements}
-
+		Merci.
+		
   \newpage
   \part{Cahier des charges}
   
@@ -38,15 +39,11 @@
           La partie se terminera quand le joueur n'aura plus de citoyen.
 		  
     \section{Mecanismes de jeu}
+		
 
-%Multijoueur ? Mods ?
-%Différent modes de jeu ?
-%On peut créer ses propres cartes ? un éditeur accessible ?
-%Ajout script, perso, autre ?
-
-	  \subsection{Actions du joueur}
-		Le joueur aura la possibilité d'interagir sur l'environnement via differents pouvoirs.
-        \subsubsection{Pouvoirs de base}
+		\subsection{Les Pouvoirs}
+			Le joueur aura la possibilité d'interagir sur l'environnement via differents pouvoirs.
+    
           \begin{itemize} \small
             \item \textbf{Placer un Arbre :} Fait apparaître un Arbre sur une case choisie. Coût : 3 PI.
             \item \textbf{Placer un Arbre Fruitier :} Fait apparaître un Arbre Fruitier sur une case choisie. Coût : 6 PI.
@@ -56,26 +53,76 @@
             \item \textbf{Placer un Buisson :} Fait apparaître un Buisson sur une case choisie. Coût : 4 PI.
             \item \textbf{Placer de la Terre :} Fait apparaître de la Terre sur une case choisie, la Terre placée s'adapte en fonction des autres Terres autour. Coût : 2 PI.
           \end{itemize} \normalsize
-
-        \subsubsection{Pouvoirs divins}
           \begin{itemize} \small
             \item \textbf{Soigner :} Améliore l'état de santé d'un citoyen. Coût : 50 PI.
             \item \textbf{Naissance :} Crée un citoyen supplémentaire, hors naissances quotidiennes. Coût : 200 PI.
           \end{itemize} \normalsize
 
-        \subsubsection{Choix de la nuit}
+        \subsection{Choix de la nuit}
           \begin{itemize} \small
             \item \textbf{Météo :} Le joueur peut choisir la météo du jour suivant (ensoleillée ou pluvieuse).
             \item \textbf{Métier :} Le joueur peut orienter la distribution des métiers, sans définir exactement la proportion de chaque métier.
           \end{itemize} \normalsize
 		  
-        \subsubsection{Sauver et Charger une partie}
+        \subsection{Sauver et Charger une partie}
           \alinea Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.\\
           Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
     
     \section{Structure du jeu}
     
       \subsection{Moteur multi-agent}
+        \alinea La gestion multi-agent se fera à l'aide d'un appel au script de chaque catégorie d'entité pour chaque tick. Chaque catégorie d'entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur pour decider de l'action à faire.
+
+        \subsubsection{Primitives}
+          \begin{itemize} \small
+            \item Connaître les entités et cases alentours
+            \item Connaître l'emplacement du village
+            \item Changer de direction
+            \item Connaitre sa santé
+            \item Si leur sac est plein
+            \item S'il est attaqué
+            \item Par qui sont-ils attaqué
+          \end{itemize} \normalsize
+		  
+		  
+        \subsubsection{Actions}
+          \begin{itemize} \small
+            \item Avancer
+            \item Couper un Arbre
+            \item Ramasser des Baies
+            \item Casser de la Pierre
+            \item Rentrer au village
+            \item Attaquer une entité
+          \end{itemize} \normalsize
+
+
+		\subsection{Les Entites}
+			\subsubsection{Les métiers des citoyens}
+			\label{Metier}
+			\alinea Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf. section \ref{Cycle}, page \pageref{Cycle}).
+			\begin{itemize} \small
+			  \item \textbf{Bûcheron :} Coupe les arbres et récolte les ressources associées (Le Bois en général mais aussi de la nourriture sur les Arbres Fruitier).
+			  \item \textbf{Mineur :} Casse les rochers et récolte la Pierre.
+			  \item \textbf{Chasseur-Cueilleur :} Chasse les animaux, cueille les baies ou cultive des champs pour récolter la Nourriture.
+			\end{itemize} \normalsize
+
+		  \subsubsection{La santé des entités vivantes}
+			\alinea Chacune des entités possède une gestion de la santé avec plusieurs états.
+			\begin{itemize} \small
+			  \item \textbf{Bonne santé :} Si l'entité est un citoyen, elle offre de plus grands bonus de PI.
+			  \item \textbf{Normal :} L'entité est dans son état par défaut.
+			  \item \textbf{Blessé/Malade :} L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, elle offre de plus petits bonus de PI.
+			  \item \textbf{Gravement blessé/malade :} L'entité agit avec un malus de vitesse plus important. Si l'entité est un citoyen, elle n'offre plus de PI.
+			  \item \textbf{Mort :} L'entité disparaît.
+			\end{itemize} \normalsize
+			\begin{figure}
+			  \begin{center}
+				\includegraphics[scale=0.5]{img/DiagrammeTransitionSante.png} 
+			  \end{center}
+			  \label{DiagSante}
+			  \caption{Diagramme de transitions entre les états de santé}
+			\end{figure}
+	
         
       \subsection{Moteur de carte}
     
@@ -495,7 +542,11 @@
 			\subsubsection{Incidences}
 			
 		\subsection{Gestion des scripts}
-		
+			Les scripts LUA implementent les différents comportements de toutes les catégories d'entités. Nous avons utilisé une librairie LUA permettant de redéfinir des méthodes de classe implémenté en C++ et de définir des methodes dans les classes C++ qui pourront etre appelé par les script LUA.
+			On utilise donc un script LUA pour redifinir une methode de la classe "Entity" qui sera appelé pour simuler l'intelligence de l'entités.
+			Par contre, cette librairie et les mécanismes de c++ nous ont imposé certaines contraintes. La plus importante est qu'il est impossible que 2 instances d'une même classe posséde 2 définissions différentes d'une de leurs methodes. Il nous a donc fallu implémenter une sous-classe pour chaque catégorie d'entités afin d'avoir un comportement different pour toutes ces categories. Cette problematique empeche les joueurs de pouvoir créer de nouvelles catégories d'entite, il pourra cependant modifier celle deja existante.
+			
+			
 		\subsection{Liste des scripts}
 		
 	
