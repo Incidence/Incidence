@@ -45,6 +45,7 @@
 %Ajout script, perso, autre ?
 
 	  \subsection{Actions du joueur}
+		Le joueur aura la possibilité d'interagir sur l'environnement via differents pouvoirs.
         \subsubsection{Pouvoirs de base}
           \begin{itemize} \small
             \item \textbf{Placer un Arbre :} Fait apparaître un Arbre sur une case choisie. Coût : 3 PI.
@@ -500,9 +501,8 @@
 	
 	\section{Météo}
 	La météo est attribuée à une journée de manière aléatoire et gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.
-    Au moyen d'un attribut permetttant de mémoriser le temps du jour précédent nous augmentons ou baissons la jauge(utile comme phrase?).
 	A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même  et est  ensoleillé la jauge augmente , si par contre le temps est pluvieux la jauge descend.
-	En revanche, si la jauge est  entre -3 et -5 et que la journée fut ensoleillé ou inversement si la jauge est entre 3 et 5 et qu'il fit un temps pluvieux la jauge revient respectivement à -1 et 1.
+	En revanche, si la jauge est  entre -3 et -5 et que la journée fut ensoleillé ou inversement si la jauge est entre 3 et 5 et qu'il fit un temps pluvieux la jauge revient respectivement à -1 ou 1.
 	Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et inversement pour le soleil.
 	
 	\section{Architecture}
