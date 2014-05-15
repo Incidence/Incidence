@@ -614,12 +614,12 @@ int killEntities(EntityType type, std::vector< Entity * > list) {
 
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == type) {
-
-			if(list[i]->getHealth() == WEAK && rand()%100 < 10) { // 10% de risque de mourir
+			int sick = list[i]->isSick()?20:0;
+			if(list[i]->getHealth() == WEAK && rand()%100 < 10 + sick) { // 10% de risque de mourir
 				list[i]->setHealth(DEAD);
 				result++;
 			}
-			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 < 30) { // 30% de risque de mourir
+			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 < 30 + sick) { // 30% de risque de mourir
 				list[i]->setHealth(DEAD);
 				result++;
 			}
