@@ -33,14 +33,11 @@
         \subsubsection{Qu'est-ce que je contrôle ?}
           \alinea Vous ne contrôlez rien directement, tout se fait de façon indirecte grâce aux pouvoirs. Modifier l'environnement et aider les citoyens sont des actions qu'il faudra effectuer pour faire survivre la civilisation.
     
-    \section{Mecanismes de jeu}
-      \subsection{Jouabilité}
-        \subsubsection{Conditions de victoire et de défaite}
+        \subsubsection{Quelles sont les conditions de victoire et de défaite ?}
           \alinea Il n'y aura pas de condition de victoire particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
           La partie se terminera quand le joueur n'aura plus de citoyen.
-        \subsubsection{Sauver et Charger une partie}
-          \alinea Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.\\
-          Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
+		  
+    \section{Mecanismes de jeu}
 
 %Multijoueur ? Mods ?
 %Différent modes de jeu ?
@@ -70,6 +67,10 @@
             \item \textbf{Météo :} Le joueur peut choisir la météo du jour suivant (ensoleillée ou pluvieuse).
             \item \textbf{Métier :} Le joueur peut orienter la distribution des métiers, sans définir exactement la proportion de chaque métier.
           \end{itemize} \normalsize
+		  
+        \subsubsection{Sauver et Charger une partie}
+          \alinea Le joueur pourra sauvegarder sa partie à tout moment, mais la sauvegarde se fera au moment de la dernière nuit.\\
+          Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
     
     \section{Structure du jeu}
     
@@ -127,7 +128,21 @@
         \subsubsection{Diagramme de transitions des différentes cases}
           \includegraphics[scale=0.35]{img/DiagrammeTransitionCases.png} 
           \label{DiagCase}
+		  
+        \subsubsection{Les incidences sur l'environnement :}
+          \begin{itemize} \small
+            \item Une étendue d'eau peut faire apparaître des poissons.
+            \item Une étendue d'eau peut faire apparaître de la végétation dans les environs.
+            \item Une zone de végétation très dense augmente les chances de faire apparaître des animaux herbivores.
+            \item Une grande concentration d'animaux herbivores peut faire apparaître des animaux carnivores.
+            \item Une forêt très dense augmente les chances de faire apparaître des arbres fruitiers.
+            \item Les falaises peuvent faire apparaître des pierres par éboulement.
+            \item La météo peut modifier la taille des étendues d'eau, assécher ou humidifier la terre.
+          \end{itemize} \normalsize
         
+        
+      \subsection{Les Ressources}
+	  
         \subsubsection{Ressources utilisées par les citoyens}
           \alinea Ces ressources pourront être stockées dans une quantité illimitée, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
           \begin{itemize} \small
@@ -146,37 +161,26 @@
           \textbf{Comment cette ressource est-elle récoltée ? }\\
           \alinea Elle sera obtenue grâce aux citoyens qui nous en feront gagner une petite quantité tout au long de leur journée. La nuit, chaque citoyen rapporte des points bonus.
 
-        \subsubsection{La météorologie}
-          \alinea La météo sera présente et sera contrôlée par le joueur. Elle aura une incidence sur l'environnement et les citoyens. Elle sera basique : ensoleillée ou pluvieuse, chacune des deux aura une incidence différente. 
-          \begin{itemize} \small
-            \item \textbf{Temps ensoleillé :} Améliore la pousse des champs mais un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau et une sécheresse trop longue peut faire brûler certaines ressources.
-            \item \textbf{Temps pluvieux :} Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.
-          \end{itemize} \normalsize
+	\subsection{La météorologie}
+	  \alinea La météo sera présente et sera contrôlée par le joueur. Elle aura une incidence sur l'environnement et les citoyens. Elle sera basique : ensoleillée ou pluvieuse, chacune des deux aura une incidence différente. 
+	  \begin{itemize} \small
+		\item \textbf{Temps ensoleillé :} Améliore la pousse des champs mais un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau et une sécheresse trop longue peut faire brûler certaines ressources.
+		\item \textbf{Temps pluvieux :} Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.
+	  \end{itemize} \normalsize
 
 
-        \subsubsection{Le cycle jour/nuit}
-          \label{Cycle}
-          \alinea Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
-          \begin{itemize} \small
-            \item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
-            \item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
-            \item Certains citoyens tombent malade en fonction des anciennes météos.
-            \item S'il y a assez de nourriture, de nouveaux citoyens peuvent naître.
-            \item Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé.
-            \item Mise à jour du métier de chaque citoyen, choisi en fonction des choix du joueur et des besoins.
-          \end{itemize} \normalsize
+	\subsection{Le cycle jour/nuit}
+	  \label{Cycle}
+	  \alinea Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
+	  \begin{itemize} \small
+		\item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
+		\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
+		\item Certains citoyens tombent malade en fonction des anciennes météos.
+		\item S'il y a assez de nourriture, de nouveaux citoyens peuvent naître.
+		\item Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé.
+		\item Mise à jour du métier de chaque citoyen, choisi en fonction des choix du joueur et des besoins.
+	  \end{itemize} \normalsize
 
-        \subsubsection{Les incidences sur l'environnement :}
-          \begin{itemize} \small
-            \item Une étendue d'eau peut faire apparaître des poissons.
-            \item Une étendue d'eau peut faire apparaître de la végétation dans les environs.
-            \item Une zone de végétation très dense augmente les chances de faire apparaître des animaux herbivores.
-            \item Une grande concentration d'animaux herbivores peut faire apparaître des animaux carnivores.
-            \item Une forêt très dense augmente les chances de faire apparaître des arbres fruitiers.
-            \item Les falaises peuvent faire apparaître des pierres par éboulement.
-            \item La météo peut modifier la taille des étendues d'eau, assécher ou humidifier la terre.
-          \end{itemize} \normalsize
-        
       \subsection{Scripts}
       
     \section{Elements graphiques}
@@ -344,14 +348,24 @@
 
   \newpage
   \part{Développement}
-  
-    \section{Moteur de jeu}
     
-      \subsection{Gestion des états}
-      
-      \subsection{Gestion de l'interface utilisateur}
-      
-      \subsection{Gestion des ressources et animations}
+	\section{Moteur de jeu}
+		Pour simplifier le développement et les réalisations de certaines taches, un moteur de jeu a été réalisé. Il servira surtout dans la gestion des différents états du jeu, de toutes les données utilisées (image ou son) mais aussi d'une interface utilisateur.
+	
+		\subsection{Gestion des états}
+			Chacun des états possible du jeu est une classe héritant d'un class mère abstraite, State, qui défini le comportement de base d'un état, soit une méthode de mise à jour de l'état, une affichage des informations et deux dernieres gerant les evenements clavier/souris et les event lié à l'interface utilisateur (clique sur un bouton, ...).
+			
+			Tout ces différents états sont stockés dans une pile et controlé par un gestionnaire d'état, le StateManager. C'est un singleton accessible partout, ce qui permet à n'importe quelle instance d'état d'ajouter ou supprimer un état.
+		
+		\subsection{Gestion de l'interface utilisateur}
+			Différent widget permettant la création d'un interface utilisateur simple à été réalisé. On peut donc facilement ajouter des boutons et des barres de saisie de texte personnalisable qui seront lié à une intance d'UI contenu dans un état. Les événement associé aux boutons sera automatique envoyé à l'etat qui pourra traiter cet evenement pour réaliser une action.
+		
+		\subsection{Gestion des ressources et animations}
+			Pour la gestion de toutes les ressources, tels que les nombreuses images, on a réalisé un gestionnaire de ressource qui s'occupe de charger toutes les données necessaires quand elles sont requises tout en évitant les doublons. Pour cela, chaque ressource est stocké dans un tableau associé à son nom, ce qui permet une recherche plus rapide et une impossibilité d'avoir des doublons.
+			
+			Une classe permettant de créer des animations facilement a aussi été faite, ce qui facilite grandement la gestion de celle-ci et leurs utilisations.
+
+% ----------------------------------------
 % 	    \alinea Tous les effets graphiques du projet sont à base de sprites. Nous avons initialement choisi des tuiles de 32x32 pixels, mais il serait possible de changer cette taille dans le futur.\\
 %     	\\
 %     	\alinea Chaque sol du tileset est affiché avec des bordures selon les types de sols environnant.\\
@@ -442,8 +456,6 @@
         \\
         Remarque : chaque ligne commençant par ground, element ou ashes incrémente un compteur afin de connaître la position de la zone de texture correspondante. L'ordre est donc important (définition des lignes de haut en bas).
 
-      \subsection{Météo}
-      
       \subsection{Incidences}
         \subsubsection{Dilatation}
           \alinea Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
@@ -462,6 +474,22 @@
 		\subsection{Gestion des entités}
 		
 			\subsubsection{Santé}
+				\subsection{La santé des entités vivantes}
+					\alinea Chacune des entités possède une gestion de la santé avec plusieurs états.
+					\begin{itemize} \small
+						\item \textbf{Bonne santé :} Si l'entité est un citoyen, elle offre de plus grands bonus de PI.
+						\item \textbf{Normal :} L'entité est dans son état par défaut.
+						\item \textbf{Blessé/Malade :} L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, elle offre de plus petits bonus de PI.
+						\item \textbf{Gravement blessé/malade :} L'entité agit avec un malus de vitesse plus important. Si l'entité est un citoyen, elle n'offre plus de PI.
+						\item \textbf{Mort :} L'entité disparaît.
+					\end{itemize} \normalsize
+					\begin{figure}
+						\begin{center}
+							\includegraphics[scale=0.5]{img/DiagrammeTransitionSante.png} 
+						\end{center}
+						\label{DiagSante}
+							\caption{Diagramme de transitions entre les états de santé}
+						\end{figure}	
 			
 			\subsubsection{Incidences}
 			
@@ -469,6 +497,9 @@
 		
 		\subsection{Liste des scripts}
 		
+	
+	\section{Météo}
+	
 	\section{Architecture}
 	
 		\subsection{Machine à états}
