@@ -2,6 +2,7 @@
 \usepackage[utf8]{inputenc}  % si utf8
 \usepackage{graphicx}
 \usepackage{verbatim}
+\usepackage{enumitem}
 
 \pagestyle{plain}
 
@@ -18,7 +19,8 @@
   
   \newpage
   \part{Remerciements}
-		Merci.
+  		
+		Un grand merci à Fabien Hervouet pour son encadrement.
 		
   \newpage
   \part{Cahier des charges}
@@ -230,6 +232,7 @@
 	  \end{itemize} \normalsize
 
       \subsection{Scripts}
+\alinea Chaque catégorie d'entités déterminée selon leur classe d'appartenance aura un script propre. Ce script sera appelé à une fréquence variable en fonction de la situation dans laquelle se trouvera l'entité.
       
     \section{Elements graphiques}
 
@@ -251,7 +254,7 @@
       \subsection{Interface utilisateur}
 		%Ici c'est tout ce qui est lié aux boutons et interfaces que le joueur utilisera 
 		
-    \section{Elements sonores}
+   % \section{Elements sonores}
     
 
   \newpage
@@ -505,6 +508,7 @@
         Remarque : chaque ligne commençant par ground, element ou ashes incrémente un compteur afin de connaître la position de la zone de texture correspondante. L'ordre est donc important (définition des lignes de haut en bas).
 
       \subsection{Incidences}
+      \label{IncidenceT}
         \subsubsection{Dilatation}
           \alinea Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
           \alinea Quelques présentations des résultats de ces dilatations sont présentes en annexe.\\
@@ -540,6 +544,17 @@
 						\end{figure}	
 			
 			\subsubsection{Incidences}
+
+\label{IncidenceE}
+\alinea La météo influe sur les entités en fonction de la valeur de la jauge.
+\begin{itemize} \small
+		\item \textbf{Jauge positive(1 ou plusieurs jours de temps ensoleillé consécutifs) :} Améliore la pousse des champs mais un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau, une sécheresse trop longue peut faire brûler certaines ressources et augmenter la probabilité de fatigue .
+		\item \textbf{Jauge négative(1 ou plusieurs jours de temps pluvieux consécutifs) :} Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.
+	  \end{itemize} \normalsize
+
+L'état de santé joue un rôle capital au niveau de la vitesse de déplacement, du temps de récolte et aussi sur la fréquence à laquelle une entité va vous apporter des points d'incidences(PI).\\
+	  	  \alinea  Un état de santé faible , une maladie ou un état très faible peut entraîner le décès  d'une entité avec une probabilité de plus en plus forte dans ce même ordre de citation.	  
+Aussi chaque entité a une légère chance de donner naissance à un petit.
 			
 		\subsection{Gestion des scripts}
 			Les scripts LUA implementent les différents comportements de toutes les catégories d'entités. Nous avons utilisé une librairie LUA permettant de redéfinir des méthodes de classe implémenté en C++ et de définir des methodes dans les classes C++ qui pourront etre appelé par les script LUA.
@@ -549,9 +564,46 @@
 			
 		\subsection{Liste des scripts}
 		
+			\alinea Le comportement des agents, en ce qui concerne le déplacement, a soulevé le problème de la gestion des obstacles étant donné que certains éléments du décor ne sont pas franchissables.
+En effet, certaines actions nécessitant un trajet spécifique utilisent le résultat d'un algorithme de recherche de chemin et se déroulent sans interruption sur plusieurs ticks, c'est-à-dire sans rappeler le script de l'agent.
+Par conséquent, les directives des scripts sont en partie des objectifs à atteindre et non de simples actions isolées.
+   
+		         \subsubsection{Les citoyens alliés}
+		 	\begin{itemize} \small
+		             \item \textbf{Récolteurs(bûcherons, cueilleurs, mineurs) :} \\ \alinea Si un bûcheron faible, un mineur faible ou un cueilleur perçoit un animal agressif ou un citoyen ennemi celui-ci va fuir.\\
+			    Si un bûcheron ou un mineur se fait attaquer, il va répliquer en attaquant en priorité l'entité face à lui si celle-ci l'attaque.\\
+			    A chaque fois que l'entité récolte une ressource elle remplit son sac puis se dirige vers la base pour la déposer.\\
+			    Lorsque son sac est vide, elle regarde dans son rayon de perception si une ressource est disponible. Si au moins une ressource \\
+			   est repérée, elle se dirige vers la plus proche pour la récolter. Sinon, elle se dirige de manière aléatoire.
+			   
+			  \item \textbf{Chasseurs :} \\ \alinea  Le chasseur reste relativement proche de la base et adopte un rôle de défenseur.
+			  S'il est attaqué, il va regarder le nombre de chasseurs et le nombre d'entités hostiles autour de lui , s'il y a moins d'entités hostiles  que de 			 chasseurs auxquels on ajoute 3,  il va attaquer l'entité qui l'attaque avec dans l'ordre de priorité : l'entité en face de lui, un citoyen ennemi et 		 un animal agressif. Sinon il adopte la fuite.\\
+			\alinea S'il n'est pas attaqué, tout en gardant une distance proche de la base ,il va chercher une cible autour de lui dans cet ordre de priorité, un 			 citoyen ennemi, un animal agressif puis un animal passif.
+			 Encore une fois s'il n'y a pas trop d'ennemis aux alentours, le chasseur va aller attaquer la cible sinon il va fuir.
+			 S'il n'y a ni citoyens ennemis ni animaux autour de lui et s'il n'est pas trop loin de la base, il va avancer aléatoirement sinon il va revenir 		 	vers la base.
+		        	\end{itemize} \normalsize
+		
+		         \subsubsection{Les citoyens ennemis}
+			\alinea Les citoyens ennemis ont un comportement agressif.
+			S'ils sont attaqués, il vont adopter le même comportement qu'un chasseur sauf que dans l'ordre de priorité ils vont attaquer: l'entité en face d'eux, un chasseur et un récolteur.
+			S'ils ne sont pas attaqués, même démarche que le chasseur en changeant l'ordre de priorité par un chasseur puis un récolteur.\\
+			Si aucun chasseur ou récolteur n'est perçu dans leurs rayons de perception, ils vont avancer aléatoirement.
+			
+		
+		      \subsubsection{Les animaux}
+		         \begin{itemize} \small
+		             \item \textbf{Agressifs :} \\
+			    \alinea Dès qu'un animal agressif perçoit une entité excepté un animal agressif il va l'attaquer, en attaquant en priorité l'entité qui est en face 
+			    de lui. Si aucune entité n'est perçue ou s'il ne perçoit que des animaux agressifs , l'animal va se déplacer aléatoirement.
+		             \item \textbf{Passifs :} \\
+			    \alinea L'animal passif va tout simplement fuir toutes les entités à l'exception des animaux passifs.
+		        \end{itemize} \normalsize 
+
+
+Dans certaines situations vues précédemment, l’entité se déplacera de manière aléatoire et pourra marquer un arrêt de temps à autre afin de simuler un comportement naturel.
 	
 	\section{Météo}
-	La météo est attribuée à une journée de manière aléatoire et gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.
+	La météo est gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.
 	A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même  et est  ensoleillé la jauge augmente , si par contre le temps est pluvieux la jauge descend.
 	En revanche, si la jauge est  entre -3 et -5 et que la journée fut ensoleillé ou inversement si la jauge est entre 3 et 5 et qu'il fit un temps pluvieux la jauge revient respectivement à -1 ou 1.
 	Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et inversement pour le soleil.
@@ -559,8 +611,44 @@
 	\section{Architecture}
 	
 		\subsection{Machine à états}
-			pour chaque etat :
-			interface + graphiques + sons + action possibles
+			\subsubsection{Main menu state}
+				\alinea
+		Le menu principal est le premier état de l’application, il sert d’écran d’accueil et dispose de trois boutons :
+	 		        \begin{itemize}[label=-] 
+			             \item "Start" qui crée une nouvelle instance de jeu et appelle l’état “Game State”.
+			             \item “Load” qui appelle l’état “Load Menu State”.
+				   \item“Exit” qui quitte l’application.
+			        \end{itemize}
+			\subsubsection{Game state}
+				\alinea L’état de jeu est le primordial au sein de l’application, il sert de support à l’instance de jeu afin d’en gérer le déroulement. Il contient l’affichage de la partie visible de la carte du monde et des entités ainsi qu’une interface, permettant au joueur de gérer la partie, ayant deux fonctions. La première consiste à informer de la valeur de certaines variables inhérentes à la partie comme le nombre de points ou d’une certaine ressource. La seconde permet au joueur d’indiquer les actions qu’il souhaite réaliser via un ensemble de boutons.
+			\subsubsection{Night state}
+\alinea L’état de nuit revient régulièrement au cours de la partie, pendant celui-ci ont lieu les incidences sur le territoire (cf  section \ref{IncidenceT}, page \pageref{IncidenceT}) et sur les entités (cf  section \ref{IncidenceE}, page \pageref{IncidenceE}).
+De plus, cet état permet au joueur de déterminer directement la météo de la prochaine journée de jeu et d’influer indirectement sur les proportions des rôles des entités. En plus de cela, un bouton de validation supprime l’état courant afin que la partie puisse reprendre son cours dans l’état de jeu.
+			\subsubsection{End state}
+			       \alinea L’état de fin de partie signale au joueur qu’il a atteint la condition de défaite, il dispose simplement d’un bouton :
+			       \begin{itemize}[label=-] 
+			             \item “Back” qui supprime l’état courant.
+			        \end{itemize}
+			\subsubsection{Game menu state}
+				\alinea Le menu de jeu est l’état de pause du jeu, il dispose de quatre boutons :
+	 		        \begin{itemize}[label=-] 
+			             \item “Back” qui supprime l’état courant.
+			             \item “Save” qui appelle l’état “Save Menu State”.
+				  \item “Load” qui appelle l’état “Load Menu State”.
+				  \item “Quit” qui supprime tous les états jusqu’à l’état “Main Menu State”.
+			        \end{itemize}
+			\subsubsection{Save menu state}
+				\alinea Le menu de sauvegarde est l’état qui permet de sauvegarder son avancement, il dispose d’un champ de saisie du nom de sauvegarde et de deux boutons :
+	 		        \begin{itemize}[label=-] 
+			             \item “Back” qui supprime l’état courant.
+			             \item “Save” qui crée un fichier de sauvegarde à partir de l’instance de jeu en cours et le nomme d’après le texte entré.
+			        \end{itemize}
+			\subsubsection{Load menu state}
+				\alinea Le menu de chargement est l’état qui permet de charger une partie précédemment sauvegardée, il dispose d’une liste de boutons, représentant les fichiers de sauvegarde répertoriés à partir desquels l’instance de jeu sera modifiée, de deux boutons permettent de parcourir la liste et d’un dernier bouton :
+	 		        \begin{itemize}[label=-] 
+			             \item “Back” qui supprime l’état courant.
+			        \end{itemize}
+			
 	
 
   \newpage
