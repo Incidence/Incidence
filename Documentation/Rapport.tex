@@ -20,7 +20,7 @@
   \newpage
   \part{Remerciements}
   		
-		Un grand merci à Fabien Hervouet pour son encadrement.
+	Un grand merci à Fabien Hervouet pour son encadrement.
 		
   \newpage
   \part{Cahier des charges}
@@ -525,24 +525,15 @@
 	
 		\subsection{Gestion des entités}
 		
-			\subsubsection{Santé}
-				\subsection{La santé des entités vivantes}
+				\subsubsection{La santé des entités vivantes}
 					\alinea Chacune des entités possède une gestion de la santé avec plusieurs états.
 					\begin{itemize} \small
 						\item \textbf{Bonne santé :} Si l'entité est un citoyen, elle offre de plus grands bonus de PI.
 						\item \textbf{Normal :} L'entité est dans son état par défaut.
-						\item \textbf{Blessé/Malade :} L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, elle offre de plus petits bonus de PI.
+						\item \textbf{Blessé/Malade/Fatigué :} L'entité agit avec un léger malus de vitesse. Si l'entité est un citoyen, elle offre de plus petits bonus de PI.
 						\item \textbf{Gravement blessé/malade :} L'entité agit avec un malus de vitesse plus important. Si l'entité est un citoyen, elle n'offre plus de PI.
 						\item \textbf{Mort :} L'entité disparaît.
 					\end{itemize} \normalsize
-					\begin{figure}
-						\begin{center}
-							\includegraphics[scale=0.5]{img/DiagrammeTransitionSante.png} 
-						\end{center}
-						\label{DiagSante}
-							\caption{Diagramme de transitions entre les états de santé}
-						\end{figure}	
-			
 			\subsubsection{Incidences}
 
 \label{IncidenceE}
@@ -655,9 +646,11 @@ De plus, cet état permet au joueur de déterminer directement la météo de la 
   \part{Post-Mortem}
   
 	\section{Réalisations non abouties}
-	
+		\begin{itemize}
+			\item Utilisation de la pierre et du bois pour la construction de bâtiments
+		\end{itemize}
 	\section{Améliorations réalisables}
-	
+		
 
   \newpage
   \part{Annexes}
