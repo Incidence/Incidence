@@ -709,12 +709,13 @@
 			
 		\section{Améliorations réalisables}
 		
-		
-	\chapter{Annexes}
+	
+	\appendix
+	\chapter{}
 		Dans cette partie seront placés les éléments trop volumineux pour être inclus directement dans le texte, tels que les images ou graphiques.\\
 		
 		\section{Diagramme de Gantt}
-			Le diagramme est fourni page \pageref{fig:gantt1} - \pageref{fig:gantt2}.
+			Le diagramme est fourni page \pageref{fig:gantt}.
 			
 		\section{Comparatif de performances}
 			Le graphique est situé page \pageref{fig:analyse}.
@@ -723,22 +724,13 @@
 			Les présentations sont présentes de la page \pageref{fig:incidenceDeb} à la page \pageref{fig:incidenceFin}.
 			
 		\section*{}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.5]{img/gantt_1.png}
-				\end{center}
-				\label{fig:gantt1}
-				\caption{Diagramme de Gantt (page 1)}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.5]{img/gantt_2.png}
-				\end{center}
-				\label{fig:gantt2}
-				\caption{Diagramme de Gantt (page 2)}
+			\begin{figure}
+				\vspace{-3,5cm} \hspace{-4,5cm} \includegraphics[scale=0.6]{img/Gantt.png}
+				\label{fig:gantt}
+				\vspace{-0,5cm} \caption{Diagramme de Gantt}
 			\end{figure}
 			
-			\begin{figure}[H]
+			\begin{figure}
 				\begin{center}
 					\includegraphics[scale=0.5]{img/AnalyseLangage1.png}
 					\includegraphics[scale=0.5]{img/AnalyseLangage2.png} 
@@ -747,81 +739,25 @@
 				\caption{Comparaisons de performances de divers langages dans des cas donnés}
 			\end{figure}
 			
-			\begin{figure}[H]
+			\begin{figure}
 				\begin{center}
-					\includegraphics[scale=0.2]{img/Dilate.png}
+					\includegraphics[scale=0.2]{img/Dilatation.png}
 				\end{center}
 				\label{fig:incidenceDeb}
-				\caption{Dilatation des étendues de fluides}
+				\caption{Dilatations après trois itérations}
 			\end{figure}
-			
-			\begin{figure}[H]
+			\begin{figure}
 				\begin{center}
-					\includegraphics[scale=0.45]{img/DilateFluid.png}
+					\includegraphics[scale=0.2]{img/Erosion.png}
 				\end{center}
-				\label{fig:incidenceDeb}
-				\caption{Dilatation des étendues de fluides}
+				\caption{Erosions après trois itérations}
 			\end{figure}
-			\begin{figure}[H]
+			\begin{figure}
 				\begin{center}
-					\includegraphics[scale=0.45]{img/DilateNearFluid.png}
-				\end{center}
-				\caption{Dilatation des zones humides}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/DilateNearCliff.png}
-				\end{center}
-				\caption{Dilatation des zones sèches}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/DilateForest.png}
-				\end{center}
-				\caption{Dilatation des forêts}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/ErodeFluid.png}
-				\end{center}
-				\caption{Erosion des étendues de fluides}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/ErodeNearFluid.png}
-				\end{center}
-				\caption{Erosion des zones humides}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/ErodeNearCliff.png}
-				\end{center}
-				\caption{Erosion des zones sèches}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/ErodeForest.png}
-				\end{center}
-				\caption{Erosion des forêts}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/SpawnRessource.png}
-				\end{center}
-				\caption{Apparition de tout type de ressource}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/BurnRessource.png}
-				\end{center}
-				\caption{Disparition par le feu des ressources contenant du bois}
-			\end{figure}
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.45]{img/SpawnOnlyStone.png}
+					\includegraphics[scale=0.2]{img/Aleatoire.png}
 				\end{center}
 				\label{fig:incidenceFin}
-				\caption{Apparition de rochers uniquement}
+				\caption{Aléatoires après trois itérations}
 			\end{figure}
 
 \end{document}
