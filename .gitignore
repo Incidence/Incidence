@@ -1,6 +1,7 @@
 *.aux
 *.log
 *.toc
+*.out
 *~
 *_build
 *_test
