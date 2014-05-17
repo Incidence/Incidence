@@ -1,5 +1,5 @@
 \documentclass[a4paper]{memoir}
-\usepackage[utf8]{inputenc}    % si utf8
+\usepackage[utf8]{inputenc}
 \usepackage[frenchb]{babel}
 \usepackage{graphicx}
 \usepackage{float}
@@ -258,16 +258,34 @@
 					\item \textbf{Les bâtiments :} Chaque bâtiment sera constitué d'un ensemble de tuiles.
 				\end{itemize}
 				Chaque sol du tileset est affiché avec des bordures selon les types de sols environnant.\\
-				%\includegraphics[scale=0.2]{img/groundSample.png}
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.2]{img/groundSample.png}
+					\end{center}
+					\label{fig:groundSample}
+					\caption{Exemple de sol avec différentes bordures}
+				\end{figure}
 				Chaque élément est affiché différemment selon le type de sol sur lequel il se trouve.\\
-				%\includegraphics[scale=0.2]{img/elementSample.png}
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.2]{img/elementSample.png}
+					\end{center}
+					\label{fig:elementSample}
+					\caption{Exemple d'élément selon différents types de sol}
+				\end{figure}
 	
 			\subsection{Les entités}
 				Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés.\\
 				\textbf{Les positions basiques :} Face, dos, profil droit, profil gauche.\\
 				\textbf{Les positions spécifiques :} Coupant du bois, ramassant des baies, chassant, cultivant, construisant, se déplaçant sans ressource, se déplaçant avec des ressources.\\
 				Chaque entité est animée selon sa classe, son sens de déplacement ou son action.\\
-				%\includegraphics[scale=0.2]{img/animationSample.png}
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.2]{img/animationSample.png}
+					\end{center}
+					\label{fig:animationSample}
+					\caption{Exemple de fichier image pour une animation}
+				\end{figure}
 	
 			\subsection{Interface utilisateur}
 				%TODO
@@ -558,15 +576,15 @@
 				\label{IncidenceT}
 				\subsubsection{Dilatation}
 					Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
-					Quelques présentations des résultats de ces dilatations sont présentes en annexe.\\
+					Quelques présentations des résultats de ces dilatations sont présentes en annexe, page \pageref{fig:dilatation}.
 				
 				\subsubsection{Erosion}
 					Les incidences basées sur l'érosion des zones prennent en compte les types de sols ou éléments alentours afin de choisir les types en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
-					Quelques présentations des résultats de ces érosions sont présentes en annexe.\\
+					Quelques présentations des résultats de ces érosions sont présentes en annexe, page \pageref{fig:erosion}.
 				
 				\subsubsection{Aléatoire}
 					Les dernières incidences concernant le territoire sont basées sur un choix aléatoire de cases. Il s'agit ici d'appartition ou disparition de certaines ressources.\\
-					Quelques présentations des résultats de ces incidences particulières sont présentes en annexe.\\
+					Quelques présentations des résultats de ces incidences particulières sont présentes en annexe, page \pageref{fig:aleatoire}.
 			
 			\subsection{Gestion des contraintes}
 				Comme expliqué dans la section \ref{TilesetDev}, le fichier de configuration du tileset implique une certaine quantité de contraintes de jonctions entre les sols. Par exemple, l'eau ne peut pas être juste à coté d'une falaise.\\
@@ -574,7 +592,7 @@
 				En effet, des fonctions ont dû être ajoutées pour comparer des sols ou connaître leurs compatibilités. De plus, chaque fonction changeant au moins un sol doit pouvoir propager les types de sols compatibles aux alentours, afin de garder une homogénéité des contraintes sur la carte. Ainsi, lorsque de l'eau est posée sur une falaise, autour de l'eau seront posés récursivement les types compatibles allant vers le type falaise :\\
 				\begin{figure}[H]
 					\begin{center}
-						%\includegraphics[scale=0.35]{img/SpreadGround.png} 
+						\includegraphics[scale=0.35]{img/SpreadGround.png} 
 					\end{center}
 					\label{fig:spread}
 					\caption{Exemple de propagation des contraintes sur les sols}
@@ -721,7 +739,7 @@
 			Le graphique est situé page \pageref{fig:analyse}.
 			
 		\section{Incidences sur la carte}
-			Les présentations sont présentes de la page \pageref{fig:incidenceDeb} à la page \pageref{fig:incidenceFin}.
+			Les présentations sont présentes de la page \pageref{fig:dilatation} à la page \pageref{fig:aleatoire}.
 			
 		\section*{}
 			\begin{figure}
@@ -743,20 +761,21 @@
 				\begin{center}
 					\includegraphics[scale=0.2]{img/Dilatation.png}
 				\end{center}
-				\label{fig:incidenceDeb}
+				\label{fig:dilatation}
 				\caption{Dilatations après trois itérations}
 			\end{figure}
 			\begin{figure}
 				\begin{center}
 					\includegraphics[scale=0.2]{img/Erosion.png}
 				\end{center}
+				\label{fig:erosion}
 				\caption{Erosions après trois itérations}
 			\end{figure}
 			\begin{figure}
 				\begin{center}
 					\includegraphics[scale=0.2]{img/Aleatoire.png}
 				\end{center}
-				\label{fig:incidenceFin}
+				\label{fig:aleatoire}
 				\caption{Aléatoires après trois itérations}
 			\end{figure}
 
