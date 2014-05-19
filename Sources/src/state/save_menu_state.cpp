@@ -14,16 +14,22 @@ SaveMenuState::~SaveMenuState( void )
 
 void SaveMenuState::init( void )
 {
+    Widget * w;
     Button * b;
     TextInsert * ti;
     GameEvent ge;
+	
+	w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/background.png" ) );
+    w->setPositionAbsolute( 0, 0 );
+    m_ui.addWidget(w);
 
     ge.type = EV_BACK;
 
     b = new Button();
     b->setText( "Back", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setBorder( sf::Color(95,57,33) );
+    b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
     b->setPositionAbsolute( 300, 100 );
     b->setSize(100, 50);
@@ -32,7 +38,7 @@ void SaveMenuState::init( void )
 
     ti = new TextInsert();
     ti->setName("textSave");
-    ti->setBorder(sf::Color::Blue);
+    ti->setBorder(sf::Color(95,57,33));
     ti->setBorderSize(1);
     ti->setPositionAbsolute(300,200);
     ti->setSize(300,50);
@@ -43,8 +49,8 @@ void SaveMenuState::init( void )
 
     b = new Button();
     b->setText( "Save", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setBorder( sf::Color(95,57,33) );
+    b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
     b->setPositionAbsolute( 300, 300 );
     b->setSize(100, 50);

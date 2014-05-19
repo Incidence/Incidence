@@ -1,6 +1,7 @@
 #ifndef _SAVE_MENU_STATE_
 #define _SAVE_MENU_STATE_
 
+#include "../engine/data_manager.hpp"
 #include "../engine/state.hpp"
 #include "../engine/state_manager.hpp"
 #include "../engine/ui/ui.hpp"

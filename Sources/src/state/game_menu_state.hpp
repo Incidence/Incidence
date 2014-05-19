@@ -1,6 +1,7 @@
 #ifndef _GAME_MENU_STATE_
 #define _GAME_MENU_STATE_
 
+#include "../engine/data_manager.hpp"
 #include "../engine/state.hpp"
 #include "../engine/state_manager.hpp"
 #include "../engine/ui/ui.hpp"

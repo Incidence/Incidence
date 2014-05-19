@@ -1145,7 +1145,7 @@ bool TileMap::load(std::string path) {
 		}
 	}
 
-	m_tileset.TEST();
+	//m_tileset.TEST();
 
 	return true;
 }

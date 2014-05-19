@@ -32,15 +32,21 @@ void LoadMenuState::init( void )
     }
     closedir(directory);
 
+    Widget * w;
     Button * b;
     GameEvent ge;
+	
+	w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/background.png" ) );
+    w->setPositionAbsolute( 0, 0 );
+    m_ui.addWidget(w);
 
     ge.type = EV_BACK;
 
     b = new Button();
     b->setText( "Back", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setBorder( sf::Color(95,57,33) );
+    b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
     b->setPositionAbsolute( 300, 100 );
     b->setSize(100, 50);
@@ -51,8 +57,8 @@ void LoadMenuState::init( void )
 
     b = new Button();
     b->setText( "Up", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setBorder( sf::Color(95,57,33) );
+    b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
     b->setPositionAbsolute( 100, 200 );
     b->setSize(100, 50);
@@ -63,8 +69,8 @@ void LoadMenuState::init( void )
 
     b = new Button();
     b->setText( "Down", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setBorder( sf::Color(95,57,33) );
+    b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
     b->setPositionAbsolute( 100, 400 );
     b->setSize(100, 50);
@@ -81,8 +87,8 @@ void LoadMenuState::init( void )
         b = new Button();
         b->setName("load"+itos(i));
         b->setText( m_files[i], sf::Color::White );
-        b->setBorder( sf::Color::Blue );
-        b->setBorderOver( sf::Color::Yellow );
+        b->setBorder( sf::Color(95,57,33) );
+        b->setBorderOver( sf::Color(230,211,33) );
         b->setBorderSize(1);
         b->setPositionAbsolute( 300, (200+sizeY*i) );
         b->setSize(100, sizeY);

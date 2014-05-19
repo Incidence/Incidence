@@ -3,6 +3,7 @@
 
 #include <dirent.h>
 
+#include "../engine/data_manager.hpp"
 #include "../engine/state.hpp"
 #include "../engine/state_manager.hpp"
 #include "../engine/ui/ui.hpp"

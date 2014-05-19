@@ -26,8 +26,14 @@
 	
 		\section{Philosophie}
 			Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
+		
+		\section{Sujet}
+			Ce travail impliquera de s’intéresser au paradigme de la programmation multi-agents. À partir d’une plateforme existante (type TurtleKit) ou d’une version simple programmée pour l’occasion, on proposera différents niveaux de jeu qui offriront par exemple : (1) la possibilité de modifier l’environnement permettant, en terme de contraintes, d’insuffler une dynamique globale aux agents pour les mener à réaliser un certain but ; (2) la possibilité de modifier le comportement local des agents pour atteindre des buts plus complexes. 
+			Le cadre plus précis sera à déterminer en fonction de faisabilités et des envies des étudiants : quelles actions pourront effectuer les agents ? quelles ressources à disposition ? quels types d’objectifs pour le joueur ? comment envisager la progression des niveaux ? D’autres évolutions sont possibles et seront traitées en fonction de l’avancement du projet : systèmes d’évènements (épidémies, catastrophe naturelle), outils simple pour la création de nouveaux niveaux, mode multi-joueurs, etc. 
+			D’un point de vue pragmatique on s’attachera en priorité à étudier l’adéquation de la mise en oeuvre des comportements réactifs des agents face aux différentes possibilités de contraintes permises pour le joueur, ainsi qu’à l’ergonomie de l’interface. L’aspect recherche de ce TER se concentrera sur une familiarisation plus en profondeur avec le domaine de la modélisation et de la simulation multi-agents [1] ainsi qu’avec les méthodologies de conception de jeu [2].
 	
 	\chapter{Cahier des charges}
+		Ce chapitre détaille toute la phase de conception du projet. Elle contient le Game Design Document que nous avons rédigé lors de l'étude préalable.
 	
 		\section{Introduction}
 		
@@ -43,7 +49,8 @@
 					La partie se terminera quand le joueur n'aura plus de citoyen.
 			
 		\section{Mecanismes de jeu}
-		
+			Cette section détaille succintement les possibilités du joueur pendant la partie.
+			
 			\subsection{Les Pouvoirs}
 				\label{Pouvoirs}
 				Le joueur aura la possibilité d'interagir sur l'environnement via differents pouvoirs.
@@ -63,6 +70,7 @@
 				\end{itemize}
 
 			\subsection{Choix de la nuit}
+				Lors de la partie, il y aura plusieurs phases de jeu : le jour et la nuit. Chaque jour, le joueur peut effectuer les actions ci-dessus, et lors de la nuit, il a la possibilité de définir des paramètres pour le jour suivant :
 				\begin{itemize}[label=$\bullet$]
 					\item \textbf{Météo :} Le joueur peut choisir la météo du jour suivant (ensoleillée ou pluvieuse).
 					\item \textbf{Métier :} Le joueur peut orienter la distribution des métiers, sans définir exactement la proportion de chaque métier.
@@ -73,7 +81,8 @@
 				Le chargement d'une partie placera donc le joueur soit au début de la partie soit à la dernière nuit passée, avec la possibilité de modifier de nouveau les différentes options du jour (météo, métiers...).
 	
 		\section{Structure du jeu}
-		
+			Cette partie détaille succintement la structure globale du jeu, ce qui couvre les aspects du jeu non maîtrisables par le joueur.
+			
 			\subsection{Moteur multi-agent}
 				La gestion multi-agent se fera à l'aide d'un appel au script de chaque catégorie d'entité pour chaque tick. Chaque catégorie d'entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur pour decider de l'action à faire.
 
@@ -128,8 +137,8 @@
 						\caption{Diagramme de transitions entre les états de santé}
 					\end{figure}
 	
-				
 			\subsection{Moteur de carte}
+				La gestion de la carte se fera uniquement en c++. Il existera pour cela différentes classes comme TileMap, Ground, Element et Tileset.
 		
 				\subsubsection{La carte}
 
@@ -182,6 +191,7 @@
 					\end{table}
 		
 				\subsubsection{Diagramme de transitions des différentes cases}
+					Chaque type de case est compatible avec d'autres types. Les transitions entre les types sont détaillées dans ce diagramme :
 					\begin{figure}[H]
 						\begin{center}
 							\includegraphics[scale=0.35]{img/DiagrammeTransitionCases.png} 
@@ -191,6 +201,7 @@
 					\end{figure}
 			
 				\subsubsection{Les incidences sur l'environnement :}
+					Lors de la nuit, les actions de la journée ont ce que l'on appelle des incidences sur les journées suivantes, c'est-à-dire des conséquences soit bénéfiques, soit néfastes. Par exemple :
 					\begin{itemize}[label=$\bullet$]
 						\item Une étendue d'eau peut faire apparaître des poissons.
 						\item Une étendue d'eau peut faire apparaître de la végétation dans les environs.
@@ -203,7 +214,8 @@
 				
 				
 			\subsection{Les Ressources}
-		
+				Différentes ressources telles que le bois, la pierre ou la nourriture seront disponibles sur la carte, et d'autres comme les "points d'incidence", seront générées au cours de la partie.
+				
 				\subsubsection{Ressources utilisées par les citoyens}
 					Ces ressources pourront être stockées dans une quantité illimitée, et les citoyens les utiliseront pour des constructions ou pour se nourrir.
 					\begin{itemize}[label=$\bullet$]
@@ -288,9 +300,11 @@
 				\end{figure}
 	
 			\subsection{Interface utilisateur}
-				%TODO
+				Nous aurons différents menus, tels que menu principal, menu de jeu ou menu de la nuit. Ils auront chacun un certain nombre de boutons que nous ne détaillerons pas pour l'instant. Il y aura également un bandeau d'affichage des quantités de ressources pendant le jeu ainsi que des boutons permettant au joueur d'effectuer les actions utilisateur.
 		
 	\chapter{Gestion du projet}
+		Cette partie traite globalement de tout ce qui concerne l'organisation du projet, que ce soit au niveau de la conception, du développement, de l'équipe ou encore de la gestion des fichiers.
+		
 		\section{Gestion de l'équipe}
 			Tous les membres se connaissant et étant supposés être capable de travailler en équipe, nous n'avons fait aucune élection de chef de projet.\\
 			Nous avons opté pour travailler de manière collégiale, et ainsi garder une cohésion de groupe sans pour autant avoir de hiérarchie instaurée au sein du groupe, qui pourrait au contraire déservir la réalisation de nos objectifs.\\
@@ -353,6 +367,8 @@
 			\end{table}
 
 		\section{Choix technologiques}
+			Afin de pouvoir développer correctement notre logiciel, il a fallu définir tout ce que nous allions utiliser en terme de langages et bibliothèques selon notre logique de conception.
+			
 			\subsection{Langages de programmation}
 				Pour des besoins de performances, nous avons comparé différents langages. Pour réduire le temps de recherche et de comparaison, nous nous sommes appuyé sur des tests déjà effectués par d'autre.\\
 				Des tests de performances concernant un large panel de langages, comparés dans quatre contextes différents, sont fournis en annexe.\\
@@ -367,6 +383,8 @@
 				En confrontant nos préférences personnelles quant au choix de l'une ou l'autre, nous nous sommes finalement mis d'accord pour utiliser la bibliothèque graphique SFML 2.1, qui paraît plus simple d'utilisation que la SDL. De plus, elle permet une gestion aisée des fichiers audio, ce qui sera un plus pour la finalité de notre jeu.
 			
 		\section{Gestion des fichiers}
+			Nous avons beaucoup de fichiers à gérer dans ce projet, et nous devions établir des conventions ou des moyens afin de les gérer correctement.
+			
 			\subsection{Format des Fichiers}
 				Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
 				Toutes les images nécessaires au jeu seront au format PNG afin de pouvoir utiliser la transparence et garder la pleine qualité d'image (contrairement à JPEG qui perd de l'information à la compression).\\
@@ -420,6 +438,8 @@
 				\end{table}
 
 			\subsection{Convention de Nommage}
+				Les conventions de nommages sont utiles pour la lecture du code par les autres membres du groupe, car elles permettent un cadre de travail respecté de tous.
+				
 				\begin{table}[H]
 					\begin{small}
 						\begin{tabular}{| c | c |}
@@ -451,6 +471,7 @@
 
 
 	\chapter{Développement}
+		Ce chapitre est une sorte de carnet de bord. Il détaille tout ce qui concerne le développement de l'application. Au vu de la complexité de notre projet, nous détaillerons relativement peu les aspects techniques.
 		
 		\section{Moteur de jeu}
 			Pour simplifier le développement et les réalisations de certaines taches, un moteur de jeu a été réalisé. Il servira surtout dans la gestion des différents états du jeu, de toutes les données utilisées (image ou son) mais aussi d'une interface utilisateur.
@@ -469,6 +490,8 @@
 				Une classe permettant de créer des animations facilement a aussi été faite, ce qui facilite grandement la gestion de celle-ci et leurs utilisations.
 				
 		\section{Moteur de carte}
+			Le moteur de carte doit gérer tous les aspects techniques et graphiques de la carte. Il englobe les tuiles, les sols, les éléments et la carte en elle-même.
+			
 			\subsection{Les Tuiles}
 				Les différents types de tuile seront tous recensés dans le tileset, qui se chargera de fournir les textures et attributs associés à ceux-ci. La carte n'utilisera que des pointeurs vers ces instances constantes de tuile, ce    qui évitera le stockage inutile d'instances identiques.
 				
@@ -574,6 +597,8 @@
 
 			\subsection{Incidences}
 				\label{IncidenceT}
+				Ici seront brièvement expliqués les principes des différents types d'incidences environnementales, qui seront utilisées dans différentes situations.
+				
 				\subsubsection{Dilatation}
 					Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
 					Quelques présentations des résultats de ces dilatations sont présentes en annexe, page \pageref{fig:dilatation}.
@@ -667,7 +692,7 @@
 	
 		\section{Météo}
 			La météo est gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.\\
-			A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même    et est ensoleillé la jauge augmente , si par contre le temps est pluvieux la jauge descend.\\
+			A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même et est ensoleillé la jauge augmente , si par contre le temps est pluvieux la jauge descend.\\
 			En revanche, si la jauge est entre -3 et -5 et que la journée fut ensoleillé ou inversement si la jauge est entre 3 et 5 et qu'il fit un temps pluvieux la jauge revient respectivement à -1 ou 1.\\
 			Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et inversement pour le soleil.
 	
@@ -719,14 +744,22 @@
 					\end{itemize}
 			
 	\chapter{Post-Mortem}
-	
-		\section{Réalisations non abouties}
-			\begin{itemize}[label=$\bullet$]
-				\item Utilisation de la pierre et du bois pour la construction de bâtiments
-			\end{itemize}
+		Cette section liste toutes les étapes de la conception que nous n'avons pas réalisées (selon notre ordre de priorités), ainsi que toutes les améliorations auxquelles nous avons pensé lors de la phase de développements.
+		
+		\section{Fonctionnalités non implémentées}
+			Au niveau des entités, nous n'avons pas permis aux citoyens alliés de contruire des bâtiments, ni d'utiliser les ressources telles que le bois et la pierre pour ces contructions. Les entités n'ont pas non plus d'animations pour les actions spécifiques de récolte.
+			
+			Au niveau du système de jeu, nous n'avons pas créé d'arbre de technologie, permettant au joueur de spécialiser les citoyens ou réduire les coûts des contructions, augmenter la génération des PI... etc. Les pouvoirs divins ainsi que le système de karma auxquels nous avions pensé n'ont pas été implémenté (le karma serait un choix du joueur sur le taux d'agressivité ou de passivité des citoyens alliés).
 			
 		\section{Améliorations réalisables}
-		
+			Au niveau de la carte, il serait possible de créer un éditeur de carte, sachant que toute les fonctions nécessaires existent déjà. Nous pourrions également modifier la génération aléatoire de carte pour avoir des cartes plutôt arides ou plutôt humides par exemple, ainsi que faire un pré-affichage de la modification de la carte au passage de la souris lorsque le joueur veut changer un sol (par exemple les cases qui seraient modifiées en vert et non modifiables en rouge).
+			
+			Au niveau des entités, il serait bon de diversifier les bâtiments, la faune et les comportements des animaux, comme par exemple avoir des troupeaux. Nous pourrions aussi créer des civilisations neutres et mettre en place un système d'interactions entre les civilisations, à l'intérieur ou en dehors des limites de la carte (nous pouvons imaginer des émissaires étrangers venant commercer par exemple).
+			
+			Au niveau du système de jeu, nous pourrions imaginer créer des objectifs pour le joueur, comme atteindre un point de la carte, récolter certaines ressources, créer des "artefacts" et les placer sur la carte... etc.
+			
+			Au niveau de l'interface, nous pourrions mettre en place du son (musiques et bruitages), avoir un système de statistiques pour comparer les résultats de différentes parties.
+			Nous pourrions aussi %TODO
 	
 	\appendix
 	\chapter{}

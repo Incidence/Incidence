@@ -130,7 +130,7 @@ void Game::loadGame( std::string path )
 
 	file >> path;
 
-	m_tilemap->save( path );
+	m_tilemap->load( path );
 
 
     file >> qtyFood >> qtyStone >> qtyWood;
