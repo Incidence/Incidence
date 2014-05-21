@@ -21,11 +21,15 @@
 	\chapter{Remerciements}
 
 		Un grand merci à Fabien Hervouet pour son encadrement.
+		Merci à Monsieur FERBER qui nous a orientés dans la réalisation du moteur multi-agent.
 
 	\chapter{Introduction}
 	
 		\section{Philosophie}
 			Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
+		
+		\section{Influences}
+			Nous souhaitions avant tout réaliser un projet de jeux vidéos intégrant les notions de programmation multi-agent vues au semestre précédent, tout en implémentant notre propre version de moteur multi-agent. En effet, l'autonomie et l'indépendance des entités, en terme de comportement, étaient primordiales de notre point de vue. De plus, plusieurs jeux vidéos ont orienté la conception de notre projet, principalement From Dust par rapport à la possibilité de modifier l'environnement et les répercussions, mais aussi Age Of Empire II pour ce qui concerne la gestion des ressources et leur récolte. 
 		
 		\section{Sujet}
 			Ce travail impliquera de s’intéresser au paradigme de la programmation multi-agents. À partir d’une plateforme existante (type TurtleKit) ou d’une version simple programmée pour l’occasion, on proposera différents niveaux de jeu qui offriront par exemple : (1) la possibilité de modifier l’environnement permettant, en terme de contraintes, d’insuffler une dynamique globale aux agents pour les mener à réaliser un certain but ; (2) la possibilité de modifier le comportement local des agents pour atteindre des buts plus complexes. 
@@ -85,8 +89,8 @@
 			
 			\subsection{Moteur multi-agent}
 				La gestion multi-agent se fera à l'aide d'un appel au script de chaque catégorie d'entité pour chaque tick. Chaque catégorie d'entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur pour decider de l'action à faire.
-
 				\subsubsection{Primitives}
+					Toutes les primitives seront des informations accessibles par les entiés dans leur script. Ci-dessous une liste des primitives les plus importantes.
 					\begin{itemize}[label=$\bullet$]
 						\item Connaître les entités et cases alentours
 						\item Connaître l'emplacement du village
@@ -99,6 +103,7 @@
 			
 			
 				\subsubsection{Actions}
+					Les actions principales des entités seront predefinis, le script devra retourner une action pour que l'entités agissent. Ci-dessous la liste de ces actions.
 					\begin{itemize}[label=$\bullet$]
 						\item Avancer
 						\item Couper un Arbre
@@ -110,7 +115,8 @@
 
 
 			\subsection{Les Entites}
-			
+				Les Entites sont tout les elements mobiles du jeu. Il y aura différent groupe d'entites, les citoyens seront les entités du joueur, il y aura aussi des animaux et des citoyens ennemis.
+
 				\subsubsection{Les métiers des citoyens}
 					\label{Metier}
 					Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf. section \ref{Cycle}, page \pageref{Cycle}).
@@ -341,6 +347,14 @@
 			Afin de clarifier notre gestion du temps, un diagramme de Gantt est disponible en annexe et dans la documentation de notre projet, et sera mis à jour en fonction de l'avancée du projet.\\
 
 		\section{Profil de risques}
+			Le profil de risque est là pour estimer la difficulte du projet dans different domaine.
+	
+			La taille est un des risque majeur de notre projet, n'ayant que 4 mois pour réaliser la totalité du projet, on a estimé ce temps très court par rapport à toutes les fonctionnalité qu'on souhaitait implémenter. D'où, une note de 5, sur ce point là.
+			
+			La difficulté technique est un point particulier vu que la grande majorité du projet etait facilement réalisable pour au moins une des personnes du groupe. Le projet ayant un but pédagogique, on s'est réparti les taches de manière à ce que chaque membre puisse travailler sur une partie qui lui ferait découvrir ou apprendre quelque chose. Ce qui apporte une certaines difficulté au projet.
+
+			Le changement et l'instabilité de l'equipe sont les points les plus bas car notre equipe est constitué de personne ayant deja travaillé ensemble, on estime  donc que notre equipe sera stable et comme le projet est une idée de notre groupe, les changements seront des décisions prises par toutes l'equipe sauf de possible contrainte de notre encadrant.
+
 			\begin{table}[H]
 				\begin{small}
 					\begin{tabular}{| c | l |}
@@ -365,6 +379,8 @@
 				\label{tab:risk}
 				\caption{Profil de risque du projet Incidence}
 			\end{table}
+
+Pour palier à notre problème de taille, on a rapidement mis en place un ordre de priorité sur les differentes fonctionnalités. On a dans un premier temps defini un noyau central qui définira le contenu minimum du projet, puis un ordre sur toutes les ordres fonctionnalités.
 
 		\section{Choix technologiques}
 			Afin de pouvoir développer correctement notre logiciel, il a fallu définir tout ce que nous allions utiliser en terme de langages et bibliothèques selon notre logique de conception.
@@ -627,9 +643,12 @@
 				En conclusion, le plus difficile à gérer dans cette partie a été les précautions à prendre pour ne pas avoir de sols incompatibles entre eux, afin de garder non seulement les règles du jeu mais également l'esthétique.
 
 		\section{Moteur multi-agent}
-		
-			\subsection{Gestion des entités}
+			Le moteur a été réalisé suivant notre propre idée de la gestion d'un systeme multi-agent après une documentation sur le sujet. 
+			Les entites sont donc implémenté plus simplement que sur un moteur classique, avec uniquement les fonctionnalités indispensables, par exemple les entites ne peuvent pas communiquer entre elles.
 			
+			\subsection{Gestion des entités}
+				Une entité est gere de maniere très basique, elles ne possedent qu'une santé discrete et un metier qui defini leurs actions.
+				
 				\subsubsection{La santé des entités vivantes}
 					Chacune des entités possède une gestion de la santé avec plusieurs états.
 					\begin{itemize}[label=$\bullet$]
@@ -697,66 +716,78 @@
 			Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et inversement pour le soleil.
 	
 		\section{Architecture}
-		
-			\subsection{Machine à états}
+			L'application est composée de plusieurs états représentant les menus et la partie entre lesquels il est possible de naviguer.
 			
-				\subsubsection{Main menu state}
-					Le menu principal est le premier état de l’application, il sert d’écran d’accueil et dispose de trois boutons :
-					\begin{itemize}[label=$\bullet$]
-						\item "Start" qui crée une nouvelle instance de jeu et appelle l’état "Game State".
-						\item "Load" qui appelle l’état "Load Menu State".
-						\item "Exit" qui quitte l’application.
-					\end{itemize}
-					
-				\subsubsection{Game state}
-					L’état de jeu est le primordial au sein de l’application, il sert de support à l’instance de jeu afin d’en gérer le déroulement. Il contient l’affichage de la partie visible de la carte du monde et des entités ainsi qu’une interface, permettant au joueur de gérer la partie, ayant deux fonctions. La première consiste à informer de la valeur de certaines variables inhérentes à la partie comme le nombre de points ou d’une certaine ressource. La seconde permet au joueur d’indiquer les actions qu’il souhaite réaliser via un ensemble de boutons.
-					
-				\subsubsection{Night state}
-					L’état de nuit revient régulièrement au cours de la partie, pendant celui-ci ont lieu les incidences sur le territoire (cf section \ref{IncidenceT}, page \pageref{IncidenceT}) et sur les entités (cf    section \ref{IncidenceE}, page \pageref{IncidenceE}).\\
-					De plus, cet état permet au joueur de déterminer directement la météo de la prochaine journée de jeu et d’influer indirectement sur les proportions des rôles des entités. En plus de cela, un bouton de validation supprime l’état courant afin que la partie puisse reprendre son cours dans l’état de jeu.
-					
-				\subsubsection{End state}
-					L’état de fin de partie signale au joueur qu’il a atteint la condition de défaite, il dispose simplement d’un bouton :
-					\begin{itemize}[label=$\bullet$]
-						\item "Back" qui supprime l’état courant.
-					\end{itemize}
-					
-				\subsubsection{Game menu state}
-					Le menu de jeu est l’état de pause du jeu, il dispose de quatre boutons :
-					\begin{itemize}[label=$\bullet$]
-						\item "Back" qui supprime l’état courant.
-						\item "Save" qui appelle l’état "Save Menu State".
-						\item "Load" qui appelle l’état "Load Menu State".
-						\item "Quit" qui supprime tous les états jusqu’à l’état "Main Menu State".
-					\end{itemize}
-					
-				\subsubsection{Save menu state}
-					Le menu de sauvegarde est l’état qui permet de sauvegarder son avancement, il dispose d’un champ de saisie du nom de sauvegarde et de deux boutons :
-					\begin{itemize}[label=$\bullet$]
-						\item "Back" qui supprime l’état courant.
-						\item "Save" qui crée un fichier de sauvegarde à partir de l’instance de jeu en cours et le nomme d’après le texte entré.
-					\end{itemize}
-					
-				\subsubsection{Load menu state}
-					Le menu de chargement est l’état qui permet de charger une partie précédemment sauvegardée, il dispose d’une liste de boutons, représentant les fichiers de sauvegarde répertoriés à partir desquels l’instance de jeu sera modifiée, de deux boutons permettent de parcourir la liste et d’un dernier bouton :
-					\begin{itemize}[label=$\bullet$]
-						\item "Back" qui supprime l’état courant.
-					\end{itemize}
+			\subsection{Main menu state}
+				Le menu principal est le premier état de l’application, il sert d’écran d’accueil et dispose de trois boutons :
+				\begin{itemize}[label=$\bullet$]
+					\item "Start" qui crée une nouvelle instance de jeu et appelle l’état "Game State".
+					\item "Load" qui appelle l’état "Load Menu State".
+					\item "Exit" qui quitte l’application.
+				\end{itemize}
+				
+			\subsection{Game state}
+				L’état de jeu est le primordial au sein de l’application, il sert de support à l’instance de jeu afin d’en gérer le déroulement. Il contient l’affichage de la partie visible de la carte du monde et des entités ainsi qu’une interface, permettant au joueur de gérer la partie, ayant deux fonctions. La première consiste à informer de la valeur de certaines variables inhérentes à la partie comme le nombre de points ou d’une certaine ressource. La seconde permet au joueur d’indiquer les actions qu’il souhaite réaliser via un ensemble de boutons.
+				
+			\subsection{Night state}
+				L’état de nuit revient régulièrement au cours de la partie, pendant celui-ci ont lieu les incidences sur le territoire (cf section \ref{IncidenceT}, page \pageref{IncidenceT}) et sur les entités (cf    section \ref{IncidenceE}, page \pageref{IncidenceE}).\\
+				De plus, cet état permet au joueur de déterminer directement la météo de la prochaine journée de jeu et d’influer indirectement sur les proportions des rôles des entités. En plus de cela, un bouton de validation supprime l’état courant afin que la partie puisse reprendre son cours dans l’état de jeu.
+				
+			\subsection{End state}
+				L’état de fin de partie signale au joueur qu’il a atteint la condition de défaite, il dispose simplement d’un bouton :
+				\begin{itemize}[label=$\bullet$]
+					\item "Back" qui supprime l’état courant.
+				\end{itemize}
+				
+			\subsection{Game menu state}
+				Le menu de jeu est l’état de pause du jeu, il dispose de quatre boutons :
+				\begin{itemize}[label=$\bullet$]
+					\item "Back" qui supprime l’état courant.
+					\item "Save" qui appelle l’état "Save Menu State".
+					\item "Load" qui appelle l’état "Load Menu State".
+					\item "Quit" qui supprime tous les états jusqu’à l’état "Main Menu State".
+				\end{itemize}
+				
+			\subsection{Save menu state}
+				Le menu de sauvegarde est l’état qui permet de sauvegarder son avancement, il dispose d’un champ de saisie du nom de sauvegarde et de deux boutons :
+				\begin{itemize}[label=$\bullet$]
+					\item "Back" qui supprime l’état courant.
+					\item "Save" qui crée un fichier de sauvegarde à partir de l’instance de jeu en cours et le nomme d’après le texte entré.
+				\end{itemize}
+				
+			\subsection{Load menu state}
+				Le menu de chargement est l’état qui permet de charger une partie précédemment sauvegardée, il dispose d’une liste de boutons, représentant les fichiers de sauvegarde répertoriés à partir desquels l’instance de jeu sera modifiée, de deux boutons permettent de parcourir la liste et d’un dernier bouton :
+				\begin{itemize}[label=$\bullet$]
+					\item "Back" qui supprime l’état courant.
+				\end{itemize}
 			
 	\chapter{Post-Mortem}
 		Cette section liste toutes les étapes de la conception que nous n'avons pas réalisées (selon notre ordre de priorités), ainsi que toutes les améliorations auxquelles nous avons pensé lors de la phase de développements.
 		
 		\section{Fonctionnalités non implémentées}
-			Au niveau des entités, nous n'avons pas permis aux citoyens alliés de contruire des bâtiments, ni d'utiliser les ressources telles que le bois et la pierre pour ces contructions. Les entités n'ont pas non plus d'animations pour les actions spécifiques de récolte.
+			Tous les bâtiments sont réalisables mais nous n'avons pas implémenté la possibilité pour les entités de construire des bâtiments par conséquent le bois et la pierre n'ont encore aucune utilité. 
 			
-			Au niveau du système de jeu, nous n'avons pas créé d'arbre de technologie, permettant au joueur de spécialiser les citoyens ou réduire les coûts des contructions, augmenter la génération des PI... etc. Les pouvoirs divins ainsi que le système de karma auxquels nous avions pensé n'ont pas été implémenté (le karma serait un choix du joueur sur le taux d'agressivité ou de passivité des citoyens alliés).
+			% animation ?
+			
+			Une des fonctionnalité majeur non-implémenté est la gestion d'un arbre technologique, qui mettrait de debloquer de nouveaux batiments mais aussi de diminuer le temps de récolte des ressources en déverrouillant différentes technologies. Chacune d'elles coûterait une certaine quantité de bois, de pierre et de nourriture. 
+			
+			Certains pouvoirs divins n'ont pas été mis en place, comme le soin des citoyens du joueur ou bien la création d'une entités en cours de journée. 
+			
+			Le karma, reflètant l'équilibre entre "bonnes" et "mauvaises" actions et se répercutant sur le comportement des entités quant à l'appel d'un "bon" ou d'un "mauvais" script, est une autre fonctionnalité non ajoutée.
 			
 		\section{Améliorations réalisables}
-			Au niveau de la carte, il serait possible de créer un éditeur de carte, sachant que toute les fonctions nécessaires existent déjà. Nous pourrions également modifier la génération aléatoire de carte pour avoir des cartes plutôt arides ou plutôt humides par exemple, ainsi que faire un pré-affichage de la modification de la carte au passage de la souris lorsque le joueur veut changer un sol (par exemple les cases qui seraient modifiées en vert et non modifiables en rouge).
+			Au niveau de la carte, il serait possible de créer un éditeur de carte, sachant que toute les fonctions nécessaires existent déjà. Nous pourrions également modifier la génération aléatoire de carte pour avoir des cartes plutôt arides ou plutôt humides par exemple.
+			De plus, une indication visuelle indiquant le coût et la possibilité ou non de placer un sol ou un element sur la carte, via les pouvoirs du joueur, est une amélioration que nous souhaitons rapidement implémenter.
 			
-			Au niveau des entités, il serait bon de diversifier les bâtiments, la faune et les comportements des animaux, comme par exemple avoir des troupeaux. Nous pourrions aussi créer des civilisations neutres et mettre en place un système d'interactions entre les civilisations, à l'intérieur ou en dehors des limites de la carte (nous pouvons imaginer des émissaires étrangers venant commercer par exemple).
+			Une diversification des espèces pour les animaux nous permettrait ainsi d'ajouter la notion de troupeau afin de se rapprocher le plus fidèlement d'un comportement naturel.
+			Le troupeau serait dirigé par un chef  et les entités le constituant attaqueraient et se défendraient en groupe.
+			Ceci permettrait d'avoir une intéraction entre les animaux d'une
+			même espèce et entre ceux venant d'espèces différentes.
 			
-			Au niveau du système de jeu, nous pourrions imaginer créer des objectifs pour le joueur, comme atteindre un point de la carte, récolter certaines ressources, créer des "artefacts" et les placer sur la carte... etc.
+			
+			Les civilisations "neutres" ont aussi été abordé, celles-ci seraient composées d'entités possiblement alliées et permettraient, par exemple, des échanges de ressource ainsi qu'un système d'interactions entre les civilisations, à l'intérieur ou en dehors des limites de la carte (nous pouvons imaginer des émissaires étrangers venant commercer par exemple).
+			
+			Le jeu n'a pour l'instant aucune condition de victoire, la partie se terminé qu'en cas de défaite, nous souhaitons ajouter différentes conditions de victoire. Ceci nous permettrait ainsi de mettre en place plusieurs mode de jeu, un libre qui est le seul mode jouable actuellement mais aussi un mode campagne avec plusieurs objectifs à atteindre tout le long de cette campagne. Les conditions de victoire pourrait être d'atteindre un certain point sur la carte, de récolter un nombre definit de ressource ou bien la construction d'un certain nombre de bâtiment spécifique.
 			
 			Au niveau de l'interface, nous pourrions mettre en place du son (musiques et bruitages), avoir un système de statistiques pour comparer les résultats de différentes parties.
 			Nous pourrions aussi %TODO
