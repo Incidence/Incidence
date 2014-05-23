@@ -187,7 +187,7 @@
 								Pierre & Pierre & Non & Peut être cassée pour récolter de la pierre.\\
 								& (2 unités) &    &    \\
 								\hline
-								Falaise & - & Non & Elément neutre. Peut faire apparaître de la pierre à ses pieds.\\
+								Falaise & - & Non & \'Elément neutre. Peut faire apparaître de la pierre à ses pieds.\\
 								\hline
 								Buisson & Nourriture & Non & La récolte de ses baies permet d'obtenir de la nourriture.\\
 								& (2 unités) &    &    \\
@@ -265,7 +265,7 @@
 			\subsection{Scripts}
 				Chaque catégorie d'entités déterminées selon leur classe d'appartenance aura un script propre. Ce script sera appelé à une fréquence variable en fonction de la situation dans laquelle se trouvera l'entité.
 			
-		\section{Eléments graphiques}
+		\section{\'Eléments graphiques}
 			Tous les effets graphiques du projet sont à base de sprites. Nous avons initialement choisi des tuiles de 32x32 pixels, mais il serait possible de changer cette taille dans le futur.\\
 
 			\subsection{Les tuiles}
@@ -444,11 +444,11 @@
 							\hline
 							\textbf{Marqueur spécifique} & \textbf{Signification}\\
 							\hline
-							TODO & A mettre à la place du code d'une fonctionnalité à implémenter\\
+							TODO & \'A mettre à la place du code d'une fonctionnalité à implémenter\\
 							\hline
-							RECODE & A mettre au dessus du bloc d'une fonctionnalité à refaire ou à optimiser\\
+							RECODE & \'A mettre au dessus du bloc d'une fonctionnalité à refaire ou à optimiser\\
 							\hline
-							FIXME & A mettre au dessus du bloc d'une fonctionnalité contenant un bug\\
+							FIXME & \'A mettre au dessus du bloc d'une fonctionnalité contenant un bug\\
 							\hline
 						\end{tabular}
 					\end{small}
@@ -530,7 +530,7 @@
 								\hline
 								Nom & Chaîne de caractères utilisée lors des affichages dans l'interface.\\
 								\hline
-								Comportement & Enumération de trois comportements :\\
+								Comportement & \'Enumération de trois comportements :\\
 								& DEFAULT : comportement par défaut (tous les types de Terre).\\
 								& FLUID : les sols forment des zones (étendues d'eau).\\
 								& CLIFF : les sols sont fixes et forment des zones (falaises).\\
@@ -546,7 +546,7 @@
 						\caption{Attributs des sols}
 					\end{table}
 					
-				\subsubsection{Les Eléments}
+				\subsubsection{Les \'Eléments}
 					Chaque sol aura différents attributs définis dans le fichier de configuration du tileset (cf section \ref{TilesetDev}, page \pageref{TilesetDev}).\\
 					\\
 					\begin{table}[H]
@@ -563,7 +563,7 @@
 								\hline
 								Nom & Chaîne de caractères utilisée lors des affichages dans l'interface.\\
 								\hline
-								Comportement & Enumération de deux comportements :\\
+								Comportement & \'Enumération de deux comportements :\\
 								& DEFAULT : comportement par défaut.\\
 								& FOREST : les éléments forment des zones (arbres).\\
 								\hline
@@ -623,7 +623,7 @@
 					Les incidences basées sur la dilatation des zones prennent en compte les comportements des sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
 					Quelques présentations des résultats de ces dilatations sont présentes en annexe, page \pageref{fig:dilatation}.
 				
-				\subsubsection{Erosion}
+				\subsubsection{\'Erosion}
 					Les incidences basées sur l'érosion des zones prennent en compte les comportements des sols ou éléments alentours afin de choisir les nouveaux types en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
 					Quelques présentations des résultats de ces érosions sont présentes en annexe, page \pageref{fig:erosion}.
 				
@@ -688,7 +688,7 @@
 					\begin{itemize}[label=$\bullet$]
 						\item \textbf{Récolteurs (bûcherons, cueilleurs, mineurs) :} \\ Si un bûcheron faible, un mineur faible ou un cueilleur perçoit un animal agressif ou un citoyen ennemi, celui-ci va fuir.\\
 							Si un bûcheron ou un mineur se fait attaquer, il va répliquer en attaquant en priorité l'entité face à lui si celle-ci l'attaque.\\
-							A chaque fois que l'entité récolte une ressource, elle remplit son sac puis se dirige vers la base pour déposer son contenu.\\
+							\'A chaque fois que l'entité récolte une ressource, elle remplit son sac puis se dirige vers la base pour déposer son contenu.\\
 							Lorsque son sac est vide, elle regarde dans son rayon de perception si une ressource est disponible. Si au moins une ressource est repérée, elle se dirige vers la plus proche pour la récolter. Sinon, elle se dirige de manière aléatoire.
 						\item \textbf{Chasseurs :} \\ Le chasseur reste relativement proche de la base et adopte un rôle de défenseur.\\
 							S'il est attaqué, il va regarder le nombre de chasseurs et le nombre d'entités hostiles autour de lui, s'il y a moins d'entités hostiles que de chasseurs auxquels on ajoute 3, il va attaquer l'entité qui l'attaque avec dans l'ordre de priorité : l'entité en face de lui, un citoyen ennemi et un animal agressif. Sinon il adopte la fuite.\\
@@ -715,7 +715,7 @@
 	
 		\section{Météo}
 			La météo est gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.\\
-			A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même et est ensoleillé la jauge augmente, si par contre le temps est pluvieux la jauge descend.\\
+			\'A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même et est ensoleillé la jauge augmente, si par contre le temps est pluvieux la jauge descend.\\
 			En revanche, si la jauge est entre -3 et -5 et que la journée était ensoleillée ou inversement si la jauge est entre 3 et 5 et que le temps était pluvieux, la jauge revient respectivement à -1 ou 1.\\
 			Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et en rapport avec le soleil pour les valeurs positives.
 	
@@ -831,7 +831,7 @@
 					\includegraphics[scale=0.2]{img/Erosion.png}
 				\end{center}
 				\label{fig:erosion}
-				\caption{Erosions après trois itérations}
+				\caption{\'Erosions après trois itérations}
 			\end{figure}
 			\begin{figure}
 				\begin{center}
