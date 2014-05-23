@@ -27,14 +27,14 @@ function EnemyCitizen:action()
 						indice=i
 
 					elseif (not(entites:isAttackMe(entites:getID(indice)) and entites:getType(indice)==ALLY_CITIZEN)) then
-						if (entites:getDistance(i)==1) and (entites:getType(i)==HUNTER) then
+						if (entites:getDistance(entites:getID(i))==1) and (entites:getType(i)==HUNTER) then
 							indice=i
 
-						elseif (not((entites:getDistance(indice)==1) and (entites:getType(indice)==HUNTER))) then
-							if	(entites:getType(i)==ALLY_CITIZEN) and (entites:getDistance(i)==1) then
+						elseif (not((entites:getDistance(entites:getID(indice))==1) and (entites:getType(indice)==HUNTER))) then
+							if	(entites:getType(i)==ALLY_CITIZEN) and (entites:getDistance(entites:getID(i))==1) then
 								indice=i
 
-							elseif (not((entites:getType(indice)==ALLY_CITIZEN) and (entites:getDistance(indice)==1))) then
+							elseif (not((entites:getType(indice)==ALLY_CITIZEN) and (entites:getDistance(entites:getID(indice))==1))) then
 								if (entites:getType(i)==WILD_ANIMAL) and (entites:isAttackme(i)) then
 									indice=i
 								end
@@ -57,7 +57,7 @@ function EnemyCitizen:action()
 
 		local seuil=nbfriends+2
 		if(nbfoes<=seuil) then
-			self:setTarget(entites:getId(indice))
+			self:setTarget(entites:getID(indice))
 			return "attack"
 		else
 			local moyangle=sumangle/nbfoes

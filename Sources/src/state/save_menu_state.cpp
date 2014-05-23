@@ -3,6 +3,9 @@
 SaveMenuState::SaveMenuState( Game * g ) : m_ui(this)
 {
     m_game = g;
+    if(m_game == NULL) {
+	    m_game = new Game();
+    }
 
 	init();
 }
@@ -60,6 +63,8 @@ void SaveMenuState::init( void )
 
 void SaveMenuState::draw( sf::RenderTarget & window )
 {
+	m_game->drawCarte(window);
+	
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

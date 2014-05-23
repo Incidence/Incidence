@@ -8,6 +8,7 @@
 #include "../engine/ui/button.hpp"
 #include "../state/test_state.hpp"
 #include "../state/load_menu_state.hpp"
+#include "../game/game.hpp"
 
 class MainMenuState : public State
 {
@@ -25,6 +26,7 @@ public :
 private :
     sf::RenderWindow * m_window;
 	UI m_ui;
+	Game * m_game;
 };
 
 #endif // _MAIN_MENU_STATE_
