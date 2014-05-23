@@ -28,6 +28,7 @@ public :
 
     void update( void );
     void draw( sf::RenderTarget & window );
+    void drawCarte( sf::RenderTarget & window );
     void handleEvent( sf::Event & e );
 
     Entity * getEntity( int id );

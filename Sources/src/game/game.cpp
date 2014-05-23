@@ -262,6 +262,13 @@ void Game::draw( sf::RenderTarget & window )
     m_weather->draw(window);
 }
 
+void Game::drawCarte( sf::RenderTarget & window )
+{
+    m_tilemap->drawGrounds( window );
+    m_tilemap->drawElementsDown( window );
+    m_tilemap->drawElementsUp( window );
+}
+
 void Game::handleEvent( sf::Event & e )
 {
     if (e.type == sf::Event::KeyPressed) {

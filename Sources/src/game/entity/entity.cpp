@@ -239,6 +239,23 @@ int Entity::isNearResource( lua_State * L )
     return 1;
 }
 
+int Entity::getDistance( lua_State * L )
+{
+    int argc = lua_gettop(L);
+    int id = -1;
+    if( argc > 0 && lua_isnumber(L, 1)) {
+        id = lua_tonumber(L, 1);
+    }
+
+    Entity * e;
+    if(m_game && (e = m_game->getEntity(id))) {
+        lua_pushnumber(L, (distance(e->getPosition(), getPosition()))/32);
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
 int Entity::getDistanceToHome( lua_State * L )
 {
     int argc = lua_gettop(L);
@@ -256,7 +273,7 @@ int Entity::getDistanceToHome( lua_State * L )
         d = distance(m_game->m_tilemap->getAbs(m_game->m_home.getPosition()), m_position);
     }
 
-    lua_pushnumber(L, d);
+    lua_pushnumber(L, d/32);
     return 1;
 }
 
@@ -264,7 +281,14 @@ int Entity::getAngleToHome( lua_State * L )
 {
     /// RECODE
 
-    lua_pushnumber(L, 0);
+     float angle = std::atan2(m_game->m_home.getPosition().y - m_position.y , m_game->m_home.getPosition().x - m_position.x);
+     //std::cout<<"angle radian : "<<angle<<std::endl;
+     if(angle<0)
+     {
+        angle=(M_PI*2)+angle;
+     }
+     //std::cout<<"angle degre : "<<angle*180/M_PI<<std::endl;
+    lua_pushnumber(L, angle);
     return 1;
 }
 
@@ -772,7 +796,7 @@ void Entity::initStateiconList()
     m_stateiconList[S_TIRED_NORMAL].loadFromFile("data/img/entities/states/tirednormal.png");
     m_stateiconList[S_TIRED_WEAK].loadFromFile("data/img/entities/states/tiredweak.png");
     m_stateiconList[S_TIRED_VERY_WEAK].loadFromFile("data/img/entities/states/tiredveryweak.png");
-	
+
 	if(!isTired()) {
 		switch(getHealth())
 		{

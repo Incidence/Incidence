@@ -3,6 +3,9 @@
 GameMenuState::GameMenuState( Game * g ) : m_ui(this)
 {
     m_game = g;
+    if(m_game) {
+	    m_game = new Game();
+    }
 
 	init();
 }
@@ -74,6 +77,8 @@ void GameMenuState::init( void )
 
 void GameMenuState::draw( sf::RenderTarget & window )
 {
+	m_game->drawCarte(window);
+	
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

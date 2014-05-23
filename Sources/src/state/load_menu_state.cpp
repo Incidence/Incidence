@@ -3,6 +3,9 @@
 LoadMenuState::LoadMenuState( Game * g ) : m_ui(this)
 {
     m_game = g;
+    if(m_game) {
+	    m_game = new Game();
+    }
 
     m_position = 0;
 
@@ -101,6 +104,8 @@ void LoadMenuState::init( void )
 
 void LoadMenuState::draw( sf::RenderTarget & window )
 {
+	m_game->drawCarte(window);
+	
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

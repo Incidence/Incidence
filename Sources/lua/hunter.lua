@@ -18,6 +18,7 @@ function Hunter:action()
 	local nbfoes=0
 	local nbfriends=0
 
+	--print(self:getAngleToHome()*180/math.pi)
 	if self:isAttacked() then
 
 		local sumangle=0
@@ -31,10 +32,10 @@ function Hunter:action()
 					indice=i
 
 				elseif (not(entites:isAttackMe(entites:getID(indice)) and entites:getType(indice)==ENEMY_CITIZEN)) then
-					if (entites:getType(i)==ENEMY_CITIZEN) and (entites:getDistance(i)==1) then
+					if (entites:getType(i)==ENEMY_CITIZEN) and (entites:getDistance(entites:getID(i))==1) then
 						indice=i
 
-					elseif (not((entites:getType(indice)==ENEMY_CITIZEN) and (entites:getDistance(indice)==1))) then
+					elseif (not((entites:getType(indice)==ENEMY_CITIZEN) and (entites:getDistance(entites:getID(indice))==1))) then
 						if (entites:getType(i)==WILD_ANIMAL) and (entites:isAttackMe(entites:getID(i))) then
 							indice=i
 						end
@@ -92,11 +93,14 @@ function Hunter:action()
 		if(taille>0) then
 			local seuil=nbfriends+2
 			if(nbfoes<=seuil) then
-				if (not ((entites:getType(indice)==ALLY_CITIZEN) or (entites:getType(indice)==HUNTER))) and (self:getDistanceToHome(entites:getID(i))<=MAXDISTANCEHUNT) then
+				if (not ((entites:getType(indice)==ALLY_CITIZEN) or (entites:getType(indice)==HUNTER))) and (self:getDistanceToHome(entites:getID(indice))<=MAXDISTANCEHUNT) then
 					self:setTarget(entites:getID(indice))
+					--print("ennemi")
 					return "attack"
 				else
 					if(self:getDistanceToHome()>MAXDISTANCE) then
+					--print("no ennemi")
+					--self:setAngle(self:getAngle()+math.pi)
 					self:setAngle(self:getAngleToHome())
 					return "move"
 
@@ -106,20 +110,16 @@ function Hunter:action()
 						math.random()
 
 						if(self:getDistanceToHome()==MAXDISTANCE) then
-							local angleoppose=((self:getDistanceToHome()+math.pi))%2*math.pi
-							local angleinterditmin=((self:getDistanceToHome()+math.pi)+math.pi/2)%2*math.pi
-							local angleinterditmax=((self:getDistanceToHome()+math.pi)-math.pi/2)%2*math.pi
-							repeat
 								local rand = math.floor(math.random()*10000)%5
 								--print(rand)
 								if rand == 0 then
-									local angle=self:getAngle()-math.pi/2
+									local angle=(self:getAngleToHome()-math.pi/2)%2*math.pi
 								elseif rand == 4 then
-									local angle=self:getAngle()+math.pi/2
+									local angle=(self:getAngleToHome()+math.pi/2)%2*math.pi
 								else
-									local angle=self:getAngle()
+									local angle=self:getAngleToHome()
 								end
-							until (angle>angleinterditmin) and (angle<angleinterditmax)
+							--self:setAngle(self:getAngleToHome())
 							self:setAngle(angle)
 							return "move"
 
@@ -127,12 +127,13 @@ function Hunter:action()
 							local rand = math.floor(math.random()*10000)%5
 							--print(rand)
 							if rand == 0 then
-								local angle=self:getAngle()-math.pi/2
+								local angle=(self:getAngle()-math.pi/2)%2*math.pi
 							elseif rand == 4 then
-								local angle=self:getAngle()+math.pi/2
+								local angle=(self:getAngle()+math.pi/2)%2*math.pi
 							else
 								local angle=self:getAngle()
 							end
+							--self:setAngle(self:getAngleToHome())
 							self:setAngle(angle)
 							return "move"
 						end
@@ -140,13 +141,15 @@ function Hunter:action()
 				end
 			else
 				local moyangle=sumangle/nbfoes
-				self:setAngle(moyangle+math.pi)
+				self:setAngle((moyangle+math.pi)%2*math.pi)
 				return "move"
 			end
 		else
-
+		--print("no perception")
 
 			if(self:getDistanceToHome()>MAXDISTANCE) then
+				--self:setAngle(self:getAngle()+math.pi)
+				--print("sup")
 				self:setAngle(self:getAngleToHome())
 				return "move"
 
@@ -156,33 +159,34 @@ function Hunter:action()
 				math.random()
 
 				if(self:getDistanceToHome()==MAXDISTANCE) then
-					local angleoppose=((self:getDistanceToHome()+math.pi))%2*math.pi
-					local angleinterditmin=((self:getDistanceToHome()+math.pi)+math.pi/2)%2*math.pi
-					local angleinterditmax=((self:getDistanceToHome()+math.pi)-math.pi/2)%2*math.pi
-					repeat
+				--print("egal")
+
 						local rand = math.floor(math.random()*10000)%5
-						--print(rand)
+
 						if rand == 0 then
-							local angle=self:getAngle()-math.pi/2
+							local angle=(self:getAngleToHome()-math.pi/2)%2*math.pi
 						elseif rand == 4 then
-							local angle=self:getAngle()+math.pi/2
+							local angle=(self:getAngleToHome()+math.pi/2)%2*math.pi
 						else
-							local angle=self:getAngle()
+							local angle=self:getAngleToHome()
 						end
-					until (angle>angleinterditmin) and (angle<angleinterditmax)
+
+					--self:setAngle(self:getAngleToHome())
 					self:setAngle(angle)
 					return "move"
 
 				elseif(self:getDistanceToHome()<MAXDISTANCE) then
+				--print("sous")
 					local rand = math.floor(math.random()*10000)%5
 					--print(rand)
 					if rand == 0 then
-						local angle=self:getAngle()-math.pi/2
+						local angle=(self:getAngle()-math.pi/2)%2*math.pi
 					elseif rand == 4 then
-						local angle=self:getAngle()+math.pi/2
+						local angle=(self:getAngle()+math.pi/2)%2*math.pi
 					else
 						local angle=self:getAngle()
 					end
+					--self:setAngle(self:getAngleToHome())
 					self:setAngle(angle)
 					return "move"
 				end
