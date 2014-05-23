@@ -13,6 +13,8 @@
 \author{\emph{CHAMBONNET Kevin}\\\emph{GAUTHIER Silvère}\\\emph{MARTINEZ Thierry}\\\emph{MOKHRETAR Amin}}
 \date{\today}
 
+%TODO : mettre les accents sur les majuscules
+
 \begin{document}
 	\maketitle
 	\newpage
@@ -21,7 +23,7 @@
 	\chapter{Remerciements}
 
 		Un grand merci à Fabien Hervouet pour son encadrement.
-		Merci à Monsieur FERBER qui nous a orientés dans la réalisation du moteur multi-agent.
+		Merci à Monsieur Ferber qui nous a orientés dans la réalisation du moteur multi-agents.
 
 	\chapter{Introduction}
 	
@@ -29,18 +31,18 @@
 			Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
 		
 		\section{Influences}
-			Nous souhaitions avant tout réaliser un projet de jeux vidéos intégrant les notions de programmation multi-agent vues au semestre précédent, tout en implémentant notre propre version de moteur multi-agent. En effet, l'autonomie et l'indépendance des entités, en terme de comportement, étaient primordiales de notre point de vue. De plus, plusieurs jeux vidéos ont orienté la conception de notre projet, principalement From Dust par rapport à la possibilité de modifier l'environnement et les répercussions, mais aussi Age Of Empire II pour ce qui concerne la gestion des ressources et leur récolte. 
+			Nous souhaitions avant tout réaliser un projet de jeu vidéo intégrant les notions de programmation multi-agent vues au semestre précédent, tout en implémentant notre propre version de moteur multi-agents. En effet, l'autonomie et l'indépendance des entités, en terme de comportement, étaient primordiales de notre point de vue. De plus, plusieurs jeux vidéos ont orienté la conception de notre projet, principalement From Dust par rapport à la possibilité de modifier l'environnement et les répercussions, mais aussi Age Of Empire II pour ce qui concerne la gestion des ressources et leur récolte. 
 		
 		\section{Sujet}
 			Ce travail impliquera de s’intéresser au paradigme de la programmation multi-agents. À partir d’une plateforme existante (type TurtleKit) ou d’une version simple programmée pour l’occasion, on proposera différents niveaux de jeu qui offriront par exemple : (1) la possibilité de modifier l’environnement permettant, en terme de contraintes, d’insuffler une dynamique globale aux agents pour les mener à réaliser un certain but ; (2) la possibilité de modifier le comportement local des agents pour atteindre des buts plus complexes. 
-			Le cadre plus précis sera à déterminer en fonction de faisabilités et des envies des étudiants : quelles actions pourront effectuer les agents ? quelles ressources à disposition ? quels types d’objectifs pour le joueur ? comment envisager la progression des niveaux ? D’autres évolutions sont possibles et seront traitées en fonction de l’avancement du projet : systèmes d’évènements (épidémies, catastrophe naturelle), outils simple pour la création de nouveaux niveaux, mode multi-joueurs, etc. 
+			Le cadre plus précis sera à déterminer en fonction des faisabilités et des envies des étudiants : quelles actions pourront effectuer les agents ? quelles ressources à disposition ? quels types d’objectifs pour le joueur ? comment envisager la progression des niveaux ? D’autres évolutions sont possibles et seront traitées en fonction de l’avancement du projet : systèmes d’évènements (épidémies, catastrophe naturelle), outils simple pour la création de nouveaux niveaux, mode multi-joueurs, etc. \\
 			D’un point de vue pragmatique on s’attachera en priorité à étudier l’adéquation de la mise en oeuvre des comportements réactifs des agents face aux différentes possibilités de contraintes permises pour le joueur, ainsi qu’à l’ergonomie de l’interface. L’aspect recherche de ce TER se concentrera sur une familiarisation plus en profondeur avec le domaine de la modélisation et de la simulation multi-agents [1] ainsi qu’avec les méthodologies de conception de jeu [2].
 	
 	\chapter{Cahier des charges}
 		Ce chapitre détaille toute la phase de conception du projet. Elle contient le Game Design Document que nous avons rédigé lors de l'étude préalable.
 	
 		\section{Questions fréquentes}
-			Cette partie regroupe les caractéristiques basiques du jeu sous forme de questions-réponses.
+			Cette partie regroupe les caractéristiques basiques du jeu sous forme de question-réponse.
 		
 			\subsection{Qu'est-ce que ce jeu ?}
 				C'est un jeu de type God-Like dans lequel on doit aider une civilisation à survivre le plus longtemps possible grâce à différents pouvoirs et actions divines.
@@ -52,7 +54,7 @@
 				Il n'y aura pas de condition de victoire particulière dans le jeu de base, le but sera de survivre le plus longtemps possible.\\
 				La partie se terminera quand le joueur n'aura plus de citoyen.
 			
-		\section{Mecanismes de jeu}
+		\section{Mécanismes de jeu}
 			Cette section détaille succintement les possibilités du joueur pendant la partie.
 			
 			\subsection{Les Pouvoirs}
@@ -87,23 +89,23 @@
 		\section{Structure du jeu}
 			Cette partie détaille succintement la structure globale du jeu, ce qui couvre les aspects du jeu non maîtrisables par le joueur.
 			
-			\subsection{Moteur multi-agent}
-				La gestion multi-agent se fera à l'aide d'un appel au script de chaque catégorie d'entité pour chaque tick. Chaque catégorie d'entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur pour decider de l'action à faire.
+			\subsection{Moteur multi-agents}
+				La gestion multi-agents se fera à l'aide d'un appel au script de chaque catégorie d'entité pour chaque tick. Chaque catégorie d'entité aura donc un script propre, qui décrira son comportement et pourra faire appel aux primitives que fournira le moteur pour décider de l'action à faire.
 				\subsubsection{Primitives}
-					Toutes les primitives seront des informations accessibles par les entiés dans leur script. Ci-dessous une liste des primitives les plus importantes.
+					Toutes les primitives seront des informations accessibles par les entités dans leur script. Ci-dessous une liste des primitives les plus importantes.
 					\begin{itemize}[label=$\bullet$]
 						\item Connaître les entités et cases alentours
 						\item Connaître l'emplacement du village
 						\item Changer de direction
-						\item Connaitre sa santé
+						\item Connaître sa santé
 						\item Si leur sac est plein
 						\item S'il est attaqué
-						\item Par qui sont-ils attaqué
+						\item Par qui est-il attaqué
 					\end{itemize}
 			
 			
 				\subsubsection{Actions}
-					Les actions principales des entités seront predefinis, le script devra retourner une action pour que l'entités agissent. Ci-dessous la liste de ces actions.
+					Les actions principales des entités seront prédéfinies, le script devra retourner une action pour que l'entité agisse. Ci-dessous la liste de ces actions.
 					\begin{itemize}[label=$\bullet$]
 						\item Avancer
 						\item Couper un Arbre
@@ -114,14 +116,14 @@
 					\end{itemize}
 
 
-			\subsection{Les Entites}
-				Les Entites sont tout les elements mobiles du jeu. Il y aura différent groupe d'entites, les citoyens seront les entités du joueur, il y aura aussi des animaux et des citoyens ennemis.
+			\subsection{Les Entités}
+				Les entités sont tous les éléments mobiles du jeu. Il y aura différents groupes d'entités, les citoyens seront les entités du joueur, il y aura aussi des animaux et des citoyens ennemis.
 
 				\subsubsection{Les métiers des citoyens}
 					\label{Metier}
 					Chaque citoyen aura une tâche à accomplir durant la journée et ne pourra pas en changer avant la nuit. La nuit, un métier sera attribué à chaque citoyen selon les choix du joueur et les besoins des citoyens (cf. section \ref{Cycle}, page \pageref{Cycle}).
 					\begin{itemize}[label=$\bullet$]
-						\item \textbf{Bûcheron :} Coupe les arbres et récolte les ressources associées (Le Bois en général mais aussi de la nourriture sur les Arbres Fruitier).
+						\item \textbf{Bûcheron :} Coupe les arbres et récolte les ressources associées (Le Bois en général mais aussi de la nourriture sur les Arbres Fruitiers).
 						\item \textbf{Mineur :} Casse les rochers et récolte la Pierre.
 						\item \textbf{Chasseur-Cueilleur :} Chasse les animaux, cueille les baies ou cultive des champs pour récolter la Nourriture.
 					\end{itemize}
@@ -250,10 +252,10 @@
 
 			\subsection{Le cycle jour/nuit}
 				\label{Cycle}
-				Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont une incidence sur la nature et les entités, et seront visibles au début de la nouvelle journée.
+				Un cycle jour/nuit sera présent, avec des journées longues et des nuits courtes. Le Jour, les citoyens se vouent à leur métier, jusqu'au soir. La Nuit, tous les citoyens retournent au village, plus aucune action n'est possible. Lorsque la nuit tombe, toutes les actions du jour ont des incidences sur la nature et les entités, qui seront visibles au début de la nouvelle journée.
 				\begin{itemize}[label=$\bullet$]
 					\item Le terrain est mis à jour, toutes les actions de la journée auront une incidence sur l'environnement.
-					\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyen \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
+					\item Tous les citoyens se nourrissent, la nourriture diminue en fonction du nombre de citoyens \textit{(-3 de nourriture par citoyen)}. S'ils manquent de la nourriture, certains citoyens peuvent tomber malade.
 					\item Certains citoyens tombent malade en fonction des anciennes météos.
 					\item S'il y a assez de nourriture, de nouveaux citoyens peuvent naître.
 					\item Gain des points bonus d'incidence en fonction de la taille de la population et de sa santé.
@@ -261,7 +263,7 @@
 				\end{itemize}
 
 			\subsection{Scripts}
-				Chaque catégorie d'entités déterminée selon leur classe d'appartenance aura un script propre. Ce script sera appelé à une fréquence variable en fonction de la situation dans laquelle se trouvera l'entité.
+				Chaque catégorie d'entités déterminées selon leur classe d'appartenance aura un script propre. Ce script sera appelé à une fréquence variable en fonction de la situation dans laquelle se trouvera l'entité.
 			
 		\section{Eléments graphiques}
 			Tous les effets graphiques du projet sont à base de sprites. Nous avons initialement choisi des tuiles de 32x32 pixels, mais il serait possible de changer cette taille dans le futur.\\
@@ -275,7 +277,7 @@
 					\item \textbf{Les ressources :} Il y aura 4 tuiles pour chaque ressource, correspondant au type de sol sur lequel elle se trouve.
 					\item \textbf{Les bâtiments :} Chaque bâtiment sera constitué d'un ensemble de tuiles.
 				\end{itemize}
-				Chaque sol du tileset est affiché avec des bordures selon les types de sols environnant.\\
+				Chaque sol du tileset est affiché avec des bordures selon les types des sols environnant.\\
 				\begin{figure}[H]
 					\begin{center}
 						\includegraphics[scale=1]{img/groundSample.png}
@@ -316,7 +318,7 @@
 			Nous avons opté pour travailler de manière collégiale, et ainsi garder une cohésion de groupe sans pour autant avoir de hiérarchie instaurée au sein du groupe, qui pourrait au contraire déservir la réalisation de nos objectifs.\\
 			Chaque membre a donc autant de pouvoir que les autres, et peut donc participer activement au projet, autant lors de la conception que du développement. Toutes les décisions seront prises suivant la majorité lors de votes.\\\\
 			Pour ce qui est des réunions de projets, nous avons convenu avec notre tuteur d'une réunion, allant d'environ trente minutes à une heure, toutes les une à deux semaines, afin de mettre au point l'avancement du projet. En parallèle, tous les membres de notre équipe se retrouvent une fois par semaine afin de discuter des points clés effectués ou à venir, donner lieu aux votes pour les prises de décisions, ou encore, lors de la phase de développement, travailler en collaboration afin d'optimiser notre travail.\\\\
-			Au niveau du travail collaboratif, nous avons mis en place un dépôt sur github, contenant tant la documentation telle que ce rapport que les sources de notre jeu. Par ailleurs, nous mettrons sur ce dépôt uniquement les fichiers sources, les images et les sons, mais en aucun cas les fichiers temporaires ou les exécutables. Un fichier "makefile" sera disponible pour quiconque voudrait compiler le programme chez lui. Les seuls fichiers binaires disponibles seront les PDF de la documentation, pour un soucis de facilité d'accès.
+			Au niveau du travail collaboratif, nous avons mis en place un dépôt sur github (adresse à la page \pageref{url:github}), contenant tant la documentation telle que ce rapport que les sources de notre jeu. Par ailleurs, nous mettrons sur ce dépôt uniquement les fichiers sources, les images et les sons, mais en aucun cas les fichiers temporaires ou les exécutables. Un fichier "makefile" sera disponible pour quiconque voudrait compiler le programme chez lui. Les seuls fichiers binaires disponibles seront les PDF de la documentation, pour un soucis de facilité d'accès.
 
 		\section{Découpage en tâches}
 			Afin de préparer le développement du jeu, il était nécessaire de séparer les fonctionnalités les unes des autres. Nous avons abouti à ce diagramme, qui résume notre choix de découpage :\\
@@ -344,16 +346,16 @@
 
 		\section{Gestion du temps}
 			\label{GestionTps}
-			Afin de clarifier notre gestion du temps, un diagramme de Gantt est disponible en annexe et dans la documentation de notre projet, et sera mis à jour en fonction de l'avancée du projet.\\
+			Afin de clarifier notre gestion du temps, un diagramme de Gantt est disponible en annexe (cf page \pageref{fig:Gantt} et dans la documentation de notre projet, et sera mis à jour en fonction de l'avancée du projet.\\
 
 		\section{Profil de risques}
-			Le profil de risque est là pour estimer la difficulte du projet dans different domaine.
+			Le profil de risques est là pour estimer la difficulté du projet dans différents domaines.
 	
-			La taille est un des risque majeur de notre projet, n'ayant que 4 mois pour réaliser la totalité du projet, on a estimé ce temps très court par rapport à toutes les fonctionnalité qu'on souhaitait implémenter. D'où, une note de 5, sur ce point là.
+			La taille est un des risque majeur de notre projet, n'ayant que 4 mois pour réaliser la totalité du projet, nous avons estimé ce temps très court par rapport à toutes les fonctionnalités que nous souhaitions implémenter. D'où, une note de 5, sur ce point là.
 			
-			La difficulté technique est un point particulier vu que la grande majorité du projet etait facilement réalisable pour au moins une des personnes du groupe. Le projet ayant un but pédagogique, on s'est réparti les taches de manière à ce que chaque membre puisse travailler sur une partie qui lui ferait découvrir ou apprendre quelque chose. Ce qui apporte une certaines difficulté au projet.
+			La difficulté technique est un point particulier vu que la grande majorité du projet était facilement réalisable pour au moins une des personnes du groupe. Le projet ayant un but pédagogique, nous nous sommes répartis les tâches de manière à ce que chaque membre puisse travailler sur une partie qui lui ferait découvrir ou apprendre quelque chose. Ce qui apporte une certaine difficulté au projet.
 
-			Le changement et l'instabilité de l'equipe sont les points les plus bas car notre equipe est constitué de personne ayant deja travaillé ensemble, on estime  donc que notre equipe sera stable et comme le projet est une idée de notre groupe, les changements seront des décisions prises par toutes l'equipe sauf de possible contrainte de notre encadrant.
+			Le changement et l'instabilité de l'équipe sont les points les plus bas car notre équipe est constitué de personne ayant deja travaillé ensemble, nous estimons donc que notre équipe sera stable et comme le projet est une idée de notre groupe, les changements seront des décisions prises par toutes l'équipe sauf en cas de contraintes données par notre encadrant.
 
 			\begin{table}[H]
 				\begin{small}
@@ -380,16 +382,16 @@
 				\caption{Profil de risque du projet Incidence}
 			\end{table}
 
-Pour palier à notre problème de taille, on a rapidement mis en place un ordre de priorité sur les differentes fonctionnalités. On a dans un premier temps defini un noyau central qui définira le contenu minimum du projet, puis un ordre sur toutes les ordres fonctionnalités.
+			Pour palier à notre problème de taille, nous avons rapidement mis en place un ordre de priorités sur les différentes fonctionnalités. Nous avons dans un premier temps défini un noyau central qui définira le contenu minimum du projet, puis un ordre sur toutes les fonctionnalités.
 
 		\section{Choix technologiques}
 			Afin de pouvoir développer correctement notre logiciel, il a fallu définir tout ce que nous allions utiliser en terme de langages et bibliothèques selon notre logique de conception.
 			
 			\subsection{Langages de programmation}
 				Pour des besoins de performances, nous avons comparé différents langages. Pour réduire le temps de recherche et de comparaison, nous nous sommes appuyé sur des tests déjà effectués par d'autre.\\
-				Des tests de performances concernant un large panel de langages, comparés dans quatre contextes différents, sont fournis en annexe.\\
+				Des tests de performances concernant un large panel de langages, comparés dans quatre contextes différents, sont fournis en annexe, page \pageref{fig:analyse}.\\
 				Nous pouvons observer que globalement, le langage le plus rapide est ici C++. L'utilisation de ce langage étant très fréquente dans les jeux vidéos, de part sa réputation d'un des langages les plus performants, et tous les membres de notre équipe sachant l'utiliser, nous avons fait le choix de programmer le moteur du jeu en C++.\\
-				Afin d'optimiser encore la rapidité du moteur, nous avons cherché à associer son coeur écrit en C++ avec un langage de scripting qui permettra de mettre en place les différentes actions du jeu.\\ D'après les graphiques ci-dessus, nous avons opté pour le langage LUA, performant et facile d'utilisation (syntaxe proche du C++). En effet, même si Python est très prisé et offre beaucoup plus de possibilités que LUA, nous l'avons estimé bien trop lourd pour l'utilisation que nous allons en faire.\\
+				Afin d'optimiser encore la rapidité du moteur, nous avons cherché à associer son coeur écrit en C++ avec un langage de scripting qui permettra de mettre en place les différentes actions du jeu.\\ D'après les graphiques fournis en annexe, nous avons opté pour le langage LUA, performant et facile d'utilisation (syntaxe proche du C++). En effet, même si Python est très prisé et offre beaucoup plus de possibilités que LUA, nous l'avons estimé bien trop lourd pour l'utilisation que nous allons en faire.\\
 				Les deux langages C++ et LUA sont souvent associés dans les jeux vidéos, notre choix suit donc la tendance, ce qui nous offre une certaine assurance.
 
 			\subsection{Bibliothèques}
@@ -404,7 +406,7 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 			\subsection{Format des Fichiers}
 				Le moteur de jeu étant écrit en C++, nous utiliserons des fichiers d'en-tête au format HPP et des fichiers de définition au format CPP. Pour les scripts d'IA des entités, le langage étant Lua, ceux-ci seront au format LUA.\\
 				Toutes les images nécessaires au jeu seront au format PNG afin de pouvoir utiliser la transparence et garder la pleine qualité d'image (contrairement à JPEG qui perd de l'information à la compression).\\
-				Les sons quant à eux seront au format WAV afin d'éviter toute gestion de la compression de fichier pour de petits fichiers qui n'en ont aucunement besoin.
+				Les sons quant à eux seront au format WAV ou OGG afin d'éviter toute gestion de la compression de fichier pour de petits fichiers qui n'en ont aucunement besoin.
 
 				\subsubsection{Animation}
 					\begin{verbatim}
@@ -415,7 +417,7 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 					\end{verbatim}
 			
 				\subsubsection{Tileset}
-					Le tileset sera une unique image au format PNG représentant l'ensemble des tuiles possibles. Chaque type de sol constituera une ligne du tileset, avec toutes les variantes dépendant des rebords entre tuiles (ce fichier sera présenté plus en détails dans la section \ref{TilesetDev}, page \pageref{TilesetDev}).
+					Le tileset sera une unique image au format PNG représentant l'ensemble des tuiles possibles, accompagnée d'un fichier de configuration au format INI. Chaque type de sol constituera une ligne du tileset, avec toutes les variantes dépendant des rebords entre tuiles (ce fichier sera présenté plus en détails dans la section \ref{TilesetDev}, page \pageref{TilesetDev}).
 
 				\subsubsection{Carte}
 					Les différentes cartes sauvegardées seront enregistrées dans des fichiers IMS (Incidence Map Save), dans lesquels seront stockés le tileset utilisé et la conformation de la carte (dimensions, sols et éléments).
@@ -425,16 +427,17 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 					\\
 					%TODO
 					\\
-					Le fichier de carte contiendra uniquement le lien vers le tileset ainsi que les types de sols et éléments présents sur la carte. Le fichier sera donc de la taille : 2 * nombre\_de\_cases * sizeof(int) + sizeof(chemin\_du\_tileset).\\
+					Le fichier de carte contiendra donc uniquement le lien vers le tileset, les dimensions de la carte ainsi que les types de sols et éléments présents sur la carte. Le fichier sera donc de la taille : 2 * nombre\_de\_cases * sizeof(int) + sizeof(chemin\_du\_tileset).\\
 			
 			\subsection{Commentaires}
-				Si une méthode ou fonction, voir même un bloc, dépasse une certaine taille (environ 10 lignes) ou devient trop compliquée, un commentaire sera ajouté avant celle-ci expliquant brièvement son processus :
+				Si une méthode ou fonction, voir même un bloc, dépasse une certaine taille ou devient trop compliquée, un commentaire sera ajouté avant celle-ci expliquant brièvement son processus :
 				\begin{verbatim}
 					/** Description :
 					*** Entrée : ...
 					*** Sortie : ...
 					**/
 				\end{verbatim}
+				Quelque commentaires précieux pour le travail collaboratif seront également présents :
 				\begin{table}[H]
 					\begin{small}
 						\begin{tabular}{| c | c |}
@@ -443,7 +446,7 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 							\hline
 							TODO & A mettre à la place du code d'une fonctionnalité à implémenter\\
 							\hline
-							RECODE & A mettre au dessus du bloc d'une fonctionnalité à refaire\\
+							RECODE & A mettre au dessus du bloc d'une fonctionnalité à refaire ou à optimiser\\
 							\hline
 							FIXME & A mettre au dessus du bloc d'une fonctionnalité contenant un bug\\
 							\hline
@@ -453,7 +456,7 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 					\caption{Forme et usage des commentaires}
 				\end{table}
 
-			\subsection{Convention de Nommage}
+			\subsection{Conventions de Nommage}
 				Les conventions de nommages sont utiles pour la lecture du code par les autres membres du groupe, car elles permettent un cadre de travail respecté de tous.
 				
 				\begin{table}[H]
@@ -468,20 +471,21 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 							et & chaque mots suivant est\\
 							Fonction & une majuscule suivit de minuscules)\\
 							\hline
-							Attribut de classe & m\_\\
+							Attribut de classe & Précédé par m\_\\
 							\hline
-							Variable globale & g\_\\
+							Variable globale & Précédé par g\_\\
 							\hline
 						\end{tabular}
 					\end{small}
 					\label{tab:nommage}
-					\caption{Convention de nommage}
+					\caption{Conventions de nommage}
 				\end{table}
 
 			\subsection{Gestion du code source}
 				Afin de faciliter le travail collaboratif, nous utilisons un dépôt utilisant le gestionnaire de version GIT, hébergé sur le site :
 				\begin{center}
 					\url{https://github.com/Incidence/Incidence}
+					\label{url:github}
 				\end{center}
 				Sur ce dépôt seront présents tous les fichiers sources nécessaires au développement du jeu ainsi que les documentations au format Latex et PDF (même si aucun fichier binaire ne devrait être présent, il est plus pratique de récupérer directement un tel fichier que de le compiler soit-même). De plus, y seront stockées toutes les données utilisées par le jeu telles que les images et les sons. Seuls les fichiers temporaires, exécutables et fichiers de sauvegarde ne seront pas stockés.
 
@@ -490,26 +494,26 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 		Ce chapitre est une sorte de carnet de bord. Il détaille tout ce qui concerne le développement de l'application. Au vu de la complexité de notre projet, nous détaillerons relativement peu les aspects techniques.
 		
 		\section{Moteur de jeu}
-			Pour simplifier le développement et les réalisations de certaines taches, un moteur de jeu a été réalisé. Il servira surtout dans la gestion des différents états du jeu, de toutes les données utilisées (image ou son) mais aussi d'une interface utilisateur.
+			Pour simplifier le développement et les réalisations de certaines tâches, un moteur de jeu a été réalisé. Il servira surtout dans la gestion des différents états du jeu, de toutes les données utilisées (image ou son) mais aussi d'une interface utilisateur.
 		
 			\subsection{Gestion des états}
-				Chacun des états possible du jeu est une classe héritant d'un class mère abstraite, State, qui défini le comportement de base d'un état, soit une méthode de mise à jour de l'état, une affichage des informations et deux dernieres gerant les evenements clavier/souris et les event lié à l'interface utilisateur (clique sur un bouton, ...).\\
+				Chacun des états possibles du jeu est une classe héritant d'un classe mère abstraite, State, qui définit le comportement de base d'un état, une méthode de mise à jour de l'état, une pour l'affichage des informations et deux autres gérant les évènements clavier/souris et ceux liés à l'interface utilisateur (cliquer sur un bouton, appuyer sur une touche...).\\
 				\\
-				Tout ces différents états sont stockés dans une pile et controlé par un gestionnaire d'état, le StateManager. C'est un singleton accessible partout, ce qui permet à n'importe quelle instance d'état d'ajouter ou supprimer un état.
+				Tout ces différents états sont stockés dans une pile et controlés par un gestionnaire d'états, le StateManager. C'est un singleton accessible partout, ce qui permet à n'importe quelle instance d'état d'ajouter ou supprimer un état.
 			
 			\subsection{Gestion de l'interface utilisateur}
-				Différent widget permettant la création d'un interface utilisateur simple à été réalisé. On peut donc facilement ajouter des boutons et des barres de saisie de texte personnalisable qui seront lié à une intance d'UI contenu dans un état. Les événement associé aux boutons sera automatique envoyé à l'etat qui pourra traiter cet evenement pour réaliser une action.
+				Différents widgets permettant la création d'une interface utilisateur simple ont été réalisés. On peut donc facilement ajouter des boutons et des barres de saisie de texte personnalisables qui seront liés à une intance d'interface utilisateur contenue dans un état. Les événements associé aux boutons seront automatiquement envoyés à l'état qui pourra traiter ces évènements pour réaliser une action.
 			
 			\subsection{Gestion des ressources et animations}
-				Pour la gestion de toutes les ressources, tels que les nombreuses images, on a réalisé un gestionnaire de ressource qui s'occupe de charger toutes les données necessaires quand elles sont requises tout en évitant les doublons. Pour cela, chaque ressource est stocké dans un tableau associé à son nom, ce qui permet une recherche plus rapide et une impossibilité d'avoir des doublons.\\
+				Pour la gestion de toutes les ressources, telles que les nombreuses images, nous avons réalisé un gestionnaire de ressources qui s'occupe de charger toutes les données requises tout en évitant les doublons. Pour cela, chaque ressource est stockée dans un tableau et associée à son nom, ce qui permet une recherche plus rapide et une impossibilité d'avoir des doublons.\\
 				\\
-				Une classe permettant de créer des animations facilement a aussi été faite, ce qui facilite grandement la gestion de celle-ci et leurs utilisations.
+				Une classe permettant de créer des animations facilement a aussi été faite, ce qui facilite grandement la gestion de celles-ci et leur utilisation.
 				
 		\section{Moteur de carte}
 			Le moteur de carte doit gérer tous les aspects techniques et graphiques de la carte. Il englobe les tuiles, les sols, les éléments et la carte en elle-même.
 			
 			\subsection{Les Tuiles}
-				Les différents types de tuile seront tous recensés dans le tileset, qui se chargera de fournir les textures et attributs associés à ceux-ci. La carte n'utilisera que des pointeurs vers ces instances constantes de tuile, ce    qui évitera le stockage inutile d'instances identiques.
+				Les différents types de tuile seront tous recensés dans le tileset, qui se chargera de fournir les textures et attributs associés à ceux-ci. La carte n'utilisera que des pointeurs vers ces instances constantes de tuile, ce qui évitera le stockage inutile d'instances identiques.
 				
 				\subsubsection{Les Sols}
 					Chaque sol aura différents attributs définis dans le fichier de configuration du tileset (cf section \ref{TilesetDev}, page \pageref{TilesetDev}). Comme définis dans le cachier des charges, certains sols seront incompatibles avec d'autres.\\
@@ -524,10 +528,10 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 								\hline
 								Coût & Entier définissant le coût en PI de la pose du sol.\\
 								\hline
-								Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
+								Nom & Chaîne de caractères utilisée lors des affichages dans l'interface.\\
 								\hline
 								Comportement & Enumération de trois comportements :\\
-								& DEFAULT : comportement par défaut (tous les type de Terre).\\
+								& DEFAULT : comportement par défaut (tous les types de Terre).\\
 								& FLUID : les sols forment des zones (étendues d'eau).\\
 								& CLIFF : les sols sont fixes et forment des zones (falaises).\\
 								\hline
@@ -557,7 +561,7 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 								\hline
 								Coût & Entier définissant le coût en PI de la pose de l'élément.\\
 								\hline
-								Nom & Chaîne de caractères utilisées lors des affichages dans l'interface.\\
+								Nom & Chaîne de caractères utilisée lors des affichages dans l'interface.\\
 								\hline
 								Comportement & Enumération de deux comportements :\\
 								& DEFAULT : comportement par défaut.\\
@@ -609,18 +613,18 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 				\\
 				Pour chaque élément, il existe autant de tuiles que de types de sols compatibles. Elles sont définies dans l'ordre défini dans le fichier INI, sur une seule ligne.\\
 				\\
-				Enfin, il reste une ligne transparent à la fin du tileset nécessaire pour l'affichage des éléments vides.
+				Enfin, il reste une ligne transparente à la fin du tileset nécessaire pour l'affichage des éléments vides.
 
 			\subsection{Incidences}
 				\label{IncidenceT}
 				Ici seront brièvement expliqués les principes des différents types d'incidences environnementales, qui seront utilisées dans différentes situations.
 				
 				\subsubsection{Dilatation}
-					Les incidences basées sur la dilatation des zones prennent en compte les types de sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
+					Les incidences basées sur la dilatation des zones prennent en compte les comportements des sols ou éléments afin d'élargir les étendues voulues en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
 					Quelques présentations des résultats de ces dilatations sont présentes en annexe, page \pageref{fig:dilatation}.
 				
 				\subsubsection{Erosion}
-					Les incidences basées sur l'érosion des zones prennent en compte les types de sols ou éléments alentours afin de choisir les types en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
+					Les incidences basées sur l'érosion des zones prennent en compte les comportements des sols ou éléments alentours afin de choisir les nouveaux types en propageant les sols si besoin afin de garder les contraintes définies dans le GDD.\\
 					Quelques présentations des résultats de ces érosions sont présentes en annexe, page \pageref{fig:erosion}.
 				
 				\subsubsection{Aléatoire}
@@ -642,12 +646,12 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 				\\
 				En conclusion, le plus difficile à gérer dans cette partie a été les précautions à prendre pour ne pas avoir de sols incompatibles entre eux, afin de garder non seulement les règles du jeu mais également l'esthétique.
 
-		\section{Moteur multi-agent}
-			Le moteur a été réalisé suivant notre propre idée de la gestion d'un systeme multi-agent après une documentation sur le sujet. 
-			Les entites sont donc implémenté plus simplement que sur un moteur classique, avec uniquement les fonctionnalités indispensables, par exemple les entites ne peuvent pas communiquer entre elles.
+		\section{Moteur multi-agents}
+			Le moteur a été réalisé suivant notre propre idée de la gestion d'un système multi-agents après avoir consulté de la documentation sur le sujet. 
+			Les entités sont donc implémentées plus simplement que sur un moteur classique, avec uniquement les fonctionnalités indispensables, par exemple les entités ne peuvent pas communiquer entre elles.
 			
 			\subsection{Gestion des entités}
-				Une entité est gere de maniere très basique, elles ne possedent qu'une santé discrete et un metier qui defini leurs actions.
+				Une entité est gérée de manière très basique, elle ne possède qu'une santé discrète et un métier qui definit ses actions.
 				
 				\subsubsection{La santé des entités vivantes}
 					Chacune des entités possède une gestion de la santé avec plusieurs états.
@@ -666,14 +670,14 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 						\item \textbf{Jauge positive (un ou plusieurs jours de temps ensoleillé consécutifs) :} Améliore la pousse des champs mais un excès de soleil assèche les terres et récoltes, peut réduire les étendues d'eau, une sécheresse trop longue peut faire brûler certaines ressources et augmenter la probabilité de fatigue .
 						\item \textbf{Jauge négative (un ou plusieurs jours de temps pluvieux consécutifs) :} Permet de faire pousser les champs. Un surplus de pluie innonde les terres et récoltes, augmente les probabilités de maladie et peut augmenter la taille des étendues d'eau.
 					\end{itemize}
-					L'état de santé joue un rôle capital au niveau de la vitesse de déplacement, du temps de récolte et aussi sur la fréquence à laquelle une entité va vous apporter des points d'incidences(PI).\\
-					Un état de santé faible , une maladie ou un état très faible peut entraîner le décès    d'une entité avec une probabilité de plus en plus forte dans ce même ordre de citation.\\
-					Aussi chaque entité a une légère chance de donner naissance à un petit.
+					L'état de santé joue un rôle capital au niveau de la vitesse de déplacement, du temps de récolte et aussi sur la fréquence à laquelle une entité va vous apporter des points d'incidences (PI).\\
+					Un état de santé faible, une maladie ou un état très faible peut entraîner le décès d'une entité avec une probabilité de plus en plus forte selon le degré d'affaiblissement.\\
+					Aussi, chaque entité a une légère chance de donner naissance à une progéniture.
 			
 			\subsection{Gestion des scripts}
-				Les scripts LUA implementent les différents comportements de toutes les catégories d'entités. Nous avons utilisé une librairie LUA permettant de redéfinir des méthodes de classe implémenté en C++ et de définir des methodes dans les classes C++ qui pourront etre appelé par les script LUA.\\
-				On utilise donc un script LUA pour redifinir une methode de la classe "Entity" qui sera appelé pour simuler l'intelligence de l'entités.\\
-				Par contre, cette librairie et les mécanismes de c++ nous ont imposé certaines contraintes. La plus importante est qu'il est impossible que 2 instances d'une même classe posséde 2 définissions différentes d'une de leurs methodes. Il nous a donc fallu implémenter une sous-classe pour chaque catégorie d'entités afin d'avoir un comportement different pour toutes ces categories. Cette problematique empeche les joueurs de pouvoir créer de nouvelles catégories d'entite, il pourra cependant modifier celle deja existante.
+				Les scripts LUA implémentent les différents comportements de toutes les catégories d'entités. Nous avons utilisé une librairie LUA permettant de redéfinir des méthodes de classe implémentées en C++ et de définir d'autres méthodes dans les classes C++ qui pourront être appelées par les script LUA.\\
+				On utilise donc un script LUA pour redéfinir une méthode de la classe "Entity" qui sera appelée pour simuler l'intelligence de l'entité.\\
+				Par contre, cette librairie et les mécanismes de C++ nous ont imposé certaines contraintes. La plus importante est qu'il est impossible que deux instances d'une même classe possèdent deux définitions différentes d'une de leurs méthodes. Il nous a donc fallu implémenter une sous-classe pour chaque catégorie d'entités afin d'avoir un comportement différent pour toutes ces catégories. Cette problématique empêche les joueurs de pouvoir créer de nouvelles catégories d'entité, il pourra cependant modifier celles deja existantes.
 				
 			\subsection{Liste des scripts}
 				Le comportement des agents, en ce qui concerne le déplacement, a soulevé le problème de la gestion des obstacles étant donné que certains éléments du décor ne sont pas franchissables.\\
@@ -682,38 +686,38 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 	
 				\subsubsection{Les citoyens alliés}
 					\begin{itemize}[label=$\bullet$]
-						\item \textbf{Récolteurs(bûcherons, cueilleurs, mineurs) :} \\ Si un bûcheron faible, un mineur faible ou un cueilleur perçoit un animal agressif ou un citoyen ennemi celui-ci va fuir.\\
+						\item \textbf{Récolteurs (bûcherons, cueilleurs, mineurs) :} \\ Si un bûcheron faible, un mineur faible ou un cueilleur perçoit un animal agressif ou un citoyen ennemi, celui-ci va fuir.\\
 							Si un bûcheron ou un mineur se fait attaquer, il va répliquer en attaquant en priorité l'entité face à lui si celle-ci l'attaque.\\
-							A chaque fois que l'entité récolte une ressource elle remplit son sac puis se dirige vers la base pour la déposer.\\
+							A chaque fois que l'entité récolte une ressource, elle remplit son sac puis se dirige vers la base pour déposer son contenu.\\
 							Lorsque son sac est vide, elle regarde dans son rayon de perception si une ressource est disponible. Si au moins une ressource est repérée, elle se dirige vers la plus proche pour la récolter. Sinon, elle se dirige de manière aléatoire.
 						\item \textbf{Chasseurs :} \\ Le chasseur reste relativement proche de la base et adopte un rôle de défenseur.\\
-							S'il est attaqué, il va regarder le nombre de chasseurs et le nombre d'entités hostiles autour de lui , s'il y a moins d'entités hostiles que de chasseurs auxquels on ajoute 3, il va attaquer l'entité qui l'attaque avec dans l'ordre de priorité : l'entité en face de lui, un citoyen ennemi et un animal agressif. Sinon il adopte la fuite.\\
+							S'il est attaqué, il va regarder le nombre de chasseurs et le nombre d'entités hostiles autour de lui, s'il y a moins d'entités hostiles que de chasseurs auxquels on ajoute 3, il va attaquer l'entité qui l'attaque avec dans l'ordre de priorité : l'entité en face de lui, un citoyen ennemi et un animal agressif. Sinon il adopte la fuite.\\
 							S'il n'est pas attaqué, tout en gardant une distance proche de la base ,il va chercher une cible autour de lui dans cet ordre de priorité, un citoyen ennemi, un animal agressif puis un animal passif.\\
 							Encore une fois s'il n'y a pas trop d'ennemis aux alentours, le chasseur va aller attaquer la cible sinon il va fuir.\\
-							S'il n'y a ni citoyens ennemis ni animaux autour de lui et s'il n'est pas trop loin de la base, il va avancer aléatoirement sinon il va revenir vers la base.
+							S'il n'y a ni citoyen ennemi, ni animal autour de lui et s'il n'est pas trop loin de la base, il va avancer aléatoirement sinon il va revenir vers la base.
 					\end{itemize}
 		
 				\subsubsection{Les citoyens ennemis}
 					Les citoyens ennemis ont un comportement agressif.\\
 					S'ils sont attaqués, il vont adopter le même comportement qu'un chasseur sauf que dans l'ordre de priorité ils vont attaquer: l'entité en face d'eux, un chasseur et un récolteur.\\
 					S'ils ne sont pas attaqués, même démarche que le chasseur en changeant l'ordre de priorité par un chasseur puis un récolteur.\\
-					Si aucun chasseur ou récolteur n'est perçu dans leurs rayons de perception, ils vont avancer aléatoirement.
+					Si aucun chasseur ou récolteur n'est perçu dans leur rayon de perception, ils vont avancer aléatoirement.
 			
 				\subsubsection{Les animaux}
 					\begin{itemize}[label=$\bullet$]
 						\item \textbf{Agressifs :} \\
-							Dès qu'un animal agressif perçoit une entité excepté un animal agressif il va l'attaquer, en attaquant en priorité l'entité qui est en face de lui. Si aucune entité n'est perçue ou s'il ne perçoit que des animaux agressifs , l'animal va se déplacer aléatoirement.
+							Dès qu'un animal agressif perçoit une entité excepté un animal agressif il va l'attaquer, en attaquant en priorité l'entité qui est en face de lui. Si aucune entité n'est perçue ou s'il ne perçoit que des animaux agressifs, l'animal va se déplacer aléatoirement.
 						\item \textbf{Passifs :} \\
 							L'animal passif va tout simplement fuir toutes les entités à l'exception des animaux passifs.
-					\end{itemize} \normalsize 
+					\end{itemize} 
 
 				Dans certaines situations vues précédemment, l’entité se déplacera de manière aléatoire et pourra marquer un arrêt de temps à autre afin de simuler un comportement naturel.
 	
 		\section{Météo}
 			La météo est gérée comme une jauge comprise entre cinq et moins cinq. Au commencement d'une partie la jauge est à zéro.\\
-			A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même et est ensoleillé la jauge augmente , si par contre le temps est pluvieux la jauge descend.\\
-			En revanche, si la jauge est entre -3 et -5 et que la journée fut ensoleillé ou inversement si la jauge est entre 3 et 5 et qu'il fit un temps pluvieux la jauge revient respectivement à -1 ou 1.\\
-			Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et inversement pour le soleil.
+			A la fin de chaque journée nous comparons le temps du jour terminé avec le temps du jour précédent, si celui-ci est le même et est ensoleillé la jauge augmente, si par contre le temps est pluvieux la jauge descend.\\
+			En revanche, si la jauge est entre -3 et -5 et que la journée était ensoleillée ou inversement si la jauge est entre 3 et 5 et que le temps était pluvieux, la jauge revient respectivement à -1 ou 1.\\
+			Plus la valeur de la jauge est grande positivement ou négativement, plus il y aura d'incidences en rapport avec la pluie pour les valeurs négatives et en rapport avec le soleil pour les valeurs positives.
 	
 		\section{Architecture}
 			L'application est composée de plusieurs états représentant les menus et la partie entre lesquels il est possible de naviguer.
@@ -730,8 +734,8 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 				L’état de jeu est le primordial au sein de l’application, il sert de support à l’instance de jeu afin d’en gérer le déroulement. Il contient l’affichage de la partie visible de la carte du monde et des entités ainsi qu’une interface, permettant au joueur de gérer la partie, ayant deux fonctions. La première consiste à informer de la valeur de certaines variables inhérentes à la partie comme le nombre de points ou d’une certaine ressource. La seconde permet au joueur d’indiquer les actions qu’il souhaite réaliser via un ensemble de boutons.
 				
 			\subsection{Night state}
-				L’état de nuit revient régulièrement au cours de la partie, pendant celui-ci ont lieu les incidences sur le territoire (cf section \ref{IncidenceT}, page \pageref{IncidenceT}) et sur les entités (cf    section \ref{IncidenceE}, page \pageref{IncidenceE}).\\
-				De plus, cet état permet au joueur de déterminer directement la météo de la prochaine journée de jeu et d’influer indirectement sur les proportions des rôles des entités. En plus de cela, un bouton de validation supprime l’état courant afin que la partie puisse reprendre son cours dans l’état de jeu.
+				L’état de nuit revient régulièrement au cours de la partie, pendant celui-ci ont lieu les incidences sur le territoire (cf section \ref{IncidenceT}, page \pageref{IncidenceT}) et sur les entités (cf section \ref{IncidenceE}, page \pageref{IncidenceE}).\\
+				De plus, cet état permet au joueur de déterminer directement la météo de la prochaine journée de jeu et d’influer sur les proportions des rôles des entités. En plus de cela, un bouton de validation supprime l’état courant afin que la partie puisse reprendre son cours dans l’état de jeu.
 				
 			\subsection{End state}
 				L’état de fin de partie signale au joueur qu’il a atteint la condition de défaite, il dispose simplement d’un bouton :
@@ -762,35 +766,29 @@ Pour palier à notre problème de taille, on a rapidement mis en place un ordre 
 				\end{itemize}
 			
 	\chapter{Post-Mortem}
-		Cette section liste toutes les étapes de la conception que nous n'avons pas réalisées (selon notre ordre de priorités), ainsi que toutes les améliorations auxquelles nous avons pensé lors de la phase de développements.
+		Cette section liste toutes les étapes de la conception que nous n'avons pas réalisées (selon notre ordre de priorités), ainsi que toutes les améliorations auxquelles nous avons pensé lors de la phase de développement.
 		
 		\section{Fonctionnalités non implémentées}
 			Tous les bâtiments sont réalisables mais nous n'avons pas implémenté la possibilité pour les entités de construire des bâtiments par conséquent le bois et la pierre n'ont encore aucune utilité. 
 			
-			% animation ?
+			Une des fonctionnalités majeures non-implémentées est la gestion d'un arbre technologique, qui permettrait de débloquer de nouveaux bâtiments mais aussi de diminuer le temps de récolte des ressources en déverrouillant différentes technologies. Chacune d'elles coûterait une certaine quantité de bois, de pierre et de nourriture, voir de points d'incidence. 
 			
-			Une des fonctionnalité majeur non-implémenté est la gestion d'un arbre technologique, qui mettrait de debloquer de nouveaux batiments mais aussi de diminuer le temps de récolte des ressources en déverrouillant différentes technologies. Chacune d'elles coûterait une certaine quantité de bois, de pierre et de nourriture. 
-			
-			Certains pouvoirs divins n'ont pas été mis en place, comme le soin des citoyens du joueur ou bien la création d'une entités en cours de journée. 
+			Certains pouvoirs divins n'ont pas été mis en place, comme le soin des citoyens par le joueur ou bien la création d'une entité en cours de journée. 
 			
 			Le karma, reflètant l'équilibre entre "bonnes" et "mauvaises" actions et se répercutant sur le comportement des entités quant à l'appel d'un "bon" ou d'un "mauvais" script, est une autre fonctionnalité non ajoutée.
 			
 		\section{Améliorations réalisables}
-			Au niveau de la carte, il serait possible de créer un éditeur de carte, sachant que toute les fonctions nécessaires existent déjà. Nous pourrions également modifier la génération aléatoire de carte pour avoir des cartes plutôt arides ou plutôt humides par exemple.
-			De plus, une indication visuelle indiquant le coût et la possibilité ou non de placer un sol ou un element sur la carte, via les pouvoirs du joueur, est une amélioration que nous souhaitons rapidement implémenter.
+			Au niveau de la carte, il serait possible de créer un éditeur de carte, sachant que toute les fonctions nécessaires existent déjà. Nous pourrions également modifier la génération aléatoire de carte pour avoir des cartes plutôt arides ou plutôt humides par exemple.\\
+			De plus, une indication visuelle indiquant le coût et la possibilité ou non de placer un sol ou un élément sur la carte, via les pouvoirs du joueur, est une amélioration que nous souhaitons rapidement implémenter.
 			
-			Une diversification des espèces pour les animaux nous permettrait ainsi d'ajouter la notion de troupeau afin de se rapprocher le plus fidèlement d'un comportement naturel.
-			Le troupeau serait dirigé par un chef  et les entités le constituant attaqueraient et se défendraient en groupe.
-			Ceci permettrait d'avoir une intéraction entre les animaux d'une
-			même espèce et entre ceux venant d'espèces différentes.
+			Une diversification des espèces pour les animaux nous permettrait ainsi d'ajouter la notion de troupeau afin de se rapprocher le plus fidèlement d'un comportement naturel.\\
+			Le troupeau serait dirigé par un chef et les entités le constituant attaqueraient et se défendraient en groupe. Ceci permettrait d'avoir une intéraction entre les animaux d'une même espèce et entre ceux venant d'espèces différentes.
 			
+			Les civilisations "neutres" ont aussi été abordées, celles-ci seraient composées d'entités possiblement alliées et permettraient, par exemple, des échanges de ressources ainsi qu'un système d'interactions entre les civilisations, à l'intérieur ou en dehors des limites de la carte (nous pouvons imaginer des émissaires étrangers venant commercer par exemple).
 			
-			Les civilisations "neutres" ont aussi été abordé, celles-ci seraient composées d'entités possiblement alliées et permettraient, par exemple, des échanges de ressource ainsi qu'un système d'interactions entre les civilisations, à l'intérieur ou en dehors des limites de la carte (nous pouvons imaginer des émissaires étrangers venant commercer par exemple).
-			
-			Le jeu n'a pour l'instant aucune condition de victoire, la partie se terminé qu'en cas de défaite, nous souhaitons ajouter différentes conditions de victoire. Ceci nous permettrait ainsi de mettre en place plusieurs mode de jeu, un libre qui est le seul mode jouable actuellement mais aussi un mode campagne avec plusieurs objectifs à atteindre tout le long de cette campagne. Les conditions de victoire pourrait être d'atteindre un certain point sur la carte, de récolter un nombre definit de ressource ou bien la construction d'un certain nombre de bâtiment spécifique.
+			Le jeu n'a pour l'instant aucune condition de victoire, la partie ne se termine qu'en cas de défaite, nous souhaitons ajouter différentes conditions de victoire. Ceci nous permettrait ainsi de mettre en place plusieurs mode de jeu, un libre qui est le seul mode jouable actuellement mais aussi un mode campagne avec plusieurs objectifs à atteindre tout au long de cette campagne. Les conditions de victoire pourrait être d'atteindre un certain point sur la carte, de récolter un nombre defini de ressources ou bien la construction d'un certain nombre de bâtiments spécifiques.
 			
 			Au niveau de l'interface, nous pourrions mettre en place du son (musiques et bruitages), avoir un système de statistiques pour comparer les résultats de différentes parties.
-			Nous pourrions aussi %TODO
 	
 	\appendix
 	\chapter{}
