@@ -4,6 +4,11 @@
 #include <string>
 #include "SFML/Graphics.hpp"
 
+
+#ifndef M_PI
+    #define M_PI 3.1415
+#endif
+
 void debug( std::string s );
 void debug( int i );
 
@@ -18,5 +23,7 @@ typedef enum RelativePosition{ TOP, BOTTOM, MIDDLE, LEFT, RIGHT, CENTER, NONE } 
 
 sf::Vector2f getAbsolutePosition( sf::FloatRect r, sf::FloatRect c, RelativePosition p );
 bool isInner( sf::FloatRect r, sf::Vector2i p );
+
+sf::Vector2f rotateOnCircle( float i, float r, sf::Vector2f C );
 
 #endif // _FOO_

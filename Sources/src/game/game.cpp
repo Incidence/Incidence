@@ -18,9 +18,9 @@
 #include "../game/entity/pickman.hpp"
 
 /// TODO
-Game::Game( void ) : m_tilemap(NULL)
+Game::Game( unsigned int w, unsigned int h) : m_tilemap(NULL)
 {
-    newGame();
+    newGame(w, h);
 }
 
 Game::~Game( void )
@@ -39,13 +39,13 @@ Game::~Game( void )
     }
 }
 
-void Game::newGame( void )
+void Game::newGame( unsigned int w, unsigned int h )
 {
     if(m_tilemap) {
         delete m_tilemap;
     }
 
-    m_tilemap = new TileMap(TileSet("data/tileset.ini"), sf::Vector2u(150, 150));
+    m_tilemap = new TileMap(TileSet("data/tileset.ini"), sf::Vector2u(w, h));
 	m_tilemap->generate();
 	m_weather=new Weather(RAINY,"data/ani/rain.ani");
 	m_incidencePoint=0;
@@ -262,7 +262,7 @@ void Game::draw( sf::RenderTarget & window )
     m_weather->draw(window);
 }
 
-void Game::drawCarte( sf::RenderTarget & window )
+void Game::drawMap( sf::RenderTarget & window )
 {
     m_tilemap->drawGrounds( window );
     m_tilemap->drawElementsDown( window );

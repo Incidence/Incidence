@@ -27,6 +27,7 @@ private :
     sf::RenderWindow * m_window;
 	UI m_ui;
 	Game * m_game;
+	float m_i;
 };
 
 #endif // _MAIN_MENU_STATE_

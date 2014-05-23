@@ -25,6 +25,7 @@ public :
 private :
     Game * m_game;
 	UI m_ui;
+	float m_i;
 };
 
 #endif // _GAME_MENU_STATE_

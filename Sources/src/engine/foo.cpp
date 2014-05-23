@@ -113,3 +113,14 @@ bool isInner( sf::FloatRect r, sf::Vector2i p )
 {
     return ( p.y > r.top && p.y < r.top + r.height ) && ( p.x > r.left && p.x < r.left + r.width  );
 }
+
+sf::Vector2f rotateOnCircle( float i, float r, sf::Vector2f C )
+{
+    sf::Vector2f p;
+    p.x = C.x + r * cos(i * 2 * M_PI);
+    p.y = C.y + r * sin(i * 2 * M_PI);
+
+    return p;
+}
+
+

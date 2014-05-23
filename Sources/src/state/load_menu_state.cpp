@@ -1,13 +1,15 @@
 #include "load_menu_state.hpp"
+#include "../engine/time.hpp"
 
 LoadMenuState::LoadMenuState( Game * g ) : m_ui(this)
 {
     m_game = g;
-    if(m_game) {
-	    m_game = new Game();
+    if(!m_game) {
+        m_game = new Game(50, 50);
     }
 
     m_position = 0;
+    m_i = 0;
 
 	init();
 }
@@ -38,16 +40,12 @@ void LoadMenuState::init( void )
     Widget * w;
     Button * b;
     GameEvent ge;
-	
-	w = new Widget();
-    w->setSprite( DataManager::get()->getSprite( "data/img/background.png" ) );
-    w->setPositionAbsolute( 0, 0 );
-    m_ui.addWidget(w);
 
     ge.type = EV_BACK;
 
     b = new Button();
     b->setText( "Back", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -60,6 +58,7 @@ void LoadMenuState::init( void )
 
     b = new Button();
     b->setText( "Up", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -72,6 +71,7 @@ void LoadMenuState::init( void )
 
     b = new Button();
     b->setText( "Down", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -89,6 +89,7 @@ void LoadMenuState::init( void )
 
         b = new Button();
         b->setName("load"+itos(i));
+        b->setBackground( sf::Color(100, 100, 100));
         b->setText( m_files[i], sf::Color::White );
         b->setBorder( sf::Color(95,57,33) );
         b->setBorderOver( sf::Color(230,211,33) );
@@ -104,8 +105,13 @@ void LoadMenuState::init( void )
 
 void LoadMenuState::draw( sf::RenderTarget & window )
 {
-	m_game->drawCarte(window);
-	
+    sf::Vector2u windowSize = window.getSize();
+    m_i += Time::get()->deltaTime();
+    sf::Vector2f p = rotateOnCircle(m_i / TIME_TO_CIRCLE, 11*32, sf::Vector2f(25*32, 25*32));
+	sf::View v = sf::View(sf::Vector2f(p.x, p.y), sf::Vector2f(windowSize.x,windowSize.y));
+    window.setView(v);
+	m_game->drawMap(window);
+
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

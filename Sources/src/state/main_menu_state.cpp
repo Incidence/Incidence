@@ -1,10 +1,13 @@
 #include "main_menu_state.hpp"
 
+#include "../engine/time.hpp"
+
 MainMenuState::MainMenuState( sf::RenderWindow * window ) : m_ui(this)
 {
     m_window = window;
-    m_game = new Game();
+    m_game = new Game(50, 50);
 
+    m_i = 0;
 	init();
 }
 
@@ -18,16 +21,12 @@ void MainMenuState::init( void )
     Widget * w;
     Button * b;
     GameEvent ge;
-	
-	w = new Widget();
-    w->setSprite( DataManager::get()->getSprite( "data/img/background.png" ) );
-    w->setPositionAbsolute( 0, 0 );
-    m_ui.addWidget(w);
-	
+
     ge.type = EV_START;
 
     b = new Button();
     b->setText( "Start", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -40,6 +39,7 @@ void MainMenuState::init( void )
 
     b = new Button();
     b->setText( "Load", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -52,6 +52,7 @@ void MainMenuState::init( void )
 
     b = new Button();
     b->setText( "Exit", sf::Color::White );
+    b->setBackground( sf::Color(100, 100, 100));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
@@ -63,8 +64,13 @@ void MainMenuState::init( void )
 
 void MainMenuState::draw( sf::RenderTarget & window )
 {
-	m_game->drawCarte(window);
-	
+    sf::Vector2u windowSize = window.getSize();
+    m_i += Time::get()->deltaTime();
+    sf::Vector2f p = rotateOnCircle(m_i / TIME_TO_CIRCLE, 11*32, sf::Vector2f(25*32, 25*32));
+	sf::View v = sf::View(sf::Vector2f(p.x, p.y), sf::Vector2f(windowSize.x,windowSize.y));
+    window.setView(v);
+	m_game->drawMap(window);
+
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }
@@ -92,7 +98,7 @@ void MainMenuState::treatEvent( GameEvent e )
         break;
 
     case EV_LOAD_MENU :
-        StateManager::get()->addState(new LoadMenuState(new Game));
+        StateManager::get()->addState(new LoadMenuState(m_game));
         break;
 
     default :

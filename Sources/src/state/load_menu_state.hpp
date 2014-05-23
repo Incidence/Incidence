@@ -29,6 +29,7 @@ private :
     std::vector< std::string > m_files;
     Game * m_game;
 	UI m_ui;
+	float m_i;
 };
 
 #endif // _LOAD_MENU_STATE_

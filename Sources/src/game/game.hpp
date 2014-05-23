@@ -12,6 +12,7 @@
 #include "building/building.hpp"
 #include "weather.hpp"
 
+#define TIME_TO_CIRCLE 60.0f
 
 class Entity;
 
@@ -19,16 +20,16 @@ class Game
 {
 
 public :
-    Game( void );
+    Game( unsigned int w = 150, unsigned int h = 150 );
     ~Game( void );
 
-    void newGame( void );
+    void newGame( unsigned int w, unsigned int h );
     void loadGame( std::string path );
     void saveGame( std::string path );
 
     void update( void );
     void draw( sf::RenderTarget & window );
-    void drawCarte( sf::RenderTarget & window );
+    void drawMap( sf::RenderTarget & window );
     void handleEvent( sf::Event & e );
 
     Entity * getEntity( int id );
