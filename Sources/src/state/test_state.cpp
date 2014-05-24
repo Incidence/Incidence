@@ -150,7 +150,7 @@ void TestState::init( void )
     c->addWidget(b);
 
     b = new Button;
-    b->setText("herbe mouillé");
+    b->setText("herbe mouillï¿½");
 	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
@@ -281,34 +281,63 @@ void TestState::update( void )
 	sf::Vector2u tilesize = ((m_game->getTilemap())->getTileSet())->getTileSize();
 	Animation* Rain = m_game->getWeather()->getRainAnimation();
 
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && m_view.getCenter().x > m_view.getSize().x/2) {
-		m_view.move(-((int)tilesize.x),0);
-		if(Rain->m_position.x>=32)
-            {
-                Rain->m_position.x-=32;
-            }
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && m_view.getCenter().x < dimensions.x*tilesize.x-m_view.getSize().x/2) {
-		m_view.move(tilesize.x,0);
-		if(Rain->m_position.x<(150-(800/32))*32)
-            {
-                Rain->m_position.x+=32;
-            }
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && m_view.getCenter().y > m_view.getSize().y/2) {
-		m_view.move(0,-((int)tilesize.y));
-		if(Rain->m_position.y>=32)
-            {
-                Rain->m_position.y-=32;
-            }
-	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && m_view.getCenter().y < dimensions.y*tilesize.y-m_view.getSize().y/2) {
-		m_view.move(0,tilesize.y);
-		if(Rain->m_position.y<(150-(600/32))*32)
-            {
-                Rain->m_position.y+=32;
-            }
-	}
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+    {
+        int temp(m_view.getCenter().x - m_view.getSize().x/2);
+        if (temp >= tilesize.x)
+        {
+            m_view.move(-((int)tilesize.x),0);
+            Rain->m_position.x-=tilesize.x;
+        }
+        else if (temp > 0)
+        {
+            m_view.move(-temp,0);
+            Rain->m_position.x-=temp;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+    {
+        int temp((dimensions.x*tilesize.x-m_view.getSize().x/2) - m_view.getCenter().x);
+        if (temp >= tilesize.x)
+        {
+            m_view.move(tilesize.x,0);
+            Rain->m_position.x+=tilesize.x;
+        }
+        else if (temp > 0)
+        {
+            m_view.move(temp,0);
+            Rain->m_position.x+=temp;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+    {
+        int temp(m_view.getCenter().y - m_view.getSize().y/2);
+        if (temp >= tilesize.y)
+        {
+            m_view.move(0,-((int)tilesize.y));
+            Rain->m_position.y-=tilesize.y;
+        }
+        else if (temp > 0)
+        {
+            m_view.move(0,-temp);
+            Rain->m_position.y-=temp;
+        }
+    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+    {
+        int temp((dimensions.y*tilesize.y-m_view.getSize().y/2) - m_view.getCenter().y);
+        if (temp >= tilesize.y)
+        {
+            m_view.move(0,tilesize.y);
+            Rain->m_position.y+=tilesize.y;
+        }
+        else if (temp > 0)
+        {
+            m_view.move(0,temp);
+            Rain->m_position.y+=temp;
+        }
+    }
+
 
     updateDay();
     m_game->update();
