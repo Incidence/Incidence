@@ -43,22 +43,22 @@ void NightState::init( void )
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Lumberjack % : ", sf::Color::Black );
+    w->setText( "Lumberjack % : ", sf::Color::White );
     w->setPositionAbsolute( 100, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Hunter % : ", sf::Color::Black );
+    w->setText( "Hunter % : ", sf::Color::White );
     w->setPositionAbsolute( 100, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Pickman % : ", sf::Color::Black );
+    w->setText( "Pickman % : ", sf::Color::White );
     w->setPositionAbsolute( 100, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Gatherer % : ", sf::Color::Black );
+    w->setText( "Gatherer % : ", sf::Color::White );
     w->setPositionAbsolute( 100, 160 );
     m_ui.addWidget(w);
 
@@ -66,25 +66,25 @@ void NightState::init( void )
 
     w = new Widget();
     w->setName("textLumberjack");
-    w->setText( itos(prct(m_prctLumberjack)), sf::Color::Black );
+    w->setText( itos(prct(m_prctLumberjack)), sf::Color::White );
     w->setPositionAbsolute( 300, 40 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textHunter");
-    w->setText( itos(prct(m_prctHunter)), sf::Color::Black );
+    w->setText( itos(prct(m_prctHunter)), sf::Color::White );
     w->setPositionAbsolute( 300, 80 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textPickman");
-    w->setText( itos(prct(m_prctPickman)), sf::Color::Black );
+    w->setText( itos(prct(m_prctPickman)), sf::Color::White );
     w->setPositionAbsolute( 300, 120 );
     m_ui.addWidget(w);
 
     w = new Widget();
     w->setName("textGatherer");
-    w->setText( itos(prct(m_prctGatherer)), sf::Color::Black );
+    w->setText( itos(prct(m_prctGatherer)), sf::Color::White );
     w->setPositionAbsolute( 300, 160 );
     m_ui.addWidget(w);
 
@@ -95,7 +95,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "+", sf::Color::Green );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 40 );
@@ -107,7 +107,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "+", sf::Color::Green );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 80 );
@@ -119,7 +119,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "+", sf::Color::Green );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 120 );
@@ -131,7 +131,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "+", sf::Color::Green );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 250, 160 );
@@ -145,7 +145,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 40 );
@@ -157,7 +157,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 80 );
@@ -170,7 +170,7 @@ void NightState::init( void )
     b = new Button();
     b->setName("d");
     b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute( 340, 120 );
@@ -182,7 +182,7 @@ void NightState::init( void )
 
     b = new Button();
     b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::Black );
+    b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
     b->setPositionAbsolute(340, 160 );
@@ -333,10 +333,10 @@ void NightState::treatEvent( GameEvent e )
     if(m_prctLumberjack < 0) { m_prctLumberjack = 0; }
     if(m_prctPickman < 0) { m_prctPickman = 0; }
 
-    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::Black  );
-    m_ui.getWidget("textLumberjack")->setText( itos(prct(m_prctLumberjack)), sf::Color::Black );
-    m_ui.getWidget("textPickman")->setText( itos(prct(m_prctPickman)), sf::Color::Black );
-    m_ui.getWidget("textHunter")->setText( itos(prct(m_prctHunter)), sf::Color::Black );
+    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::White  );
+    m_ui.getWidget("textLumberjack")->setText( itos(prct(m_prctLumberjack)), sf::Color::White );
+    m_ui.getWidget("textPickman")->setText( itos(prct(m_prctPickman)), sf::Color::White );
+    m_ui.getWidget("textHunter")->setText( itos(prct(m_prctHunter)), sf::Color::White );
 }
 
 
