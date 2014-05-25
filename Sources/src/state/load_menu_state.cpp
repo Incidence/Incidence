@@ -1,7 +1,7 @@
 #include "load_menu_state.hpp"
 #include "../engine/time.hpp"
 
-LoadMenuState::LoadMenuState( Game * g ) : m_ui(this)
+LoadMenuState::LoadMenuState( Game * g, int f ) : m_ui(this)
 {
     m_game = g;
     if(!m_game) {
@@ -10,6 +10,8 @@ LoadMenuState::LoadMenuState( Game * g ) : m_ui(this)
 
     m_position = 0;
     m_i = 0;
+
+    flag = f;
 
 	init();
 }
@@ -131,8 +133,16 @@ void LoadMenuState::treatEvent( GameEvent e )
     switch(e.type) {
 
     case EV_BACK :
-        StateManager::get()->popState();
-        break;
+    {
+        if (flag == 0)
+        {
+            StateManager::get()->popState(2);
+        }
+        else if (flag == 1)
+        {
+            StateManager::get()->popState();
+        }
+    } break;
 
     case EV_SCROLL_UP :
         {
@@ -172,9 +182,15 @@ void LoadMenuState::treatEvent( GameEvent e )
 
     case EV_LOAD :
         {
-            std::cout << ("saves/"+e.text) << std::endl;
             m_game->loadGame("saves/"+e.text);
-            StateManager::get()->popState(2);
+            if (flag == 0)
+            {
+                StateManager::get()->popState();
+            }
+            else if (flag == 1)
+            {
+                StateManager::get()->popState(2);
+            }
         }
         break;
 

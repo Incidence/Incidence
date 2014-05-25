@@ -90,7 +90,7 @@ void MainMenuState::treatEvent( GameEvent e )
     switch(e.type) {
 
     case EV_START :
-        StateManager::get()->addState(new TestState(m_window));
+        StateManager::get()->addState(new TestState(m_window, m_game));
         break;
 
     case EV_EXIT :
@@ -98,7 +98,8 @@ void MainMenuState::treatEvent( GameEvent e )
         break;
 
     case EV_LOAD_MENU :
-        StateManager::get()->addState(new LoadMenuState(m_game));
+        StateManager::get()->addState(new TestState(m_window, m_game));
+        StateManager::get()->addState(new LoadMenuState(m_game,0));
         break;
 
     default :

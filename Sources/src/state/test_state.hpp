@@ -9,7 +9,7 @@ class TestState : public State
 {
 
 public :
-    TestState( sf::RenderWindow * window );
+    TestState( sf::RenderWindow * window, Game * game);
     ~TestState( void );
 
     void init( void );

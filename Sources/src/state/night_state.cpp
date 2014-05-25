@@ -352,6 +352,7 @@ void NightState::validation( void )
 
     allyCitizenDeath(m_game);
     int nb = allyCitizenBirth(m_game);
+    int wa = wildAnimalBirth(m_game), pa = peacefulAnimalBirth(m_game), ce = enemyCitizenBirth(m_game);
 
     std::cout << "new : " << nb << std::endl;
 
@@ -375,15 +376,15 @@ void NightState::validation( void )
         }
     }
 
-    for(int i = 0; i < wildAnimalBirth(m_game); i++) {
+    for(int i = 0; i < wa; i++) {
         m_game->addEntity( new WildAnimal(WILD_ANIMAL, m_game));
     }
 
-    for(int i = 0; i < peacefulAnimalBirth(m_game); i++) {
+    for(int i = 0; i < pa; i++) {
         m_game->addEntity( new PeacefulAnimal(PEACEFUL_ANIMAL, m_game));
     }
 
-    for(int i = 0; i < enemyCitizenBirth(m_game); i++) {
+    for(int i = 0; i < ce; i++) {
         m_game->addEntity( new EnemyCitizen(ENEMY_CITIZEN, m_game));
     }
 }

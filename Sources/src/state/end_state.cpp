@@ -1,4 +1,5 @@
 #include "end_state.hpp"
+#include "../engine/time.hpp"
 
 EndState::EndState( Game * g ) : m_ui(this)
 {
@@ -6,6 +7,7 @@ EndState::EndState( Game * g ) : m_ui(this)
     if(m_game) {
 	    m_game = new Game();
     }
+    m_i = 0;
 
 	init();
 }
@@ -42,8 +44,13 @@ void EndState::init( void )
 
 void EndState::draw( sf::RenderTarget & window )
 {
-	m_game->drawCarte(window);
-	
+    sf::Vector2u windowSize = window.getSize();
+    m_i += Time::get()->deltaTime();
+    sf::Vector2f p = rotateOnCircle(m_i / TIME_TO_CIRCLE, 11*32, sf::Vector2f(25*32, 25*32));
+	sf::View v = sf::View(sf::Vector2f(p.x, p.y), sf::Vector2f(windowSize.x,windowSize.y));
+    window.setView(v);
+	m_game->drawMap(window);
+
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

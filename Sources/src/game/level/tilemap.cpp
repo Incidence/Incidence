@@ -737,7 +737,8 @@ void TileMap::freePlace(sf::Vector2i position) {
 		}
 
 		if(GROUND_types.size() == 0) {
-			int t = defaults[rand()%defaults.size()];
+            int gg = rand()%defaults.size();
+			int t = defaults[gg];
 			spreadGround(this, t, position, true);
 			spreadGround(this, t, sf::Vector2i(position.x - 1, position.y), true);
 			spreadGround(this, t, sf::Vector2i(position.x, position.y - 1), true);

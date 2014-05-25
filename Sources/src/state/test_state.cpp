@@ -14,6 +14,7 @@
 #include "../game/entity/pickman.hpp"
 
 #include "night_state.hpp"
+#include "end_state.hpp"
 #include "game_menu_state.hpp"
 
 #include "../engine/ui/button.hpp"
@@ -21,12 +22,14 @@
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this), m_pause(false)
+TestState::TestState( sf::RenderWindow * window, Game * game  ) : m_game(game), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this), m_pause(false)
 {
-    m_game = new Game();
+    if(m_game == NULL) {
+        m_game = new Game();
+    }
 	m_window = window;
 	sf::Vector2u windowSize = m_window->getSize();
-	m_view = sf::View(sf::Vector2f(windowSize.x/2, windowSize.y/2 - 30), sf::Vector2f(windowSize.x, windowSize.y));
+	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2), sf::Vector2f(windowSize.x,windowSize.y));
 
 	init();
 }
@@ -34,7 +37,7 @@ TestState::TestState( sf::RenderWindow * window ) : m_game(NULL), m_dayDuration(
 TestState::~TestState( void )
 {
     if(m_game) {
-        delete m_game;
+        //delete m_game;
     }
 }
 
@@ -150,7 +153,7 @@ void TestState::init( void )
     c->addWidget(b);
 
     b = new Button;
-    b->setText("herbe mouillï¿½");
+    b->setText("herbe mouillé");
 	b->setTextSize( 10 );
     b->setBorderOver(sf::Color::Red);
     b->setBorderSize(1);
@@ -284,7 +287,7 @@ void TestState::update( void )
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         int temp(m_view.getCenter().x - m_view.getSize().x/2);
-        if (temp >= (int)tilesize.x)
+        if (temp >= tilesize.x)
         {
             m_view.move(-((int)tilesize.x),0);
             Rain->m_position.x-=tilesize.x;
@@ -297,8 +300,8 @@ void TestState::update( void )
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        int temp((dimensions.x*tilesize.x + 30 - m_view.getSize().x/2) - m_view.getCenter().x);
-        if (temp >= (int)tilesize.x)
+        int temp((dimensions.x*tilesize.x-m_view.getSize().x/2) - m_view.getCenter().x);
+        if (temp >= tilesize.x)
         {
             m_view.move(tilesize.x,0);
             Rain->m_position.x+=tilesize.x;
@@ -311,8 +314,8 @@ void TestState::update( void )
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        int temp(m_view.getCenter().y + 30 - m_view.getSize().y/2);
-        if (temp >= (int)tilesize.y)
+        int temp(m_view.getCenter().y - m_view.getSize().y/2);
+        if (temp >= tilesize.y)
         {
             m_view.move(0,-((int)tilesize.y));
             Rain->m_position.y-=tilesize.y;
@@ -325,8 +328,8 @@ void TestState::update( void )
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
-        int temp((dimensions.y*tilesize.y - m_view.getSize().y/2) - m_view.getCenter().y);
-        if (temp >= (int)tilesize.y)
+        int temp((dimensions.y*tilesize.y-m_view.getSize().y/2) - m_view.getCenter().y);
+        if (temp >= tilesize.y)
         {
             m_view.move(0,tilesize.y);
             Rain->m_position.y+=tilesize.y;
@@ -339,11 +342,26 @@ void TestState::update( void )
     }
 
 
+
     updateDay();
     m_game->update();
 
     m_ui.getWidget("PI_compteur")->setText("PI : " + itos(m_game->m_incidencePoint), sf::Color::White);
 	m_ui.getWidget("PI_compteur")->setTextSize( 10 );
+
+	std::vector<Entity*> e = m_game->getEntities();
+	bool j = true;
+	for(unsigned int i = 0; i < e.size(); i++) {
+        if(e[i]->getType() == ALLY_CITIZEN && e[i]->getHealth() != DEAD) {
+            j = false;
+        }
+	}
+
+    if (j)
+    {
+        StateManager::get()->addState(new EndState(m_game));
+    }
+
 }
 
 void TestState::handleEvent( sf::Event & e )
@@ -542,4 +560,5 @@ void TestState::updateDay( void )
         StateManager::get()->addState( new NightState(m_game) );
         m_night = true;
     }
+
 }

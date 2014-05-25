@@ -23,6 +23,8 @@ public :
 private :
     Game * m_game;
 	UI m_ui;
+
+	float m_i;
 };
 
 #endif // _END_STATE_

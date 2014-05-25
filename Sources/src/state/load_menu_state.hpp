@@ -14,7 +14,7 @@ class LoadMenuState : public State
 {
 
 public :
-    LoadMenuState( Game * g );
+    LoadMenuState( Game * g, int f );
     ~LoadMenuState( void );
 
     void init( void );
@@ -30,6 +30,7 @@ private :
     Game * m_game;
 	UI m_ui;
 	float m_i;
+	int flag;
 };
 
 #endif // _LOAD_MENU_STATE_

@@ -116,7 +116,7 @@ void GameMenuState::treatEvent( GameEvent e )
         break;
 
     case EV_LOAD_MENU :
-        StateManager::get()->addState(new LoadMenuState(m_game));
+        StateManager::get()->addState(new LoadMenuState(m_game,1));
         break;
 
     default :

@@ -66,7 +66,7 @@ void EnemyCitizen::init( void )
 void EnemyCitizen::initAnimations()
 {
    // m_animationList[A_STAY]=new Animation("data/ani/enemy_idle.ani" );
-   m_animationList[A_UP]=new Animation("data/ani/enemy_up.ani" );
+   m_animationList[A_UP]= new Animation("data/ani/enemy_up.ani" );
    m_animationList[A_DOWN]=new Animation("data/ani/enemy_down.ani" );
    m_animationList[A_LEFT]=new Animation("data/ani/enemy_left.ani" );
    m_animationList[A_RIGHT]=new Animation("data/ani/enemy_right.ani" );
