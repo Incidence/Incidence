@@ -171,7 +171,7 @@ void spreadGroundRec(TileMap* tilemap, int type, sf::Vector2i position, sf::Vect
 	Ground* l_ground = tilemap->getGround(position);
 
 	if(l_ground != NULL) {
-std::cout<<i+j*width<<" "<<l_ground->getName()<<std::endl;
+
 		// Changement du sol courant
 		int oldType = l_ground->getType();
 		if(type != oldType) {
