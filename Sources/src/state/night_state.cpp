@@ -387,4 +387,6 @@ void NightState::validation( void )
     for(int i = 0; i < ce; i++) {
         m_game->addEntity( new EnemyCitizen(ENEMY_CITIZEN, m_game));
     }
+    
+    m_game->incrementDaysCount();
 }
