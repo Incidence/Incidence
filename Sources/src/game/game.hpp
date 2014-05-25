@@ -47,6 +47,10 @@ public :
     int getQtyStone();
 
     void addRessource(RessourceType t, int qty);
+    
+    unsigned int getDaysCount();
+
+    void incrementDaysCount();
 
     void spawnEntity( Entity & e );
     void allHome( void );
@@ -65,6 +69,8 @@ private :
     int qtyWood;
     int qtyFood;
     int qtyStone;
+    
+    unsigned int m_daysCount;
 
     sf::Music m_Ambiancemusic;
 
