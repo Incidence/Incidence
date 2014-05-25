@@ -32,7 +32,7 @@ Pickman::Pickman( lua_State * L ) : Entity(NULL)
 }
 
 
-Pickman::Pickman( EntityType t, Game * game ) : Entity(t, game, 'p')
+Pickman::Pickman( EntityType t, Game * game, Entity * e ) : Entity(t, game, 'p')
 {
     /// LUA
     // on enregistre la classe auprès de lua
@@ -48,6 +48,10 @@ Pickman::Pickman( EntityType t, Game * game ) : Entity(t, game, 'p')
     /// ***
 
     init();
+    if(e) {
+        m_health = e->getHealth();
+        m_isSick = e->isSick();
+    }
 }
 
 Pickman::~Pickman( void ) {}

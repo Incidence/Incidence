@@ -32,7 +32,7 @@ Gatherer::Gatherer( lua_State * L ) : Entity(NULL)
 }
 
 
-Gatherer::Gatherer( EntityType t, Game * game ) : Entity(t, game, 'g')
+Gatherer::Gatherer( EntityType t, Game * game, Entity * e ) : Entity(t, game, 'g')
 {
     /// LUA
     // on enregistre la classe auprès de lua
@@ -48,6 +48,11 @@ Gatherer::Gatherer( EntityType t, Game * game ) : Entity(t, game, 'g')
     /// ***
 
     init();
+
+    if(e) {
+        m_health = e->getHealth();
+        m_isSick = e->isSick();
+    }
 }
 
 Gatherer::~Gatherer( void ) {}

@@ -32,7 +32,7 @@ Hunter::Hunter( lua_State * L ) : Entity(NULL)
 }
 
 
-Hunter::Hunter( EntityType t, Game * game ) : Entity(t, game, 'h')
+Hunter::Hunter( EntityType t, Game * game, Entity * e ) : Entity(t, game, 'h')
 {
     /// LUA
     // on enregistre la classe auprès de lua
@@ -48,6 +48,10 @@ Hunter::Hunter( EntityType t, Game * game ) : Entity(t, game, 'h')
     /// ***
 
     init();
+    if(e) {
+        m_health = e->getHealth();
+        m_isSick = e->isSick();
+    }
 }
 
 Hunter::~Hunter( void ) {}

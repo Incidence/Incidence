@@ -117,46 +117,49 @@ void Weather::impactsOnEntities(std::vector< Entity * > entityList, int weatherG
     //srand (time(NULL));
     for(unsigned int i=0;i<entityList.size();i++)
     {
-        int nb=rand()%100;
-        switch(weatherGrade)
-        {
-            case 5:
-                if(nb<=20){
-                    entityList[i]->setisTired(true);
-                }
-                break;
-            case 4:
-                if(nb<=5){
-                    entityList[i]->setisTired(true);
-                }
-                break;
-            case -1:
-                if(nb<=4){
-                    entityList[i]->setisSick(true);
-                }
-                break;
-            case -2:
-                if(nb<=8){
-                    entityList[i]->setisSick(true);
-                }
-                break;
-            case -3:
-                if(nb<=16){
-                    entityList[i]->setisSick(true);
-                }
-                break;
-            case -4:
-                if(nb<=32){
-                    entityList[i]->setisSick(true);
-                }
-                break;
-            case -5:
-                if(nb<=50){
-                    entityList[i]->setisSick(true);
-                }
-                break;
-            default:
-                break;
+        if(entityList[i]->getHealth() != DEAD) {
+            int nb=rand()%100;
+            switch(weatherGrade)
+            {
+                case 5:
+                    if(nb<=20){
+                        entityList[i]->setisTired(true);
+                    }
+                    break;
+                case 4:
+                    if(nb<=5){
+                        entityList[i]->setisTired(true);
+                    }
+                    break;
+                case -1:
+                    if(nb<=4){
+                        entityList[i]->setisSick(true);
+                    }
+                    break;
+                case -2:
+                    if(nb<=8){
+                        entityList[i]->setisSick(true);
+                    }
+                    break;
+                case -3:
+                    if(nb<=16){
+                        entityList[i]->setisSick(true);
+                    }
+                    break;
+                case -4:
+                    if(nb<=32){
+                        entityList[i]->setisSick(true);
+                    }
+                    break;
+                case -5:
+                    if(nb<=50){
+                        std::cout << "ii" << std::endl;
+                        entityList[i]->setisSick(true);
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

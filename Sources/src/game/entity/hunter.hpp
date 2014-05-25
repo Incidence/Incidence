@@ -14,7 +14,7 @@ class Hunter : public Entity
 {
 
 public :
-    Hunter( EntityType t, Game * game );
+    Hunter( EntityType t, Game * game, Entity * e = NULL );
     Hunter(lua_State * L);
     virtual ~Hunter( void );
 

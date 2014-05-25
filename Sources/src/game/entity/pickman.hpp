@@ -14,7 +14,7 @@ class Pickman : public Entity
 {
 
 public :
-    Pickman( EntityType t, Game * game );
+    Pickman( EntityType t, Game * game, Entity * e = NULL );
     Pickman(lua_State * L);
     virtual ~Pickman( void );
 
