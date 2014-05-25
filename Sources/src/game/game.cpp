@@ -491,6 +491,18 @@ void Game::incrementDaysCount()
 }
 
 
+std::vector< Entity * > Game::getPopulation()
+{
+    std::vector< Entity * > population;
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if(!(*it)->isDead() && (((*it)->getType() == ALLY_CITIZEN) || ((*it)->getType() == HUNTER))) {
+            population.push_back(*it);
+        }
+    }
+    return population;
+}
+
+
 void Game::allHome( void )
 {
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
