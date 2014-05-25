@@ -53,6 +53,12 @@ void Game::newGame( unsigned int w, unsigned int h )
 	m_home.load("data/buildings/home.bld");
 	m_home.setPosition(10, 10);
 	m_buildings.push_back(m_home);
+	
+	qtyWood = 0;
+    	qtyFood = 0;
+    	qtyStone = 0;
+
+    	m_daysCount = 0;
 
 	m_tilemap->freePlace(m_home.getPosition());
 
@@ -470,6 +476,18 @@ void Game::addRessource(RessourceType t, int qty)
         default :
             break;
     }
+}
+
+
+unsigned int Game::getDaysCount()
+{
+    return this->m_daysCount;
+}
+
+
+void Game::incrementDaysCount()
+{
+    this->m_daysCount++;
 }
 
 
