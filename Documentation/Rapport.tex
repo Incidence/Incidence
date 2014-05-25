@@ -26,18 +26,18 @@
 	\chapter{Introduction}
 	
 		\section{Philosophie}
-			Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en oeuvre des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
+			Du point de vue d’un observateur, un monde peut être qualifié de complexe sans que les individus y évoluant ne le soient forcément. Dans ce TER, il est question d’aborder cette thématique sous forme de jeu. Autrement dit, le problème qui nous intéresse ici est de déterminer comment faire émerger un comportement global en mettant en \oe{uvre} des contraintes extérieures dans l’environnement pour influencer les interactions locales d’agents. De plus il faudra, pour le joueur, analyser le comportement des ces derniers afin d’optimiser la réalisation des buts demandés. Plus précisément, il s’agit de mettre en scène des agents (disposant d’un comportement précis et défini en terme d’interaction), évoluant dans un environnement modifiable par un joueur humain (qu’il s’agisse d’ajouter des ressources exploitables, de modifier le relief, etc.) devant atteindre un certain objectif (stabilité du système écologique, récolte d’une certaine quantité de ressources, développement d’un chemin).
 		
 		\section{Influences}
-			Nous souhaitions avant tout réaliser un projet de jeu vidéo intégrant les notions de programmation multi-agent vues au semestre précédent, tout en implémentant notre propre version de moteur multi-agents. En effet, l'autonomie et l'indépendance des entités, en terme de comportement, étaient primordiales de notre point de vue. De plus, plusieurs jeux vidéos ont orienté la conception de notre projet, principalement From Dust par rapport à la possibilité de modifier l'environnement et les répercussions, mais aussi Age Of Empire II pour ce qui concerne la gestion des ressources et leur récolte. 
+			Nous souhaitions avant tout réaliser un projet de jeu vidéo intégrant les notions de programmation multi-agent vues au semestre précédent, tout en implémentant notre propre version de moteur multi-agents. En effet, l'autonomie et l'indépendance des entités, en terme de comportement, étaient primordiales de notre point de vue. De plus, plusieurs jeux vidéos ont orienté la conception de notre projet, principalement \emph{From Dust} par rapport à la possibilité de modifier l'environnement et les répercussions, mais aussi \emph{Age Of Empire II} pour ce qui concerne la gestion des ressources et leur récolte. 
 		
-		\section{Sujet}
+		\section{Sujet initial}
 			Ce travail impliquera de s’intéresser au paradigme de la programmation multi-agents. À partir d’une plateforme existante (type TurtleKit) ou d’une version simple programmée pour l’occasion, on proposera différents niveaux de jeu qui offriront par exemple : (1) la possibilité de modifier l’environnement permettant, en terme de contraintes, d’insuffler une dynamique globale aux agents pour les mener à réaliser un certain but ; (2) la possibilité de modifier le comportement local des agents pour atteindre des buts plus complexes. 
 			Le cadre plus précis sera à déterminer en fonction des faisabilités et des envies des étudiants : quelles actions pourront effectuer les agents ? quelles ressources à disposition ? quels types d’objectifs pour le joueur ? comment envisager la progression des niveaux ? D’autres évolutions sont possibles et seront traitées en fonction de l’avancement du projet : systèmes d’évènements (épidémies, catastrophe naturelle), outils simple pour la création de nouveaux niveaux, mode multi-joueurs, etc. \\
 			D’un point de vue pragmatique on s’attachera en priorité à étudier l’adéquation de la mise en oeuvre des comportements réactifs des agents face aux différentes possibilités de contraintes permises pour le joueur, ainsi qu’à l’ergonomie de l’interface. L’aspect recherche de ce TER se concentrera sur une familiarisation plus en profondeur avec le domaine de la modélisation et de la simulation multi-agents [1] ainsi qu’avec les méthodologies de conception de jeu [2].
 	
 	\chapter{Cahier des charges}
-		Ce chapitre détaille toute la phase de conception du projet. Elle contient le Game Design Document que nous avons rédigé lors de l'étude préalable.
+		Ce chapitre détaille toute la phase de conception du projet. Elle reprend le Game Design Document que nous avons rédigé lors de l'étude préalable.
 	
 		\section{Questions fréquentes}
 			Cette partie regroupe les caractéristiques basiques du jeu sous forme de question-réponse.
@@ -144,7 +144,7 @@
 					\end{figure}
 	
 			\subsection{Moteur de carte}
-				La gestion de la carte se fera uniquement en c++. Il existera pour cela différentes classes comme TileMap, Ground, Element et Tileset.
+				La gestion de la carte se fera uniquement en C++. Il existera pour cela différentes classes gérant la carte, les tuiles et le tileset.
 		
 				\subsubsection{La carte}
 
@@ -169,7 +169,7 @@
 								\hline
 								Terre Innondée & - & Oui & Terre ne pouvant pas être cultivée.\\
 								\hline
-								Terre Fertile & - & Oui & Terre pouvant etre cultivée pour devenir un \textbf{Champs}.\\
+								Terre Fertile & - & Oui & Terre pouvant etre cultivée pour devenir un \textbf{Champ}.\\
 								\hline
 								Champs & Nourriture & Oui & Terre cultivée possédant plusieurs stades de maturité. Le maximum atteint, la récolte peut être effectuée et offrir de la nourriture.\\
 								& (1 à 3 unités) &    &    \\
@@ -268,7 +268,7 @@
 
 			\subsection{Les tuiles}
 				\label{Tuile}
-				Les tuiles seront des images de 32x32 ou 16x16 pixels au format PNG.\\
+				Les tuiles seront des images de 32x32 ou 16x16 pixels au format PNG et seront créées par l'équipe.\\
 				\begin{itemize}[label=$\bullet$]
 					\item \textbf{Le sol :} Il y aura 16 tuiles pour chaque type de sol, correspondant à toutes les possibilités de jonction avec le type voisin. En effet, chaque type de sol ne pourra être en contact qu'avec deux types différents suivant l'ordre hiérarchique suivant :\\
 					Eau $\rightarrow$ Terre innondée $\rightarrow$ Terre fertile $\rightarrow$ Terre $\rightarrow$ Terre aride
@@ -293,7 +293,7 @@
 				\end{figure}
 	
 			\subsection{Les entités}
-				Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés.\\
+				Chaque entité aura plusieurs positions possibles. Pour chacun d'elle, un ou plusieurs éléments graphiques seront créés par l'équipe.\\
 				\textbf{Les positions basiques :} Face, dos, profil droit, profil gauche.\\
 				\textbf{Les positions spécifiques :} Coupant du bois, ramassant des baies, chassant, cultivant, construisant, se déplaçant sans ressource, se déplaçant avec des ressources.\\
 				Chaque entité est animée selon sa classe, son sens de déplacement ou son action.\\
@@ -307,6 +307,14 @@
 	
 			\subsection{Interface utilisateur}
 				Nous aurons différents menus, tels que menu principal, menu de jeu ou menu de la nuit. Ils auront chacun un certain nombre de boutons que nous ne détaillerons pas pour l'instant. Il y aura également un bandeau d'affichage des quantités de ressources pendant le jeu ainsi que des boutons permettant au joueur d'effectuer les actions utilisateur.
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.35]{img/interfaceSample.png}
+					\end{center}
+					\label{fig:interface}
+					\caption{Présentation de l'interface du jeu}
+				\end{figure}
+		
 		
 	\chapter{Gestion du projet}
 		Cette partie traite globalement de tout ce qui concerne l'organisation du projet, que ce soit au niveau de la conception, du développement, de l'équipe ou encore de la gestion des fichiers.
@@ -329,7 +337,7 @@
 			\end{figure}
 
 		\section{Assignation}
-			Le projet étant maintenant découpé en un certain nombre de modules, il ne restait plus qu'à assigner chaque tâche à un ou plusieurs membres de l'équipe. Nous nous sommes organisés comme ceci :
+			Le projet étant découpé en un certain nombre de modules, il ne restait plus qu'à assigner chaque tâche à un ou plusieurs membres de l'équipe. Nous nous sommes organisés comme ceci :
 			\begin{itemize}[label=$\bullet$]
 				\item \textbf{Scripts de l'IA :} MARTINEZ Thierry, MOKHRETAR Amin.
 				\item \textbf{Moteur :}
@@ -415,7 +423,7 @@
 					\end{verbatim}
 			
 				\subsubsection{Tileset}
-					Le tileset sera une unique image au format PNG représentant l'ensemble des tuiles possibles, accompagnée d'un fichier de configuration au format INI. Chaque type de sol constituera une ligne du tileset, avec toutes les variantes dépendant des rebords entre tuiles (ce fichier sera présenté plus en détails dans la section \ref{TilesetDev}, page \pageref{TilesetDev}).
+					Le tileset sera une unique image au format PNG, créé par l'équipe, représentant l'ensemble des tuiles possibles, accompagnée d'un fichier de configuration au format INI. Chaque type de sol constituera une ligne du tileset, avec toutes les variantes dépendant des rebords entre tuiles (ce fichier sera présenté plus en détails dans la section \ref{TilesetDev}, page \pageref{TilesetDev}).
 
 				\subsubsection{Carte}
 					Les différentes cartes sauvegardées seront enregistrées dans des fichiers IMS (Incidence Map Save), dans lesquels seront stockés le tileset utilisé et la conformation de la carte (dimensions, sols et éléments).
@@ -485,7 +493,7 @@
 					\url{https://github.com/Incidence/Incidence}
 					\label{url:github}
 				\end{center}
-				Sur ce dépôt seront présents tous les fichiers sources nécessaires au développement du jeu ainsi que les documentations au format Latex et PDF (même si aucun fichier binaire ne devrait être présent, il est plus pratique de récupérer directement un tel fichier que de le compiler soit-même). De plus, y seront stockées toutes les données utilisées par le jeu telles que les images et les sons. Seuls les fichiers temporaires, exécutables et fichiers de sauvegarde ne seront pas stockés.
+				Sur ce dépôt seront présents tous les fichiers sources nécessaires au développement du jeu ainsi que les documentations au format \LaTeX et PDF (même si aucun fichier binaire ne devrait être présent, il est plus pratique de récupérer directement un tel fichier que de le compiler soit-même). De plus, y seront stockées toutes les données utilisées par le jeu telles que les images et les sons. Seuls les fichiers temporaires, exécutables et fichiers de sauvegarde ne seront pas stockés.
 
 
 	\chapter{Développement}
@@ -593,13 +601,13 @@
 				\textbf{Fichier de configuration :}\\
 				Chaque ligne commençant par "\#" ne sera pas lue, ce sont les commentaires. Les mots en vert sont les mots clés utilisés pour la lecture qui se fait ligne par ligne :\\
 				\begin{itemize}[label=$\bullet$]
-					\item path : indique le chemin du fichier de texture du tileset\\
-					\item tilesize : est suivi des dimensions (en pixel, largeur puis hauteur) d'une tuile\\
-					\item groundColumnCount : nombre de colonnes pour chaque sol dans le fichier de texture (toutes les associations de rebords)\\
-					\item elementColumnCount : nombre de colonnes pour chaque élément dans le fichier de texture (tous les types de sols)\\
-					\item ground : définit un sol et tous ses attributs\\
-					\item element : définit un élément et tous ses attributs (height est la hauteur en nombre de cases dans la texture)\\
-					\item ashes : fourni une texture pour les cendres (lorsque des éléments brûlent) (cf GDD)
+					\item \textbf{path} : indique le chemin du fichier de texture du tileset\\
+					\item \textbf{tilesize} : est suivi des dimensions (en pixel, largeur puis hauteur) d'une tuile\\
+					\item \textbf{groundColumnCount} : nombre de colonnes pour chaque sol dans le fichier de texture (toutes les associations de rebords)\\
+					\item \textbf{elementColumnCount} : nombre de colonnes pour chaque élément dans le fichier de texture (tous les types de sols)\\
+					\item \textbf{ground} : définit un sol et tous ses attributs\\
+					\item \textbf{element} : définit un élément et tous ses attributs (height est la hauteur en nombre de cases dans la texture)\\
+					\item \textbf{ashes} : fourni une texture pour les cendres (lorsque des éléments brûlent) (cf GDD)
 				\end{itemize}
 				Remarque : chaque ligne commençant par ground, element ou ashes incrémente un compteur afin de connaître la position de la zone de texture correspondante. L'ordre est donc important (définition des lignes de haut en bas).\\
 				\\
@@ -608,7 +616,13 @@
 				\\
 				Pour chaque sol, il existe seize tuiles différentes qui correspondent à toutes les jonctions possibles avec d'autres types compatibles. Cela correspondra à l'attribut "bordures" des sols. Ils sont définis dans un ordre défini par un mot de 4 bits, avec pour chaque bit un booléen qui correspond à la présence ou non d'une bordure. En allant du bit de poids fort au bits de poids faible, on définit : gauche, bas, droite, haut.\\
 				Par exemple, une bordure correspondant au mot 1111 aura des bordures tout autour tandis que celle correspondant au mot 1010 aura des bordures seulement à gauche et à droite.\\
-				\\
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.5]{img/groundBorders.png} 
+					\end{center}
+					\label{fig:border}
+					\caption{Présentation du codage des bordures des sols}
+				\end{figure}
 				Pour chaque élément, il existe autant de tuiles que de types de sols compatibles. Elles sont définies dans l'ordre défini dans le fichier INI, sur une seule ligne.\\
 				\\
 				Enfin, il reste une ligne transparente à la fin du tileset nécessaire pour l'affichage des éléments vides.
@@ -822,6 +836,7 @@
 				\end{center}
 				\label{fig:analyse}
 				\caption{Comparaisons de performances de divers langages dans des cas donnés}
+				Source : \url{http://attractivechaos.wordpress.com/2011/06/22/my-programming-language-benchmark-analyses/}
 			\end{figure}
 			
 			\begin{figure}

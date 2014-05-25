@@ -965,20 +965,35 @@ int peacefulAnimalDeath(Game* game) {
 void updateRessources(Game* game) {
 
 	std::vector< Entity * > list = game->getEntities();
-	int number = 0;
 
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
-		if(list[i]->getType() == ALLY_CITIZEN) {
-			number++;
+		if(list[i]->getType() == ALLY_CITIZEN || list[i]->getType() == HUNTER) {
+			game->setPI(game->getPI() + 10);//Bonus PI
+			game->addRessource(FOOD, -3); //Se nourrir
+			game->addRessource(WOOD, -3); //Se chauffer
+			game->addRessource(STONE, -3); //Se chauffer
+			if(game->getQtyFood() < 0) {
+				if(rand()%100 < 80) {
+					list[i].setHealth(DEAD);
+				}
+				else {
+					list[i]->setisSick(true);
+				}
+			}/*
+			if((game->getQtyWood() < 0 || game->getQtyWood() < 0) && rand()%100 < 30) {
+				list[i]->setisSick(true);
+			}*/
 		}
 	}
 
-	game->setPI(game->getPI() + 10 * number);//BONUS PI
-	game->addRessource(FOOD, -(number*3));
 	if(game->getQtyFood() < 0) {
-		// rendre malade chaque péon pas nourri ?
 		game->addRessource(FOOD, -game->getQtyFood());
 	}
-	// utiliser aussi du bois et de la pierre ? genre pour faire du feu dans sa cahute...
+	if(game->getQtyWood() < 0) {
+		game->addRessource(WOOD, -game->getQtyFood());
+	}
+	if(game->getQtyStone() < 0) {
+		game->addRessource(STONE, -game->getQtyFood());
+	}
 
 }

@@ -396,6 +396,7 @@ void NightState::validation( void )
         m_game->addEntity( new EnemyCitizen(ENEMY_CITIZEN, m_game));
     }
 
+    updateRessources(m_game);
     doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
     m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
 
