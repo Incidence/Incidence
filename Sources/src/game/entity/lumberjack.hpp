@@ -14,7 +14,7 @@ class Lumberjack : public Entity
 {
 
 public :
-    Lumberjack( EntityType t, Game * game );
+    Lumberjack( EntityType t, Game * game, Entity * e = NULL );
     Lumberjack(lua_State * L);
     virtual ~Lumberjack( void );
 

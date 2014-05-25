@@ -53,7 +53,7 @@ void Game::newGame( unsigned int w, unsigned int h )
 	m_home.load("data/buildings/home.bld");
 	m_home.setPosition(10, 10);
 	m_buildings.push_back(m_home);
-	
+
 	qtyWood = 0;
     	qtyFood = 0;
     	qtyStone = 0;
@@ -433,6 +433,14 @@ void Game::addEntity( Entity * e )
 }
 
 
+void Game::addEntities( std::vector<Entity *> e )
+{
+    for(unsigned int i = 0; i < e.size(); i++) {
+        addEntity(e[i]);
+    }
+}
+
+
 void Game::setPI(int n)
 {
     m_incidencePoint=n;
@@ -535,3 +543,16 @@ void Game::actionGround( int type,sf::Vector2i position )
         std::cout << "Not enough points !" << std::endl;
     }
 }
+
+std::vector< Entity * > Game::getPopulation()
+{
+    std::vector< Entity * > population;
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if(!(*it)->isDead() && (((*it)->getType() == ALLY_CITIZEN) || ((*it)->getType() == HUNTER))) {
+            population.push_back(*it);
+        }
+    }
+    return population;
+}
+
+

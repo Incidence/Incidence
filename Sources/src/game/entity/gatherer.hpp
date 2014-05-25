@@ -14,7 +14,7 @@ class Gatherer : public Entity
 {
 
 public :
-    Gatherer( EntityType t, Game * game );
+    Gatherer( EntityType t, Game * game, Entity * e = NULL );
     Gatherer(lua_State * L);
     virtual ~Gatherer( void );
 

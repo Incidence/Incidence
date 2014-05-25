@@ -32,7 +32,7 @@ Lumberjack::Lumberjack( lua_State * L ) : Entity(NULL)
 }
 
 
-Lumberjack::Lumberjack( EntityType t, Game * game ) : Entity(t, game, 'l')
+Lumberjack::Lumberjack( EntityType t, Game * game, Entity * e ) : Entity(t, game, 'l')
 {
     /// LUA
     // on enregistre la classe auprès de lua
@@ -48,6 +48,10 @@ Lumberjack::Lumberjack( EntityType t, Game * game ) : Entity(t, game, 'l')
     /// ***
 
     init();
+    if(e) {
+        m_health = e->getHealth();
+        m_isSick = e->isSick();
+    }
 }
 
 Lumberjack::~Lumberjack( void ) {}

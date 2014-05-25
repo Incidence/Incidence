@@ -37,6 +37,7 @@ public :
     TileMap * getTilemap( void );
     Weather * getWeather();
     void addEntity( Entity * e );
+    void addEntities( std::vector<Entity *> e );
     void clearEntity( void );
 
     void setPI(int n);
@@ -47,7 +48,7 @@ public :
     int getQtyStone();
 
     void addRessource(RessourceType t, int qty);
-    
+
     unsigned int getDaysCount();
 
     void incrementDaysCount();
@@ -57,6 +58,8 @@ public :
 
     void actionElement( int type,sf::Vector2i position );
     void actionGround( int type,sf::Vector2i position );
+
+    std::vector< Entity * > getPopulation();
 
 private :
     TileMap * m_tilemap;
@@ -69,7 +72,7 @@ private :
     int qtyWood;
     int qtyFood;
     int qtyStone;
-    
+
     unsigned int m_daysCount;
 
     sf::Music m_Ambiancemusic;

@@ -9,6 +9,8 @@ Button::Button( void ) : Widget('b')
     this->event.type = EV_DEFAULT;
     this->event.number = 0;
     this->event.text = "";
+
+    cText_over = sf::Color::Black;
 }
 Button::~Button( void ) { }
 
@@ -104,12 +106,16 @@ void Button::select( bool b )
         if(this->selected)
         {
             this->shape.setOutlineColor( this->border_over );
-            this->text->setColor(cText_over);
+            if(text) {
+                this->text->setColor(cText_over);
+            }
         }
         else
         {
             this->shape.setOutlineColor( this->border );
-            this->text->setColor(cText);
+            if(text) {
+                this->text->setColor(cText);
+            }
         }
     }
 }

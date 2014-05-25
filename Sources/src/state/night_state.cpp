@@ -356,25 +356,33 @@ void NightState::validation( void )
 
     std::cout << "new : " << nb << std::endl;
 
-    doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
-    m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
-
-    m_game->clearEntity();
+/// RECODE
+    std::vector< Entity * > ee = m_game->getPopulation();
+    std::vector< Entity * > newAlly;
 
     for(int i = 0; i < nb; i++) {
+
+        Entity * et = NULL;
+        if(i < ee.size()) {
+            et = ee[i];
+        }
 
         int r = rand() % 100;
 
         if(r < prct(m_prctGatherer)) {
-            m_game->addEntity( new Gatherer(ALLY_CITIZEN, m_game));
+            newAlly.push_back( new Gatherer(ALLY_CITIZEN, m_game,et));
         } else if (r < prct(m_prctGatherer + m_prctHunter)) {
-            m_game->addEntity( new Hunter(HUNTER, m_game));
+            newAlly.push_back( new Hunter(HUNTER, m_game, et));
         } else if (r < prct(m_prctGatherer + m_prctHunter + m_prctLumberjack)) {
-            m_game->addEntity( new Lumberjack(ALLY_CITIZEN, m_game));
+            newAlly.push_back( new Lumberjack(ALLY_CITIZEN, m_game, et));
         } else {
-            m_game->addEntity( new Pickman(ALLY_CITIZEN, m_game));
+            newAlly.push_back( new Pickman(ALLY_CITIZEN, m_game, et));
         }
     }
+
+    m_game->clearEntity();
+    m_game->addEntities(newAlly);
+
 
     for(int i = 0; i < wa; i++) {
         m_game->addEntity( new WildAnimal(WILD_ANIMAL, m_game));
@@ -387,6 +395,9 @@ void NightState::validation( void )
     for(int i = 0; i < ce; i++) {
         m_game->addEntity( new EnemyCitizen(ENEMY_CITIZEN, m_game));
     }
-    
+
+    doIncidences(m_game->m_tilemap, m_game->m_weather, m_game->m_home.getPosition(), m_game->m_entityList);
+    m_game->m_weather->setWeatherToday(m_ui.getWidget("rainSelected")->isShow() ? RAINY : SUNNY);
+
     m_game->incrementDaysCount();
 }
