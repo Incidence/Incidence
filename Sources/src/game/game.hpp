@@ -51,6 +51,8 @@ public :
     unsigned int getDaysCount();
 
     void incrementDaysCount();
+    
+    std::vector< Entity * > getPopulation();
 
     void spawnEntity( Entity & e );
     void allHome( void );
