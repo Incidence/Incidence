@@ -95,7 +95,8 @@ void SaveMenuState::treatEvent( GameEvent e )
     case EV_VALID :
         {
             std::string savePath((static_cast<TextInsert*>(m_ui.getWidget("textSave")))->getTextEnter());
-            m_game->saveGame("saves/"+savePath+".save");
+            //m_game->saveGame("saves/"+savePath+".save");
+            copyFile("saves/"+savePath+".save", "saves/auto_save.autosave");
             StateManager::get()->popState();
         }
         break;

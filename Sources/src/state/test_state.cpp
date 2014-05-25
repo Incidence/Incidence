@@ -29,8 +29,7 @@ TestState::TestState( sf::RenderWindow * window, Game * game  ) : m_game(game), 
     }
 	m_window = window;
 	sf::Vector2u windowSize = m_window->getSize();
-	
-	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2 - 30), sf::Vector2f(windowSize.x,windowSize.y));
+	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2-30), sf::Vector2f(windowSize.x,windowSize.y));
 
 	init();
 }
@@ -273,6 +272,7 @@ void TestState::update( void )
 {
     if(m_night) {
         m_dayBeginTime = Time::get()->elapsed().asSeconds();
+        m_game->saveGame("saves/auto_save.autosave");
         m_night = false;
     }
 
@@ -288,7 +288,7 @@ void TestState::update( void )
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         int temp(m_view.getCenter().x - m_view.getSize().x/2);
-        if (temp >= (int)tilesize.x)
+        if (temp >= tilesize.x)
         {
             m_view.move(-((int)tilesize.x),0);
             Rain->m_position.x-=tilesize.x;
@@ -301,8 +301,8 @@ void TestState::update( void )
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
-        int temp((dimensions.x*tilesize.x + 30 - m_view.getSize().x/2) - m_view.getCenter().x);
-        if (temp >= (int)tilesize.x)
+        int temp((dimensions.x*tilesize.x+30-m_view.getSize().x/2) - m_view.getCenter().x);
+        if (temp >= tilesize.x)
         {
             m_view.move(tilesize.x,0);
             Rain->m_position.x+=tilesize.x;
@@ -315,8 +315,8 @@ void TestState::update( void )
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
-        int temp(m_view.getCenter().y + 30 - m_view.getSize().y/2);
-        if (temp >= (int)tilesize.y)
+        int temp(m_view.getCenter().y +30 - m_view.getSize().y/2);
+        if (temp >= tilesize.y)
         {
             m_view.move(0,-((int)tilesize.y));
             Rain->m_position.y-=tilesize.y;
@@ -330,7 +330,7 @@ void TestState::update( void )
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         int temp((dimensions.y*tilesize.y-m_view.getSize().y/2) - m_view.getCenter().y);
-        if (temp >= (int)tilesize.y)
+        if (temp >= tilesize.y)
         {
             m_view.move(0,tilesize.y);
             Rain->m_position.y+=tilesize.y;
@@ -412,7 +412,6 @@ void TestState::handleEvent( sf::Event & e )
             {
                 if(e.key.control) {
                     m_game->saveGame("saves/test.save");
-                    m_night = true;
                 }
             } break;
 

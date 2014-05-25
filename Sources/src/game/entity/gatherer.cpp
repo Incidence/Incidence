@@ -20,6 +20,7 @@ Lunar<Gatherer>::RegType Gatherer::methods[] = {
     method(Gatherer, setTarget),
     method(Gatherer, isAttackMe),
     method(Gatherer, getDistanceToHome),
+    method(Gatherer, getDistance),
     method(Gatherer, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}

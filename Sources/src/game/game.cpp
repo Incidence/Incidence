@@ -142,11 +142,15 @@ void Game::loadGame( std::string path )
     file >> qtyFood >> qtyStone >> qtyWood;
     file >> m_incidencePoint;
 
-    unsigned int gatherer = 0, lumberjack = 0, pickman = 0, hunter = 0, wild = 0, peaceful = 0, enemy = 0, m = 0;
+    unsigned int gatherer = 0, lumberjack = 0, pickman = 0, hunter = 0, wild = 0, peaceful = 0, enemy = 0, m = 0, days = 0;
     char w = 's';
 
     file >> gatherer >> lumberjack >> pickman >> hunter >> wild >> peaceful >> enemy;
     file >> m >> w;
+    file >> days;
+
+    m_daysCount = days;
+
     m_weather->setWeatherGrade(m);
 
     if(w == 'r') {
@@ -225,6 +229,7 @@ void Game::saveGame( std::string path )
 
     file << gatherer << " " << lumberjack << " " << pickman << " " << hunter << " " << wild << " " << peaceful << " " << enemy << std::endl;
     file << m_weather->getWeatherGrade() << " " << (m_weather->getWeatherToday() == RAINY ? "r" : "s") << std::endl;
+    file << getDaysCount() << std::endl;
 
 }
 
@@ -370,7 +375,7 @@ void Game::handleEvent( sf::Event & e )
             }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
-			m_tilemap->freePlace(sf::Vector2i(rand()%150, rand()%150));
+			burnRessources(m_tilemap);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
 			m_weather->setWeatherToday(SUNNY);

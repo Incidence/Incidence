@@ -558,7 +558,6 @@ void TileMap::userSetGround(int type, sf::Vector2i position) {
  *** Sortie : void.
 */
 void TileMap::freePlace(sf::Vector2i position) {
-
 	int i = position.x;
 	int j = position.y;
 

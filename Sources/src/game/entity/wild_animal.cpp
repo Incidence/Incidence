@@ -20,6 +20,7 @@ Lunar<WildAnimal>::RegType WildAnimal::methods[] = {
     method(WildAnimal, setTarget),
     method(WildAnimal, isAttackMe),
     method(WildAnimal, getDistanceToHome),
+    method(WildAnimal, getDistance),
     method(WildAnimal, getAngleToHome),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}

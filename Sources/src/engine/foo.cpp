@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <cmath>
 
 void debug( std::string s )
@@ -123,4 +124,29 @@ sf::Vector2f rotateOnCircle( float i, float r, sf::Vector2f C )
     return p;
 }
 
+void copyFile(std::string f1, std::string f2)
+{
+    std::ifstream fichier(f1.c_str());
+    std::ofstream flux(f2.c_str());
 
+   if(fichier)
+   {
+      std::string ligne;
+
+      while(getline(fichier, ligne))
+      {
+        if(flux)
+        {
+            flux << ligne << std::endl;
+        }
+        else
+        {
+            std::cout << "ERREUR: Impossible d'ouvrir le fichier." << std::endl;
+        }
+      }
+   }
+   else
+   {
+      std::cout << "ERREUR: Impossible d'ouvrir le fichier en lecture." << std::endl;
+   }
+}

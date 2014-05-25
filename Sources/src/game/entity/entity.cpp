@@ -60,6 +60,8 @@ int Entity::action(lua_State * L)
 
 sf::Sprite * Entity::draw( void )
 {
+    if(m_isSick) { std::cout << "malade" << std::endl; }
+
     sf::Sprite * s = m_animation->update();
     s->setOrigin(16, 16);
     s->setPosition(m_position);
@@ -639,9 +641,10 @@ void Entity::isAttackedBy( Entity * e )
         }
     }
 
-    if(m_target) {
+    if(m_target && m_target != e) {
         m_target->m_isAttacked = false;
     }
+    m_target = e;
 }
 
 bool Entity::isDead() const

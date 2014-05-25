@@ -26,4 +26,6 @@ bool isInner( sf::FloatRect r, sf::Vector2i p );
 
 sf::Vector2f rotateOnCircle( float i, float r, sf::Vector2f C );
 
+void copyFile(std::string f1, std::string f2);
+
 #endif // _FOO_
