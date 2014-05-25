@@ -39,7 +39,6 @@ void LoadMenuState::init( void )
     }
     closedir(directory);
 
-    Widget * w;
     Button * b;
     GameEvent ge;
 

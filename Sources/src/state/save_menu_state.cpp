@@ -20,7 +20,6 @@ SaveMenuState::~SaveMenuState( void )
 
 void SaveMenuState::init( void )
 {
-    Widget * w;
     Button * b;
     TextInsert * ti;
     GameEvent ge;

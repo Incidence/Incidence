@@ -68,7 +68,7 @@ $(TMP)/widget_content.o: $(UI)/widget_content.cpp $(UI)/widget_content.hpp
 
 STATE=src/state
 
-state: $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/night_state.o $(TMP)/game_menu_state.o $(TMP)/load_menu_state.o $(TMP)/main_menu_state.o $(TMP)/save_menu_state.o
+state: $(TMP)/main_state.o $(TMP)/test_state.o $(TMP)/night_state.o $(TMP)/game_menu_state.o $(TMP)/load_menu_state.o $(TMP)/main_menu_state.o $(TMP)/save_menu_state.o $(TMP)/end_state.o
 
 $(TMP)/main_state.o: $(STATE)/main_state.cpp $(STATE)/main_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
@@ -89,6 +89,9 @@ $(TMP)/main_menu_state.o: $(STATE)/main_menu_state.cpp $(STATE)/main_menu_state.
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 $(TMP)/save_menu_state.o: $(STATE)/save_menu_state.cpp $(STATE)/save_menu_state.hpp
+	$(CC) $(CXXFLAG) -o $@ -c $<
+
+$(TMP)/end_state.o: $(STATE)/end_state.cpp $(STATE)/end_state.hpp
 	$(CC) $(CXXFLAG) -o $@ -c $<
 
 

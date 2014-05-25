@@ -19,7 +19,6 @@ GameMenuState::~GameMenuState( void )
 
 void GameMenuState::init( void )
 {
-    Widget * w;
     Button * b;
     GameEvent ge;
 

@@ -146,13 +146,22 @@ int abstractSpreadGround(TileMap* tilemap, int type, sf::Vector2i position, std:
 
 }
 
+void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCliffs) {
+
+	int width = tilemap->getDimensions().x;
+	int height = tilemap->getDimensions().y;
+
+	spreadGroundRec(tilemap, type, position, sf::Vector2i(width, height), fixCliffs);
+
+}
+
 /*
  *** Description : cette fonction met à jour les cases environnantes, et si besoin harmonise les types compatibles.
  *
  *** Entree : la carte (tilemap), le type souhaité (type), la position (position), fixer ou non les falaises (fixCliffs).
  *** Sortie : void
 */
-void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCliffs) {
+void spreadGroundRec(TileMap* tilemap, int type, sf::Vector2i position, sf::Vector2i callPosition, bool fixCliffs) {
 
 	int width = tilemap->getDimensions().x;
 	int height = tilemap->getDimensions().y;
@@ -162,7 +171,7 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCli
 	Ground* l_ground = tilemap->getGround(position);
 
 	if(l_ground != NULL) {
-
+std::cout<<i+j*width<<" "<<l_ground->getName()<<std::endl;
 		// Changement du sol courant
 		int oldType = l_ground->getType();
 		if(type != oldType) {
@@ -176,23 +185,27 @@ void spreadGround(TileMap* tilemap, int type, sf::Vector2i position, bool fixCli
 
 			// Propagation
 			if(i > 0) {
-				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i - 1, j)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i - 1, j), fixCliffs);
+				sf::Vector2i tmp(i - 1, j);
+				if(tmp != callPosition && tilemap->areCompatibleGrounds(position, tmp) == 0) {
+					spreadGroundRec(tilemap, oldType, tmp, position, fixCliffs);
 				}
 			}
 			if(j > 0) {
-				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i, j - 1)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i, j - 1), fixCliffs);
+				sf::Vector2i tmp(i, j - 1);
+				if(tmp != callPosition && tilemap->areCompatibleGrounds(position, tmp) == 0) {
+					spreadGroundRec(tilemap, oldType, tmp, position, fixCliffs);
 				}
 			}
 			if(i < width-1) {
-				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i + 1, j)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i + 1, j), fixCliffs);
+				sf::Vector2i tmp(i + 1, j);
+				if(tmp != callPosition && tilemap->areCompatibleGrounds(position, tmp) == 0) {
+					spreadGroundRec(tilemap, oldType, tmp, position, fixCliffs);
 				}
 			}
 			if(j < height-1) {
-				if(tilemap->areCompatibleGrounds(position, sf::Vector2i(i, j + 1)) == 0) {
-					spreadGround(tilemap, oldType, sf::Vector2i(i, j + 1), fixCliffs);
+				sf::Vector2i tmp(i, j + 1);
+				if(tmp != callPosition && tilemap->areCompatibleGrounds(position, tmp) == 0) {
+					spreadGroundRec(tilemap, oldType, tmp, position, fixCliffs);
 				}
 			}
 

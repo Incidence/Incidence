@@ -18,7 +18,6 @@ MainMenuState::~MainMenuState( void )
 
 void MainMenuState::init( void )
 {
-    Widget * w;
     Button * b;
     GameEvent ge;
 

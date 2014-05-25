@@ -370,7 +370,7 @@ void Game::handleEvent( sf::Event & e )
             }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
-			burnRessources(m_tilemap);
+			m_tilemap->freePlace(sf::Vector2i(rand()%150, rand()%150));
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
 			m_weather->setWeatherToday(SUNNY);
