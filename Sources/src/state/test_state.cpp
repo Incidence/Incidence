@@ -29,11 +29,8 @@ TestState::TestState( sf::RenderWindow * window, Game * game  ) : m_game(game), 
     }
 	m_window = window;
 	sf::Vector2u windowSize = m_window->getSize();
-<<<<<<< HEAD
+	
 	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2 - 30), sf::Vector2f(windowSize.x,windowSize.y));
-=======
-	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2-30), sf::Vector2f(windowSize.x,windowSize.y));
->>>>>>> 6a0252126dae611a3caa309a950c0600afce7513
 
 	init();
 }
