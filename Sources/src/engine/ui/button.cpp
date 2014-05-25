@@ -76,6 +76,11 @@ void Button::setBorderOver( sf::Color c )
     this->border_over = c;
 }
 
+void Button::setTextOver( sf::Color c )
+{
+    this->cText_over = c;
+}
+
 void Button::setEvent( GameEvent e )
 {
     this->event = e;
@@ -99,10 +104,12 @@ void Button::select( bool b )
         if(this->selected)
         {
             this->shape.setOutlineColor( this->border_over );
+            this->text->setColor(cText_over);
         }
         else
         {
             this->shape.setOutlineColor( this->border );
+            this->text->setColor(cText);
         }
     }
 }

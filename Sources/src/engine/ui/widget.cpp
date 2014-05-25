@@ -276,6 +276,7 @@ void Widget::setText( std::string t, const sf::Color c )
         this->text->setCharacterSize( 18 );
     }
     this->text->setColor( c );
+    cText = c;
     this->text->setString( t );
     this->update();
 }

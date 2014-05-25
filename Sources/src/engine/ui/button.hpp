@@ -20,6 +20,7 @@ public :
     // Setters :
 
     void setBorderOver( sf::Color c );
+    void setTextOver( sf::Color c );
     void setEvent( GameEvent e );
 
     // Getter :
@@ -41,6 +42,7 @@ private :
     // Attributes :
 
     sf::Color border_over;
+    sf::Color cText_over;
     bool selected;
 
     GameEvent event;

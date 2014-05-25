@@ -68,6 +68,7 @@ protected :
 
     sf::Color background;
     sf::Color border;
+    sf::Color cText;
     int border_size;
     //WidgetContent * content; //! sf::Font, Animation, sf::Sprite, ...
     sf::RectangleShape shape;
