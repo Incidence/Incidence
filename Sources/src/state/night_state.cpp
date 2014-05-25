@@ -363,7 +363,7 @@ void NightState::validation( void )
     for(int i = 0; i < nb; i++) {
 
         Entity * et = NULL;
-        if(i < ee.size()) {
+        if(i < (int)ee.size()) {
             et = ee[i];
         }
 
