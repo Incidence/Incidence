@@ -198,9 +198,23 @@ int TileMap::getGroundCost(int type, sf::Vector2i position) {
 
 }
 
-int TileMap::getElementCost(int type) const {
+int TileMap::getElementCost(int type, sf::Vector2i position) {
 
-	return m_tileset.getElementCost(type);
+	Ground* l_ground = getGround(position);
+	Element* l_element = getElement(position);
+	
+	if(l_ground == NULL || (l_element != NULL && l_element->getType() == type)) {
+		return 0;
+	}
+	else {
+		l_element = m_tileset.getElement(type, l_ground->getType());
+		if(l_element == NULL) {
+			return 0;
+		}
+		else {
+			return m_tileset.getElementCost(type);
+		}
+	}
 
 }
 

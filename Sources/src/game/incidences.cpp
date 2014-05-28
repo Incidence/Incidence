@@ -607,7 +607,7 @@ int spawnEntities(EntityType type, std::vector< Entity * > list) {
 	int result = 0;
 
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
-		if(list[i]->getType() == type && list[i]->getHealth() != DEAD) {
+		if(list[i]->getType() == type && (list[i]->getHealth() == GOOD || list[i]->getHealth() == NORMAL)) {
 
 			result++;
 
@@ -628,11 +628,11 @@ int killEntities(EntityType type, std::vector< Entity * > list) {
 	for(unsigned int i(0) ; i < list.size() ; ++i) {
 		if(list[i]->getType() == type) {
 			int sick = list[i]->isSick()?20:0;
-			if(list[i]->getHealth() == WEAK && rand()%100 < 10 + sick) { // 10% de risque de mourir
+			if(list[i]->getHealth() == WEAK && rand()%100 < 10 + sick) { // 10% à 30% de risque de mourir
 				list[i]->setHealth(DEAD);
 				result++;
 			}
-			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 < 30 + sick) { // 30% de risque de mourir
+			else if(list[i]->getHealth() == VERY_WEAK && rand()%100 < 30 + sick) { // 30% à 50% de risque de mourir
 				list[i]->setHealth(DEAD);
 				result++;
 			}

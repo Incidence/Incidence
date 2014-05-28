@@ -465,7 +465,7 @@ void Game::clearEntity( void )
 
 void Game::actionElement( int type,sf::Vector2i position )
 {
-    int cost(this->m_tilemap->getElementCost( type ));
+    int cost(this->m_tilemap->getElementCost( type,position ));
     if (this->m_incidencePoint >= cost)
     {
         this->m_tilemap->addElement( type,position );
