@@ -25,6 +25,7 @@ Lunar<EnemyCitizen>::RegType EnemyCitizen::methods[] = {
     method(EnemyCitizen, getDistanceToHome),
     method(EnemyCitizen, getDistance),
     method(EnemyCitizen, getAngleToHome),
+    method(EnemyCitizen, getRandom),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

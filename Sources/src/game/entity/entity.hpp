@@ -45,6 +45,7 @@ public :
     int getDistanceToHome( lua_State * L ); // int
     int getDistance( lua_State * L ); // int
     int getAngleToHome( lua_State * L ); // : float
+    int getRandom( lua_State * L ); // : int
     // *****
 
     void goHome( void );
@@ -83,6 +84,10 @@ public :
     float weaknessCoeff(Health h);//mise ici car erreur avec multiple definition si mise dans entity_type.hpp
     void initStateiconList();
     void setStateicon(StateType s);
+    void setShowIconTime(float t);
+    float getShowIconTime();
+    bool getDisplayIconState();
+    void setDisplayIconState(bool b);
 
     const char m_job;
 
@@ -120,6 +125,9 @@ protected :
 
     sf::Sprite m_state;
     std::map<StateType,sf::Texture> m_stateiconList;
+
+    float m_showIconTime;
+    bool m_displayIconState;
 
 public :
 

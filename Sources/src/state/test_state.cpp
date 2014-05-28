@@ -22,14 +22,18 @@
 
 #include <iostream>
 
-TestState::TestState( sf::RenderWindow * window, Game * game  ) : m_game(game), m_dayDuration(30), m_dayBeginTime(0), m_night(true), m_ui(this), m_pause(false)
+TestState::TestState( sf::RenderWindow * window, Game * game  ) : m_game(game), m_dayDuration(60), m_dayBeginTime(0), m_night(true), m_ui(this), m_pause(false)
 {
     if(m_game == NULL) {
         m_game = new Game();
     }
+    m_game->newGame(50, 50);
+        m_night = true;
+
 	m_window = window;
 	sf::Vector2u windowSize = m_window->getSize();
-	m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2-30), sf::Vector2f(windowSize.x,windowSize.y));
+    m_view = sf::View(sf::Vector2f(m_game->m_home.getPosition().x * 32 , m_game->m_home.getPosition().y * 32- 30), sf::Vector2f(windowSize.x,windowSize.y));
+	//m_view = sf::View(sf::Vector2f(windowSize.x/2,windowSize.y/2-30), sf::Vector2f(windowSize.x,windowSize.y));
 
 	init();
 }
@@ -43,221 +47,259 @@ TestState::~TestState( void )
 
 void TestState::init( void )
 {
-    Container * c;
+    Container * c, * cs;
     Button * b;
     Widget * w;
+    GameEvent ge;
 
     c = new Container;
-    c->setBackground(sf::Color(150, 150, 150));
-    c->setSize(800, 20);
+    c->setSprite( DataManager::get()->getSprite( "data/img/interface/container1.png" ) );
     c->setPositionRelative(TOP);
     c->setPositionRelative(LEFT);
 
+    /// ---------- Day
+
     w = new Widget;
-    w->setName("PI_compteur");
-    w->setText( "PI : " + itos(m_game->m_incidencePoint), sf::Color::White );
-	w->setTextSize( 10 );
-    w->setPositionAbsolute( 50, 5 );
-
+    w->setText( "Day", sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute( 5, 0 );
     c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(50, 22);
+    cs->setPositionAbsolute(55, 4);
+
+    w = new Widget;
+    w->setName("days_count");
+    w->setText( itos(m_game->getDaysCount()+1), sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute(55,0);
+    cs->addWidget(w);
+    c->addWidget(cs);
+
+    /// ---------- Pop
+
+    w = new Widget;
+    w->setText( "Pop", sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute( 129, 0 );
+    c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(50, 22);
+    cs->setPositionAbsolute(182, 4);
+
+    w = new Widget;
+    w->setName("pop_count");
+    w->setText( itos(m_game->getPopulation().size()), sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute(182,0);
+    cs->addWidget(w);
+    c->addWidget(cs);
+
+    /// ---------- IP
+
+    w = new Widget;
+    w->setText( "IP", sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute( 258, 0 );
+    c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(202,22);
+    cs->setPositionAbsolute(287, 4);
+    c->addWidget(cs);
+
+    //std::cout << m_game->getPI() << std::endl;
+    //std::cout << (m_game->getPI()*200/Game::incidenceMax) << std::endl;
+
+    m_ipDisplay.setTexture(DataManager::get()->getTexture("data/img/interface/ip.png"));
+    m_ipDisplay.setSize(sf::Vector2f(m_game->getPI()*200/Game::incidenceMax,20));
+    m_ipDisplay.setPosition(288,5);
+
+    /// ---------- Food
+
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/food.png" ) );
+    w->setPositionAbsolute( 510, 4 );
+    c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(50, 22);
+    cs->setPositionAbsolute(532, 4);
+
+    w = new Widget;
+    w->setName("food_count");
+    w->setText( itos(m_game->getQtyFood()), sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute(532,0);
+    cs->addWidget(w);
+    c->addWidget(cs);
+
+    /// ---------- Wood
+
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/wood.png" ) );
+    w->setPositionAbsolute( 604, 4 );
+    c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(50, 22);
+    cs->setPositionAbsolute(626, 4);
+
+    w = new Widget;
+    w->setName("wood_count");
+    w->setText( itos(m_game->getQtyWood()), sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute(626,0);
+    cs->addWidget(w);
+    c->addWidget(cs);
+
+    /// ---------- Stone
+
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/stone.png" ) );
+    w->setPositionAbsolute( 698, 4 );
+    c->addWidget(w);
+
+    cs = new Container;
+    cs->setBackground(sf::Color(32,32,32));
+    cs->setSize(50, 22);
+    cs->setPositionAbsolute(720, 4);
+
+    w = new Widget;
+    w->setName("stone_count");
+    w->setText( itos(m_game->getQtyStone()), sf::Color::White );
+	w->setTextSize( 20 );
+    w->setPositionAbsolute(720,0);
+    cs->addWidget(w);
+    c->addWidget(cs);
+
     m_ui.addWidget(c);
 
+    /// ---------- Actions
 
     c = new Container;
-    c->setName("cont_selection");
-    c->setBackground(sf::Color(150, 150, 150));
-    c->setSize(30, 600);
-    c->setPositionAbsolute(770, 0);
-    m_ui.addWidget(c);
+    c->setSprite( DataManager::get()->getSprite( "data/img/interface/container2.png" ) );
+    c->setPositionAbsolute(770,0);
 
-    GameEvent ge;
-
-    b = new Button;
-    b->setText("Sols");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
-    b->setBorderSize(1);
-    ge.type = EV_SELECT_GROUND;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 30 );
-    b->setEvent( ge );
-    c->addWidget(b);
-
-    b = new Button;
-    b->setText("Elements");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
-    b->setBorderSize(1);
-    ge.type = EV_SELECT_ELEMENT;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 60 );
-    b->setEvent( ge );
-    c->addWidget(b);
-
-    /// ----
-
-    c = new Container;
-    c->setName("cont_sols");
-    c->setBackground(sf::Color(150, 150, 150));
-    c->setSize(30, 600);
-    c->setPositionAbsolute(770, 0);
-    c->setShow(false);
-    m_ui.addWidget(c);
-
-    b = new Button;
-    b->setText("falaise");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
-    b->setBorderSize(1);
     ge.type = EV_SELECT_FALAISE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 30 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("sable");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/cliff.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 121);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_SABLE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 60 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("terre");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/sand.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 153);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_TERRE_SECHE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 90 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("herbe");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/dirt.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 185);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_TERRE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 120 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("herbe mouillé");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/dry_grass.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 217);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_TERRE_INNONDE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 150 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("eau");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/wet_grass.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 249);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_EAU;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 180 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("retour");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/water.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
-    ge.type = EV_CANCEL;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 250 );
+    b->setPositionAbsolute(775, 281);
     b->setEvent( ge );
-	b->setShow(false);
     c->addWidget(b);
 
-
-    /// ----
-
-    c = new Container;
-    c->setName("cont_elem");
-    c->setBackground(sf::Color(150, 150, 150));
-    c->setSize(30, 600);
-    c->setPositionAbsolute(770, 0);
-    c->setShow(false);
-    m_ui.addWidget(c);
-
-    b = new Button;
-    b->setText("arbre");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
-    b->setBorderSize(1);
-    ge.type = EV_SELECT_ARBRE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 30 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
-
-    b = new Button;
-    b->setText("pierre");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
-    b->setBorderSize(1);
     ge.type = EV_SELECT_PIERRE;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 60 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("fruit");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/stone_spot.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 393);
+    b->setEvent( ge );
+    c->addWidget(b);
+
+    ge.type = EV_SELECT_ARBRE;
+
+    b = new Button;
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/tree.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
+    b->setBorderSize(1);
+    b->setPositionAbsolute(775, 425);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_FRUITIER;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 90 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("buisson");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/fruit_tree.png" ) );
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
+    b->setPositionAbsolute(775, 457);
+    b->setEvent( ge );
+    c->addWidget(b);
+
     ge.type = EV_SELECT_BUISSON;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 120 );
-    b->setEvent( ge );
-	b->setShow(false);
-    c->addWidget(b);
 
     b = new Button;
-    b->setText("retour");
-	b->setTextSize( 10 );
-    b->setBorderOver(sf::Color::Red);
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/bush.png" ) );
+    b->setTextOver(sf::Color(100, 20, 20));
+    b->setBorder(sf::Color(32,32,32));
+    b->setBorderOver(sf::Color(200,50,50));
     b->setBorderSize(1);
-    ge.type = EV_CANCEL;
-    b->setPositionAbsolute(770, 0);
-    b->move( 5, 250 );
+    b->setPositionAbsolute(775, 489);
     b->setEvent( ge );
-	b->setShow(false);
     c->addWidget(b);
+
+    m_ui.addWidget(c);
 }
 
 void TestState::draw( sf::RenderTarget & window )
@@ -265,7 +307,10 @@ void TestState::draw( sf::RenderTarget & window )
 	window.setView(m_view);
     m_game->draw(window);
     window.setView(window.getDefaultView());
+    Animation* Rain = m_game->getWeather()->getRainAnimation();
+    Rain->draw(window);
     m_ui.draw(window);
+    window.draw(m_ipDisplay);
 }
 
 void TestState::update( void )
@@ -274,6 +319,7 @@ void TestState::update( void )
         m_dayBeginTime = Time::get()->elapsed().asSeconds();
         m_game->saveGame("saves/auto_save.autosave");
         m_night = false;
+        m_view.setCenter(m_game->m_home.getPosition().x * 32, m_game->m_home.getPosition().y * 32 - 30);
     }
 
     if(m_pause) {
@@ -283,62 +329,62 @@ void TestState::update( void )
 
 	sf::Vector2u dimensions = (m_game->getTilemap())->getDimensions();
 	sf::Vector2u tilesize = ((m_game->getTilemap())->getTileSet())->getTileSize();
-	Animation* Rain = m_game->getWeather()->getRainAnimation();
+	//Animation* Rain = m_game->getWeather()->getRainAnimation();
 
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
     {
         int temp(m_view.getCenter().x - m_view.getSize().x/2);
-        if (temp >= tilesize.x)
+        if (temp >= (int)tilesize.x)
         {
             m_view.move(-((int)tilesize.x),0);
-            Rain->m_position.x-=tilesize.x;
+            //Rain->m_position.x-=tilesize.x;
         }
         else if (temp > 0)
         {
             m_view.move(-temp,0);
-            Rain->m_position.x-=temp;
+            //Rain->m_position.x-=temp;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
     {
         int temp((dimensions.x*tilesize.x+30-m_view.getSize().x/2) - m_view.getCenter().x);
-        if (temp >= tilesize.x)
+        if (temp >= (int)tilesize.x)
         {
             m_view.move(tilesize.x,0);
-            Rain->m_position.x+=tilesize.x;
+            //Rain->m_position.x+=tilesize.x;
         }
         else if (temp > 0)
         {
             m_view.move(temp,0);
-            Rain->m_position.x+=temp;
+            //Rain->m_position.x+=temp;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
     {
         int temp(m_view.getCenter().y +30 - m_view.getSize().y/2);
-        if (temp >= tilesize.y)
+        if (temp >= (int)tilesize.y)
         {
             m_view.move(0,-((int)tilesize.y));
-            Rain->m_position.y-=tilesize.y;
+            //Rain->m_position.y-=tilesize.y;
         }
         else if (temp > 0)
         {
             m_view.move(0,-temp);
-            Rain->m_position.y-=temp;
+            //Rain->m_position.y-=temp;
         }
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
     {
         int temp((dimensions.y*tilesize.y-m_view.getSize().y/2) - m_view.getCenter().y);
-        if (temp >= tilesize.y)
+        if (temp >= (int)tilesize.y)
         {
             m_view.move(0,tilesize.y);
-            Rain->m_position.y+=tilesize.y;
+            //Rain->m_position.y+=tilesize.y;
         }
         else if (temp > 0)
         {
             m_view.move(0,temp);
-            Rain->m_position.y+=temp;
+            //Rain->m_position.y+=temp;
         }
     }
 
@@ -347,8 +393,17 @@ void TestState::update( void )
     updateDay();
     m_game->update();
 
-    m_ui.getWidget("PI_compteur")->setText("PI : " + itos(m_game->m_incidencePoint), sf::Color::White);
-	m_ui.getWidget("PI_compteur")->setTextSize( 10 );
+    m_ui.getWidget("days_count")->setText(itos(m_game->getDaysCount()+1), sf::Color::White);
+
+    m_ui.getWidget("pop_count")->setText(itos(m_game->getPopulation().size()), sf::Color::White);
+
+	m_ipDisplay.setSize(sf::Vector2f(m_game->getPI()*200/Game::incidenceMax,20));
+
+	m_ui.getWidget("food_count")->setText(itos(m_game->getQtyFood()), sf::Color::White);
+
+	m_ui.getWidget("wood_count")->setText(itos(m_game->getQtyWood()), sf::Color::White);
+
+	m_ui.getWidget("stone_count")->setText(itos(m_game->getQtyStone()), sf::Color::White);
 
 	std::vector<Entity*> e = m_game->getEntities();
 	bool j = true;
@@ -361,6 +416,8 @@ void TestState::update( void )
     if (j)
     {
         StateManager::get()->addState(new EndState(m_game));
+        DataManager::get()->getMusic("data/menu.ogg")->play();
+        DataManager::get()->getMusic("data/partie.ogg")->stop();
     }
 
 }
@@ -371,43 +428,6 @@ void TestState::handleEvent( sf::Event & e )
     {
         switch(e.key.code)
         {
-            case sf::Keyboard::A :
-            {
-                m_game->addEntity(new Lumberjack(ALLY_CITIZEN, m_game));
-            } break;
-
-            case sf::Keyboard::Z :
-            {
-                m_game->addEntity(new Gatherer(ALLY_CITIZEN, m_game));
-            } break;
-
-            case sf::Keyboard::E :
-            {
-                m_game->addEntity(new EnemyCitizen(ENEMY_CITIZEN, m_game));
-            } break;
-
-            case sf::Keyboard::R :
-            {
-                m_game->addEntity(new Hunter(HUNTER, m_game));
-            } break;
-
-            case sf::Keyboard::T :
-            {
-                m_game->addEntity(new PeacefulAnimal(PEACEFUL_ANIMAL, m_game));
-            } break;
-
-            case sf::Keyboard::Y :
-            {
-                m_game->addEntity(new WildAnimal(WILD_ANIMAL, m_game));
-            } break;
-
-            case sf::Keyboard::U :
-            {
-                m_game->addEntity(new Pickman(ALLY_CITIZEN, m_game));
-            } break;
-
-
-
             case sf::Keyboard::S :
             {
                 if(e.key.control) {
@@ -423,14 +443,10 @@ void TestState::handleEvent( sf::Event & e )
                 }
             } break;
 
-            case sf::Keyboard::K :
-            {
-                StateManager::get()->addState(new NightState(m_game));
-            } break;
-
-
             case sf::Keyboard::Escape :
             {
+                DataManager::get()->getMusic("data/menu.ogg")->play();
+                DataManager::get()->getMusic("data/partie.ogg")->stop();
                 m_pause = true;
                 m_timePause = Time::get()->elapsed().asSeconds();
                 StateManager::get()->addState(new GameMenuState(m_game));
@@ -446,9 +462,9 @@ void TestState::handleEvent( sf::Event & e )
     if(! m_ui.handleEvent(e)) {
         if ( e.type == sf::Event::MouseButtonPressed && e.mouseButton.button == sf::Mouse::Left && m_element != -1 ) {
             if(m_element == 0) {
-                m_game->actionGround(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x + m_view.getCenter().x - m_view.getSize().x/2, e.mouseButton.y + m_view.getCenter().y - m_view.getSize().y/2)));
+                m_game->actionGround(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x + m_view.getCenter().x - m_view.getSize().x/2, e.mouseButton.y + m_view.getCenter().y  - m_view.getSize().y/2)));
             } else if(m_element == 1) {
-                m_game->actionElement(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x, e.mouseButton.y)));
+                m_game->actionElement(m_select, m_game->m_tilemap->getXY(sf::Vector2f(e.mouseButton.x + m_view.getCenter().x - m_view.getSize().x/2, e.mouseButton.y + m_view.getCenter().y - m_view.getSize().y/2)));
             }
         }
     }
@@ -464,81 +480,65 @@ void TestState::treatEvent( GameEvent e )
 {
     switch(e.type) {
 
-    case EV_SELECT_GROUND :
-        m_ui.getWidget("cont_sols")->setShow(true);
-        m_ui.getWidget("cont_selection")->setShow(false);
-        m_ui.getWidget("cont_elem")->setShow(false);
-        std::cout << "selec sol" << std::endl;
-        m_element = 0;
-        break;
-
-    case EV_SELECT_ELEMENT :
-        m_ui.getWidget("cont_sols")->setShow(false);
-        m_ui.getWidget("cont_selection")->setShow(false);
-        m_ui.getWidget("cont_elem")->setShow(true);
-        std::cout << "selec elem" << std::endl;
-        m_element = 1;
-        break;
-
-    case EV_CANCEL :
-        m_ui.getWidget("cont_sols")->setShow(false);
-        m_ui.getWidget("cont_selection")->setShow(true);
-        m_ui.getWidget("cont_elem")->setShow(false);
-        std::cout << "cancel" << std::endl;
-        m_element = -1;
-        break;
-
-/// //
-
     case EV_SELECT_FALAISE :
         m_select = 5;
-        std::cout << "fal sol" << std::endl;
+        m_element = 0;
+        //std::cout << "fal sol" << std::endl;
         break;
 
     case EV_SELECT_SABLE :
         m_select = 4;
-        std::cout << "sable sol" << std::endl;
+        m_element = 0;
+        //std::cout << "sable sol" << std::endl;
         break;
 
     case EV_SELECT_TERRE_SECHE :
         m_select = 3;
-        std::cout << "sec sol" << std::endl;
+        m_element = 0;
+        //std::cout << "sec sol" << std::endl;
         break;
 
     case EV_SELECT_TERRE :
         m_select = 2;
-        std::cout << "terre sol" << std::endl;
+        m_element = 0;
+        //std::cout << "terre sol" << std::endl;
         break;
 
     case EV_SELECT_TERRE_INNONDE :
         m_select = 1;
-        std::cout << "inno sol" << std::endl;
+        m_element = 0;
+        //std::cout << "inno sol" << std::endl;
         break;
 
     case EV_SELECT_EAU :
         m_select = 0;
-        std::cout << "eau sol" << std::endl;
+        m_element = 0;
+        //std::cout << "eau sol" << std::endl;
         break;
 
 
     case EV_SELECT_ARBRE :
         m_select = 0;
-        std::cout << "arbre sol" << std::endl;
+        m_element = 1;
+        //std::cout << "arbre sol" << std::endl;
         break;
 
     case EV_SELECT_FRUITIER :
         m_select = 1;
-        std::cout << "fruit sol" << std::endl;
+        m_element = 1;
+        //std::cout << "fruit sol" << std::endl;
         break;
 
     case EV_SELECT_BUISSON :
         m_select = 2;
-        std::cout << "buisson sol" << std::endl;
+        m_element = 1;
+        //std::cout << "buisson sol" << std::endl;
         break;
 
     case EV_SELECT_PIERRE :
         m_select = 3;
-        std::cout << "roch sol" << std::endl;
+        m_element = 1;
+        //std::cout << "roch sol" << std::endl;
         break;
 
     default :

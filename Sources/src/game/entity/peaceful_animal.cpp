@@ -22,6 +22,7 @@ Lunar<PeacefulAnimal>::RegType PeacefulAnimal::methods[] = {
     method(PeacefulAnimal, getDistanceToHome),
     method(PeacefulAnimal, getDistance),
     method(PeacefulAnimal, getAngleToHome),
+    method(PeacefulAnimal, getRandom),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

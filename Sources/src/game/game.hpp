@@ -14,6 +14,8 @@
 
 #define TIME_TO_CIRCLE 60.0f
 
+#define COLOR_OVER sf::Color(200, 50, 50)
+
 class Entity;
 
 class Game
@@ -61,6 +63,8 @@ public :
 
     std::vector< Entity * > getPopulation();
 
+    static const unsigned int incidenceMax = 200;
+
 private :
     TileMap * m_tilemap;
     std::vector< Building > m_buildings;
@@ -74,8 +78,6 @@ private :
     int qtyStone;
 
     unsigned int m_daysCount;
-
-    sf::Music m_Ambiancemusic;
 
     friend class Entity;
     friend class NightState;

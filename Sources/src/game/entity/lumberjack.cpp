@@ -22,6 +22,7 @@ Lunar<Lumberjack>::RegType Lumberjack::methods[] = {
     method(Lumberjack, getDistanceToHome),
     method(Lumberjack, getDistance),
     method(Lumberjack, getAngleToHome),
+    method(Lumberjack, getRandom),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

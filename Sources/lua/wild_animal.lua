@@ -23,13 +23,10 @@ function WildAnimal:action()
 		self:setTarget(entities:getID(target))
 		return "attack"
 	else
-		math.randomseed(os.time())
-		math.random()
-		math.random()
-		local rand = math.floor(math.random()*10000)%5
-		if rand == 0 then
+		local rand = self:getRandom()%3
+		if rand == 1 then
 			self:setAngle((self:getAngle()-(math.pi/4))%2*math.pi)
-		elseif rand == 4 then
+		elseif rand == 2 then
 			self:setAngle((self:getAngle()+(math.pi/4))%2*math.pi)
 		end
 		return "move"

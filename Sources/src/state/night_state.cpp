@@ -29,164 +29,83 @@ NightState::~NightState( void )
 
 void NightState::init( void )
 {
-    m_prctLumberjack = 5;
-    m_prctPickman = 5;
-    m_prctHunter = 5;
-    m_prctGatherer = 5;
+    m_prctLumberjack = 25;
+    m_prctPickman = 25;
+    m_prctHunter = 25;
+    m_prctGatherer = 25;
 
     Widget * w;
     Button * b;
 
     w = new Widget();
-    w->setSprite( DataManager::get()->getSprite( "data/img/nightBackground.png" ) );
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/nightBackground.png" ) );
     w->setPositionAbsolute( 0, 0 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Lumberjack % : ", sf::Color::White );
-    w->setPositionAbsolute( 100, 40 );
+    w->setText( "Lumberjack", sf::Color::White );
+    w->setPositionAbsolute( 110, 10 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Hunter % : ", sf::Color::White );
-    w->setPositionAbsolute( 100, 80 );
+    w->setText( "Hunter", sf::Color::White );
+    w->setPositionAbsolute( 10, 110 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Pickman % : ", sf::Color::White );
-    w->setPositionAbsolute( 100, 120 );
+    w->setText( "Pickman", sf::Color::White );
+    w->setPositionAbsolute( 240, 110 );
     m_ui.addWidget(w);
 
     w = new Widget();
-    w->setText( "Gatherer % : ", sf::Color::White );
-    w->setPositionAbsolute( 100, 160 );
+    w->setText( "Gatherer", sf::Color::White );
+    w->setPositionAbsolute( 110, 290 );
     m_ui.addWidget(w);
 
     // ------
-
-    w = new Widget();
-    w->setName("textLumberjack");
-    w->setText( itos(prct(m_prctLumberjack)), sf::Color::White );
-    w->setPositionAbsolute( 300, 40 );
-    m_ui.addWidget(w);
-
-    w = new Widget();
-    w->setName("textHunter");
-    w->setText( itos(prct(m_prctHunter)), sf::Color::White );
-    w->setPositionAbsolute( 300, 80 );
-    m_ui.addWidget(w);
-
-    w = new Widget();
-    w->setName("textPickman");
-    w->setText( itos(prct(m_prctPickman)), sf::Color::White );
-    w->setPositionAbsolute( 300, 120 );
-    m_ui.addWidget(w);
-
-    w = new Widget();
-    w->setName("textGatherer");
-    w->setText( itos(prct(m_prctGatherer)), sf::Color::White );
-    w->setPositionAbsolute( 300, 160 );
-    m_ui.addWidget(w);
-
-    // -----
 
     GameEvent ge;
     ge.type = EV_MORE_LUMBERJACK;
 
     b = new Button();
-    b->setText( "+", sf::Color::Green );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/plus.png" ) );
     b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 250, 40 );
-    b->setSize(32, 32);
+    b->setPositionAbsolute( 150, 40 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     ge.type = EV_MORE_HUNTER;
 
     b = new Button();
-    b->setText( "+", sf::Color::Green );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/plus.png" ) );
     b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 250, 80 );
-    b->setSize(32, 32);
+    b->setPositionAbsolute( 40, 150 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     ge.type = EV_MORE_PICKMAN;
 
     b = new Button();
-    b->setText( "+", sf::Color::Green );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/plus.png" ) );
     b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 250, 120 );
-    b->setSize(32, 32);
+    b->setPositionAbsolute( 260, 150 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     ge.type = EV_MORE_GATHERER;
 
     b = new Button();
-    b->setText( "+", sf::Color::Green );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/plus.png" ) );
     b->setBorder( sf::Color::White );
     b->setBorderOver( sf::Color::Yellow );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 250, 160 );
-    b->setSize(32, 32);
-    b->setEvent( ge );
-    m_ui.addWidget(b);
-
-    // -----
-
-    ge.type = EV_LESS_LUMBERJACK;
-
-    b = new Button();
-    b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::White );
-    b->setBorderOver( sf::Color::Yellow );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 340, 40 );
-    b->setSize(32, 32);
-    b->setEvent( ge );
-    m_ui.addWidget(b);
-
-    ge.type = EV_LESS_HUNTER;
-
-    b = new Button();
-    b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::White );
-    b->setBorderOver( sf::Color::Yellow );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 340, 80 );
-    b->setSize(32, 32);
-    b->setEvent( ge );
-    m_ui.addWidget(b);
-
-    ge.type = EV_LESS_PICKMAN;
-
-    b = new Button();
-    b->setName("d");
-    b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::White );
-    b->setBorderOver( sf::Color::Yellow );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 340, 120 );
-    b->setSize( 32, 32 );
-    b->setEvent( ge );
-    m_ui.addWidget(b);
-
-    ge.type = EV_LESS_GATHERER;
-
-    b = new Button();
-    b->setText( "-", sf::Color::Red );
-    b->setBorder( sf::Color::White );
-    b->setBorderOver( sf::Color::Yellow );
-    b->setBorderSize(1);
-    b->setPositionAbsolute(340, 160 );
-    b->setSize( 32, 32 );
+    b->setPositionAbsolute( 150, 260 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
@@ -195,36 +114,36 @@ void NightState::init( void )
     ge.type = EV_SELECT_RAIN;
 
     b = new Button();
-    b->setSprite( DataManager::get()->getSprite( "data/img/rainButton.png" ) );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/rainButton.png" ) );
+    b->setBorderOver( sf::Color::White );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 200, 300 );
+    b->setPositionAbsolute( 50, 420 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     w = new Widget();
     w->setName("rainSelected");
     w->setShow(false);
-    w->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
-    w->setPositionAbsolute( 240, 300 );
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/validButton.png" ) );
+    w->setPositionAbsolute( 90, 420 );
     m_ui.addWidget(w);
 
 
     ge.type = EV_SELECT_SUN;
 
     b = new Button();
-    b->setSprite( DataManager::get()->getSprite( "data/img/sunButton.png" ) );
-    b->setBorderOver( sf::Color::Yellow );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/sunButton.png" ) );
+    b->setBorderOver( sf::Color::White );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 300, 300 );
+    b->setPositionAbsolute( 200, 420 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     w = new Widget();
     w->setName("sunSelected");
     w->setShow(true);
-    w->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
-    w->setPositionAbsolute( 340, 300 );
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/validButton.png" ) );
+    w->setPositionAbsolute( 240, 420 );
     m_ui.addWidget(w);
 
     // ----------
@@ -232,30 +151,67 @@ void NightState::init( void )
     ge.type = EV_VALID;
 
     b = new Button();
-    b->setSprite( DataManager::get()->getSprite( "data/img/validButton.png" ) );
-    b->setBorderOver( sf::Color::Green );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/validButton.png" ) );
+    b->setBorderOver( sf::Color::White );
     b->setBorderSize(2);
-    b->setPositionAbsolute( 400, 400 );
+    b->setPositionAbsolute( 250, 520 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
-    //ge.type = EV_RESET; -> réinitialise les paramètres ??
+    ge.type = EV_RESET;
 
     b = new Button();
-    b->setSprite( DataManager::get()->getSprite( "data/img/resetButton.png" ) );
-    b->setBorderOver( sf::Color::Red );
+    b->setSprite( DataManager::get()->getSprite( "data/img/interface/resetButton.png" ) );
+    b->setBorderOver( sf::Color::White );
     b->setBorderSize(2);
-    b->setPositionAbsolute( 150, 400 );
+    b->setPositionAbsolute( 50, 520 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
+    m_probabilityShape.setPointCount(4);
+    m_probabilityShape.setFillColor(sf::Color::White);
+    m_probabilityShape.setPoint(0,sf::Vector2f(135,160));
+    m_probabilityShape.setPoint(1,sf::Vector2f(160,135));
+    m_probabilityShape.setPoint(2,sf::Vector2f(185,160));
+    m_probabilityShape.setPoint(3,sf::Vector2f(160,185));
+
+
+    w = new Widget();
+    w->setText( "Night "+itos(m_game->getDaysCount()+1), sf::Color::White );
+    w->setTextSize(50);
+    w->setPositionAbsolute( 450, 20 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "Population : "+itos(m_game->getPopulation().size()), sf::Color::White );
+    w->setTextSize(20);
+    w->setPositionAbsolute( 460, 100 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "Food : "+itos(m_game->getQtyFood()), sf::Color::White );
+    w->setTextSize(20);
+    w->setPositionAbsolute( 460, 150 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "Wood : "+itos(m_game->getQtyWood()), sf::Color::White );
+    w->setTextSize(20);
+    w->setPositionAbsolute( 460, 200 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "Stone : "+itos(m_game->getQtyStone()), sf::Color::White );
+    w->setTextSize(20);
+    w->setPositionAbsolute( 460, 250 );
+    m_ui.addWidget(w);
 }
 
 void NightState::draw( sf::RenderTarget & window )
 {
-
     window.setView(window.getDefaultView());
     m_ui.draw(window);
+    window.draw(m_probabilityShape);
 }
 
 void NightState::update( void )
@@ -272,36 +228,92 @@ void NightState::treatEvent( GameEvent e )
 {
     switch(e.type) {
 
-    case EV_LESS_GATHERER :
-        m_prctGatherer--;
-        break;
-
     case EV_MORE_GATHERER :
-        m_prctGatherer++;
-        break;
-
-    case EV_LESS_HUNTER :
-        m_prctHunter--;
+        {
+            unsigned int temp(0);
+            if (m_prctHunter > 5)
+            {
+                m_prctHunter--;
+                temp++;
+            }
+            if (m_prctLumberjack > 5)
+            {
+                m_prctLumberjack--;
+                temp++;
+            }
+            if (m_prctPickman > 5)
+            {
+                m_prctPickman--;
+                temp++;
+            }
+            m_prctGatherer += temp;
+        }
         break;
 
     case EV_MORE_HUNTER :
-        m_prctHunter++;
-        break;
-
-    case EV_LESS_PICKMAN :
-        m_prctPickman--;
+        {
+            unsigned int temp(0);
+            if (m_prctGatherer > 5)
+            {
+                m_prctGatherer--;
+                temp++;
+            }
+            if (m_prctLumberjack > 5)
+            {
+                m_prctLumberjack--;
+                temp++;
+            }
+            if (m_prctPickman > 5)
+            {
+                m_prctPickman--;
+                temp++;
+            }
+            m_prctHunter += temp;
+        }
         break;
 
     case EV_MORE_PICKMAN :
-        m_prctPickman++;
-        break;
-
-    case EV_LESS_LUMBERJACK :
-        m_prctLumberjack--;
+        {
+            unsigned int temp(0);
+            if (m_prctHunter > 5)
+            {
+                m_prctHunter--;
+                temp++;
+            }
+            if (m_prctLumberjack > 5)
+            {
+                m_prctLumberjack--;
+                temp++;
+            }
+            if (m_prctGatherer > 5)
+            {
+                m_prctGatherer--;
+                temp++;
+            }
+            m_prctPickman += temp;
+        }
         break;
 
     case EV_MORE_LUMBERJACK :
-        m_prctLumberjack++;
+        {
+            unsigned int temp(0);
+            if (m_prctHunter > 5)
+            {
+                m_prctHunter--;
+                temp++;
+            }
+            if (m_prctGatherer > 5)
+            {
+                m_prctGatherer--;
+                temp++;
+            }
+            if (m_prctPickman > 5)
+            {
+                m_prctPickman--;
+                temp++;
+            }
+            m_prctLumberjack += temp;
+        }
         break;
 
         /// ---
@@ -323,26 +335,26 @@ void NightState::treatEvent( GameEvent e )
         validation();
         break;
 
+    case EV_RESET :
+        {
+            m_prctGatherer = 25;
+            m_prctHunter = 25;
+            m_prctLumberjack = 25;
+            m_prctPickman = 25;
+            m_ui.getWidget("sunSelected")->setShow(true);
+            m_ui.getWidget("rainSelected")->setShow(false);
+        }
+        break;
+
     default :
         break;
 
     }
 
-    if(m_prctGatherer < 0) { m_prctGatherer = 0; }
-    if(m_prctHunter < 0) { m_prctHunter = 0; }
-    if(m_prctLumberjack < 0) { m_prctLumberjack = 0; }
-    if(m_prctPickman < 0) { m_prctPickman = 0; }
-
-    m_ui.getWidget("textGatherer")->setText( itos(prct(m_prctGatherer)), sf::Color::White  );
-    m_ui.getWidget("textLumberjack")->setText( itos(prct(m_prctLumberjack)), sf::Color::White );
-    m_ui.getWidget("textPickman")->setText( itos(prct(m_prctPickman)), sf::Color::White );
-    m_ui.getWidget("textHunter")->setText( itos(prct(m_prctHunter)), sf::Color::White );
-}
-
-
-int NightState::prct(int v)
-{
-    return (v*100) / (m_prctGatherer + m_prctHunter + m_prctLumberjack + m_prctPickman);
+    m_probabilityShape.setPoint(0,sf::Vector2f(160-m_prctHunter,160));
+    m_probabilityShape.setPoint(1,sf::Vector2f(160,160-m_prctLumberjack));
+    m_probabilityShape.setPoint(2,sf::Vector2f(160+m_prctPickman,160));
+    m_probabilityShape.setPoint(3,sf::Vector2f(160,160+m_prctGatherer));
 }
 
 
@@ -369,11 +381,11 @@ void NightState::validation( void )
 
         int r = rand() % 100;
 
-        if(r < prct(m_prctGatherer)) {
-            newAlly.push_back( new Gatherer(ALLY_CITIZEN, m_game,et));
-        } else if (r < prct(m_prctGatherer + m_prctHunter)) {
+        if(r < m_prctGatherer) {
+            newAlly.push_back( new Gatherer(ALLY_CITIZEN, m_game, et));
+        } else if (r < (m_prctGatherer + m_prctHunter)) {
             newAlly.push_back( new Hunter(HUNTER, m_game, et));
-        } else if (r < prct(m_prctGatherer + m_prctHunter + m_prctLumberjack)) {
+        } else if (r < (m_prctGatherer + m_prctHunter + m_prctLumberjack)) {
             newAlly.push_back( new Lumberjack(ALLY_CITIZEN, m_game, et));
         } else {
             newAlly.push_back( new Pickman(ALLY_CITIZEN, m_game, et));

@@ -1,6 +1,7 @@
 #ifndef _END_STATE_
 #define _END_STATE_
 
+#include "../engine/data_manager.hpp"
 #include "../engine/state.hpp"
 #include "../engine/state_manager.hpp"
 #include "../engine/ui/ui.hpp"
@@ -23,8 +24,6 @@ public :
 private :
     Game * m_game;
 	UI m_ui;
-
-	float m_i;
 };
 
 #endif // _END_STATE_

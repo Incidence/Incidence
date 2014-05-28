@@ -33,6 +33,7 @@ private :
     bool m_pause;
 
     UI m_ui;
+    sf::RectangleShape m_ipDisplay;
     int m_select;
     int m_element;
 };

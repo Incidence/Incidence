@@ -1,5 +1,4 @@
 #include "end_state.hpp"
-#include "../engine/time.hpp"
 
 EndState::EndState( Game * g ) : m_ui(this)
 {
@@ -7,7 +6,6 @@ EndState::EndState( Game * g ) : m_ui(this)
     if(m_game) {
 	    m_game = new Game();
     }
-    m_i = 0;
 
 	init();
 }
@@ -23,34 +21,63 @@ void EndState::init( void )
     Widget * w;
     GameEvent ge;
 
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/background.png" ) );
+    w->setPositionRelative(LEFT);
+    w->setPositionRelative(TOP);
+    m_ui.addWidget(w);
+
     ge.type = EV_BACK;
 
     b = new Button();
-    b->setText( "Back", sf::Color::White );
-    b->setBorder( sf::Color::Blue );
-    b->setBorderOver( sf::Color::Yellow );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 300, 100 );
+    b->setText( "Back", sf::Color::Black );
+    b->setTextOver(sf::Color(100, 20, 20));
+    b->setPositionAbsolute( 350, 125 );
     b->setSize(100, 50);
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     w = new Widget();
     w->setText( "This story ends here..." );
-    w->setTextSize( 3 );
-    w->setPositionAbsolute( 100, 300 );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 200 );
     m_ui.addWidget(w);
+/*
+    w = new Widget();
+    w->setText( "This story ends here..." );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 250 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "This story ends here..." );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 300 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "This story ends here..." );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 350 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "This story ends here..." );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 400 );
+    m_ui.addWidget(w);
+
+    w = new Widget();
+    w->setText( "This story ends here..." );
+    w->setTextSize( 20 );
+    w->setPositionAbsolute( 280, 450 );
+    m_ui.addWidget(w);
+*/
 }
 
 void EndState::draw( sf::RenderTarget & window )
 {
-    sf::Vector2u windowSize = window.getSize();
-    m_i += Time::get()->deltaTime();
-    sf::Vector2f p = rotateOnCircle(m_i / TIME_TO_CIRCLE, 11*32, sf::Vector2f(25*32, 25*32));
-	sf::View v = sf::View(sf::Vector2f(p.x, p.y), sf::Vector2f(windowSize.x,windowSize.y));
-    window.setView(v);
-	m_game->drawMap(window);
-
+    m_game->drawMap(window);
     window.setView(window.getDefaultView());
     m_ui.draw(window);
 }

@@ -34,7 +34,7 @@ void Entity::init( void )
 
     m_perception = 5;
     m_position = sf::Vector2f(200, 200);
-    m_angle = 0;
+    m_angle = (rand()%628)/100;
     m_speed = 40;
     m_bag = 0;
     m_action = IDLE;
@@ -46,6 +46,9 @@ void Entity::init( void )
     m_isSick=false;
     m_isTired=false;
     initStateiconList();
+
+    m_displayIconState = true;
+    m_showIconTime = (Time::get()->elapsed().asMilliseconds()+5000);
 
     /// TO COMPLETE
 }
@@ -60,7 +63,7 @@ int Entity::action(lua_State * L)
 
 sf::Sprite * Entity::draw( void )
 {
-    if(m_isSick) { std::cout << "malade" << std::endl; }
+    //if(m_isSick) { std::cout << "malade" << std::endl; }
 
     sf::Sprite * s = m_animation->update();
     s->setOrigin(16, 16);
@@ -293,6 +296,14 @@ int Entity::getAngleToHome( lua_State * L )
      }
      //std::cout<<"angle degre : "<<angle*180/M_PI<<std::endl;
     lua_pushnumber(L, angle);
+    return 1;
+}
+
+int Entity::getRandom( lua_State * L )
+{
+    int r = rand();
+
+    lua_pushnumber(L, r);
     return 1;
 }
 
@@ -620,15 +631,15 @@ void Entity::isAttackedBy( Entity * e )
 
         switch(m_health) {
         case GOOD :
-            m_health = NORMAL;
+            setHealth(NORMAL);
             break;
 
         case NORMAL :
-            m_health = WEAK;
+            setHealth(WEAK);
             break;
 
         case WEAK :
-            m_health = VERY_WEAK;
+            setHealth(VERY_WEAK);
             break;
 
         case VERY_WEAK :
@@ -694,9 +705,66 @@ Health Entity::getHealth() {
 
 }
 
+
 void Entity::setHealth(Health h) {
 
     m_health = h;
+    if( m_health != DEAD )
+    {
+        if(isSick())
+        {
+            if(m_health != VERY_WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_SICK]);
+            }
+            else
+            {
+                m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+            }
+        }
+        else if(isTired())
+        {
+            if(m_health != VERY_WEAK || m_health != WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_TIRED]);
+            }
+            else if(m_health == WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_WEAK]);
+            }
+            else
+            {
+               m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+            }
+        }
+        else
+        {
+            switch(m_health)
+            {
+                case GOOD:
+                    m_state.setTexture(m_stateiconList[S_GOOD]);
+                    break;
+
+                case NORMAL:
+                    m_state.setTexture(m_stateiconList[S_NORMAL]);
+                    break;
+
+                case WEAK:
+                    m_state.setTexture(m_stateiconList[S_WEAK]);
+                    break;
+
+                case VERY_WEAK:
+                    m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+                    break;
+
+                default:
+                    m_state.setTexture(m_stateiconList[S_GOOD]);
+                    break;
+            }
+        }
+        m_displayIconState=true;
+        setShowIconTime(Time::get()->elapsed().asMilliseconds());
+    }
 
 }
 
@@ -752,11 +820,13 @@ bool Entity::isSick()
 void Entity::setisTired(bool t)
 {
     m_isTired=t;
+    setHealth(m_health);
 }
 
 void Entity::setisSick(bool s)
 {
     m_isSick=s;
+    setHealth(m_health);
 }
 
 
@@ -793,63 +863,67 @@ float Entity::weaknessCoeff(Health h)
 void Entity::initStateiconList()
 {
     m_stateiconList[S_GOOD].loadFromFile("data/img/entities/states/good.png");
-    m_stateiconList[S_NORMAL].loadFromFile("data/img/entities/states/bnormal.png");
-    //m_stateiconList[S_TIRED].loadFromFile("data/img/entities/states/tired.png"); -> inutilisé
+    m_stateiconList[S_NORMAL].loadFromFile("data/img/entities/states/normal.png");
+    m_stateiconList[S_TIRED].loadFromFile("data/img/entities/states/tired.png");
     m_stateiconList[S_WEAK].loadFromFile("data/img/entities/states/weak.png");
+    m_stateiconList[S_SICK].loadFromFile("data/img/entities/states/sick.png");
     m_stateiconList[S_VERY_WEAK].loadFromFile("data/img/entities/states/veryweak.png");
-    m_stateiconList[S_TIRED_GOOD].loadFromFile("data/img/entities/states/tiredgood.png");
-    m_stateiconList[S_TIRED_NORMAL].loadFromFile("data/img/entities/states/tirednormal.png");
-    m_stateiconList[S_TIRED_WEAK].loadFromFile("data/img/entities/states/tiredweak.png");
-    m_stateiconList[S_TIRED_VERY_WEAK].loadFromFile("data/img/entities/states/tiredveryweak.png");
 
-	if(!isTired()) {
-		switch(getHealth())
-		{
-			case GOOD:
-				m_state.setTexture(m_stateiconList[S_GOOD]);
-				break;
+    if( m_health != DEAD )
+    {
+        if(isSick())
+        {
+            if(m_health != VERY_WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_SICK]);
+            }
+            else
+            {
+                m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+            }
+        }
+        else if(isTired())
+        {
+            if(m_health != VERY_WEAK || m_health != WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_TIRED]);
+            }
+            else if(m_health == WEAK)
+            {
+                m_state.setTexture(m_stateiconList[S_WEAK]);
+            }
+            else
+            {
+               m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+            }
+        }
+        else
+        {
+            switch(m_health)
+            {
+                case GOOD:
+                    m_state.setTexture(m_stateiconList[S_GOOD]);
+                    break;
 
-			case NORMAL:
-				m_state.setTexture(m_stateiconList[S_NORMAL]);
-				break;
+                case NORMAL:
+                    m_state.setTexture(m_stateiconList[S_NORMAL]);
+                    break;
 
-			case WEAK:
-				m_state.setTexture(m_stateiconList[S_WEAK]);
-				break;
+                case WEAK:
+                    m_state.setTexture(m_stateiconList[S_WEAK]);
+                    break;
 
-			case VERY_WEAK:
-				m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
-				break;
+                case VERY_WEAK:
+                    m_state.setTexture(m_stateiconList[S_VERY_WEAK]);
+                    break;
 
-			default:
-				m_state.setTexture(m_stateiconList[S_NORMAL]);
-				break;
-		}
-	}
-	else {
-		switch(getHealth())
-		{
-			case GOOD:
-				m_state.setTexture(m_stateiconList[S_TIRED_GOOD]);
-				break;
+                default:
+                    m_state.setTexture(m_stateiconList[S_GOOD]);
+                    break;
+            }
+        }
+    }
 
-			case NORMAL:
-				m_state.setTexture(m_stateiconList[S_TIRED_NORMAL]);
-				break;
-
-			case WEAK:
-				m_state.setTexture(m_stateiconList[S_TIRED_WEAK]);
-				break;
-
-			case VERY_WEAK:
-				m_state.setTexture(m_stateiconList[S_TIRED_VERY_WEAK]);
-				break;
-
-			default:
-				m_state.setTexture(m_stateiconList[S_TIRED_NORMAL]);
-				break;
-		}
-	}
 }
 
 void Entity::setStateicon(StateType s)
@@ -857,4 +931,31 @@ void Entity::setStateicon(StateType s)
    m_state.setTexture( m_stateiconList[s]);
 }
 
+void Entity::setShowIconTime(float t)
+{
+    if(m_displayIconState)
+    {
+        m_showIconTime=t+5000;
+    }
+    else
+    {
+       m_showIconTime=t+10000+rand()%20000;
+    }
+
+}
+float Entity::getShowIconTime()
+{
+    return m_showIconTime;
+}
+
+
+void Entity::setDisplayIconState(bool b)
+{
+    m_displayIconState=b;
+}
+
+bool Entity::getDisplayIconState()
+{
+    return m_displayIconState;
+}
 

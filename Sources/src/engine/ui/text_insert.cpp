@@ -88,15 +88,18 @@ void TextInsert::select( bool b )
         this->selected = b;
         if(this->selected)
         {
+            /*
             sf::Color c = this->border;
             c.r += 70;
             c.b += 70;
             c.g += 70;
-            this->shape.setOutlineColor( c );
+            this->shape.setOutlineColor( c );*/
+            this->shape.setOutlineThickness(this->shape.getOutlineThickness()+2);
         }
         else
         {
-            this->shape.setOutlineColor( this->border );
+            //this->shape.setOutlineColor( this->border );
+            this->shape.setOutlineThickness(this->shape.getOutlineThickness()-2);
         }
     }
 }

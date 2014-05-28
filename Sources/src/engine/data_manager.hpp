@@ -31,6 +31,9 @@ public :
     sf::SoundBuffer * getSoundBuffer( const std::string path );
     sf::SoundBuffer * addSoundBuffer( const std::string path );
 
+    sf::Music * getMusic( const std::string path );
+    sf::Music * addMusic( const std::string path );
+
 
 private :
     DataManager( void );
@@ -38,10 +41,11 @@ private :
 
     static DataManager * singleton;
 
-    std::map< std::string, sf::Font * > fonts;
+    std::map<std::string, sf::Font *> fonts;
     std::map<std::string, sf::Texture*> m_textures;
     std::map<std::string, sf::Sprite*> m_sprites;
     std::map<std::string, sf::SoundBuffer*> m_sounds;
+    std::map<std::string, sf::Music*> m_musics;
 
 };
 

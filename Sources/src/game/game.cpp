@@ -51,14 +51,14 @@ void Game::newGame( unsigned int w, unsigned int h )
 	m_incidencePoint=0;
 
 	m_home.load("data/buildings/home.bld");
-	m_home.setPosition(10, 10);
+	m_home.setPosition(w/2, h/2);
 	m_buildings.push_back(m_home);
 
-	qtyWood = 0;
-    	qtyFood = 0;
-    	qtyStone = 0;
+	qtyWood = 10;
+    qtyFood = 10;
+    qtyStone = 10;
 
-    	m_daysCount = 0;
+    m_daysCount = 0;
 
 	m_tilemap->freePlace(m_home.getPosition());
 
@@ -238,13 +238,23 @@ void Game::update( void )
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             (*it)->callScript();
-            float temps=Time::get()->elapsed().asMilliseconds();
-            if((*it)->getGiveTime()<temps)
+
+            if(((*it)->getType()==ALLY_CITIZEN) || ((*it)->getType()==HUNTER) )
             {
-                m_incidencePoint+=(*it)->getGiveQuantity();
-                //std::cout<<"nbpi : "<<m_incidencePoint<<std::endl; //pour le debug voir le nombre de PI courant
-                (*it)->updateGiveTime(temps);
+                  float temps=Time::get()->elapsed().asMilliseconds();
+                if((*it)->getGiveTime()<temps)
+                {
+                    m_incidencePoint+=(*it)->getGiveQuantity();
+                    if (m_incidencePoint > (int)incidenceMax)
+                    {
+                        m_incidencePoint = incidenceMax;
+                    }
+                    //std::cout<<"nbpi : "<<m_incidencePoint<<std::endl; //pour le debug voir le nombre de PI courant
+                    (*it)->updateGiveTime(temps);
+                }
+
             }
+
         }
     }
 }
@@ -258,19 +268,56 @@ void Game::draw( sf::RenderTarget & window )
     	(*it).drawBottom( window );
     }
 
+
+    /*
     for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
         if( !(*it)->isDead() ) {
             window.draw( * (*it)->draw() );
             window.draw( (*it)->m_state );
         }
     }
+    */
+
+
+    for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it) {
+        if( !(*it)->isDead() ) {
+            window.draw( * (*it)->draw() );
+
+            float temps=Time::get()->elapsed().asMilliseconds();
+            if( (*it)->getShowIconTime()<temps )
+            {
+                if(!(*it)->getDisplayIconState())
+                {
+                    (*it)->setDisplayIconState(true);
+                    (*it)->setShowIconTime(temps);
+                    window.draw( (*it)->m_state );
+                }
+                else
+                {
+                    (*it)->setDisplayIconState(false);
+                    (*it)->setShowIconTime(temps);
+                }
+
+            }
+            else
+            {
+                if((*it)->getDisplayIconState())
+                {
+                    window.draw( (*it)->m_state );
+                }
+            }
+
+
+        }
+    }
+
     m_tilemap->drawElementsUp( window );
 
     for(std::vector< Building >::iterator it = m_buildings.begin(); it != m_buildings.end(); it++) {
     	(*it).drawTop( window );
     }
 
-    m_weather->draw(window);
+    //m_weather->draw(window);
 }
 
 void Game::drawMap( sf::RenderTarget & window )
@@ -282,128 +329,7 @@ void Game::drawMap( sf::RenderTarget & window )
 
 void Game::handleEvent( sf::Event & e )
 {
-    if (e.type == sf::Event::KeyPressed) {
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1)) {
-			//dilateFluids(m_tilemap);
-            for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_GOOD);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2)) {
-			//erodeFluids(m_tilemap);
-            for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_NORMAL);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3)) {
-			//dilateNearFluids(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_TIRED);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4)) {
-			//erodeNearFluids(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_WEAK);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5)) {
-			//dilateForests(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_VERY_WEAK);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6)) {
-			//erodeForests(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_TIRED_GOOD);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num7)) {
-			//dilateNearCliffs(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_TIRED_NORMAL);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num8)) {
-			//erodeNearCliffs(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_TIRED_WEAK);
-                }
-            }
 
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num9)) {
-			//burnRessources(m_tilemap);
-			for(std::vector< Entity * >::iterator it = m_entityList.begin(); it != m_entityList.end(); ++it)
-            {
-                if( !(*it)->isDead() )
-                {
-                    (*it)->setStateicon(S_TIRED_VERY_WEAK);
-                }
-            }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num0)) {
-			burnRessources(m_tilemap);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
-			m_weather->setWeatherToday(SUNNY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::P)) {
-			m_weather->setWeatherToday(RAINY);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::M)) {
-			if (m_Ambiancemusic.openFromFile("data/ambiance_civ.ogg")) //musique un peu plus percutante
-            {
-                m_Ambiancemusic.setLoop(true);
-                m_Ambiancemusic.play();
-            }
-            else{std::cout<<"erreur chargement musique"<<std::endl;}
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-			if (m_Ambiancemusic.openFromFile("data/ambiance_magic.ogg")) //musique douce
-            {
-                m_Ambiancemusic.setLoop(true);
-                m_Ambiancemusic.play();
-            }
-            else{std::cout<<"erreur chargement musique"<<std::endl;}
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::N)) {
-			m_Ambiancemusic.stop();
-		}
-    }
 }
 
 TileMap * Game::getTilemap( void ) {
@@ -478,13 +404,31 @@ void Game::addRessource(RessourceType t, int qty)
 {
     switch(t) {
         case FOOD :
-            qtyFood += qty;
+            {
+                qtyFood += qty;
+                if (qtyFood > 999)
+                {
+                    qtyFood = 999;
+                }
+            }
             break;
         case WOOD :
-            qtyWood += qty;
+            {
+                qtyWood += qty;
+                if (qtyWood > 999)
+                {
+                    qtyWood = 999;
+                }
+            }
             break;
         case STONE :
-            qtyStone += qty;
+            {
+                qtyStone += qty;
+                if (qtyStone > 999)
+                {
+                    qtyStone = 999;
+                }
+            }
             break;
         default :
             break;

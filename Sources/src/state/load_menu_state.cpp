@@ -9,7 +9,7 @@ LoadMenuState::LoadMenuState( Game * g, int f ) : m_ui(this)
     }
 
     m_position = 0;
-    m_i = 0;
+    m_i = rand()%((int)TIME_TO_CIRCLE);
 
     flag = f;
 
@@ -39,18 +39,22 @@ void LoadMenuState::init( void )
     }
     closedir(directory);
 
+    Widget * w;
     Button * b;
     GameEvent ge;
+
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/background.png" ) );
+    w->setPositionRelative(LEFT);
+    w->setPositionRelative(TOP);
+    m_ui.addWidget(w);
 
     ge.type = EV_BACK;
 
     b = new Button();
-    b->setText( "Back", sf::Color::White );
-    b->setBackground( sf::Color(100, 100, 100));
-    b->setBorder( sf::Color(95,57,33) );
-    b->setBorderOver( sf::Color(230,211,33) );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 300, 100 );
+    b->setText( "Back", sf::Color::Black );
+    b->setTextOver(COLOR_OVER);
+    b->setPositionAbsolute( 350, 150 );
     b->setSize(100, 50);
     b->setEvent( ge );
     m_ui.addWidget(b);
@@ -58,26 +62,22 @@ void LoadMenuState::init( void )
     ge.type = EV_SCROLL_UP;
 
     b = new Button();
-    b->setText( "Up", sf::Color::White );
-    b->setBackground( sf::Color(100, 100, 100));
+    b->setSprite(DataManager::get()->getSprite( "data/img/interface/upArrow.png" ));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 100, 200 );
-    b->setSize(100, 50);
+    b->setPositionAbsolute( 300, 225 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     ge.type = EV_SCROLL_DOWN;
 
     b = new Button();
-    b->setText( "Down", sf::Color::White );
-    b->setBackground( sf::Color(100, 100, 100));
+    b->setSprite(DataManager::get()->getSprite( "data/img/interface/downArrow.png" ));
     b->setBorder( sf::Color(95,57,33) );
     b->setBorderOver( sf::Color(230,211,33) );
     b->setBorderSize(1);
-    b->setPositionAbsolute( 100, 400 );
-    b->setSize(100, 50);
+    b->setPositionAbsolute( 300, 425 );
     b->setEvent( ge );
     m_ui.addWidget(b);
 
@@ -90,12 +90,9 @@ void LoadMenuState::init( void )
 
         b = new Button();
         b->setName("load"+itos(i));
-        b->setBackground( sf::Color(100, 100, 100));
-        b->setText( m_files[i], sf::Color::White );
-        b->setBorder( sf::Color(95,57,33) );
-        b->setBorderOver( sf::Color(230,211,33) );
-        b->setBorderSize(1);
-        b->setPositionAbsolute( 300, (200+sizeY*i) );
+        b->setText( m_files[i], sf::Color::Black );
+        b->setTextOver(COLOR_OVER);
+        b->setPositionAbsolute( 350, (200+sizeY*i) );
         b->setSize(100, sizeY);
         b->setEvent( ge );
         m_ui.addWidget(b);
@@ -108,6 +105,10 @@ void LoadMenuState::draw( sf::RenderTarget & window )
 {
     sf::Vector2u windowSize = window.getSize();
     m_i += Time::get()->deltaTime();
+    if (m_i > TIME_TO_CIRCLE)
+    {
+        m_i-=TIME_TO_CIRCLE;
+    }
     sf::Vector2f p = rotateOnCircle(m_i / TIME_TO_CIRCLE, 11*32, sf::Vector2f(25*32, 25*32));
 	sf::View v = sf::View(sf::Vector2f(p.x, p.y), sf::Vector2f(windowSize.x,windowSize.y));
     window.setView(v);
@@ -153,7 +154,7 @@ void LoadMenuState::treatEvent( GameEvent e )
                 ge.type = EV_LOAD;
                 for (unsigned int i(0);i<m_itemNb;i++)
                 {
-                    (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setText( m_files[i+m_position], sf::Color::White );
+                    (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setText( m_files[i+m_position], sf::Color::Black );
                     ge.text = m_files[i+m_position];
                     (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setEvent( ge );
                 }
@@ -171,7 +172,7 @@ void LoadMenuState::treatEvent( GameEvent e )
                 ge.type = EV_LOAD;
                 for (unsigned int i(0);i<m_itemNb;i++)
                 {
-                    (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setText( m_files[i+m_position], sf::Color::White );
+                    (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setText( m_files[i+m_position], sf::Color::Black );
                     ge.text = m_files[i+m_position];
                     (static_cast<Button*>(m_ui.getWidget("load"+itos(i))))->setEvent( ge );
                 }
@@ -190,6 +191,8 @@ void LoadMenuState::treatEvent( GameEvent e )
             {
                 StateManager::get()->popState(2);
             }
+            DataManager::get()->getMusic("data/menu.ogg")->stop();
+            DataManager::get()->getMusic("data/partie.ogg")->play();
         }
         break;
 

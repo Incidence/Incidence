@@ -24,6 +24,10 @@ int main()
 
         StateManager::get()->update();
 
+        window.clear();
+            StateManager::get()->draw( window );
+        window.display();
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -34,10 +38,6 @@ int main()
 
             StateManager::get()->handleEvent( event );
         }
-
-        window.clear();
-            StateManager::get()->draw( window );
-        window.display();
 
         Time::get()->update();
     }

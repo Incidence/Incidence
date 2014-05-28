@@ -202,3 +202,36 @@ sf::SoundBuffer * DataManager::getSoundBuffer( const std::string path )
     return s;
 }
 
+
+
+sf::Music * DataManager::getMusic( const std::string path )
+{
+    sf::Music * s = NULL;
+    std::map< std::string, sf::Music * >::iterator i = m_musics.find( path );
+    if( i == m_musics.end() )
+    {
+        s = addMusic( path );
+    }
+    else
+    {
+        s = (*i).second;
+    }
+
+    return s;
+}
+
+sf::Music * DataManager::addMusic( const std::string path )
+{
+    sf::Music * s = new sf::Music;
+    if( s->openFromFile( path ) )
+    {
+        s->setLoop(true);
+        m_musics[path] = s;
+        return s;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+

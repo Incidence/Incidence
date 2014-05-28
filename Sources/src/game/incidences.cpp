@@ -114,7 +114,7 @@ int abstractSpreadGround(TileMap* tilemap, int type, sf::Vector2i position, std:
 
 			l_cost += (tilemap->getTileSet())->getGroundCost(type);
 			sf::Vector2i l_position;
-			
+
 			for(int k(0) ; k < 4 ; ++k) {
 				if(k == 0) {
 					l_position.x = i - 1;
@@ -132,7 +132,7 @@ int abstractSpreadGround(TileMap* tilemap, int type, sf::Vector2i position, std:
 					l_position.x = i;
 					l_position.y = j + 1;
 				}
-				
+
 				// Propagation
 				l_ground = tilemap->getGround(l_position);
 				if(l_ground != NULL && !contains(calledPositions, l_position) && tilemap->areCompatibleGrounds(type, l_ground->getType()) == 0) {
@@ -974,7 +974,7 @@ void updateRessources(Game* game) {
 			game->addRessource(STONE, -3); //Se chauffer
 			if(game->getQtyFood() < 0) {
 				if(rand()%100 < 80) {
-					list[i].setHealth(DEAD);
+					list[i]->setHealth(DEAD);
 				}
 				else {
 					list[i]->setisSick(true);
@@ -990,10 +990,10 @@ void updateRessources(Game* game) {
 		game->addRessource(FOOD, -game->getQtyFood());
 	}
 	if(game->getQtyWood() < 0) {
-		game->addRessource(WOOD, -game->getQtyFood());
+		game->addRessource(WOOD, -game->getQtyWood());
 	}
 	if(game->getQtyStone() < 0) {
-		game->addRessource(STONE, -game->getQtyFood());
+		game->addRessource(STONE, -game->getQtyStone());
 	}
 
 }

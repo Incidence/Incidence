@@ -36,7 +36,7 @@ function Lumberjack:action()
 			i = i + 1
 		end
 		if target == 0 then
-			print("! WARNING ! lumberjack.lua : recherche de cible")
+			--print("! WARNING ! lumberjack.lua : recherche de cible")
 		else
 			self:setTarget(entities:getID(target))
 			return "attack"
@@ -53,13 +53,10 @@ function Lumberjack:action()
 		elseif self:getNearestResource() then
 			return "gonearest"
 		else
-			math.randomseed(os.time())
-			math.random()
-			math.random()
-			local rand = math.floor(math.random()*10000)%5
-			if rand == 0 then
+			local rand = self:getRandom()%3
+			if rand == 1 then
 				self:setAngle((self:getAngle()-(math.pi/4))%2*math.pi)
-			elseif rand == 4 then
+			elseif rand == 2 then
 				self:setAngle((self:getAngle()+(math.pi/4))%2*math.pi)
 			end
 			return "move"

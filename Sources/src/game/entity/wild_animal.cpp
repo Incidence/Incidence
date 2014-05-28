@@ -22,6 +22,7 @@ Lunar<WildAnimal>::RegType WildAnimal::methods[] = {
     method(WildAnimal, getDistanceToHome),
     method(WildAnimal, getDistance),
     method(WildAnimal, getAngleToHome),
+    method(WildAnimal, getRandom),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

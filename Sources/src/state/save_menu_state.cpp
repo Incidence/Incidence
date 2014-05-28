@@ -8,7 +8,7 @@ SaveMenuState::SaveMenuState( Game * g ) : m_ui(this)
         m_game = new Game(50, 50);
     }
 
-    m_i = 0;
+    m_i = rand()%((int)TIME_TO_CIRCLE);
 
 	init();
 }
@@ -20,42 +20,43 @@ SaveMenuState::~SaveMenuState( void )
 
 void SaveMenuState::init( void )
 {
+    Widget * w;
     Button * b;
     TextInsert * ti;
     GameEvent ge;
 
+    w = new Widget();
+    w->setSprite( DataManager::get()->getSprite( "data/img/interface/background.png" ) );
+    w->setPositionRelative(LEFT);
+    w->setPositionRelative(TOP);
+    m_ui.addWidget(w);
+
     ge.type = EV_BACK;
 
     b = new Button();
-    b->setText( "Back", sf::Color::White );
-    b->setBackground( sf::Color(100, 100, 100));
-    b->setBorder( sf::Color(95,57,33) );
-    b->setBorderOver( sf::Color(230,211,33) );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 300, 100 );
+    b->setText( "Back", sf::Color::Black );
+    b->setTextOver(COLOR_OVER);
+    b->setPositionAbsolute( 350, 225 );
     b->setSize(100, 50);
     b->setEvent( ge );
     m_ui.addWidget(b);
 
     ti = new TextInsert();
     ti->setName("textSave");
-    b->setBackground( sf::Color(100, 100, 100));
-    ti->setBorder(sf::Color(95,57,33));
+    ti->setLenght(6);
+    ti->setBorder(sf::Color::Black);
     ti->setBorderSize(1);
-    ti->setPositionAbsolute(300,200);
-    ti->setSize(300,50);
+    ti->setPositionAbsolute(300,280);
+    ti->setSize(200,45);
     ti->select(true);
     m_ui.addWidget(ti);
 
     ge.type = EV_VALID;
 
     b = new Button();
-    b->setText( "Save", sf::Color::White );
-    b->setBackground( sf::Color(100, 100, 100));
-    b->setBorder( sf::Color(95,57,33) );
-    b->setBorderOver( sf::Color(230,211,33) );
-    b->setBorderSize(1);
-    b->setPositionAbsolute( 300, 300 );
+    b->setText( "Save", sf::Color::Black );
+    b->setTextOver(COLOR_OVER);
+    b->setPositionAbsolute( 350, 325 );
     b->setSize(100, 50);
     b->setEvent( ge );
     m_ui.addWidget(b);
@@ -95,8 +96,8 @@ void SaveMenuState::treatEvent( GameEvent e )
     case EV_VALID :
         {
             std::string savePath((static_cast<TextInsert*>(m_ui.getWidget("textSave")))->getTextEnter());
-            //m_game->saveGame("saves/"+savePath+".save");
             copyFile("saves/"+savePath+".save", "saves/auto_save.autosave");
+            //m_game->saveGame("saves/"+savePath+".save");
             StateManager::get()->popState();
         }
         break;

@@ -22,6 +22,7 @@ Lunar<Pickman>::RegType Pickman::methods[] = {
     method(Pickman, getDistanceToHome),
     method(Pickman, getDistance),
     method(Pickman, getAngleToHome),
+    method(Pickman, getRandom),
     /// @Danger ******* /!\ TO COMPLETE /!\ ******* @Danger
     {0,0}
 };

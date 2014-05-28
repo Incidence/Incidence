@@ -15,6 +15,7 @@ typedef enum GameType{
     EV_SELECT_RAIN,
     EV_SELECT_SUN,
     EV_VALID,
+    EV_RESET,
     EV_BACK,
     EV_SAVE_MENU,
     EV_LOAD_MENU,

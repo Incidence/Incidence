@@ -11,31 +11,26 @@ function EnemyCitizen:action()
 	local nbfriends=0
 
 	if self:isAttacked() then
-
 		local sumangle=0
-		while (i<=taille) do -- priorité aux citoyens risque de tout parcourir(sinon on fait un || entre animaux agressifs  et citoyens.
 
-			if (entites:isAttackMe(entites:getID(i))) and (entites:getAngle(i)==self:getAngle()) then
+		while (i<=taille) do -- priorité aux citoyens risque de tout parcourir(sinon on fait un || entre animaux agressifs  et citoyens.
+			if (self:isAttackMe(entites:getID(i))) and (entites:getAngle(i)==self:getAngle()) then
 				indice=i
 
-			elseif (not((entites:isAttackMe(entites:getID(indice))) and (entites:getAngle(indice)==self:getAngle()))) then
-				if (entites:isAttackMe(entites:getID(i))) and (entites:getType(i)==HUNTER) then
+			elseif (not((self:isAttackMe(entites:getID(indice))) and (entites:getAngle(indice)==self:getAngle()))) then
+				if (self:isAttackMe(entites:getID(i))) and (entites:getType(i)==HUNTER) then
 					indice=i
-
-				elseif (not(entites:isAttackMe(entites:getID(indice)) and entites:getType(indice)==HUNTER)) then
-					if (entites:isAttackMe(entites:getID(i))) and (entites:getType(i)==ALLY_CITIZEN) then
+				elseif (not(self:isAttackMe(entites:getID(indice)) and entites:getType(indice)==HUNTER)) then
+					if (self:isAttackMe(entites:getID(i))) and (entites:getType(i)==ALLY_CITIZEN) then
 						indice=i
-
-					elseif (not(entites:isAttackMe(entites:getID(indice)) and entites:getType(indice)==ALLY_CITIZEN)) then
-						if (entites:getDistance(entites:getID(i))==1) and (entites:getType(i)==HUNTER) then
+					elseif (not(self:isAttackMe(entites:getID(indice)) and entites:getType(indice)==ALLY_CITIZEN)) then
+						if (self:getDistance(entites:getID(i))==1) and (entites:getType(i)==HUNTER) then
 							indice=i
-
-						elseif (not((entites:getDistance(entites:getID(indice))==1) and (entites:getType(indice)==HUNTER))) then
-							if	(entites:getType(i)==ALLY_CITIZEN) and (entites:getDistance(entites:getID(i))==1) then
+						elseif (not((self:getDistance(entites:getID(indice))==1) and (entites:getType(indice)==HUNTER))) then
+							if	(entites:getType(i)==ALLY_CITIZEN) and (self:getDistance(entites:getID(i))==1) then
 								indice=i
-
-							elseif (not((entites:getType(indice)==ALLY_CITIZEN) and (entites:getDistance(entites:getID(indice))==1))) then
-								if (entites:getType(i)==WILD_ANIMAL) and (entites:isAttackme(i)) then
+							elseif (not((entites:getType(indice)==ALLY_CITIZEN) and (self:getDistance(entites:getID(indice))==1))) then
+								if (entites:getType(i)==WILD_ANIMAL) and (self:isAttackMe(entites:getID(i))) then
 									indice=i
 								end
 							end
@@ -43,7 +38,6 @@ function EnemyCitizen:action()
 					end
 				end
 			end
-
 			if (entites:getType(i)== WILD_ANIMAL) or (entites:getType(i)==HUNTER) then
 				nbfoes=nbfoes+1
 				sumangle=sumangle+entites:getAngle(i)
@@ -55,15 +49,15 @@ function EnemyCitizen:action()
 			i=i+1
 		end
 
-		local seuil=nbfriends+2
-		if(nbfoes<=seuil) then
-			self:setTarget(entites:getID(indice))
-			return "attack"
-		else
-			local moyangle=sumangle/nbfoes
-			self:setAngle(moyangle+math.pi)
-			return "move"
-		end
+			local seuil=nbfriends+2
+			if(nbfoes<=seuil) then
+				self:setTarget(entites:getID(indice))
+				return "attack"
+			else
+				local moyangle=sumangle/nbfoes
+				self:setAngle(moyangle+math.pi)
+				return "move"
+			end
 
 	else
 		local sumangle=0
@@ -100,23 +94,16 @@ function EnemyCitizen:action()
 			if(nbfoes<=seuil) then
 				if (not ((entites:getType(indice)==WILD_ANIMAL) or (entites:getType(indice)==PEACEFUL_ANIMAL) or (entites:getType(indice)==ENEMY_CITIZEN) )) then
 					self:setTarget(entites:getID(indice))
+					--print("ennemi")
 					return "attack"
 				else
-					math.randomseed(os.time())
-					math.random()
-					math.random()
-					local rand = math.floor(math.random()*10000)%5
-					--print(rand)
-					if rand == 0 then
-						self:setAngle(self:getAngle()-math.pi/2)
-						return "move"
-					elseif rand == 4 then
-						self:setAngle(self:getAngle()+math.pi/2)
-						return "move"
-					else
-						self:setAngle(self:getAngle())
-						return "move"
-					end
+				local rand = self:getRandom()%3
+				if rand == 1 then
+					self:setAngle((self:getAngle()-(math.pi/4))%2*math.pi)
+				elseif rand == 2 then
+					self:setAngle((self:getAngle()+(math.pi/4))%2*math.pi)
+				end
+				return "move"
 				end
 			else
 				local moyangle=sumangle/nbfoes
@@ -124,21 +111,14 @@ function EnemyCitizen:action()
 				return "move"
 			end
 		else
-			math.randomseed(os.time())
-			math.random()
-			math.random()
-			local rand = math.floor(math.random()*10000)%5
-			--print(rand)
-			if rand == 0 then
-				self:setAngle(self:getAngle()-math.pi/2)
-				return "move"
-			elseif rand == 4 then
-				self:setAngle(self:getAngle()+math.pi/2)
-				return "move"
-			else
-				self:setAngle(self:getAngle())
-				return "move"
+		--print("no perception")
+			local rand = self:getRandom()%3
+			if rand == 1 then
+				self:setAngle((self:getAngle()-(math.pi/4))%2*math.pi)
+			elseif rand == 2 then
+				self:setAngle((self:getAngle()+(math.pi/4))%2*math.pi)
 			end
+			return "move"
 		end
 	end
 end

@@ -18,8 +18,6 @@ public :
     void handleEvent( sf::Event & e );
     void treatEvent( GameEvent e );
 
-    int prct(int v);
-
     void validation( void );
 
 private :
@@ -31,6 +29,7 @@ private :
 
     Game * m_game;
 	UI m_ui;
+	sf::ConvexShape m_probabilityShape;
 };
 
 #endif // _NIGHT_STATE_
