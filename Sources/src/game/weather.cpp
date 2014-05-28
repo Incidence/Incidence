@@ -189,7 +189,7 @@ Animation* Weather::getRainAnimation()
 void Weather::setWeatherToday(WeatherType m)
 {
     m_weatherToday=m;
-    //updateWeather();// à enlever après debug
+    updateWeather();// à enlever après debug
 
 }
 

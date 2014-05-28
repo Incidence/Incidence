@@ -35,7 +35,7 @@ void erodeNearGround(TileMap* tilemap, TileBehavior behavior, TileBehavior behav
 void dilateElement(TileMap* tilemap, TileBehavior behavior);
 void erodeElement(TileMap* tilemap, TileBehavior behavior);
 
-int spawnEntities(EntityType type, std::vector< Entity * > list);
+int spawnEntities(EntityType type, std::vector< Entity * > list, int percent);
 int killEntities(EntityType type, std::vector< Entity * > list);
 // ---------------------------
 

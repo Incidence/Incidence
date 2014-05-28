@@ -602,7 +602,7 @@ void erodeElement(TileMap* tilemap, TileBehavior behavior) {
 
 }
 
-int spawnEntities(EntityType type, std::vector< Entity * > list) {
+int spawnEntities(EntityType type, std::vector< Entity * > list, int birthPercent) {
 
 	int result = 0;
 
@@ -611,7 +611,7 @@ int spawnEntities(EntityType type, std::vector< Entity * > list) {
 
 			result++;
 
-			if(rand()%100 < 10) {
+			if(rand()%100 < birthPercent) {
 				result++;
 			}
 		}
@@ -916,25 +916,25 @@ void burnRessources(TileMap* tilemap) {
 
 int allyCitizenBirth(Game* game) {
 
-	return spawnEntities(ALLY_CITIZEN, game->getEntities()) + spawnEntities(HUNTER, game->getEntities());
+	return spawnEntities(ALLY_CITIZEN, game->getEntities(), 10) + spawnEntities(HUNTER, game->getEntities(), 10);
 
 }
 
 int enemyCitizenBirth(Game* game) {
 
-	return spawnEntities(ENEMY_CITIZEN, game->getEntities());
+	return spawnEntities(ENEMY_CITIZEN, game->getEntities(), 10);
 
 }
 
 int wildAnimalBirth(Game* game) {
 
-	return spawnEntities(WILD_ANIMAL, game->getEntities());
+	return spawnEntities(WILD_ANIMAL, game->getEntities(), 5);
 
 }
 
 int peacefulAnimalBirth(Game* game) {
 
-	return spawnEntities(PEACEFUL_ANIMAL, game->getEntities());
+	return spawnEntities(PEACEFUL_ANIMAL, game->getEntities(), 20);
 
 }
 
